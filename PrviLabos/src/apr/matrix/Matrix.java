@@ -12,8 +12,8 @@ public class Matrix extends AbstractMatrix {
         this.array = array;
     }
 
-    private Matrix(double[][] array) {
-        if (Matrices.isMatrixArray(array)) throw new IllegalArgumentException();
+    public Matrix(double[]... array) {
+        if (!Matrices.isMatrixArray(array)) throw new IllegalArgumentException();
 
         rows = array.length;
         columns = array[0].length;
@@ -48,48 +48,29 @@ public class Matrix extends AbstractMatrix {
     }
 
     @Override
-    public IVector[] toColumnVectors() {
-        double[][] columnArray = new double[columns][rows];
-
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns; j++) {
-                columnArray[j][i] = get(j, i);
-            }
-        }
-
-        IVector[] columnVectors = new IVector[columns];
-
-        for (int i = 0; i < rows; i++) {
-            columnVectors[i] = new Vector(columnArray[i]);
-        }
-
-        return columnVectors;
-    }
-
-    @Override
-    public IVector[] toRowVectors() {
-        IVector[] rowVectors = new IVector[columns];
-
-        for (int i = 0; i < rows; i++) {
-            rowVectors[i] = new Vector(array[i]);
-        }
-
-        return rowVectors;
-    }
-
-    @Override
     public double get(int i, int j) {
-        if (i < 0 || i >= rows || j < 0 || j >= columns) throw new IndexOutOfBoundsException();
-
         return array[i][j];
     }
 
     @Override
+    public IVector getRow(int index) {
+        return new Vector(array[index]);
+    }
+
+    @Override
+    public IVector getColumn(int index) {
+        double[] column = new double[rows];
+
+        for (int i = 0; i < rows; i++) {
+            column[i] = array[i][index];
+        }
+
+        return new Vector(column);
+    }
+
+    @Override
     public IMatrix set(int i, int j, double value) {
-        if (i < 0 || i >= rows || j < 0 || j >= columns) throw new IndexOutOfBoundsException();
-
         array[i][j] = value;
-
         return this;
     }
 
@@ -107,5 +88,32 @@ public class Matrix extends AbstractMatrix {
             array[k][i] = array[k][j];
             array[k][j] = temp;
         }
+    }
+
+    @Override
+    public IVector[] toColumnVectors() {
+        IVector[] columnVectors = new IVector[columns];
+
+        for (int i = 0; i < columns; i++) {
+            columnVectors[i] = getColumn(i);
+        }
+
+        return columnVectors;
+    }
+
+    @Override
+    public IVector[] toRowVectors() {
+        IVector[] rowVectors = new IVector[rows];
+
+        for (int i = 0; i < rows; i++) {
+            rowVectors[i] = getRow(i);
+        }
+
+        return rowVectors;
+    }
+
+    @Override
+    public double[][] toArray() {
+        return array;
     }
 }

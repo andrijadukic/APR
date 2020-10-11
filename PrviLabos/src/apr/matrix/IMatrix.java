@@ -10,11 +10,11 @@ public interface IMatrix {
 
     int columns();
 
-    IVector[] toColumnVectors();
-
-    IVector[] toRowVectors();
-
     double get(int i, int j);
+
+    IVector getRow(int index);
+
+    IVector getColumn(int index);
 
     IMatrix set(int i, int j, double value);
 
@@ -38,7 +38,9 @@ public interface IMatrix {
 
     double determinant();
 
-    IMatrix LU();
+    IVector[] toColumnVectors();
 
-    IMatrix[] LUP();
+    IVector[] toRowVectors();
+
+    double[][] toArray();
 }

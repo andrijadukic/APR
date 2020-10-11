@@ -1,11 +1,15 @@
 package apr.matrix;
 
+import javax.swing.text.NumberFormatter;
 import java.security.InvalidParameterException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Random;
 
 public class Matrices {
 
     public static final double EPSILON = 1e-9;
+    public static final NumberFormat FORMATTER = new DecimalFormat("#.###");
 
     public static IMatrix blank(int rows, int columns) {
         return new Matrix(rows, columns, new double[rows][columns]);
@@ -98,7 +102,7 @@ public class Matrices {
         IVector result = vector.copy();
 
         for (int i = 0; i < dimension; i++) {
-            result.swap(i, (int) permutationVector.get(i));
+            result.set(i, vector.get((int) permutationVector.get(i)));
         }
         return result;
     }
@@ -133,6 +137,33 @@ public class Matrices {
         return random(dimension, dimension, random);
     }
 
+    public static IVector forwardSubstitution(IMatrix matrix, IVector vector) {
+        if (!Matrices.isForwardSubstitutionApplicable(matrix, vector)) throw new InvalidParameterException();
+
+        IVector result = vector.copy();
+        for (int i = 0, n = matrix.rows() - 1; i < n; i++) {
+            for (int j = i + 1, m = n + 1; j < m; j++) {
+                result.set(j, result.get(j) - matrix.get(j, i) * result.get(i));
+            }
+        }
+        return result;
+    }
+
+    public static IVector backwardSubstitution(IMatrix matrix, IVector vector) {
+        if (!Matrices.isBackwardSubstitutionApplicable(matrix, vector)) throw new InvalidParameterException();
+
+        IVector result = vector.copy();
+        for (int i = matrix.rows() - 1; i >= 0; i--) {
+            if (Math.abs(matrix.get(i, i)) < Matrices.EPSILON) throw new InvalidParameterException();
+
+            result.set(i, result.get(i) / matrix.get(i, i));
+            for (int j = 0; j < i; j++) {
+                result.set(j, result.get(j) - matrix.get(j, i) * result.get(i));
+            }
+        }
+        return result;
+    }
+
     public static boolean areDimensionsSame(IMatrix m1, IMatrix m2) {
         return m1.rows() == m2.rows() && m1.columns() == m2.columns();
     }
@@ -157,8 +188,36 @@ public class Matrices {
         return areDimensionsSame(v1, v2);
     }
 
-    public static boolean isSubstitutionApplicable(IMatrix matrix, IVector vector) {
-        return vector.getDimension() == matrix.rows();
+    public static boolean isForwardSubstitutionApplicable(IMatrix matrix, IVector vector) {
+        return vector.getDimension() == matrix.rows() && isLowerTriangleMatrix(matrix);
+    }
+
+    public static boolean isBackwardSubstitutionApplicable(IMatrix matrix, IVector vector) {
+        return vector.getDimension() == matrix.rows() && isUpperTriangleMatrix(matrix);
+    }
+
+    public static boolean isLowerTriangleMatrix(IMatrix matrix) {
+        if (!isSquareMatrix(matrix)) return false;
+
+        for (int i = 0, n = matrix.rows(); i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                if (matrix.get(i, j) > EPSILON) return false;
+            }
+        }
+
+        return true;
+    }
+
+    public static boolean isUpperTriangleMatrix(IMatrix matrix) {
+        if (!isSquareMatrix(matrix)) return false;
+
+        for (int i = 0, n = matrix.rows(); i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                if (matrix.get(i, j) > EPSILON) return false;
+            }
+        }
+
+        return true;
     }
 
     public static boolean isMatrixArray(double[][] array) {

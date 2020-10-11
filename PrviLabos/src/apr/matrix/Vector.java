@@ -1,5 +1,7 @@
 package apr.matrix;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 
@@ -54,5 +56,12 @@ public class Vector extends AbstractVector {
         double temp = array[i];
         array[i] = array[j];
         array[j] = temp;
+    }
+
+    @Override
+    public String toString() {
+        return Arrays.stream(array)
+                .mapToObj(Matrices.FORMATTER::format)
+                .collect(Collectors.joining(" "));
     }
 }

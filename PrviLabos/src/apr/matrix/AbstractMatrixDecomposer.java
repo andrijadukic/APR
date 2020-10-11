@@ -7,6 +7,6 @@ public abstract class AbstractMatrixDecomposer implements IMatrixDecomposer {
     public AbstractMatrixDecomposer(IMatrix matrix) {
         if (!isApplicable(matrix)) throw new IllegalArgumentException("Given matrix is not applicable for this decomposition");
 
-        this.matrix = matrix;
+        this.matrix = matrix.copy();
     }
 }

@@ -73,16 +73,13 @@ public abstract class AbstractMatrix implements IMatrix {
 
     @Override
     public IMatrix invert() {
-        IMatrix[] LUP = new LUPDecomposer(copy()).decompose();
-        IMatrix LU = LUP[0];
-        IVector P = Matrices.permutationMatrixToVector(LUP[1]);
-
-        int n = P.getDimension();
-        IVector[] b = Matrices.identity(n).toColumnVectors();
+        int n = rows();
+        IMatrix b = Matrices.identity(n);
         IVector[] x = new IVector[n];
 
+        ILinearEquationSolver solver = new LUPLinearEquationSolver(this);
         for (int i = 0; i < n; i++) {
-            x[i] = backwardSubstitution(forwardSubstitution(Matrices.permute(b[i], P)));
+            x[i] = solver.solve(b.getColumn(i));
         }
 
         return Matrices.columnVectorsToMatrix(x);
@@ -94,8 +91,8 @@ public abstract class AbstractMatrix implements IMatrix {
         IMatrix LU = LUP[0];
         IMatrix P = LUP[1];
 
-        double result = Matrices.countSwaps(P) % 2 == 0 ? 1 : -1;
-        for (int i = 0, n = P.rows(); i < n; i++) {
+        double result = Matrices.countSwaps(P.toRowVectors()[0]) % 2 == 0 ? 1 : -1;
+        for (int i = 0, n = LU.rows(); i < n; i++) {
             result *= LU.get(i, i);
         }
 
@@ -103,39 +100,16 @@ public abstract class AbstractMatrix implements IMatrix {
     }
 
     @Override
-    public IMatrix LU() {
-        return new LUDecomposer(this).decompose()[0];
-    }
+    public String toString() {
+        int n = rows();
 
-    @Override
-    public IMatrix[] LUP() {
-        return new LUPDecomposer(this).decompose();
-    }
-
-    private IVector forwardSubstitution(IVector vector) {
-        if (Matrices.isSubstitutionApplicable(this, vector)) throw new InvalidParameterException();
-
-        IVector result = vector.copy();
-        for (int i = 0, n = rows() - 1; i < n; i++) {
-            for (int j = i + 1, m = n + 1; j < m; j++) {
-                result.set(j, result.get(j) - get(j, i) * result.get(i));
-            }
+        StringBuilder matrix = new StringBuilder();
+        for (int i = 0, m = n - 1; i < m; i++) {
+            matrix.append(getRow(i));
+            matrix.append(System.lineSeparator());
         }
-        return result;
-    }
+        matrix.append(getRow(n - 1));
 
-    private IVector backwardSubstitution(IVector vector) {
-        if (Matrices.isSubstitutionApplicable(this, vector)) throw new InvalidParameterException();
-
-        IVector result = vector.copy();
-        for (int i = rows() - 1; i >= 0; i++) {
-            if (Math.abs(get(i, i)) < Matrices.EPSILON) throw new InvalidParameterException();
-
-            result.set(i, result.get(i) / get(i, i));
-            for (int j = 0, n = i - 1; j < n; j++) {
-                result.set(j, result.get(j) - get(j, i) * result.get(i));
-            }
-        }
-        return result;
+        return matrix.toString();
     }
 }
