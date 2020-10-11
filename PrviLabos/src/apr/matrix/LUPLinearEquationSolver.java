@@ -15,6 +15,6 @@ public class LUPLinearEquationSolver implements ILinearEquationSolver {
 
     @Override
     public IVector solve(IVector b) {
-        return Matrices.backwardSubstitution(U, Matrices.forwardSubstitution(L, Matrices.permute(b, P)));
+        return Operations.backwardSubstitution(U, Operations.forwardSubstitution(L, Operations.permute(b, P)));
     }
 }

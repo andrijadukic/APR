@@ -1,6 +1,5 @@
 package apr.matrix;
 
-import javax.swing.text.NumberFormatter;
 import java.security.InvalidParameterException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -9,6 +8,7 @@ import java.util.Random;
 public class Matrices {
 
     public static final double EPSILON = 1e-9;
+
     public static final NumberFormat FORMATTER = new DecimalFormat("#.###");
 
     public static IMatrix blank(int rows, int columns) {
@@ -81,44 +81,6 @@ public class Matrices {
         return new Matrix(rows, columns, array);
     }
 
-    public static IMatrix permute(IMatrix matrix, IVector permutationVector) {
-        if (matrix.rows() != permutationVector.getDimension()) throw new InvalidParameterException();
-
-        IMatrix result = matrix.copy();
-
-        for (int i = 0, n = permutationVector.getDimension(); i < n; i++) {
-            if (permutationVector.get(i) == i) continue;
-
-            result.swapRows(i, (int) permutationVector.get(i));
-        }
-        return result;
-    }
-
-    public static IVector permute(IVector vector, IVector permutationVector) {
-        int dimension = vector.getDimension();
-
-        if (dimension != permutationVector.getDimension()) throw new InvalidParameterException();
-
-        IVector result = vector.copy();
-
-        for (int i = 0; i < dimension; i++) {
-            result.set(i, vector.get((int) permutationVector.get(i)));
-        }
-        return result;
-    }
-
-    public static IVector permutationMatrixToVector(IMatrix matrix) {
-        IVector vector = new Vector(matrix.columns());
-        for (int i = 0, n = vector.getDimension(); i < n; i++) {
-            int j = 0;
-            while (matrix.get(i, j) != 1) {
-                j++;
-            }
-            vector.set(i, j);
-        }
-        return vector;
-    }
-
     public static int countSwaps(IVector vector) {
         int count = 0;
         for (int i = 0, n = vector.getDimension(); i < n; i++) {
@@ -129,39 +91,8 @@ public class Matrices {
         return count;
     }
 
-    public static int countSwaps(IMatrix matrix) {
-        return countSwaps(permutationMatrixToVector(matrix));
-    }
-
     public static IMatrix squareRandom(int dimension, Random random) {
         return random(dimension, dimension, random);
-    }
-
-    public static IVector forwardSubstitution(IMatrix matrix, IVector vector) {
-        if (!Matrices.isForwardSubstitutionApplicable(matrix, vector)) throw new InvalidParameterException();
-
-        IVector result = vector.copy();
-        for (int i = 0, n = matrix.rows() - 1; i < n; i++) {
-            for (int j = i + 1, m = n + 1; j < m; j++) {
-                result.set(j, result.get(j) - matrix.get(j, i) * result.get(i));
-            }
-        }
-        return result;
-    }
-
-    public static IVector backwardSubstitution(IMatrix matrix, IVector vector) {
-        if (!Matrices.isBackwardSubstitutionApplicable(matrix, vector)) throw new InvalidParameterException();
-
-        IVector result = vector.copy();
-        for (int i = matrix.rows() - 1; i >= 0; i--) {
-            if (Math.abs(matrix.get(i, i)) < Matrices.EPSILON) throw new InvalidParameterException();
-
-            result.set(i, result.get(i) / matrix.get(i, i));
-            for (int j = 0; j < i; j++) {
-                result.set(j, result.get(j) - matrix.get(j, i) * result.get(i));
-            }
-        }
-        return result;
     }
 
     public static boolean areDimensionsSame(IMatrix m1, IMatrix m2) {
@@ -186,14 +117,6 @@ public class Matrices {
 
     public static boolean isMultiplicationApplicable(IVector v1, IVector v2) {
         return areDimensionsSame(v1, v2);
-    }
-
-    public static boolean isForwardSubstitutionApplicable(IMatrix matrix, IVector vector) {
-        return vector.getDimension() == matrix.rows() && isLowerTriangleMatrix(matrix);
-    }
-
-    public static boolean isBackwardSubstitutionApplicable(IMatrix matrix, IVector vector) {
-        return vector.getDimension() == matrix.rows() && isUpperTriangleMatrix(matrix);
     }
 
     public static boolean isLowerTriangleMatrix(IMatrix matrix) {
