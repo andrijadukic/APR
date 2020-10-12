@@ -1,4 +1,4 @@
-package apr.matrix.logger;
+package apr.linear.logger;
 
 import java.io.OutputStream;
 

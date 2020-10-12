@@ -1,11 +1,12 @@
-package apr.matrix;
+package apr.linear.vector;
 
-import apr.matrix.util.MatrixUtils;
+import apr.linear.matrix.IMatrix;
+import apr.linear.util.MatrixUtils;
 
-public abstract class AbstractRealVector implements RealVector {
+public abstract class AbstractVector implements IVector {
 
     @Override
-    public RealVector add(RealVector other) {
+    public IVector add(IVector other) {
         MatrixUtils.checkAdditionApplicable(this, other);
 
         for (int i = 0, n = getDimension(); i < n; i++) {
@@ -16,7 +17,7 @@ public abstract class AbstractRealVector implements RealVector {
     }
 
     @Override
-    public RealVector subtract(RealVector other) {
+    public IVector subtract(IVector other) {
         MatrixUtils.checkAdditionApplicable(this, other);
 
         for (int i = 0, n = getDimension(); i < n; i++) {
@@ -27,7 +28,7 @@ public abstract class AbstractRealVector implements RealVector {
     }
 
     @Override
-    public RealVector multiply(RealMatrix matrix) {
+    public IVector multiply(IMatrix matrix) {
         MatrixUtils.checkMultiplicationApplicable(matrix, this);
 
         for (int i = 0, n = getDimension(); i < n; i++) {
@@ -42,7 +43,7 @@ public abstract class AbstractRealVector implements RealVector {
     }
 
     @Override
-    public double multiply(RealVector other) {
+    public double multiply(IVector other) {
         MatrixUtils.checkMultiplicationApplicable(this, other);
 
         double sum = 0.;
@@ -53,7 +54,7 @@ public abstract class AbstractRealVector implements RealVector {
     }
 
     @Override
-    public RealVector multiply(double scalar) {
+    public IVector multiply(double scalar) {
         for (int i = 0, n = getDimension(); i < n; i++) {
             set(i, get(i) * scalar);
         }

@@ -1,10 +1,10 @@
-package apr.matrix.decompose;
+package apr.linear.decompose;
 
-import apr.matrix.RealMatrix;
+import apr.linear.matrix.IMatrix;
 
 public interface MatrixDecomposer {
 
-    boolean isApplicable(RealMatrix matrix);
+    boolean isApplicable(IMatrix matrix);
 
     double getDeterminant();
 

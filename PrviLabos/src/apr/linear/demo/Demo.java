@@ -1,13 +1,16 @@
-package apr.matrix.demo;
+package apr.linear.demo;
 
-import apr.matrix.*;
-import apr.matrix.decompose.LUPDecomposer;
-import apr.matrix.util.Matrices;
+import apr.linear.decompose.LUPDecomposer;
+import apr.linear.matrix.IMatrix;
+import apr.linear.matrix.Matrix;
+import apr.linear.util.Matrices;
+import apr.linear.vector.IVector;
+import apr.linear.vector.Vector;
 
 public class Demo {
 
     public static void main(String[] args) {
-        RealMatrix matrix = new ArrayRealMatrix(
+        IMatrix matrix = new Matrix(
                 new double[]{1, 2, 0},
                 new double[]{3, 5, 4},
                 new double[]{5, 6, 3});
@@ -17,7 +20,7 @@ public class Demo {
         System.out.println();
 
         System.out.println("b vector:");
-        RealVector vector = new ArrayRealVector(0.1, 12.5, 10.3);
+        IVector vector = new Vector(0.1, 12.5, 10.3);
         System.out.println(vector);
         System.out.println();
 
@@ -38,7 +41,7 @@ public class Demo {
         System.out.println();
 
         System.out.println("Determinant of matrix:");
-        RealMatrix det = new ArrayRealMatrix(
+        IMatrix det = new Matrix(
                 new double[]{2, -3, 1},
                 new double[]{2, 0, -1},
                 new double[]{1, 4, 5});
@@ -48,7 +51,7 @@ public class Demo {
         System.out.println();
 
         System.out.println("Inverse of matrix:");
-        RealMatrix inv = new ArrayRealMatrix(
+        IMatrix inv = new Matrix(
                 new double[]{4, 7},
                 new double[]{2, 6});
         System.out.println(inv);

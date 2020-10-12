@@ -1,39 +1,41 @@
-package apr.matrix;
+package apr.linear.vector;
 
-import apr.matrix.util.Matrices;
+import apr.linear.matrix.IMatrix;
+import apr.linear.matrix.Matrix;
+import apr.linear.util.Matrices;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class ArrayRealVector extends AbstractRealVector {
+public class Vector extends AbstractVector {
 
     private final double[] array;
 
-    public ArrayRealVector(double... array) {
+    public Vector(double... array) {
         this.array = array;
     }
 
-    public ArrayRealVector(int start, int end) {
+    public Vector(int start, int end) {
         array = IntStream.range(start, end).asDoubleStream().toArray();
     }
 
     @Override
-    public ArrayRealVector copy() {
+    public Vector copy() {
         int dimension = getDimension();
         double[] copiedArray = new double[dimension];
         System.arraycopy(array, 0, copiedArray, 0, dimension);
-        return new ArrayRealVector(copiedArray);
+        return new Vector(copiedArray);
     }
 
     @Override
-    public ArrayRealVector newInstance(int dimension) {
-        return new ArrayRealVector(new double[dimension]);
+    public Vector newInstance(int dimension) {
+        return new Vector(new double[dimension]);
     }
 
     @Override
-    public RealMatrix toMatrix() {
-        return new ArrayRealMatrix(1, getDimension(), new double[][]{array});
+    public IMatrix toMatrix() {
+        return new Matrix(1, getDimension(), new double[][]{array});
     }
 
     @Override
@@ -47,7 +49,7 @@ public class ArrayRealVector extends AbstractRealVector {
     }
 
     @Override
-    public ArrayRealVector set(int i, double value) {
+    public Vector set(int i, double value) {
         array[i] = value;
         return this;
     }
