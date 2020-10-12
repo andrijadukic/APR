@@ -17,7 +17,7 @@ public class Matrix extends AbstractMatrix {
     }
 
     public Matrix(double[]... array) {
-        if (!Matrices.isMatrixArray(array)) throw new IllegalArgumentException();
+        if (!Matrices.isTransformableToMatrix(array)) throw new IllegalArgumentException();
 
         rows = array.length;
         columns = array[0].length;

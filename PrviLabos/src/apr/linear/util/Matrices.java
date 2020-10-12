@@ -76,7 +76,7 @@ public class Matrices {
         return true;
     }
 
-    public static boolean isMatrixArray(double[][] array) {
+    public static boolean isTransformableToMatrix(double[][] array) {
         int columns = array[0].length;
 
         for (int i = 1, n = array.length; i < n; i++) {

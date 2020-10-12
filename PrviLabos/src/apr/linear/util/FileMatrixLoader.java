@@ -27,7 +27,7 @@ public class FileMatrixLoader implements IMatrixLoader {
             array[i] = Arrays.stream(lines.get(i).split("\\s+")).mapToDouble(Double::parseDouble).toArray();
         }
 
-        if (!Matrices.isMatrixArray(array)) throw new InvalidParameterException();
+        if (!Matrices.isTransformableToMatrix(array)) throw new InvalidParameterException();
 
         int columnDimension = array[0].length;
 
