@@ -15,6 +15,7 @@ public class LUDecomposer extends AbstractMatrixDecomposer {
 
     public LUDecomposer(IMatrix matrix) {
         super(matrix);
+        decompose();
     }
 
     @Override
@@ -78,11 +79,11 @@ public class LUDecomposer extends AbstractMatrixDecomposer {
         return new LUSolver(this);
     }
 
-    protected static class LUSolver implements LinearEquationSolver {
+    private static class LUSolver implements LinearEquationSolver {
 
-        protected final IMatrix L;
-        protected final IMatrix U;
-        protected final int n;
+        private final IMatrix L;
+        private final IMatrix U;
+        private final int n;
 
         public LUSolver(LUDecomposer decomposer) {
             L = decomposer.getL();
