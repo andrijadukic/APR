@@ -38,12 +38,12 @@ public class Matrix extends AbstractMatrix {
     }
 
     @Override
-    public int rows() {
+    public int getRowDimension() {
         return rows;
     }
 
     @Override
-    public int columns() {
+    public int getColumnDimension() {
         return columns;
     }
 

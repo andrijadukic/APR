@@ -17,20 +17,20 @@ public class Demo {
         System.out.println(vector);
         System.out.println();
 
-        IMatrix[] LUP = new SeparativeLUPDecomposer(matrix).decompose();
+        LUPDecomposer decomposer = new LUPDecomposer(matrix);
 
         System.out.println("L matrix:");
-        System.out.println(LUP[0]);
+        System.out.println(decomposer.getL());
         System.out.println();
         System.out.println("U matrix:");
-        System.out.println(LUP[1]);
+        System.out.println(decomposer.getU());
         System.out.println();
         System.out.println("P matrix:");
-        System.out.println(LUP[2]);
+        System.out.println(decomposer.getPivot());
         System.out.println();
 
         System.out.println("Equation solution:");
-        System.out.println(new LUPLinearEquationSolver(matrix).solve(vector));
+        System.out.println(decomposer.solver().solve(vector));
         System.out.println();
 
         System.out.println("Determinant of matrix:");
@@ -40,7 +40,7 @@ public class Demo {
                 new double[]{1, 4, 5});
         System.out.println(det);
         System.out.println("is:");
-        System.out.println(Matrices.FORMATTER.format(det.determinant()));
+        System.out.println(Matrices.FORMATTER.format(new LUPDecomposer(det).getDeterminant()));
         System.out.println();
 
         System.out.println("Inverse of matrix:");
@@ -49,6 +49,6 @@ public class Demo {
                 new double[]{2, 6});
         System.out.println(inv);
         System.out.println("is:");
-        System.out.println(inv.invert());
+        System.out.println(new LUPDecomposer(inv).solver().invert());
     }
 }

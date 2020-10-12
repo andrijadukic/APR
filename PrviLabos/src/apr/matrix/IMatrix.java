@@ -6,9 +6,9 @@ public interface IMatrix {
 
     IMatrix newInstance(int rows, int columns);
 
-    int rows();
+    int getRowDimension();
 
-    int columns();
+    int getColumnDimension();
 
     double get(int i, int j);
 
@@ -24,7 +24,7 @@ public interface IMatrix {
 
     IMatrix add(IMatrix other);
 
-    IMatrix sub(IMatrix other);
+    IMatrix subtract(IMatrix other);
 
     IMatrix multiply(IMatrix other);
 
@@ -36,11 +36,13 @@ public interface IMatrix {
 
     IMatrix invert();
 
-    double determinant();
-
     IVector[] toColumnVectors();
 
     IVector[] toRowVectors();
 
     double[][] toArray();
+
+    void print();
+
+    void save(String fileName);
 }

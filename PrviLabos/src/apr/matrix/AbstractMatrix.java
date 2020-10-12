@@ -1,25 +1,27 @@
 package apr.matrix;
 
-import java.security.InvalidParameterException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public abstract class AbstractMatrix implements IMatrix {
 
     public IMatrix add(IMatrix other) {
-        if (!Matrices.areDimensionsSame(this, other)) throw new InvalidParameterException();
+        MatrixUtils.checkAdditionApplicable(this, other);
 
-        for (int i = 0; i < rows(); i++) {
-            for (int j = 0; j < columns(); j++) {
+        for (int i = 0; i < getRowDimension(); i++) {
+            for (int j = 0; j < getColumnDimension(); j++) {
                 set(i, j, get(i, j) + other.get(i, j));
             }
         }
         return this;
     }
 
-    public IMatrix sub(IMatrix other) {
-        if (!Matrices.areDimensionsSame(this, other)) throw new InvalidParameterException();
+    public IMatrix subtract(IMatrix other) {
+        MatrixUtils.checkAdditionApplicable(this, other);
 
-        for (int i = 0; i < rows(); i++) {
-            for (int j = 0; j < columns(); j++) {
+        for (int i = 0; i < getRowDimension(); i++) {
+            for (int j = 0; j < getColumnDimension(); j++) {
                 set(i, j, get(i, j) - other.get(i, j));
             }
         }
@@ -27,14 +29,14 @@ public abstract class AbstractMatrix implements IMatrix {
     }
 
     public IMatrix multiply(IMatrix other) {
-        if (Matrices.isMultiplicationApplicable(this, other)) throw new InvalidParameterException();
+        MatrixUtils.checkMultiplicationApplicable(this, other);
 
-        IMatrix matrix = Matrices.blank(rows(), other.columns());
+        IMatrix matrix = Matrices.blank(getRowDimension(), other.getColumnDimension());
 
-        for (int i = 0; i < rows(); i++) {
-            for (int j = 0; i < other.columns(); j++) {
+        for (int i = 0; i < getRowDimension(); i++) {
+            for (int j = 0; i < other.getColumnDimension(); j++) {
                 double sum = 0.;
-                for (int k = 0; k < columns(); k++) {
+                for (int k = 0; k < getColumnDimension(); k++) {
                     sum += get(i, k) * other.get(k, j);
                 }
                 matrix.set(i, j, sum);
@@ -44,10 +46,10 @@ public abstract class AbstractMatrix implements IMatrix {
     }
 
     public IVector multiply(IVector vector) {
-        if (!Matrices.isMultiplicationApplicable(this, vector)) throw new InvalidParameterException();
+        MatrixUtils.checkMultiplicationApplicable(this, vector);
 
-        IVector result = vector.newInstance(rows());
-        for (int i = 0, n = rows(); i < n; i++) {
+        IVector result = vector.newInstance(getRowDimension());
+        for (int i = 0, n = getRowDimension(); i < n; i++) {
             double sum = 0.;
             for (int j = 0, m = vector.getDimension(); j < m; j++) {
                 sum += get(i, j) * vector.get(j);
@@ -58,8 +60,8 @@ public abstract class AbstractMatrix implements IMatrix {
     }
 
     public IMatrix multiply(double scalar) {
-        for (int i = 0; i < rows(); i++) {
-            for (int j = 0; j < columns(); j++) {
+        for (int i = 0; i < getRowDimension(); i++) {
+            for (int j = 0; j < getColumnDimension(); j++) {
                 set(i, j, get(i, j) * scalar);
             }
         }
@@ -73,35 +75,27 @@ public abstract class AbstractMatrix implements IMatrix {
 
     @Override
     public IMatrix invert() {
-        int n = rows();
-        IMatrix b = Matrices.identity(n);
-        IVector[] x = new IVector[n];
-
-        ILinearEquationSolver solver = new LUPLinearEquationSolver(this);
-        for (int i = 0; i < n; i++) {
-            x[i] = solver.solve(b.getColumn(i));
-        }
-
-        return Matrices.columnVectorsToMatrix(x);
+        return new LUPDecomposer(this).solver().solve(Matrices.identity(getRowDimension()));
     }
 
     @Override
-    public double determinant() {
-        IMatrix[] LUP = new LUPDecomposer(copy()).decompose();
-        IMatrix LU = LUP[0];
-        IMatrix P = LUP[1];
+    public void print() {
+        System.out.println(toString());
+    }
 
-        double result = Matrices.countSwaps(P.toRowVectors()[0]) % 2 == 0 ? 1 : -1;
-        for (int i = 0, n = LU.rows(); i < n; i++) {
-            result *= LU.get(i, i);
+    @Override
+    public void save(String fileName) {
+        try (var writer = Files.newBufferedWriter(Paths.get(fileName))) {
+            writer.write(toString());
+            writer.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        return result;
     }
 
     @Override
     public String toString() {
-        int n = rows();
+        int n = getRowDimension();
 
         StringBuilder matrix = new StringBuilder();
         for (int i = 0, m = n - 1; i < m; i++) {

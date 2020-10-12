@@ -1,13 +1,16 @@
 package apr.matrix;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.InvalidParameterException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 public class Matrices {
-
-    public static final double EPSILON = 1e-9;
 
     public static final NumberFormat FORMATTER = new DecimalFormat("#.###");
 
@@ -43,6 +46,10 @@ public class Matrices {
         }
 
         return new Matrix(rows, columns, array);
+    }
+
+    public static IMatrix squareRandom(int dimension, Random random) {
+        return random(dimension, dimension, random);
     }
 
     public static IMatrix columnVectorsToMatrix(IVector[] vectors) {
@@ -81,50 +88,28 @@ public class Matrices {
         return new Matrix(rows, columns, array);
     }
 
-    public static int countSwaps(IVector vector) {
-        int count = 0;
-        for (int i = 0, n = vector.getDimension(); i < n; i++) {
-            for (; i != vector.get(i); count++) {
-                vector.swap(i, (int) vector.get(i));
-            }
+    public static IMatrix load(String fileName) throws IOException {
+        List<String> lines = Files.readAllLines(Paths.get(fileName));
+
+        int rows = lines.size();
+        double[][] array = new double[rows][];
+        for (int i = 0; i < rows; i++) {
+            array[i] = Arrays.stream(lines.get(i).split("\\s+")).mapToDouble(Double::parseDouble).toArray();
         }
-        return count;
-    }
 
-    public static IMatrix squareRandom(int dimension, Random random) {
-        return random(dimension, dimension, random);
-    }
-
-    public static boolean areDimensionsSame(IMatrix m1, IMatrix m2) {
-        return m1.rows() == m2.rows() && m1.columns() == m2.columns();
-    }
-
-    public static boolean areDimensionsSame(IVector v1, IVector v2) {
-        return v1.getDimension() == v2.getDimension();
+        return new Matrix(array);
     }
 
     public static boolean isSquareMatrix(IMatrix matrix) {
-        return matrix.rows() == matrix.columns();
-    }
-
-    public static boolean isMultiplicationApplicable(IMatrix m1, IMatrix m2) {
-        return m1.columns() != m2.rows();
-    }
-
-    public static boolean isMultiplicationApplicable(IMatrix matrix, IVector vector) {
-        return matrix.columns() != vector.getDimension();
-    }
-
-    public static boolean isMultiplicationApplicable(IVector v1, IVector v2) {
-        return areDimensionsSame(v1, v2);
+        return matrix.getRowDimension() == matrix.getColumnDimension();
     }
 
     public static boolean isLowerTriangleMatrix(IMatrix matrix) {
         if (!isSquareMatrix(matrix)) return false;
 
-        for (int i = 0, n = matrix.rows(); i < n; i++) {
+        for (int i = 0, n = matrix.getRowDimension(); i < n; i++) {
             for (int j = i + 1; j < n; j++) {
-                if (matrix.get(i, j) > EPSILON) return false;
+                if (matrix.get(i, j) > MatrixUtils.EPSILON) return false;
             }
         }
 
@@ -134,9 +119,9 @@ public class Matrices {
     public static boolean isUpperTriangleMatrix(IMatrix matrix) {
         if (!isSquareMatrix(matrix)) return false;
 
-        for (int i = 0, n = matrix.rows(); i < n; i++) {
+        for (int i = 0, n = matrix.getRowDimension(); i < n; i++) {
             for (int j = 0; j < i; j++) {
-                if (matrix.get(i, j) > EPSILON) return false;
+                if (matrix.get(i, j) > MatrixUtils.EPSILON) return false;
             }
         }
 

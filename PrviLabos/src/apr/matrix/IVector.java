@@ -18,7 +18,7 @@ public interface IVector {
 
     IVector add(IVector other);
 
-    IVector sub(IVector other);
+    IVector subtract(IVector other);
 
     IVector multiply(IMatrix other);
 

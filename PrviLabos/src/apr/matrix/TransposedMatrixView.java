@@ -19,13 +19,13 @@ public class TransposedMatrixView extends AbstractMatrix {
     }
 
     @Override
-    public int rows() {
-        return view.columns();
+    public int getRowDimension() {
+        return view.getColumnDimension();
     }
 
     @Override
-    public int columns() {
-        return view.rows();
+    public int getColumnDimension() {
+        return view.getRowDimension();
     }
 
     @Override
@@ -70,10 +70,10 @@ public class TransposedMatrixView extends AbstractMatrix {
 
     @Override
     public double[][] toArray() {
-        double[][] array = new double[view.columns()][view.columns()];
+        double[][] array = new double[view.getColumnDimension()][view.getColumnDimension()];
 
-        for (int i = 0, n = columns(); i < n; i++) {
-            for (int j = 0, m = rows(); j < m; j++) {
+        for (int i = 0, n = getColumnDimension(); i < n; i++) {
+            for (int j = 0, m = getRowDimension(); j < m; j++) {
                 array[i][j] = get(i, j);
             }
         }

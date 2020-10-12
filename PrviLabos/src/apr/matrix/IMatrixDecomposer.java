@@ -4,5 +4,7 @@ public interface IMatrixDecomposer {
 
     boolean isApplicable(IMatrix matrix);
 
-    IMatrix[] decompose();
+    double getDeterminant();
+
+    ILinearEquationSolver solver();
 }

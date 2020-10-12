@@ -1,12 +1,10 @@
 package apr.matrix;
 
-import java.security.InvalidParameterException;
-
 public abstract class AbstractVector implements IVector {
 
     @Override
     public IVector add(IVector other) {
-        if (!Matrices.areDimensionsSame(this, other)) throw new InvalidParameterException();
+        MatrixUtils.checkAdditionApplicable(this, other);
 
         for (int i = 0, n = getDimension(); i < n; i++) {
             set(i, get(i) + other.get(i));
@@ -16,8 +14,8 @@ public abstract class AbstractVector implements IVector {
     }
 
     @Override
-    public IVector sub(IVector other) {
-        if (!Matrices.areDimensionsSame(this, other)) throw new InvalidParameterException();
+    public IVector subtract(IVector other) {
+        MatrixUtils.checkAdditionApplicable(this, other);
 
         for (int i = 0, n = getDimension(); i < n; i++) {
             set(i, get(i) + other.get(i));
@@ -28,7 +26,7 @@ public abstract class AbstractVector implements IVector {
 
     @Override
     public IVector multiply(IMatrix matrix) {
-        if (!Matrices.isMultiplicationApplicable(matrix, this)) throw new InvalidParameterException();
+        MatrixUtils.checkMultiplicationApplicable(matrix, this);
 
         for (int i = 0, n = getDimension(); i < n; i++) {
             double sum = 0.;
@@ -43,7 +41,7 @@ public abstract class AbstractVector implements IVector {
 
     @Override
     public double multiply(IVector other) {
-        if (!Matrices.isMultiplicationApplicable(this, other)) throw new InvalidParameterException();
+        MatrixUtils.checkMultiplicationApplicable(this, other);
 
         double sum = 0.;
         for (int i = 0, n = getDimension(); i < n; i++) {
