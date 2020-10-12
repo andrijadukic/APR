@@ -43,6 +43,4 @@ public interface IMatrix {
     double[][] toArray();
 
     void print();
-
-    void save(String fileName);
 }

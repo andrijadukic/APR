@@ -1,6 +1,8 @@
-package apr.linear.util;
+package apr.linear.io;
 
 import apr.linear.matrix.IMatrix;
+import apr.linear.util.IMatrixBuilder;
+import apr.linear.util.Matrices;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -9,11 +11,11 @@ import java.security.InvalidParameterException;
 import java.util.Arrays;
 import java.util.List;
 
-public class FileMatrixLoader implements IMatrixLoader {
+public class MatrixFileLoader implements IMatrixLoader {
 
     private final IMatrixBuilder builder;
 
-    public FileMatrixLoader(IMatrixBuilder builder) {
+    public MatrixFileLoader(IMatrixBuilder builder) {
         this.builder = builder;
     }
 

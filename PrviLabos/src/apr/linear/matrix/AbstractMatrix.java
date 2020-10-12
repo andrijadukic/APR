@@ -88,16 +88,6 @@ public abstract class AbstractMatrix implements IMatrix {
     }
 
     @Override
-    public void save(String fileName) {
-        try (var writer = Files.newBufferedWriter(Paths.get(fileName))) {
-            writer.write(toString());
-            writer.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
     public String toString() {
         int n = getRowDimension();
 
