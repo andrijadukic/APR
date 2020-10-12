@@ -1,9 +1,11 @@
 package apr.matrix;
 
-public abstract class AbstractVector implements IVector {
+import apr.matrix.util.MatrixUtils;
+
+public abstract class AbstractRealVector implements RealVector {
 
     @Override
-    public IVector add(IVector other) {
+    public RealVector add(RealVector other) {
         MatrixUtils.checkAdditionApplicable(this, other);
 
         for (int i = 0, n = getDimension(); i < n; i++) {
@@ -14,7 +16,7 @@ public abstract class AbstractVector implements IVector {
     }
 
     @Override
-    public IVector subtract(IVector other) {
+    public RealVector subtract(RealVector other) {
         MatrixUtils.checkAdditionApplicable(this, other);
 
         for (int i = 0, n = getDimension(); i < n; i++) {
@@ -25,7 +27,7 @@ public abstract class AbstractVector implements IVector {
     }
 
     @Override
-    public IVector multiply(IMatrix matrix) {
+    public RealVector multiply(RealMatrix matrix) {
         MatrixUtils.checkMultiplicationApplicable(matrix, this);
 
         for (int i = 0, n = getDimension(); i < n; i++) {
@@ -40,7 +42,7 @@ public abstract class AbstractVector implements IVector {
     }
 
     @Override
-    public double multiply(IVector other) {
+    public double multiply(RealVector other) {
         MatrixUtils.checkMultiplicationApplicable(this, other);
 
         double sum = 0.;
@@ -51,7 +53,7 @@ public abstract class AbstractVector implements IVector {
     }
 
     @Override
-    public IVector multiply(double scalar) {
+    public RealVector multiply(double scalar) {
         for (int i = 0, n = getDimension(); i < n; i++) {
             set(i, get(i) * scalar);
         }

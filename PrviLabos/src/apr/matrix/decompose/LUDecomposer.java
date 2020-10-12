@@ -1,18 +1,22 @@
-package apr.matrix;
+package apr.matrix.decompose;
 
-import java.security.InvalidParameterException;
+import apr.matrix.*;
+import apr.matrix.exceptions.SingularMatrixException;
+import apr.matrix.util.Matrices;
+import apr.matrix.util.MatrixUtils;
+import apr.matrix.util.Operations;
 
 public class LUDecomposer extends AbstractMatrixDecomposer {
 
-    protected IMatrix L;
-    protected IMatrix U;
+    protected RealMatrix L;
+    protected RealMatrix U;
 
-    public LUDecomposer(IMatrix matrix) {
+    public LUDecomposer(RealMatrix matrix) {
         super(matrix);
     }
 
     @Override
-    public boolean isApplicable(IMatrix matrix) {
+    public boolean isApplicable(RealMatrix matrix) {
         return Matrices.isSquareMatrix(matrix);
     }
 
@@ -29,11 +33,11 @@ public class LUDecomposer extends AbstractMatrixDecomposer {
         }
     }
 
-    public IMatrix getLU() {
+    public RealMatrix getLU() {
         return matrix;
     }
 
-    public IMatrix getL() {
+    public RealMatrix getL() {
         if (L != null) return L;
 
         L = Matrices.blankSquare(rowDimension);
@@ -46,10 +50,10 @@ public class LUDecomposer extends AbstractMatrixDecomposer {
         return L;
     }
 
-    public IMatrix getU() {
+    public RealMatrix getU() {
         if (U != null) return L;
 
-        IMatrix U = Matrices.blankSquare(rowDimension);
+        RealMatrix U = Matrices.blankSquare(rowDimension);
         for (int i = 0; i < rowDimension; i++) {
             for (int j = i; j < rowDimension; j++) {
                 U.set(i, j, matrix.get(i, j));
@@ -68,14 +72,14 @@ public class LUDecomposer extends AbstractMatrixDecomposer {
     }
 
     @Override
-    public ILinearEquationSolver solver() {
+    public LinearEquationSolver solver() {
         return new LUSolver(this);
     }
 
-    protected static class LUSolver implements ILinearEquationSolver {
+    protected static class LUSolver implements LinearEquationSolver {
 
-        protected final IMatrix L;
-        protected final IMatrix U;
+        protected final RealMatrix L;
+        protected final RealMatrix U;
         protected final int n;
 
         public LUSolver(LUDecomposer decomposer) {
@@ -85,24 +89,24 @@ public class LUDecomposer extends AbstractMatrixDecomposer {
         }
 
         @Override
-        public IVector solve(IVector b) {
+        public RealVector solve(RealVector b) {
             return Operations.backwardSubstitution(U, Operations.forwardSubstitution(L, b));
         }
 
         @Override
-        public IMatrix solve(IMatrix b) {
+        public RealMatrix solve(RealMatrix b) {
             int n = b.getColumnDimension();
-            IVector[] x = new IVector[n];
+            RealVector[] x = new ArrayRealVector[n];
 
             for (int i = 0; i < n; i++) {
                 x[i] = solve(b.getColumn(i));
             }
 
-            return Matrices.columnVectorsToMatrix(x);
+            return Matrices.columnRealVectorsToMatrix(x);
         }
 
         @Override
-        public IMatrix invert() {
+        public RealMatrix invert() {
             return solve(Matrices.identity(n));
         }
     }

@@ -1,17 +1,22 @@
-package apr.matrix;
+package apr.matrix.decompose;
+
+import apr.matrix.*;
+import apr.matrix.exceptions.SingularMatrixException;
+import apr.matrix.util.MatrixUtils;
+import apr.matrix.util.Operations;
 
 public class LUPDecomposer extends LUDecomposer {
 
-    protected IVector P;
+    protected RealVector P;
     private boolean isSwapCountEven;
 
-    public LUPDecomposer(IMatrix matrix) {
+    public LUPDecomposer(RealMatrix matrix) {
         super(matrix);
         decompose();
     }
 
     private void decompose() {
-        P = new Vector(0, rowDimension);
+        P = new ArrayRealVector(0, rowDimension);
 
         for (int i = 0, n = rowDimension - 1; i < n; i++) {
             int pivot = i;
@@ -38,7 +43,7 @@ public class LUPDecomposer extends LUDecomposer {
         }
     }
 
-    public IVector getPivot() {
+    public RealVector getPivot() {
         return P;
     }
 
@@ -48,13 +53,13 @@ public class LUPDecomposer extends LUDecomposer {
     }
 
     @Override
-    public ILinearEquationSolver solver() {
+    public LinearEquationSolver solver() {
         return new LUPSolver(this);
     }
 
     protected static class LUPSolver extends LUSolver {
 
-        protected final IVector P;
+        protected final RealVector P;
 
         public LUPSolver(LUPDecomposer decomposer) {
             super(decomposer);
@@ -62,12 +67,12 @@ public class LUPDecomposer extends LUDecomposer {
         }
 
         @Override
-        public IVector solve(IVector b) {
+        public RealVector solve(RealVector b) {
             return super.solve(Operations.permute(b, P));
         }
 
         @Override
-        public IMatrix solve(IMatrix b) {
+        public RealMatrix solve(RealMatrix b) {
             return super.solve(Operations.permute(b, P));
         }
     }

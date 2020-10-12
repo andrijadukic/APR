@@ -1,12 +1,14 @@
-package apr.matrix;
+package apr.matrix.decompose;
 
-public abstract class AbstractMatrixDecomposer implements IMatrixDecomposer {
+import apr.matrix.RealMatrix;
 
-    protected final IMatrix matrix;
+public abstract class AbstractMatrixDecomposer implements MatrixDecomposer {
+
+    protected final RealMatrix matrix;
     protected final int rowDimension;
     protected final int columnDimension;
 
-    public AbstractMatrixDecomposer(IMatrix matrix) {
+    public AbstractMatrixDecomposer(RealMatrix matrix) {
         if (!isApplicable(matrix)) throw new IllegalArgumentException("Given matrix is not applicable for this decomposition");
 
         this.matrix = matrix.copy();

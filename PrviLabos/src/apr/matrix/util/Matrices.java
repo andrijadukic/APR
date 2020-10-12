@@ -1,4 +1,8 @@
-package apr.matrix;
+package apr.matrix.util;
+
+import apr.matrix.RealMatrix;
+import apr.matrix.ArrayRealMatrix;
+import apr.matrix.RealVector;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -14,29 +18,29 @@ public class Matrices {
 
     public static final NumberFormat FORMATTER = new DecimalFormat("#.###");
 
-    public static IMatrix blank(int rows, int columns) {
-        return new Matrix(rows, columns, new double[rows][columns]);
+    public static RealMatrix blank(int rows, int columns) {
+        return new ArrayRealMatrix(rows, columns, new double[rows][columns]);
     }
 
-    public static IMatrix blankSquare(int dimension) {
+    public static RealMatrix blankSquare(int dimension) {
         return blank(dimension, dimension);
     }
 
-    public static IMatrix identity(int dimension) {
+    public static RealMatrix identity(int dimension) {
         return diagonal(dimension, 1.);
     }
 
-    public static IMatrix diagonal(int dimension, double value) {
+    public static RealMatrix diagonal(int dimension, double value) {
         double[][] array = new double[dimension][dimension];
 
         for (int i = 0; i < dimension; i++) {
             array[i][i] = value;
         }
 
-        return new Matrix(dimension, dimension, array);
+        return new ArrayRealMatrix(dimension, dimension, array);
     }
 
-    public static IMatrix random(int rows, int columns, Random random) {
+    public static RealMatrix random(int rows, int columns, Random random) {
         double[][] array = new double[rows][columns];
 
         for (int i = 0; i < rows; i++) {
@@ -45,14 +49,14 @@ public class Matrices {
             }
         }
 
-        return new Matrix(rows, columns, array);
+        return new ArrayRealMatrix(rows, columns, array);
     }
 
-    public static IMatrix squareRandom(int dimension, Random random) {
+    public static RealMatrix squareRandom(int dimension, Random random) {
         return random(dimension, dimension, random);
     }
 
-    public static IMatrix columnVectorsToMatrix(IVector[] vectors) {
+    public static RealMatrix columnRealVectorsToMatrix(RealVector[] vectors) {
         int columns = vectors.length;
         int rows = vectors[0].getDimension();
         for (int i = 1; i < columns; i++) {
@@ -67,10 +71,10 @@ public class Matrices {
             }
         }
 
-        return new Matrix(rows, columns, array);
+        return new ArrayRealMatrix(rows, columns, array);
     }
 
-    public static IMatrix rowVectorsToMatrix(IVector[] vectors) {
+    public static RealMatrix rowRealVectorsToMatrix(RealVector[] vectors) {
         int rows = vectors.length;
         int columns = vectors[0].getDimension();
         for (int i = 1; i < rows; i++) {
@@ -85,10 +89,10 @@ public class Matrices {
             }
         }
 
-        return new Matrix(rows, columns, array);
+        return new ArrayRealMatrix(rows, columns, array);
     }
 
-    public static IMatrix load(String fileName) throws IOException {
+    public static ArrayRealMatrix load(String fileName) throws IOException {
         List<String> lines = Files.readAllLines(Paths.get(fileName));
 
         int rows = lines.size();
@@ -97,14 +101,14 @@ public class Matrices {
             array[i] = Arrays.stream(lines.get(i).split("\\s+")).mapToDouble(Double::parseDouble).toArray();
         }
 
-        return new Matrix(array);
+        return new ArrayRealMatrix(array);
     }
 
-    public static boolean isSquareMatrix(IMatrix matrix) {
+    public static boolean isSquareMatrix(RealMatrix matrix) {
         return matrix.getRowDimension() == matrix.getColumnDimension();
     }
 
-    public static boolean isLowerTriangleMatrix(IMatrix matrix) {
+    public static boolean isLowerTriangleMatrix(RealMatrix matrix) {
         if (!isSquareMatrix(matrix)) return false;
 
         for (int i = 0, n = matrix.getRowDimension(); i < n; i++) {
@@ -116,7 +120,7 @@ public class Matrices {
         return true;
     }
 
-    public static boolean isUpperTriangleMatrix(IMatrix matrix) {
+    public static boolean isUpperTriangleMatrix(RealMatrix matrix) {
         if (!isSquareMatrix(matrix)) return false;
 
         for (int i = 0, n = matrix.getRowDimension(); i < n; i++) {

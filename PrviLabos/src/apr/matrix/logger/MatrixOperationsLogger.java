@@ -1,8 +1,8 @@
-package apr.matrix;
+package apr.matrix.logger;
 
 import java.io.OutputStream;
 
-public class MatrixOperationsLogger implements ILogger {
+public class MatrixOperationsLogger implements Logger {
 
     private final OutputStream outputStream;
 

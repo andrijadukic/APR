@@ -1,20 +1,20 @@
 package apr.matrix;
 
-public class TransposedMatrixView extends AbstractMatrix {
+public class TransposedRealMatrixView extends AbstractRealMatrix {
 
-    private final IMatrix view;
+    private final RealMatrix view;
 
-    public TransposedMatrixView(IMatrix view) {
+    public TransposedRealMatrixView(RealMatrix view) {
         this.view = view;
     }
 
     @Override
-    public IMatrix copy() {
-        return new TransposedMatrixView(view.copy());
+    public RealMatrix copy() {
+        return new TransposedRealMatrixView(view.copy());
     }
 
     @Override
-    public IMatrix newInstance(int rows, int columns) {
+    public RealMatrix newInstance(int rows, int columns) {
         return view.newInstance(columns, rows);
     }
 
@@ -34,17 +34,17 @@ public class TransposedMatrixView extends AbstractMatrix {
     }
 
     @Override
-    public IVector getRow(int index) {
+    public RealVector getRow(int index) {
         return view.getColumn(index);
     }
 
     @Override
-    public IVector getColumn(int index) {
+    public RealVector getColumn(int index) {
         return view.getRow(index);
     }
 
     @Override
-    public IMatrix set(int i, int j, double value) {
+    public RealMatrix set(int i, int j, double value) {
         return view.set(j, i, value);
     }
 
@@ -59,13 +59,13 @@ public class TransposedMatrixView extends AbstractMatrix {
     }
 
     @Override
-    public IVector[] toColumnVectors() {
-        return view.toRowVectors();
+    public RealVector[] toColumnRealVectors() {
+        return view.toRowRealVectors();
     }
 
     @Override
-    public IVector[] toRowVectors() {
-        return view.toColumnVectors();
+    public RealVector[] toRowRealVectors() {
+        return view.toColumnRealVectors();
     }
 
     @Override

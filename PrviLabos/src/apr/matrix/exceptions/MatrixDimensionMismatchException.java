@@ -1,4 +1,4 @@
-package apr.matrix;
+package apr.matrix.exceptions;
 
 public class MatrixDimensionMismatchException extends RuntimeException {
 
