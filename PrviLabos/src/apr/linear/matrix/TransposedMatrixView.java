@@ -2,6 +2,9 @@ package apr.linear.matrix;
 
 import apr.linear.vector.IVector;
 
+/**
+ * Matrix class that serves as a view of the transposed matrix
+ */
 public class TransposedMatrixView extends AbstractMatrix {
 
     private final IMatrix view;
@@ -61,13 +64,13 @@ public class TransposedMatrixView extends AbstractMatrix {
     }
 
     @Override
-    public IVector[] toColumnRealVectors() {
-        return view.toRowRealVectors();
+    public IVector[] toColumnVectors() {
+        return view.toRowVectors();
     }
 
     @Override
-    public IVector[] toRowRealVectors() {
-        return view.toColumnRealVectors();
+    public IVector[] toRowVectors() {
+        return view.toColumnVectors();
     }
 
     @Override

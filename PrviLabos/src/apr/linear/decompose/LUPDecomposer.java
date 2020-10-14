@@ -8,6 +8,9 @@ import apr.linear.util.Operations;
 import apr.linear.vector.IVector;
 import apr.linear.vector.Vector;
 
+/**
+ * Class defining an object used for LUP decomposition of a matrix and storing the resulting L and U matrices and the permutation vector
+ */
 public class LUPDecomposer extends AbstractMatrixDecomposer {
 
     private IMatrix L;
@@ -25,6 +28,9 @@ public class LUPDecomposer extends AbstractMatrixDecomposer {
         return Matrices.isSquareMatrix(matrix);
     }
 
+    /**
+     * Performs LUP decomposition
+     */
     private void decompose() {
         P = new Vector(0, rowDimension);
 
@@ -53,6 +59,10 @@ public class LUPDecomposer extends AbstractMatrixDecomposer {
         }
     }
 
+    /**
+     * Gets the cached L matrix
+     * @return L matrix
+     */
     public IMatrix getL() {
         if (L != null) return L;
 
@@ -66,6 +76,10 @@ public class LUPDecomposer extends AbstractMatrixDecomposer {
         return L;
     }
 
+    /**
+     * Gets the cached U matrix
+     * @return U matrix
+     */
     public IMatrix getU() {
         if (U != null) return L;
 
@@ -78,6 +92,10 @@ public class LUPDecomposer extends AbstractMatrixDecomposer {
         return U;
     }
 
+    /**
+     * Gets the permution vector
+     * @return permutation vector
+     */
     public IVector getPivot() {
         return P;
     }
@@ -96,6 +114,9 @@ public class LUPDecomposer extends AbstractMatrixDecomposer {
         return new LUPSolver(this);
     }
 
+    /**
+     * Private static class implementing the LinearEquationSolver interface by using LU decomposition
+     */
     private static class LUPSolver implements LinearEquationSolver {
 
         private final IMatrix L;

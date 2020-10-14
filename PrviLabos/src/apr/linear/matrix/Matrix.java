@@ -4,6 +4,9 @@ import apr.linear.vector.IVector;
 import apr.linear.vector.Vector;
 import apr.linear.util.Matrices;
 
+/**
+ * Concrete Matrix class which used a two dimensional array to store elements
+ */
 public class Matrix extends AbstractMatrix {
 
     private final double[][] array;
@@ -95,7 +98,7 @@ public class Matrix extends AbstractMatrix {
     }
 
     @Override
-    public IVector[] toColumnRealVectors() {
+    public IVector[] toColumnVectors() {
         IVector[] columnRealVectors = new IVector[columns];
 
         for (int i = 0; i < columns; i++) {
@@ -106,7 +109,7 @@ public class Matrix extends AbstractMatrix {
     }
 
     @Override
-    public IVector[] toRowRealVectors() {
+    public IVector[] toRowVectors() {
         IVector[] rowRealVectors = new IVector[rows];
 
         for (int i = 0; i < rows; i++) {

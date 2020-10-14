@@ -8,6 +8,9 @@ import apr.linear.util.Operations;
 import apr.linear.vector.IVector;
 import apr.linear.vector.Vector;
 
+/**
+ * Class defining an object used for decomposing a matrix and storing the resulting L and U matrices
+ */
 public class LUDecomposer extends AbstractMatrixDecomposer {
 
     protected IMatrix L;
@@ -23,6 +26,9 @@ public class LUDecomposer extends AbstractMatrixDecomposer {
         return Matrices.isSquareMatrix(matrix);
     }
 
+    /**
+     * Performs LU decomposition
+     */
     private void decompose() {
         for (int i = 0, n = rowDimension - 1; i < n; i++) {
             for (int j = i + 1; j < rowDimension; j++) {
@@ -36,10 +42,18 @@ public class LUDecomposer extends AbstractMatrixDecomposer {
         }
     }
 
+    /**
+     * Gets the resulting LU matrix
+     * @return LU matrix
+     */
     public IMatrix getLU() {
         return matrix;
     }
 
+    /**
+     * Gets the cached L matrix
+     * @return L matrix
+     */
     public IMatrix getL() {
         if (L != null) return L;
 
@@ -53,6 +67,10 @@ public class LUDecomposer extends AbstractMatrixDecomposer {
         return L;
     }
 
+    /**
+     * Gets the cached U matrix
+     * @return U matrix
+     */
     public IMatrix getU() {
         if (U != null) return L;
 
@@ -79,6 +97,9 @@ public class LUDecomposer extends AbstractMatrixDecomposer {
         return new LUSolver(this);
     }
 
+    /**
+     * Private static class implementing the LinearEquationSolver interface by using LU decomposition
+     */
     private static class LUSolver implements LinearEquationSolver {
 
         private final IMatrix L;

@@ -3,6 +3,9 @@ package apr.linear.vector;
 import apr.linear.matrix.IMatrix;
 import apr.linear.util.MatrixUtils;
 
+/**
+ * Abstract Vector class which implements vector operations, independent of the underlying data structure
+ */
 public abstract class AbstractVector implements IVector {
 
     @Override

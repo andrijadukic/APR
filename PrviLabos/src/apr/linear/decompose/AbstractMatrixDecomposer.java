@@ -2,6 +2,9 @@ package apr.linear.decompose;
 
 import apr.linear.matrix.IMatrix;
 
+/**
+ * Abstract class that implements the MatrixDecomposer interface
+ */
 public abstract class AbstractMatrixDecomposer implements MatrixDecomposer {
 
     protected final IMatrix matrix;

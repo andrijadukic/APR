@@ -5,8 +5,17 @@ import apr.linear.vector.IVector;
 
 import java.security.InvalidParameterException;
 
+/**
+ * Utility class with static methods for performing various linear algebra operations
+ */
 public class Operations {
 
+    /**
+     * Performs forward substition
+     * @param matrix
+     * @param vector
+     * @return
+     */
     public static IVector forwardSubstitution(IMatrix matrix, IVector vector) {
         if (!isForwardSubstitutionApplicable(matrix, vector)) throw new InvalidParameterException();
 

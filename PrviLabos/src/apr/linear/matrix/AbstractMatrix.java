@@ -4,10 +4,9 @@ import apr.linear.vector.IVector;
 import apr.linear.util.Matrices;
 import apr.linear.util.MatrixUtils;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
+/**
+ * Abstract Matrix class which implements matrix operations, independent of the underlying data structure
+ */
 public abstract class AbstractMatrix implements IMatrix {
 
     @Override

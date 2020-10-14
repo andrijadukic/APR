@@ -8,6 +8,9 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+/**
+ * Concrete Vector class which used an array to store elements
+ */
 public class Vector extends AbstractVector {
 
     private final double[] array;
