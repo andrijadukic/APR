@@ -6,11 +6,11 @@ import apr.linear.exceptions.DimensionMismatchException;
 import apr.linear.exceptions.MatrixDimensionMismatchException;
 
 /**
- * Utility class with static methods for testing varius linear algebra properties
+ * Utility class with static methods useful for testing varius linear algebra properties
  */
 public class MatrixUtils {
 
-    public static final double EPSILON = 1e-9;
+    public static final double EPSILON = 1e-6;
 
     /**
      * Checks if dimensions of given matrices are the same

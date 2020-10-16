@@ -13,6 +13,12 @@ public class Matrix extends AbstractMatrix {
     private final int rows;
     private final int columns;
 
+    public Matrix(int rows, int columns) {
+        array = new double[rows][columns];
+        this.rows = rows;
+        this.columns = columns;
+    }
+
     public Matrix(int rows, int columns, double[][] array) {
         this.rows = rows;
         this.columns = columns;

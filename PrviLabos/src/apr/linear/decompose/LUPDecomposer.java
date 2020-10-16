@@ -93,7 +93,7 @@ public class LUPDecomposer extends AbstractMatrixDecomposer {
     }
 
     /**
-     * Gets the permution vector
+     * Gets the permutation vector
      * @return permutation vector
      */
     public IVector getPivot() {
@@ -115,7 +115,7 @@ public class LUPDecomposer extends AbstractMatrixDecomposer {
     }
 
     /**
-     * Private static class implementing the LinearEquationSolver interface by using LU decomposition
+     * Private static class implementing the LinearEquationSolver interface by using LUP decomposition
      */
     private static class LUPSolver implements LinearEquationSolver {
 
