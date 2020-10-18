@@ -9,7 +9,6 @@ import apr.linear.io.MatrixFileWriter;
 import apr.linear.matrix.IMatrix;
 import apr.linear.matrix.Matrix;
 import apr.linear.util.Matrices;
-import apr.linear.util.MatrixUtils;
 import apr.linear.vector.IVector;
 import apr.linear.vector.Vector;
 
@@ -22,6 +21,46 @@ public class Lab {
     public static final IMatrixWriter writer = new MatrixFileWriter();
 
     public static void main(String[] args) throws IOException {
+        zadatak1();
+
+        System.out.println();
+
+        zadatak2();
+
+        System.out.println();
+
+        zadatak3();
+
+        System.out.println();
+
+        zadatak4();
+
+        System.out.println();
+
+        zadatak4();
+
+        System.out.println();
+
+        zadatak5();
+
+        System.out.println();
+
+        zadatak7();
+
+        System.out.println();
+
+        zadatak8();
+
+        System.out.println();
+
+        zadatak9();
+
+        System.out.println();
+
+        zadatak10();
+    }
+
+    private static void zadatak1() {
         System.out.println("Zadatak 1:");
         IMatrix matrix = new Matrix(new double[][]{{1.5, 0.8, 2.3},
                 {9.1, 4.1, 7.7},
@@ -32,44 +71,44 @@ public class Lab {
         matrix = matrix.multiply(1 / 0.3456732411);
         System.out.println(matrix.get(1, 1) == matrixCopy.get(1, 1));
         System.out.println(Math.abs(matrix.get(1, 1) - matrixCopy.get(1, 1)) < Matrices.EPSILON);
+    }
 
-        System.out.println();
-
+    private static void zadatak2() throws IOException {
         System.out.println("Zadatak 2:");
         IMatrix m1 = loader.load("data/m1.txt");
         IVector b1 = loader.load("data/b1.txt").toColumnVectors()[0];
         trySolveWithLUAndLUP(m1, b1, "r1");
+    }
 
-        System.out.println();
-
+    private static void zadatak3() throws IOException {
         System.out.println("Zadatak 3:");
         IMatrix m2 = loader.load("data/m2.txt");
         IVector b2 = new Vector(1, 1, 1);
         trySolveWithLUAndLUP(m2, b2, "r2");
+    }
 
-        System.out.println();
-
+    private static void zadatak4() throws IOException {
         System.out.println("Zadatak 4:");
         IMatrix m3 = loader.load("data/m3.txt");
         IVector b3 = loader.load("data/b2.txt").toColumnVectors()[0];
         trySolveWithLUAndLUP(m3, b3, "r3");
+    }
 
-        System.out.println();
-
+    private static void zadatak5() throws IOException {
         System.out.println("Zadatak 5:");
         IMatrix m4 = loader.load("data/m4.txt");
         IVector b4 = loader.load("data/b3.txt").toColumnVectors()[0];
         trySolveWithLUP(m4, b4, "r4");
+    }
 
-        System.out.println();
-
+    private static void zadatak6() throws IOException {
         System.out.println("Zadatak 6:");
         IMatrix m5 = loader.load("data/m5.txt");
         IVector b5 = loader.load("data/b4.txt").toColumnVectors()[0];
         trySolveWithLUP(m5, b5, "r5");
+    }
 
-        System.out.println();
-
+    private static void zadatak7() throws IOException {
         System.out.println("Zadatak 7:");
         IMatrix m6 = loader.load("data/m6.txt");
         try {
@@ -80,9 +119,9 @@ public class Lab {
             System.out.println(exception.getMessage());
             System.out.println("Ne postoji inverz dane matrice");
         }
+    }
 
-        System.out.println();
-
+    private static void zadatak8() throws IOException {
         System.out.println("Zadatak 8:");
         IMatrix m7 = loader.load("data/m7.txt");
         try {
@@ -93,9 +132,9 @@ public class Lab {
             System.out.println(exception.getMessage());
             System.out.println("Ne postoji inverz dane matrice");
         }
+    }
 
-        System.out.println();
-
+    private static void zadatak9() throws IOException {
         System.out.println("Zadatak 9:");
         IMatrix m8 = loader.load("data/m7.txt");
         try {
@@ -105,9 +144,9 @@ public class Lab {
         } catch (Exception exception) {
             System.out.println(exception.getMessage());
         }
+    }
 
-        System.out.println();
-
+    private static void zadatak10() throws IOException {
         System.out.println("Zadatak 10:");
         IMatrix m9 = loader.load("data/m9.txt");
         try {
@@ -134,7 +173,6 @@ public class Lab {
         } catch (Exception exception) {
             System.out.println(exception.getMessage());
         }
-        ;
     }
 
     private static void trySolveWithLUP(IMatrix A, IVector b, String resultName) {
