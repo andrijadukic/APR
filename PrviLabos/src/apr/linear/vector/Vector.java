@@ -3,6 +3,7 @@ package apr.linear.vector;
 import apr.linear.matrix.IMatrix;
 import apr.linear.matrix.Matrix;
 import apr.linear.util.Matrices;
+import apr.linear.util.MatrixUtils;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -67,7 +68,7 @@ public class Vector extends AbstractVector {
     @Override
     public String toString() {
         return Arrays.stream(array)
-                .mapToObj(Matrices.FORMATTER::format)
+                .mapToObj(MatrixUtils.FORMATTER::format)
                 .collect(Collectors.joining(" "));
     }
 }

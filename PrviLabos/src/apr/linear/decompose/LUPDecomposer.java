@@ -48,7 +48,7 @@ public class LUPDecomposer extends AbstractMatrixDecomposer {
                 isSwapCountEven = !isSwapCountEven;
             }
 
-            if (Math.abs(matrix.get(i, i)) < MatrixUtils.EPSILON) throw new SingularMatrixException();
+            if (Math.abs(matrix.get(i, i)) < Matrices.EPSILON) throw new SingularMatrixException();
 
             for (int j = i + 1, m = n + 1; j < m; j++) {
                 matrix.set(j, i, matrix.get(j, i) / matrix.get(i, i));

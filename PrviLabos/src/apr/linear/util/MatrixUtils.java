@@ -5,12 +5,15 @@ import apr.linear.vector.IVector;
 import apr.linear.exceptions.DimensionMismatchException;
 import apr.linear.exceptions.MatrixDimensionMismatchException;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 /**
  * Utility class with static methods useful for testing varius linear algebra properties
  */
 public class MatrixUtils {
 
-    public static final double EPSILON = 1e-6;
+    public static final NumberFormat FORMATTER = new DecimalFormat("#.###");
 
     /**
      * Checks if dimensions of given matrices are the same

@@ -8,6 +8,7 @@ import apr.linear.io.MatrixFileLoader;
 import apr.linear.io.MatrixFileWriter;
 import apr.linear.matrix.IMatrix;
 import apr.linear.matrix.Matrix;
+import apr.linear.util.Matrices;
 import apr.linear.util.MatrixUtils;
 import apr.linear.vector.IVector;
 import apr.linear.vector.Vector;
@@ -30,7 +31,7 @@ public class Lab {
         matrix = matrix.multiply(0.3456732411);
         matrix = matrix.multiply(1 / 0.3456732411);
         System.out.println(matrix.get(1, 1) == matrixCopy.get(1, 1));
-        System.out.println(Math.abs(matrix.get(1, 1) - matrixCopy.get(1, 1)) < MatrixUtils.EPSILON);
+        System.out.println(Math.abs(matrix.get(1, 1) - matrixCopy.get(1, 1)) < Matrices.EPSILON);
 
         System.out.println();
 

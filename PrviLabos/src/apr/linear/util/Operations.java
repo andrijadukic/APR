@@ -45,7 +45,7 @@ public class Operations {
 
         IVector result = vector.copy();
         for (int i = matrix.getRowDimension() - 1; i >= 0; i--) {
-            if (Math.abs(matrix.get(i, i)) < MatrixUtils.EPSILON) throw new SingularMatrixException();
+            if (Math.abs(matrix.get(i, i)) < Matrices.EPSILON) throw new SingularMatrixException();
 
             result.set(i, result.get(i) / matrix.get(i, i));
             for (int j = 0; j < i; j++) {

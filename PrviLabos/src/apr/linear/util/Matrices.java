@@ -2,8 +2,6 @@ package apr.linear.util;
 
 import apr.linear.matrix.IMatrix;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.Random;
 
 /**
@@ -11,7 +9,7 @@ import java.util.Random;
  */
 public class Matrices {
 
-    public static final NumberFormat FORMATTER = new DecimalFormat("#.###");
+    public static final double EPSILON = 1e-6;
 
     /**
      * Builds a new blank matrix
@@ -118,7 +116,7 @@ public class Matrices {
 
         for (int i = 0, n = matrix.getRowDimension(); i < n; i++) {
             for (int j = i + 1; j < n; j++) {
-                if (matrix.get(i, j) > MatrixUtils.EPSILON) return false;
+                if (matrix.get(i, j) > Matrices.EPSILON) return false;
             }
         }
 
@@ -136,7 +134,7 @@ public class Matrices {
 
         for (int i = 0, n = matrix.getRowDimension(); i < n; i++) {
             for (int j = 0; j < i; j++) {
-                if (matrix.get(i, j) > MatrixUtils.EPSILON) return false;
+                if (matrix.get(i, j) > Matrices.EPSILON) return false;
             }
         }
 

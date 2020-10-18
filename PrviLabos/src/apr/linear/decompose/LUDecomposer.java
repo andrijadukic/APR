@@ -32,7 +32,7 @@ public class LUDecomposer extends AbstractMatrixDecomposer {
     private void decompose() {
         for (int i = 0, n = rowDimension - 1; i < n; i++) {
             for (int j = i + 1; j < rowDimension; j++) {
-                if (Math.abs(matrix.get(i, i)) < MatrixUtils.EPSILON) throw new SingularMatrixException();
+                if (Math.abs(matrix.get(i, i)) < Matrices.EPSILON) throw new SingularMatrixException();
 
                 matrix.set(j, i, matrix.get(j, i) / matrix.get(i, i));
                 for (int k = i + 1; k < rowDimension; k++) {
