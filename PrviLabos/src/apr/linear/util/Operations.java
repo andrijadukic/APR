@@ -82,7 +82,7 @@ public class Operations {
     /**
      * Performs row permutation of a matrix with the given permutation vector
      *
-     * @param matrix matrix to be permuted
+     * @param matrix            matrix to be permuted
      * @param permutationVector vector with desired indices order
      * @return permuted matrix
      */
@@ -103,7 +103,7 @@ public class Operations {
     /**
      * Performs permutation of a vector with the given permutation vector
      *
-     * @param vector vector to be permuted
+     * @param vector            vector to be permuted
      * @param permutationVector vector with desired indices order
      * @return permuted vector
      */

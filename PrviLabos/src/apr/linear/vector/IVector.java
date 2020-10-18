@@ -9,12 +9,14 @@ public interface IVector {
 
     /**
      * Copies this vector
+     *
      * @return deep copy of this vector
      */
     IVector copy();
 
     /**
      * Creates a new vector of this type
+     *
      * @param dimension dimension of new vector
      * @return new vector
      */
@@ -22,12 +24,14 @@ public interface IVector {
 
     /**
      * Gets the dimension of this vector
+     *
      * @return dimension of this vector
      */
     int getDimension();
 
     /**
      * Gets the element at index i
+     *
      * @param i index of the target element
      * @return element at index i
      */
@@ -35,7 +39,8 @@ public interface IVector {
 
     /**
      * Sets the element at index i
-     * @param i index of the target element
+     *
+     * @param i     index of the target element
      * @param value value to store
      * @return this vector
      */
@@ -43,6 +48,7 @@ public interface IVector {
 
     /**
      * Swaps the elements at indices i and j
+     *
      * @param i first index
      * @param j second index
      */
@@ -50,6 +56,7 @@ public interface IVector {
 
     /**
      * Performs vector addition
+     *
      * @param other vector to be added to this vector
      * @return new vector
      */
@@ -57,6 +64,7 @@ public interface IVector {
 
     /**
      * Performs vector subtraction
+     *
      * @param other vector to be subtracted from this vector
      * @return new vector
      */
@@ -64,6 +72,7 @@ public interface IVector {
 
     /**
      * Performs vector-matrix multiplication
+     *
      * @param matrix second operand in vector-matrix multiplication
      * @return new vector
      */
@@ -71,6 +80,7 @@ public interface IVector {
 
     /**
      * Performs vector-vector multiplication
+     *
      * @param other second operand in vector-vector multiplication
      * @return new vector
      */
@@ -78,6 +88,7 @@ public interface IVector {
 
     /**
      * Performs vector-scalar multiplication
+     *
      * @param scalar second operand in matrix-scalar multiplication
      * @return new vector
      */
@@ -85,6 +96,7 @@ public interface IVector {
 
     /**
      * Transforms this vector to matrix equivalent
+     *
      * @return equivalent matrix
      */
     IMatrix toMatrix();

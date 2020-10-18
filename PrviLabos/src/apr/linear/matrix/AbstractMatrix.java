@@ -87,6 +87,24 @@ public abstract class AbstractMatrix implements IMatrix {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof IMatrix)) return false;
+
+        IMatrix other = (IMatrix) obj;
+
+        if (getRowDimension() != other.getRowDimension() || getColumnDimension() != other.getColumnDimension())
+            return false;
+
+        for (int i = 0, n = getRowDimension(); i < n; i++) {
+            for (int j = 0, m = getColumnDimension(); j < m; j++) {
+                if (get(i, j) != other.get(i, j)) return false;
+            }
+        }
+
+        return true;
+    }
+
+    @Override
     public String toString() {
         int n = getRowDimension();
 

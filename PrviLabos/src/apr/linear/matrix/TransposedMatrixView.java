@@ -20,7 +20,7 @@ public class TransposedMatrixView extends AbstractMatrix {
 
     @Override
     public IMatrix newInstance(int rows, int columns) {
-        return view.newInstance(columns, rows);
+        return view.newInstance(rows, columns);
     }
 
     @Override

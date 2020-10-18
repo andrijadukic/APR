@@ -44,6 +44,7 @@ public class LUDecomposer extends AbstractMatrixDecomposer {
 
     /**
      * Gets the resulting LU matrix
+     *
      * @return LU matrix
      */
     public IMatrix getLU() {
@@ -52,6 +53,7 @@ public class LUDecomposer extends AbstractMatrixDecomposer {
 
     /**
      * Gets the cached L matrix
+     *
      * @return L matrix
      */
     public IMatrix getL() {
@@ -69,6 +71,7 @@ public class LUDecomposer extends AbstractMatrixDecomposer {
 
     /**
      * Gets the cached U matrix
+     *
      * @return U matrix
      */
     public IMatrix getU() {
@@ -93,14 +96,14 @@ public class LUDecomposer extends AbstractMatrixDecomposer {
     }
 
     @Override
-    public LinearEquationSolver solver() {
+    public ILinearEquationSolver solver() {
         return new LUSolver(this);
     }
 
     /**
      * Private static class implementing the LinearEquationSolver interface by using LU decomposition
      */
-    private static class LUSolver implements LinearEquationSolver {
+    private static class LUSolver implements ILinearEquationSolver {
 
         private final IMatrix L;
         private final IMatrix U;
@@ -118,26 +121,22 @@ public class LUDecomposer extends AbstractMatrixDecomposer {
         }
 
         @Override
-        public IMatrix solve(IMatrix b) {
-            int n = b.getColumnDimension();
+        public IMatrix invert() {
+            IMatrix identity = Matrices.identity(n, L::newInstance);
+
             IVector[] x = new Vector[n];
 
             for (int i = 0; i < n; i++) {
-                x[i] = solve(b.getColumn(i));
+                x[i] = solve(identity.getColumn(i));
             }
 
-            IMatrix result = Matrices.blankSquare(n, b::newInstance);
+            IMatrix result = Matrices.blankSquare(n, identity::newInstance);
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
                     result.set(i, j, x[j].get(i));
                 }
             }
             return result;
-        }
-
-        @Override
-        public IMatrix invert() {
-            return solve(Matrices.identity(n, L::newInstance));
         }
     }
 }

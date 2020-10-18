@@ -9,7 +9,8 @@ public interface IMatrixBuilder {
 
     /**
      * Builds a matrix
-     * @param rowDimension row dimension of new matrix
+     *
+     * @param rowDimension    row dimension of new matrix
      * @param columnDimension column dimension of new matrix
      * @return new matrix
      */

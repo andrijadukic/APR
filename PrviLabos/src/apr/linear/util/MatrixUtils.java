@@ -14,6 +14,7 @@ public class MatrixUtils {
 
     /**
      * Checks if dimensions of given matrices are the same
+     *
      * @param m1 first matrix
      * @param m2 second matrix
      */
@@ -29,6 +30,7 @@ public class MatrixUtils {
 
     /**
      * Checks if dimensions of given vertices are the same
+     *
      * @param v1 first vector
      * @param v2 second vector
      */
@@ -41,6 +43,7 @@ public class MatrixUtils {
 
     /**
      * Checks if matrix-matrix addition of given matrices is applicable
+     *
      * @param m1 first matrix
      * @param m2 second matrix
      */
@@ -50,6 +53,7 @@ public class MatrixUtils {
 
     /**
      * Checks if vector-vector addition of given matrices is applicable
+     *
      * @param v1 first vector
      * @param v2 second vector
      */
@@ -59,6 +63,7 @@ public class MatrixUtils {
 
     /**
      * Checks if matrix-matrix multiplication of given matrices is applicable
+     *
      * @param m1 first matrix
      * @param m2 second matrix
      */
@@ -71,6 +76,7 @@ public class MatrixUtils {
 
     /**
      * Checks if matrix-vector addition of given matrices is applicable
+     *
      * @param matrix matrix operand
      * @param vector vector operand
      */
@@ -83,6 +89,7 @@ public class MatrixUtils {
 
     /**
      * Checks if vector-vector addition of given matrices is applicable
+     *
      * @param v1 first vector
      * @param v2 second vector
      */

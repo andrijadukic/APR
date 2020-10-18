@@ -16,7 +16,7 @@ public class LUPDecomposer extends AbstractMatrixDecomposer {
     private IMatrix L;
     private IMatrix U;
     private IVector P;
-    private boolean isSwapCountEven;
+    private boolean isSwapCountEven = true;
 
     public LUPDecomposer(IMatrix matrix) {
         super(matrix);
@@ -48,9 +48,9 @@ public class LUPDecomposer extends AbstractMatrixDecomposer {
                 isSwapCountEven = !isSwapCountEven;
             }
 
-            for (int j = i + 1, m = n + 1; j < m; j++) {
-                if (Math.abs(matrix.get(i, i)) < MatrixUtils.EPSILON) throw new SingularMatrixException();
+            if (Math.abs(matrix.get(i, i)) < MatrixUtils.EPSILON) throw new SingularMatrixException();
 
+            for (int j = i + 1, m = n + 1; j < m; j++) {
                 matrix.set(j, i, matrix.get(j, i) / matrix.get(i, i));
                 for (int k = i + 1; k < m; k++) {
                     matrix.set(j, k, matrix.get(j, k) - matrix.get(j, i) * matrix.get(i, k));
@@ -61,6 +61,7 @@ public class LUPDecomposer extends AbstractMatrixDecomposer {
 
     /**
      * Gets the cached L matrix
+     *
      * @return L matrix
      */
     public IMatrix getL() {
@@ -78,6 +79,7 @@ public class LUPDecomposer extends AbstractMatrixDecomposer {
 
     /**
      * Gets the cached U matrix
+     *
      * @return U matrix
      */
     public IMatrix getU() {
@@ -94,6 +96,7 @@ public class LUPDecomposer extends AbstractMatrixDecomposer {
 
     /**
      * Gets the permutation vector
+     *
      * @return permutation vector
      */
     public IVector getPivot() {
@@ -110,14 +113,14 @@ public class LUPDecomposer extends AbstractMatrixDecomposer {
     }
 
     @Override
-    public LinearEquationSolver solver() {
+    public ILinearEquationSolver solver() {
         return new LUPSolver(this);
     }
 
     /**
      * Private static class implementing the LinearEquationSolver interface by using LUP decomposition
      */
-    private static class LUPSolver implements LinearEquationSolver {
+    private static class LUPSolver implements ILinearEquationSolver {
 
         private final IMatrix L;
         private final IMatrix U;
@@ -137,25 +140,22 @@ public class LUPDecomposer extends AbstractMatrixDecomposer {
         }
 
         @Override
-        public IMatrix solve(IMatrix b) {
+        public IMatrix invert() {
+            IMatrix identity = Matrices.identity(n, L::newInstance);
+
             IVector[] x = new Vector[n];
 
             for (int i = 0; i < n; i++) {
-                x[i] = solve(b.getColumn(i));
+                x[i] = solve(identity.getColumn(i));
             }
 
-            IMatrix result = Matrices.blankSquare(n, b::newInstance);
+            IMatrix result = Matrices.blankSquare(n, identity::newInstance);
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
                     result.set(i, j, x[j].get(i));
                 }
             }
             return result;
-        }
-
-        @Override
-        public IMatrix invert() {
-            return solve(Matrices.identity(n, L::newInstance));
         }
     }
 }

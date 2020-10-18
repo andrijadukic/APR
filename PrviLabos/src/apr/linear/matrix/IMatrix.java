@@ -9,13 +9,15 @@ public interface IMatrix {
 
     /**
      * Copies this matrix
+     *
      * @return deep copy of this matrix
      */
     IMatrix copy();
 
     /**
      * Creates a new matrix of this type
-     * @param rows row dimension of new matrix
+     *
+     * @param rows    row dimension of new matrix
      * @param columns column dimension of new matrix
      * @return new matrix of this type
      */
@@ -23,18 +25,21 @@ public interface IMatrix {
 
     /**
      * Gets row dimension
+     *
      * @return row dimension
      */
     int getRowDimension();
 
     /**
      * Gets row dimension
+     *
      * @return row dimension
      */
     int getColumnDimension();
 
     /**
      * Gets the element at index [i, j]
+     *
      * @param i row index
      * @param j column index
      * @return element at index [i, j]
@@ -43,6 +48,7 @@ public interface IMatrix {
 
     /**
      * Gets the row at index
+     *
      * @param index row index
      * @return row at index
      */
@@ -50,6 +56,7 @@ public interface IMatrix {
 
     /**
      * Gets the column at index
+     *
      * @param index column index
      * @return column at index
      */
@@ -57,8 +64,9 @@ public interface IMatrix {
 
     /**
      * Sets the element at index [i, j]
-     * @param i row index
-     * @param j column index
+     *
+     * @param i     row index
+     * @param j     column index
      * @param value value to store
      * @return this matrix
      */
@@ -66,6 +74,7 @@ public interface IMatrix {
 
     /**
      * Swaps rows at index i and j
+     *
      * @param i first row
      * @param j second row
      */
@@ -73,6 +82,7 @@ public interface IMatrix {
 
     /**
      * Swaps columns at index i and j
+     *
      * @param i first column
      * @param j second column
      */
@@ -80,6 +90,7 @@ public interface IMatrix {
 
     /**
      * Performs matrix addition
+     *
      * @param other matrix to be added to this matrix
      * @return new matrix
      */
@@ -87,6 +98,7 @@ public interface IMatrix {
 
     /**
      * Performs matrix subtraction
+     *
      * @param other matrix to be subtracted from this matrix
      * @return new matrix
      */
@@ -94,6 +106,7 @@ public interface IMatrix {
 
     /**
      * Performs matrix-matrix multiplication
+     *
      * @param other second operand in matrix multiplication
      * @return new matrix
      */
@@ -101,6 +114,7 @@ public interface IMatrix {
 
     /**
      * Performs matrix-vector multiplication
+     *
      * @param vector second operand in matrix-vector multiplication
      * @return new vector
      */
@@ -108,6 +122,7 @@ public interface IMatrix {
 
     /**
      * Performs matrix-scalar multiplication
+     *
      * @param scalar second operand in matrix-scalar multiplication
      * @return new matrix
      */
@@ -115,24 +130,28 @@ public interface IMatrix {
 
     /**
      * Transposes this matrix
+     *
      * @return transposed matrix
      */
     IMatrix transpose();
 
     /**
      * Turns this matrix into vector array by columns
+     *
      * @return column vector array
      */
     IVector[] toColumnVectors();
 
     /**
      * Turns this matrix into vector array by rows
+     *
      * @return row vector array
      */
     IVector[] toRowVectors();
 
     /**
      * Gets this matrix in array form
+     *
      * @return array representation of this matrix
      */
     double[][] toArray();

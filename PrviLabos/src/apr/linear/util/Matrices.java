@@ -15,7 +15,8 @@ public class Matrices {
 
     /**
      * Builds a new blank matrix
-     * @param rows row dimension of new matrix
+     *
+     * @param rows    row dimension of new matrix
      * @param columns column dimension of new matrix
      * @param builder builder object used to dynamically create an instance of an IMatrix
      * @return new blank matrix
@@ -26,8 +27,9 @@ public class Matrices {
 
     /**
      * Builds a new blank square matrix
+     *
      * @param dimension dimension of new matrix
-     * @param builder builder object used to dynamically create an instance of an IMatrix
+     * @param builder   builder object used to dynamically create an instance of an IMatrix
      * @return new blank matrix
      */
     public static IMatrix blankSquare(int dimension, IMatrixBuilder builder) {
@@ -36,8 +38,9 @@ public class Matrices {
 
     /**
      * Builds a new identity matrix
+     *
      * @param dimension dimension of new matrix
-     * @param builder builder object used to dynamically create an instance of an IMatrix
+     * @param builder   builder object used to dynamically create an instance of an IMatrix
      * @return new identity matrix
      */
     public static IMatrix identity(int dimension, IMatrixBuilder builder) {
@@ -46,8 +49,9 @@ public class Matrices {
 
     /**
      * Builds a new diagonal matrix
+     *
      * @param dimension dimension of new matrix
-     * @param builder builder object used to dynamically create an instance of an IMatrix
+     * @param builder   builder object used to dynamically create an instance of an IMatrix
      * @return new identity matrix
      */
     public static IMatrix diagonal(int dimension, double value, IMatrixBuilder builder) {
@@ -62,10 +66,11 @@ public class Matrices {
 
     /**
      * Builds a new matrix filled with random values
-     * @param rows row dimension of new matrix
+     *
+     * @param rows    row dimension of new matrix
      * @param columns column dimension of new matrix
      * @param builder builder object used to dynamically create an instance of an IMatrix
-     * @param random random object used to call nextDouble() method
+     * @param random  random object used to call nextDouble() method
      * @return new random matrix
      */
     public static IMatrix random(int rows, int columns, IMatrixBuilder builder, Random random) {
@@ -82,9 +87,10 @@ public class Matrices {
 
     /**
      * Builds a new matrix filled with random values
+     *
      * @param dimension dimension of new matrix
-     * @param builder builder object used to dynamically create an instance of an IMatrix
-     * @param random random object used to call nextDouble() method
+     * @param builder   builder object used to dynamically create an instance of an IMatrix
+     * @param random    random object used to call nextDouble() method
      * @return new random matrix
      */
     public static IMatrix squareRandom(int dimension, IMatrixBuilder builder, Random random) {
@@ -93,6 +99,7 @@ public class Matrices {
 
     /**
      * Tests if given matrix is square
+     *
      * @param matrix matrix to be tested
      * @return true if matrix is square, else otherwise
      */
@@ -102,6 +109,7 @@ public class Matrices {
 
     /**
      * Tests if given matrix is lower triangle matrix
+     *
      * @param matrix matrix to be tested
      * @return true if matrix is lower triangle matrix, else otherwise
      */
@@ -119,6 +127,7 @@ public class Matrices {
 
     /**
      * Tests if given matrix is upper triangle matrix
+     *
      * @param matrix matrix to be tested
      * @return true if matrix is upper triangle matrix, else otherwise
      */
@@ -136,6 +145,7 @@ public class Matrices {
 
     /**
      * Tests if given array is transformable to a IMatrix object
+     *
      * @param array array to be tested
      * @return true if array is transformable to a IMatrix object, else otherwise
      */

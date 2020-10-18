@@ -5,7 +5,7 @@ import apr.linear.matrix.IMatrix;
 /**
  * Interface defining an object used for matrix decomposition
  */
-public interface MatrixDecomposer {
+public interface IMatrixDecomposer {
 
     /**
      * Tests whether the given matrix is applicable for this decomposition algorithm
@@ -24,5 +24,5 @@ public interface MatrixDecomposer {
      * Gets the LinearEquationSolver which uses this decomposition algorithm for solving linear equations
      * @return solver object
      */
-    LinearEquationSolver solver();
+    ILinearEquationSolver solver();
 }
