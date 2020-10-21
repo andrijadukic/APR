@@ -8,7 +8,7 @@ public class GoldenSectionSearch {
     public static double epsilon = 10e-6;
     public static final double K = 0.5 * (Math.sqrt(5) - 1);
 
-    public static Interval goldenRatio(IFunction f, double h, double x0, double e) {
+    public static Interval goldenRatio(IFunction f, double h, double x0) {
         return goldenRatio(f, unimodalInterval(f, h, x0));
     }
 

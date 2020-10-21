@@ -24,7 +24,7 @@ public class NelderMeadMethod {
     }
 
     private static IMatrix expansion(IMatrix xc, IMatrix xh) {
-        return xc.multiply(1 - gamma).subtract(xh.multiply(gamma));
+        return xc.multiply(1 - gamma).add(xh.multiply(gamma));
     }
 
     private static IMatrix contraction(IMatrix xc, IMatrix xh) {
