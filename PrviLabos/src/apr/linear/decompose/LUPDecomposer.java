@@ -3,10 +3,10 @@ package apr.linear.decompose;
 import apr.linear.exceptions.SingularMatrixException;
 import apr.linear.matrix.IMatrix;
 import apr.linear.util.Matrices;
-import apr.linear.util.MatrixUtils;
 import apr.linear.util.Operations;
 import apr.linear.vector.IVector;
 import apr.linear.vector.Vector;
+
 
 /**
  * Class defining an object used for LUP decomposition of a matrix and storing the resulting L and U matrices and the permutation vector
