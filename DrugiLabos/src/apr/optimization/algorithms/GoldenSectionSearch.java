@@ -5,22 +5,14 @@ import apr.optimization.function.IFunction;
 
 public class GoldenSectionSearch {
 
-    public static final double EPSILON = 10e-6;
+    public static double epsilon = 10e-6;
     public static final double K = 0.5 * (Math.sqrt(5) - 1);
 
-    public static Interval goldenRatio(IFunction f, double h, double x0) {
-        return goldenRatio(f, h, x0, EPSILON);
-    }
-
     public static Interval goldenRatio(IFunction f, double h, double x0, double e) {
-        return goldenRatio(f, unimodalInterval(f, h, x0), e);
+        return goldenRatio(f, unimodalInterval(f, h, x0));
     }
 
     public static Interval goldenRatio(IFunction f, Interval interval) {
-        return goldenRatio(f, interval, EPSILON);
-    }
-
-    public static Interval goldenRatio(IFunction f, Interval interval, double e) {
         double a = interval.getStart();
         double b = interval.getEnd();
 
@@ -30,7 +22,7 @@ public class GoldenSectionSearch {
         double fc = f.valueAt(new Vector(c));
         double fd = f.valueAt(new Vector(d));
 
-        while ((b - a) > e) {
+        while ((b - a) > epsilon) {
             if (fc < fd) {
                 b = d;
                 d = c;
