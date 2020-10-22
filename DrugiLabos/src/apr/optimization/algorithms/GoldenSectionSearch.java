@@ -2,6 +2,7 @@ package apr.optimization.algorithms;
 
 import apr.linear.vector.Vector;
 import apr.optimization.function.IFunction;
+import apr.optimization.util.Interval;
 
 public class GoldenSectionSearch {
 
@@ -13,8 +14,8 @@ public class GoldenSectionSearch {
     }
 
     public static Interval goldenRatio(IFunction f, Interval interval) {
-        double a = interval.getStart();
-        double b = interval.getEnd();
+        double a = interval.start();
+        double b = interval.end();
 
         double c = b - K * (b - a);
         double d = a + K * (b - a);
@@ -73,24 +74,5 @@ public class GoldenSectionSearch {
         }
 
         return new Interval(l, r);
-    }
-
-    public static class Interval {
-
-        private final double start;
-        private final double end;
-
-        public Interval(double start, double end) {
-            this.start = start;
-            this.end = end;
-        }
-
-        public double getStart() {
-            return start;
-        }
-
-        public double getEnd() {
-            return end;
-        }
     }
 }
