@@ -68,7 +68,7 @@ public class Vector extends AbstractVector {
     @Override
     public String toString() {
         return Arrays.stream(array)
-                .mapToObj(MatrixUtils.FORMATTER::format)
+                .mapToObj(String::valueOf)
                 .collect(Collectors.joining(" "));
     }
 }

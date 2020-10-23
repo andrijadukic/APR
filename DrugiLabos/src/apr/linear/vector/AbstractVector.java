@@ -71,4 +71,32 @@ public abstract class AbstractVector implements IVector {
         }
         return result;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof IVector other)) return false;
+
+        int dimension = getDimension();
+
+        if (dimension != other.getDimension()) return false;
+
+        for (int i = 0; i < dimension; i++) {
+            if (get(i) != other.get(i)) return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder vector = new StringBuilder();
+
+        int n = getDimension() - 1;
+        for (int i = 0; i < n; i++) {
+            vector.append(get(i)).append(" ");
+        }
+        vector.append(get(n));
+
+        return vector.toString();
+    }
 }

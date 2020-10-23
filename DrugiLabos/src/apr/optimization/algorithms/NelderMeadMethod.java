@@ -18,7 +18,7 @@ public class NelderMeadMethod {
     public static IVector simplex(IFunction f, IVector x0) {
         IVector xc;
 
-        IVector[] simplex = buildInitialSimplex(x0, step);
+        IVector[] simplex = buildInitialSimplex(x0);
         do {
             Pair maxMin = maxMinIndex(f, simplex);
             int h = maxMin.first;
@@ -70,7 +70,7 @@ public class NelderMeadMethod {
         return xc;
     }
 
-    private static IVector[] buildInitialSimplex(IVector x0, double step) {
+    private static IVector[] buildInitialSimplex(IVector x0) {
         int dimension = x0.getDimension();
 
         IVector[] simplex = new IVector[dimension];
@@ -118,12 +118,12 @@ public class NelderMeadMethod {
         return xc.multiply(1 + alpha).subtract(xh.multiply(alpha));
     }
 
-    private static IVector expansion(IVector xc, IVector xr) {
-        return xc.multiply(1 - gamma).add(xr.multiply(gamma));
-    }
-
     private static IVector contraction(IVector xc, IVector xh) {
         return xc.multiply(1 - beta).add(xh.multiply(beta));
+    }
+
+    private static IVector expansion(IVector xc, IVector xr) {
+        return xc.multiply(1 - gamma).add(xr.multiply(gamma));
     }
 
     private static boolean isStopCriteriaMet(IFunction f, IVector[] simplex, IVector centroid) {

@@ -116,14 +116,16 @@ public abstract class AbstractMatrix implements IMatrix {
 
     @Override
     public String toString() {
-        int n = getRowDimension();
-
         StringBuilder matrix = new StringBuilder();
-        for (int i = 0, m = n - 1; i < m; i++) {
-            matrix.append(getRow(i));
+
+        int m = getColumnDimension() - 1;
+        for (int i = 0, n = getRowDimension(); i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                matrix.append(get(i, j)).append(" ");
+            }
+            matrix.append(get(i, m));
             matrix.append(System.lineSeparator());
         }
-        matrix.append(getRow(n - 1));
 
         return matrix.toString();
     }
