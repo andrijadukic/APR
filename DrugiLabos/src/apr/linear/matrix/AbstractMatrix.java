@@ -13,9 +13,12 @@ public abstract class AbstractMatrix implements IMatrix {
     public IMatrix add(IMatrix other) {
         MatrixUtils.checkAdditionApplicable(this, other);
 
-        for (int i = 0; i < getRowDimension(); i++) {
-            for (int j = 0; j < getColumnDimension(); j++) {
-                set(i, j, get(i, j) + other.get(i, j));
+        int rowDimension = getRowDimension();
+        int columnDimension = getColumnDimension();
+        IMatrix result = newInstance(rowDimension, columnDimension);
+        for (int i = 0; i < rowDimension; i++) {
+            for (int j = 0; j < columnDimension; j++) {
+                result.set(i, j, get(i, j) + other.get(i, j));
             }
         }
         return this;
@@ -25,9 +28,12 @@ public abstract class AbstractMatrix implements IMatrix {
     public IMatrix subtract(IMatrix other) {
         MatrixUtils.checkAdditionApplicable(this, other);
 
-        for (int i = 0; i < getRowDimension(); i++) {
-            for (int j = 0; j < getColumnDimension(); j++) {
-                set(i, j, get(i, j) - other.get(i, j));
+        int rowDimension = getRowDimension();
+        int columnDimension = getColumnDimension();
+        IMatrix result = newInstance(rowDimension, columnDimension);
+        for (int i = 0; i < rowDimension; i++) {
+            for (int j = 0; j < columnDimension; j++) {
+                result.set(i, j, get(i, j) - other.get(i, j));
             }
         }
         return this;
@@ -68,12 +74,15 @@ public abstract class AbstractMatrix implements IMatrix {
 
     @Override
     public IMatrix multiply(double scalar) {
-        for (int i = 0; i < getRowDimension(); i++) {
-            for (int j = 0; j < getColumnDimension(); j++) {
-                set(i, j, get(i, j) * scalar);
+        int rowDimension = getRowDimension();
+        int columnDimension = getColumnDimension();
+        IMatrix result = newInstance(rowDimension, columnDimension);
+        for (int i = 0; i < rowDimension; i++) {
+            for (int j = 0; j < columnDimension; j++) {
+                result.set(i, j, get(i, j) * scalar);
             }
         }
-        return this;
+        return result;
     }
 
     @Override
@@ -88,15 +97,16 @@ public abstract class AbstractMatrix implements IMatrix {
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof IMatrix)) return false;
+        if (!(obj instanceof IMatrix other)) return false;
 
-        IMatrix other = (IMatrix) obj;
+        int rowDimension = getRowDimension();
+        int columnDimension = getColumnDimension();
 
-        if (getRowDimension() != other.getRowDimension() || getColumnDimension() != other.getColumnDimension())
+        if (rowDimension != other.getRowDimension() || columnDimension != other.getColumnDimension())
             return false;
 
-        for (int i = 0, n = getRowDimension(); i < n; i++) {
-            for (int j = 0, m = getColumnDimension(); j < m; j++) {
+        for (int i = 0; i < rowDimension; i++) {
+            for (int j = 0; j < columnDimension; j++) {
                 if (get(i, j) != other.get(i, j)) return false;
             }
         }

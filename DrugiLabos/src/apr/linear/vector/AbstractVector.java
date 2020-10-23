@@ -12,34 +12,40 @@ public abstract class AbstractVector implements IVector {
     public IVector add(IVector other) {
         MatrixUtils.checkAdditionApplicable(this, other);
 
-        for (int i = 0, n = getDimension(); i < n; i++) {
-            set(i, get(i) + other.get(i));
+        int n = getDimension();
+        IVector result = newInstance(n);
+        for (int i = 0; i < n; i++) {
+            result.set(i, get(i) + other.get(i));
         }
 
-        return this;
+        return result;
     }
 
     @Override
     public IVector subtract(IVector other) {
         MatrixUtils.checkAdditionApplicable(this, other);
 
-        for (int i = 0, n = getDimension(); i < n; i++) {
-            set(i, get(i) + other.get(i));
+        int n = getDimension();
+        IVector result = newInstance(n);
+        for (int i = 0; i < n; i++) {
+            result.set(i, get(i) + other.get(i));
         }
 
-        return this;
+        return result;
     }
 
     @Override
     public IVector multiply(IMatrix matrix) {
         MatrixUtils.checkMultiplicationApplicable(matrix, this);
 
-        for (int i = 0, n = getDimension(); i < n; i++) {
+        int n = getDimension();
+        IVector result = newInstance(n);
+        for (int i = 0; i < n; i++) {
             double sum = 0.;
             for (int j = 0; j < n; j++) {
                 sum += get(i) * matrix.get(j, i);
             }
-            set(i, sum);
+            result.set(i, sum);
         }
 
         return this;
@@ -58,9 +64,11 @@ public abstract class AbstractVector implements IVector {
 
     @Override
     public IVector multiply(double scalar) {
-        for (int i = 0, n = getDimension(); i < n; i++) {
-            set(i, get(i) * scalar);
+        int n = getDimension();
+        IVector result = newInstance(n);
+        for (int i = 0; i < n; i++) {
+            result.set(i, get(i) * scalar);
         }
-        return this;
+        return result;
     }
 }
