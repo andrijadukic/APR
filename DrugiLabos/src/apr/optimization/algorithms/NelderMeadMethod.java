@@ -16,14 +16,13 @@ public class NelderMeadMethod {
     public static double step = 1;
 
     public static IVector simplex(IFunction f, IVector x0) {
-        IVector xc;
-
         IVector[] simplex = buildInitialSimplex(x0);
-        do {
-            Pair maxMin = maxMinIndex(f, simplex);
-            int h = maxMin.first;
-            int l = maxMin.second;
 
+        IVector xc;
+        do {
+            Pair argMaxMin = maxMinIndex(f, simplex);
+            int h = argMaxMin.first;
+            int l = argMaxMin.second;
             IVector xh = simplex[h];
             IVector xl = simplex[l];
             double min = f.valueAt(xl);
@@ -50,7 +49,7 @@ public class NelderMeadMethod {
                     }
                 }
                 if (isConditionMet) {
-                    if (f.valueAt(xr) < max) {
+                    if (fxr < max) {
                         simplex[h] = xr;
                     }
                     IVector xk = contraction(xc, simplex[h]);
@@ -58,6 +57,7 @@ public class NelderMeadMethod {
                         simplex[h] = xk;
                     } else {
                         for (int i = 0, n = simplex.length; i < n; i++) {
+                            if (i == l) continue;
                             simplex[i] = simplex[i].multiply(sigma).add(xl.multiply(sigma));
                         }
                     }
@@ -111,7 +111,7 @@ public class NelderMeadMethod {
             centroid = centroid.add(point);
         }
 
-        return centroid.multiply((double) 1 / (n - 1));
+        return n == 1 ? centroid : centroid.multiply((double) 1 / (n - 1));
     }
 
     private static IVector reflection(IVector xc, IVector xh) {

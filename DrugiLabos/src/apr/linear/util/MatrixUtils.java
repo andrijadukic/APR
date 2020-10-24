@@ -41,7 +41,7 @@ public class MatrixUtils {
         int d1 = v1.getDimension();
         int d2 = v2.getDimension();
 
-        if (d1 == d2) throw new DimensionMismatchException(d1, d2);
+        if (d1 != d2) throw new DimensionMismatchException(d1, d2);
     }
 
     /**

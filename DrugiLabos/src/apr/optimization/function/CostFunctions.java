@@ -4,7 +4,7 @@ import apr.linear.vector.Vector;
 
 public class CostFunctions {
 
-    public static IFunction f1() {
+    public static ICostFunction f1() {
         return new CostFunction(new Vector(-1.9, 2), new Vector(1., 1.), x -> {
             double x1 = x.get(0);
             double x2 = x.get(1);
@@ -12,7 +12,7 @@ public class CostFunctions {
         });
     }
 
-    public static IFunction f2() {
+    public static ICostFunction f2() {
         return new CostFunction(new Vector(0.1, 0.3), new Vector(4., 2.), x -> {
             double x1 = x.get(0);
             double x2 = x.get(1);
@@ -20,7 +20,7 @@ public class CostFunctions {
         });
     }
 
-    public static IFunction f3() {
+    public static ICostFunction f3() {
         return new CostFunction(new Vector(0.0, 0.0), new Vector(1., 2.), x -> {
             double result = 0.;
             for (int i = 0, n = x.getDimension(); i < n; i++) {
@@ -30,7 +30,7 @@ public class CostFunctions {
         });
     }
 
-    public static IFunction f4() {
+    public static ICostFunction f4() {
         return new CostFunction(new Vector(0.0, 0.0), new Vector(1., 2.), x -> {
             double x1 = x.get(0);
             double x2 = x.get(1);
@@ -38,7 +38,7 @@ public class CostFunctions {
         });
     }
 
-    public static IFunction f6() {
+    public static ICostFunction f6() {
         return new CostFunction(new Vector(0.0, 0.0), new Vector(1., 2.), x -> {
             double sum = 0.;
             for (int i = 0, n = x.getDimension(); i < n; i++) {
