@@ -17,10 +17,9 @@ public class NelderMeadMethod {
 
     public static IVector simplex(IFunction f, IVector x0) {
         IVector[] simplex = buildInitialSimplex(x0);
-
         IVector xc;
         do {
-            Pair argMaxMin = maxMinIndex(f, simplex);
+            Pair argMaxMin = argMaxMin(f, simplex);
             int h = argMaxMin.first;
             int l = argMaxMin.second;
             IVector xh = simplex[h];
@@ -28,10 +27,11 @@ public class NelderMeadMethod {
             double min = f.valueAt(xl);
             double max = f.valueAt(xh);
 
-            xc = centroid(f, simplex, xh);
+            xc = centroid(simplex, xh);
             IVector xr = reflection(xc, xh);
 
-            if (f.valueAt(xr) < min) {
+            double fxr = f.valueAt(xr);
+            if (fxr < min) {
                 IVector xe = expansion(xc, xr);
                 if (f.valueAt(xe) < min) {
                     simplex[h] = xe;
@@ -39,7 +39,6 @@ public class NelderMeadMethod {
                     simplex[h] = xr;
                 }
             } else {
-                double fxr = f.valueAt(xr);
                 boolean isConditionMet = true;
                 for (int i = 0, n = simplex.length; i < n; i++) {
                     if (i == h) continue;
@@ -82,7 +81,7 @@ public class NelderMeadMethod {
         return simplex;
     }
 
-    private static Pair maxMinIndex(IFunction f, IVector[] simplex) {
+    private static Pair argMaxMin(IFunction f, IVector[] simplex) {
         double maxValue, minValue;
         int maxIndex, minIndex;
         maxValue = minValue = f.valueAt(simplex[0]);
@@ -102,7 +101,7 @@ public class NelderMeadMethod {
         return new Pair(maxIndex, minIndex);
     }
 
-    private static IVector centroid(IFunction f, IVector[] simplex, IVector xh) {
+    private static IVector centroid(IVector[] simplex, IVector xh) {
         int n = xh.getDimension();
         IVector centroid = xh.newInstance(n);
 
@@ -135,6 +134,5 @@ public class NelderMeadMethod {
         return Math.sqrt(val / simplex.length) <= epsilon;
     }
 
-    private static record Pair(int first, int second) {
-    }
+    private static record Pair(int first, int second) { }
 }
