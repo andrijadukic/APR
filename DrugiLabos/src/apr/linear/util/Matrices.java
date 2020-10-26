@@ -1,6 +1,7 @@
 package apr.linear.util;
 
 import apr.linear.matrix.IMatrix;
+import apr.linear.vector.IVector;
 
 import java.util.Random;
 
@@ -87,12 +88,31 @@ public class Matrices {
      * Builds a new matrix filled with random values
      *
      * @param dimension dimension of new matrix
-     * @param builder   builder object used to dynamically create an instance of an IMatrix
+     * @param builder   builder object used to dynamically create an instance of IMatrix
      * @param random    random object used to call nextDouble() method
      * @return new random matrix
      */
     public static IMatrix squareRandom(int dimension, IMatrixBuilder builder, Random random) {
         return random(dimension, dimension, builder, random);
+    }
+
+    /**
+     * Builds a new null vector
+     *
+     * @param dimension dimension of null vector
+     * @param builder   builder object used to dynamically create an instance of IVector
+     * @return new null vector
+     */
+    public static IVector zeroes(int dimension, IVectorBuilder builder) {
+        return builder.build(dimension);
+    }
+
+    public static IVector ones(int dimension, IVectorBuilder builder) {
+        IVector ones = builder.build(dimension);
+        for (int i = 0; i < dimension; i++) {
+            ones.set(i, 1);
+        }
+        return ones;
     }
 
     /**

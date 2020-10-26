@@ -22,6 +22,17 @@ public abstract class AbstractVector implements IVector {
     }
 
     @Override
+    public IVector add(double value) {
+        int n = getDimension();
+        IVector result = newInstance(n);
+        for (int i = 0; i < n; i++) {
+            result.set(i, get(i) + value);
+        }
+
+        return result;
+    }
+
+    @Override
     public IVector subtract(IVector other) {
         MatrixUtils.checkAdditionApplicable(this, other);
 
@@ -29,6 +40,17 @@ public abstract class AbstractVector implements IVector {
         IVector result = newInstance(n);
         for (int i = 0; i < n; i++) {
             result.set(i, get(i) + other.get(i));
+        }
+
+        return result;
+    }
+
+    @Override
+    public IVector subtract(double value) {
+        int n = getDimension();
+        IVector result = newInstance(n);
+        for (int i = 0; i < n; i++) {
+            result.set(i, get(i) - value);
         }
 
         return result;

@@ -21,7 +21,20 @@ public abstract class AbstractMatrix implements IMatrix {
                 result.set(i, j, get(i, j) + other.get(i, j));
             }
         }
-        return this;
+        return result;
+    }
+
+    @Override
+    public IMatrix add(double value) {
+        int rowDimension = getRowDimension();
+        int columnDimension = getColumnDimension();
+        IMatrix result = newInstance(rowDimension, columnDimension);
+        for (int i = 0; i < rowDimension; i++) {
+            for (int j = 0; j < columnDimension; j++) {
+                result.set(i, j, get(i, j) + value);
+            }
+        }
+        return result;
     }
 
     @Override
@@ -36,7 +49,20 @@ public abstract class AbstractMatrix implements IMatrix {
                 result.set(i, j, get(i, j) - other.get(i, j));
             }
         }
-        return this;
+        return result;
+    }
+
+    @Override
+    public IMatrix subtract(double value) {
+        int rowDimension = getRowDimension();
+        int columnDimension = getColumnDimension();
+        IMatrix result = newInstance(rowDimension, columnDimension);
+        for (int i = 0; i < rowDimension; i++) {
+            for (int j = 0; j < columnDimension; j++) {
+                result.set(i, j, get(i, j) - value);
+            }
+        }
+        return result;
     }
 
     @Override

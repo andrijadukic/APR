@@ -1,5 +1,6 @@
 package apr.optimization.algorithms;
 
+import apr.linear.util.Matrices;
 import apr.linear.vector.IVector;
 import apr.optimization.function.IFunction;
 
@@ -74,9 +75,7 @@ public class NelderMeadMethod {
 
         IVector[] simplex = new IVector[dimension];
         for (int i = 0; i < dimension; i++) {
-            IVector point = x0.copy();
-            point.set(i, x0.get(i) + step);
-            simplex[i] = point;
+            simplex[i] = x0.copy().set(i, x0.get(i) + step);
         }
         return simplex;
     }
@@ -103,7 +102,7 @@ public class NelderMeadMethod {
 
     private static IVector centroid(IVector[] simplex, IVector xh) {
         int n = xh.getDimension();
-        IVector centroid = xh.newInstance(n);
+        IVector centroid = Matrices.zeroes(n, xh::newInstance);
 
         for (IVector point : simplex) {
             if (point.equals(xh)) continue;
@@ -134,5 +133,6 @@ public class NelderMeadMethod {
         return Math.sqrt(val / simplex.length) <= epsilon;
     }
 
-    private static record Pair(int first, int second) { }
+    private static record Pair(int first, int second) {
+    }
 }

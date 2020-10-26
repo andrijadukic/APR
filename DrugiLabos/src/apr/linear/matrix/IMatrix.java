@@ -97,12 +97,28 @@ public interface IMatrix {
     IMatrix add(IMatrix other);
 
     /**
+     * Performs scalar addition
+     *
+     * @param value value to be added to this matrix
+     * @return new matrix
+     */
+    IMatrix add(double value);
+
+    /**
      * Performs matrix subtraction
      *
      * @param other matrix to be subtracted from this matrix
      * @return new matrix
      */
     IMatrix subtract(IMatrix other);
+
+    /**
+     * Performs scalar subtraction
+     *
+     * @param value value to be subtracted from this matrix
+     * @return new matrix
+     */
+    IMatrix subtract(double value);
 
     /**
      * Performs matrix-matrix multiplication

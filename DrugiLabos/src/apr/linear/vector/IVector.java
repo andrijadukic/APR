@@ -63,12 +63,28 @@ public interface IVector {
     IVector add(IVector other);
 
     /**
+     * Performs scalar addition
+     *
+     * @param value value to be added to this vector
+     * @return new vector
+     */
+    IVector add(double value);
+
+    /**
      * Performs vector subtraction
      *
      * @param other vector to be subtracted from this vector
      * @return new vector
      */
     IVector subtract(IVector other);
+
+    /**
+     * Performs scalar subtraction
+     *
+     * @param value value to be subtracted from this vector
+     * @return new vector
+     */
+    IVector subtract(double value);
 
     /**
      * Performs vector-matrix multiplication
