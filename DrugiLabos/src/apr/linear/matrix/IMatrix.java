@@ -129,14 +129,6 @@ public interface IMatrix {
     IMatrix multiply(IMatrix other);
 
     /**
-     * Performs matrix-vector multiplication
-     *
-     * @param vector second operand in matrix-vector multiplication
-     * @return new vector
-     */
-    IVector multiply(IVector vector);
-
-    /**
      * Performs matrix-scalar multiplication
      *
      * @param scalar second operand in matrix-scalar multiplication

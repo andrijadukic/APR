@@ -1,4 +1,4 @@
-package apr.linear.util;
+package apr.linear.matrix;
 
 import apr.linear.matrix.IMatrix;
 

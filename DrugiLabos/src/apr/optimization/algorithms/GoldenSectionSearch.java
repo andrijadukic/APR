@@ -44,13 +44,13 @@ public class GoldenSectionSearch {
 
     public static Interval unimodalInterval(IFunction f, double h, double x0) {
         double l = x0 - h;
-        double r = x0 + h;
         double m = x0;
+        double r = x0 + h;
         double fl, fm, fr;
         int step = 1;
 
-        fm = f.valueAt(new Vector(x0));
         fl = f.valueAt(new Vector(l));
+        fm = f.valueAt(new Vector(x0));
         fr = f.valueAt(new Vector(r));
 
         if (fm < fr && fm < fl) {

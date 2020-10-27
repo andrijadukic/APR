@@ -1,7 +1,9 @@
 package apr.linear.util;
 
 import apr.linear.matrix.IMatrix;
+import apr.linear.matrix.IMatrixBuilder;
 import apr.linear.vector.IVector;
+import apr.linear.vector.IVectorBuilder;
 
 import java.util.Random;
 
@@ -20,7 +22,7 @@ public class Matrices {
      * @param builder builder object used to dynamically create an instance of an IMatrix
      * @return new blank matrix
      */
-    public static IMatrix blank(int rows, int columns, IMatrixBuilder builder) {
+    public static IMatrix zeroes(int rows, int columns, IMatrixBuilder builder) {
         return builder.build(rows, columns);
     }
 
@@ -31,8 +33,8 @@ public class Matrices {
      * @param builder   builder object used to dynamically create an instance of an IMatrix
      * @return new blank matrix
      */
-    public static IMatrix blankSquare(int dimension, IMatrixBuilder builder) {
-        return blank(dimension, dimension, builder);
+    public static IMatrix zeroes(int dimension, IMatrixBuilder builder) {
+        return zeroes(dimension, dimension, builder);
     }
 
     /**
@@ -42,7 +44,7 @@ public class Matrices {
      * @param builder   builder object used to dynamically create an instance of an IMatrix
      * @return new identity matrix
      */
-    public static IMatrix identity(int dimension, IMatrixBuilder builder) {
+    public static IMatrix ones(int dimension, IMatrixBuilder builder) {
         return diagonal(dimension, 1., builder);
     }
 
@@ -54,7 +56,7 @@ public class Matrices {
      * @return new identity matrix
      */
     public static IMatrix diagonal(int dimension, double value, IMatrixBuilder builder) {
-        IMatrix matrix = builder.build(dimension, dimension);
+        IMatrix matrix = zeroes(dimension, builder);
 
         for (int i = 0; i < dimension; i++) {
             matrix.set(i, i, value);
@@ -73,7 +75,7 @@ public class Matrices {
      * @return new random matrix
      */
     public static IMatrix random(int rows, int columns, IMatrixBuilder builder, Random random) {
-        IMatrix matrix = blank(rows, columns, builder);
+        IMatrix matrix = builder.build(rows, columns);
 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
@@ -92,7 +94,7 @@ public class Matrices {
      * @param random    random object used to call nextDouble() method
      * @return new random matrix
      */
-    public static IMatrix squareRandom(int dimension, IMatrixBuilder builder, Random random) {
+    public static IMatrix random(int dimension, IMatrixBuilder builder, Random random) {
         return random(dimension, dimension, builder, random);
     }
 
@@ -156,22 +158,6 @@ public class Matrices {
             for (int j = 0; j < i; j++) {
                 if (matrix.get(i, j) > Matrices.EPSILON) return false;
             }
-        }
-
-        return true;
-    }
-
-    /**
-     * Tests if given array is transformable to a IMatrix object
-     *
-     * @param array array to be tested
-     * @return true if array is transformable to a IMatrix object, else otherwise
-     */
-    public static boolean isTransformableToMatrix(double[][] array) {
-        int columns = array[0].length;
-
-        for (int i = 1, n = array.length; i < n; i++) {
-            if (array[i].length != columns) return false;
         }
 
         return true;

@@ -1,7 +1,7 @@
 package apr.linear.vector;
 
 import apr.linear.matrix.IMatrix;
-import apr.linear.util.MatrixUtils;
+import apr.linear.util.LinearAlgebra;
 
 /**
  * Abstract Vector class which implements vector operations, independent of the underlying data structure
@@ -10,88 +10,37 @@ public abstract class AbstractVector implements IVector {
 
     @Override
     public IVector add(IVector other) {
-        MatrixUtils.checkAdditionApplicable(this, other);
-
-        int n = getDimension();
-        IVector result = newInstance(n);
-        for (int i = 0; i < n; i++) {
-            result.set(i, get(i) + other.get(i));
-        }
-
-        return result;
+        return LinearAlgebra.add(this, other);
     }
 
     @Override
     public IVector add(double value) {
-        int n = getDimension();
-        IVector result = newInstance(n);
-        for (int i = 0; i < n; i++) {
-            result.set(i, get(i) + value);
-        }
-
-        return result;
+        return LinearAlgebra.add(this, value);
     }
 
     @Override
     public IVector subtract(IVector other) {
-        MatrixUtils.checkAdditionApplicable(this, other);
-
-        int n = getDimension();
-        IVector result = newInstance(n);
-        for (int i = 0; i < n; i++) {
-            result.set(i, get(i) + other.get(i));
-        }
-
-        return result;
+        return LinearAlgebra.subtract(this, other);
     }
 
     @Override
     public IVector subtract(double value) {
-        int n = getDimension();
-        IVector result = newInstance(n);
-        for (int i = 0; i < n; i++) {
-            result.set(i, get(i) - value);
-        }
-
-        return result;
+        return LinearAlgebra.subtract(this, value);
     }
 
     @Override
     public IVector multiply(IMatrix matrix) {
-        MatrixUtils.checkMultiplicationApplicable(matrix, this);
-
-        int n = getDimension();
-        IVector result = newInstance(n);
-        for (int i = 0; i < n; i++) {
-            double sum = 0.;
-            for (int j = 0; j < n; j++) {
-                sum += get(i) * matrix.get(j, i);
-            }
-            result.set(i, sum);
-        }
-
-        return this;
+        return LinearAlgebra.multiply(this, matrix);
     }
 
     @Override
     public double multiply(IVector other) {
-        MatrixUtils.checkMultiplicationApplicable(this, other);
-
-        double sum = 0.;
-        for (int i = 0, n = getDimension(); i < n; i++) {
-            sum += get(i) * other.get(i);
-        }
-        return sum;
+        return LinearAlgebra.multiply(this, other);
     }
 
     @Override
     public IVector multiply(double scalar) {
-        int n = getDimension();
-        IVector result = newInstance(n);
-        for (int i = 0; i < n; i++) {
-            result.set(i, get(i) * scalar);
-        }
-        return result;
+        return LinearAlgebra.multiply(this, scalar);
     }
 
     @Override

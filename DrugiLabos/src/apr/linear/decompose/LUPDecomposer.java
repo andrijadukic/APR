@@ -2,8 +2,8 @@ package apr.linear.decompose;
 
 import apr.linear.exceptions.SingularMatrixException;
 import apr.linear.matrix.IMatrix;
+import apr.linear.util.LinearAlgebra;
 import apr.linear.util.Matrices;
-import apr.linear.util.Operations;
 import apr.linear.vector.IVector;
 import apr.linear.vector.Vector;
 
@@ -67,7 +67,7 @@ public class LUPDecomposer extends AbstractMatrixDecomposer {
     public IMatrix getL() {
         if (L != null) return L;
 
-        L = Matrices.blankSquare(rowDimension, matrix::newInstance);
+        L = Matrices.zeroes(rowDimension, matrix::newInstance);
         for (int i = 0; i < rowDimension; i++) {
             L.set(i, i, 1);
             for (int j = 0; j < i; j++) {
@@ -85,7 +85,7 @@ public class LUPDecomposer extends AbstractMatrixDecomposer {
     public IMatrix getU() {
         if (U != null) return L;
 
-        IMatrix U = Matrices.blankSquare(rowDimension, matrix::newInstance);
+        IMatrix U = Matrices.zeroes(rowDimension, matrix::newInstance);
         for (int i = 0; i < rowDimension; i++) {
             for (int j = i; j < rowDimension; j++) {
                 U.set(i, j, matrix.get(i, j));
@@ -136,12 +136,12 @@ public class LUPDecomposer extends AbstractMatrixDecomposer {
 
         @Override
         public IVector solve(IVector b) {
-            return Operations.backwardSubstitution(U, Operations.forwardSubstitution(L, Operations.permute(b, P)));
+            return LinearAlgebra.backwardSubstitution(U, LinearAlgebra.forwardSubstitution(L, LinearAlgebra.permute(b, P)));
         }
 
         @Override
         public IMatrix invert() {
-            IMatrix identity = Matrices.identity(n, L::newInstance);
+            IMatrix identity = Matrices.ones(n, L::newInstance);
 
             IVector[] x = new Vector[n];
 
@@ -149,7 +149,7 @@ public class LUPDecomposer extends AbstractMatrixDecomposer {
                 x[i] = solve(identity.getColumn(i));
             }
 
-            IMatrix result = Matrices.blankSquare(n, identity::newInstance);
+            IMatrix result = Matrices.zeroes(n, identity::newInstance);
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
                     result.set(i, j, x[j].get(i));

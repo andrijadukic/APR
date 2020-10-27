@@ -2,15 +2,13 @@ package apr.linear.vector;
 
 import apr.linear.matrix.IMatrix;
 import apr.linear.matrix.Matrix;
-import apr.linear.util.Matrices;
-import apr.linear.util.MatrixUtils;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
- * Concrete Vector class which used an array to store elements
+ * Vector class which uses an array to store elements
  */
 public class Vector extends AbstractVector {
 

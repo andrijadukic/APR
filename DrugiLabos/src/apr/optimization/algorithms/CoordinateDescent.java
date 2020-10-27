@@ -17,28 +17,30 @@ public class CoordinateDescent {
         }
 
         IVector x = x0.copy();
-        IVector ei = Matrices.zeroes(dimension, x0::newInstance);
-
+        IVector xPrev = x.copy();
         while (true) {
-            IVector xs = x.copy();
+            IVector ei = Matrices.zeroes(dimension, x0::newInstance);
             for (int i = 0; i < dimension; i++) {
                 ei.set(i, 1);
                 GoldenSectionSearch.epsilon = e.get(i);
-                Interval min = GoldenSectionSearch.goldenRatio(l -> f.valueAt(x.add(l.multiply(ei))), 1, x.get(i));
+                Interval min = GoldenSectionSearch.goldenRatio(lambda -> f.valueAt(x.add(lambda.multiply(ei))), 1, x.get(i));
                 x.set(i, x.get(i) + (min.end() - min.start()) / 2);
                 ei.set(i, 0);
             }
 
-            boolean isConditionMet = true;
-            for (int i = 0; i < dimension; i++) {
-                if (Math.abs(xs.get(i) - x.get(i)) > e.get(i)) {
-                    isConditionMet = false;
-                    break;
-                }
-            }
-            if (isConditionMet) break;
-        }
+            if (isStopCriteriaMet(xPrev, x, e)) break;
 
+            xPrev = x.copy();
+        }
         return x;
+    }
+
+    private static boolean isStopCriteriaMet(IVector prev, IVector current, IVector e) {
+        for (int i = 0, n = prev.getDimension(); i < n; i++) {
+            if (Math.abs(prev.get(i) - current.get(i)) > e.get(i)) {
+                return false;
+            }
+        }
+        return true;
     }
 }

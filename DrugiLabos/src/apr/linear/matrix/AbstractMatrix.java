@@ -1,8 +1,6 @@
 package apr.linear.matrix;
 
-import apr.linear.vector.IVector;
-import apr.linear.util.Matrices;
-import apr.linear.util.MatrixUtils;
+import apr.linear.util.LinearAlgebra;
 
 /**
  * Abstract Matrix class which implements matrix operations, independent of the underlying data structure
@@ -11,104 +9,32 @@ public abstract class AbstractMatrix implements IMatrix {
 
     @Override
     public IMatrix add(IMatrix other) {
-        MatrixUtils.checkAdditionApplicable(this, other);
-
-        int rowDimension = getRowDimension();
-        int columnDimension = getColumnDimension();
-        IMatrix result = newInstance(rowDimension, columnDimension);
-        for (int i = 0; i < rowDimension; i++) {
-            for (int j = 0; j < columnDimension; j++) {
-                result.set(i, j, get(i, j) + other.get(i, j));
-            }
-        }
-        return result;
+        return LinearAlgebra.add(this, other);
     }
 
     @Override
     public IMatrix add(double value) {
-        int rowDimension = getRowDimension();
-        int columnDimension = getColumnDimension();
-        IMatrix result = newInstance(rowDimension, columnDimension);
-        for (int i = 0; i < rowDimension; i++) {
-            for (int j = 0; j < columnDimension; j++) {
-                result.set(i, j, get(i, j) + value);
-            }
-        }
-        return result;
+        return LinearAlgebra.add(this, value);
     }
 
     @Override
     public IMatrix subtract(IMatrix other) {
-        MatrixUtils.checkAdditionApplicable(this, other);
-
-        int rowDimension = getRowDimension();
-        int columnDimension = getColumnDimension();
-        IMatrix result = newInstance(rowDimension, columnDimension);
-        for (int i = 0; i < rowDimension; i++) {
-            for (int j = 0; j < columnDimension; j++) {
-                result.set(i, j, get(i, j) - other.get(i, j));
-            }
-        }
-        return result;
+        return LinearAlgebra.subtract(this, other);
     }
 
     @Override
     public IMatrix subtract(double value) {
-        int rowDimension = getRowDimension();
-        int columnDimension = getColumnDimension();
-        IMatrix result = newInstance(rowDimension, columnDimension);
-        for (int i = 0; i < rowDimension; i++) {
-            for (int j = 0; j < columnDimension; j++) {
-                result.set(i, j, get(i, j) - value);
-            }
-        }
-        return result;
+        return LinearAlgebra.subtract(this, value);
     }
 
     @Override
     public IMatrix multiply(IMatrix other) {
-        MatrixUtils.checkMultiplicationApplicable(this, other);
-
-        IMatrix matrix = Matrices.blank(getRowDimension(), other.getColumnDimension(), this::newInstance);
-
-        for (int i = 0; i < getRowDimension(); i++) {
-            for (int j = 0; i < other.getColumnDimension(); j++) {
-                double sum = 0.;
-                for (int k = 0; k < getColumnDimension(); k++) {
-                    sum += get(i, k) * other.get(k, j);
-                }
-                matrix.set(i, j, sum);
-            }
-        }
-        return matrix;
-    }
-
-    @Override
-    public IVector multiply(IVector vector) {
-        MatrixUtils.checkMultiplicationApplicable(this, vector);
-
-        IVector result = vector.newInstance(getRowDimension());
-        for (int i = 0, n = getRowDimension(); i < n; i++) {
-            double sum = 0.;
-            for (int j = 0, m = vector.getDimension(); j < m; j++) {
-                sum += get(i, j) * vector.get(j);
-            }
-            result.set(i, sum);
-        }
-        return result;
+        return LinearAlgebra.multiply(this, other);
     }
 
     @Override
     public IMatrix multiply(double scalar) {
-        int rowDimension = getRowDimension();
-        int columnDimension = getColumnDimension();
-        IMatrix result = newInstance(rowDimension, columnDimension);
-        for (int i = 0; i < rowDimension; i++) {
-            for (int j = 0; j < columnDimension; j++) {
-                result.set(i, j, get(i, j) * scalar);
-            }
-        }
-        return result;
+        return LinearAlgebra.multiply(this, scalar);
     }
 
     @Override

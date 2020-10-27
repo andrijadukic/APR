@@ -1,6 +1,4 @@
-package apr.linear.util;
-
-import apr.linear.vector.IVector;
+package apr.linear.vector;
 
 /**
  * Interface used to create a matrix builder

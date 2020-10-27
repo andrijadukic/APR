@@ -9,8 +9,8 @@ public class HookeJeeves {
     public static double dx = 0.5;
 
     public static IVector patternSearch(IFunction f, IVector x0) {
-        IVector xp = x0.copy();
-        IVector xb = x0.copy();
+        IVector xp = x0;
+        IVector xb = x0;
 
         double delta = dx;
         while (delta > epsilon) {

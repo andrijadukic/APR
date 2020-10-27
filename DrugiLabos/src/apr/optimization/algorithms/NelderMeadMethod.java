@@ -65,7 +65,7 @@ public class NelderMeadMethod {
                     simplex[h] = xr;
                 }
             }
-        } while (isStopCriteriaMet(f, simplex, xc));
+        } while (!isStopCriteriaMet(f, simplex, xc));
 
         return xc;
     }

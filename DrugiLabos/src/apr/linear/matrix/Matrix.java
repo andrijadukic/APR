@@ -5,7 +5,7 @@ import apr.linear.vector.Vector;
 import apr.linear.util.Matrices;
 
 /**
- * Concrete Matrix class which used a two dimensional array to store elements
+ * Matrix class which uses a two dimensional array to store elements
  */
 public class Matrix extends AbstractMatrix {
 
@@ -26,10 +26,13 @@ public class Matrix extends AbstractMatrix {
     }
 
     public Matrix(double[]... array) {
-        if (!Matrices.isTransformableToMatrix(array)) throw new IllegalArgumentException();
-
         rows = array.length;
         columns = array[0].length;
+
+        for (int i = 1; i < rows; i++) {
+            if (array[i].length != columns) throw new IllegalArgumentException();
+        }
+
         this.array = array;
     }
 
