@@ -1,20 +1,18 @@
-package apr.optimization.algorithms;
+package apr.optimization.algorithms.fminbnd;
 
-import apr.linear.vector.IVector;
-import apr.linear.vector.Vector;
-import apr.optimization.function.IFunction;
+import apr.optimization.function.ISingleVariableFunction;
 import apr.optimization.util.Interval;
 
-public class GoldenSectionSearch extends AbstractOptimizationAlgorithm {
+public class GoldenSectionSearch extends AbstractSingleVariableOptimizationAlgorithm {
 
     private final double K = 0.5 * (Math.sqrt(5) - 1);
     private double h = 1;
 
-    public GoldenSectionSearch(IFunction f) {
+    public GoldenSectionSearch(ISingleVariableFunction f) {
         super(f);
     }
 
-    public GoldenSectionSearch(IFunction f, double epsilon, double h) {
+    public GoldenSectionSearch(ISingleVariableFunction f, double epsilon, double h) {
         super(f, epsilon);
         this.h = h;
     }
@@ -28,24 +26,20 @@ public class GoldenSectionSearch extends AbstractOptimizationAlgorithm {
     }
 
     @Override
-    public IVector search(IVector x0) {
-        Interval interval = search(x0.get(0));
-        return x0.newInstance(1).set(0, (interval.end() - interval.start()) / 2);
+    public double search(double x0) {
+        Interval interval = findInterval(new UnimodalInterval(f, epsilon, h).findInterval(x0));
+        return (interval.start() + interval.end()) / 2;
     }
 
-    public Interval search(double x0) {
-        return search(new UnimodalInterval(f, epsilon, h).search(x0));
-    }
-
-    public Interval search(Interval interval) {
+    public Interval findInterval(Interval interval) {
         double a = interval.start();
         double b = interval.end();
 
         double c = b - K * (b - a);
         double d = a + K * (b - a);
 
-        double fc = f.valueAt(new Vector(c));
-        double fd = f.valueAt(new Vector(d));
+        double fc = f.valueAt(c);
+        double fd = f.valueAt(d);
 
         while ((b - a) > epsilon) {
             if (fc < fd) {
@@ -53,13 +47,13 @@ public class GoldenSectionSearch extends AbstractOptimizationAlgorithm {
                 d = c;
                 c = b - K * (b - a);
                 fd = fc;
-                fc = f.valueAt(new Vector(c));
+                fc = f.valueAt(c);
             } else {
                 a = c;
                 c = d;
                 d = a + K * (b - a);
                 fc = fd;
-                fd = f.valueAt(new Vector(d));
+                fd = f.valueAt(d);
             }
         }
 

@@ -1,16 +1,16 @@
-package apr.optimization.algorithms;
+package apr.optimization.algorithms.fminsearch;
 
 import apr.linear.vector.IVector;
-import apr.optimization.function.IFunction;
-import apr.optimization.util.Interval;
+import apr.optimization.algorithms.fminbnd.GoldenSectionSearch;
+import apr.optimization.function.IMultivariableFunction;
 
-public class CoordinateDescent extends AbstractOptimizationAlgorithm {
+public class CoordinateDescent extends AbstractMultivariableOptimizationAlgorithm {
 
-    public CoordinateDescent(IFunction function) {
+    public CoordinateDescent(IMultivariableFunction function) {
         super(function);
     }
 
-    public CoordinateDescent(IFunction f, double epsilon) {
+    public CoordinateDescent(IMultivariableFunction f, double epsilon) {
         super(f, epsilon);
     }
 
@@ -23,8 +23,8 @@ public class CoordinateDescent extends AbstractOptimizationAlgorithm {
         while (true) {
             for (int i = 0; i < dimension; i++) {
                 final int ei = i;
-                Interval min = new GoldenSectionSearch(lambda -> f.valueAt(x.set(ei, lambda.get(0)))).search(x.get(i));
-                x.set(i, x.get(i) + (min.end() - min.start()) / 2);
+                double lambdaMin = new GoldenSectionSearch(lambda -> f.valueAt(x.set(ei, lambda))).search(x.get(i));
+                x.set(i, lambdaMin);
             }
             if (isStopCriteriaMet(xPrev, x)) break;
             xPrev = x.copy();

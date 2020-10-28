@@ -1,19 +1,17 @@
-package apr.optimization.algorithms;
+package apr.optimization.algorithms.fminbnd;
 
-import apr.linear.vector.IVector;
-import apr.linear.vector.Vector;
-import apr.optimization.function.IFunction;
+import apr.optimization.function.ISingleVariableFunction;
 import apr.optimization.util.Interval;
 
-public class UnimodalInterval extends AbstractOptimizationAlgorithm {
+public class UnimodalInterval extends AbstractSingleVariableOptimizationAlgorithm {
 
     private double h = 1;
 
-    public UnimodalInterval(IFunction f) {
+    public UnimodalInterval(ISingleVariableFunction f) {
         super(f);
     }
 
-    public UnimodalInterval(IFunction f, double epsilon, double h) {
+    public UnimodalInterval(ISingleVariableFunction f, double epsilon, double h) {
         super(f, epsilon);
         this.h = h;
     }
@@ -27,21 +25,21 @@ public class UnimodalInterval extends AbstractOptimizationAlgorithm {
     }
 
     @Override
-    public IVector search(IVector x0) {
-        Interval interval = search(x0.get(0));
-        return x0.newInstance(2).set(0, interval.start()).set(1, interval.end());
+    public double search(double x0) {
+        Interval interval = findInterval(x0);
+        return (interval.start() + interval.end()) / 2;
     }
 
-    public Interval search(double x0) {
+    public Interval findInterval(double x0) {
         double l = x0 - h;
         double m = x0;
         double r = x0 + h;
         double fl, fm, fr;
         int step = 1;
 
-        fl = f.valueAt(new Vector(l));
-        fm = f.valueAt(new Vector(m));
-        fr = f.valueAt(new Vector(r));
+        fl = f.valueAt(l);
+        fm = f.valueAt(m);
+        fr = f.valueAt(r);
 
         if (fm < fr && fm < fl) return new Interval(l, r);
 
@@ -51,7 +49,7 @@ public class UnimodalInterval extends AbstractOptimizationAlgorithm {
                 m = r;
                 fm = fr;
                 r = x0 + h * (step *= 2);
-                fr = f.valueAt(new Vector(r));
+                fr = f.valueAt(r);
             } while (fm > fr);
         } else {
             do {
@@ -59,7 +57,7 @@ public class UnimodalInterval extends AbstractOptimizationAlgorithm {
                 m = l;
                 fm = fl;
                 l = x0 - h * (step *= 2);
-                fl = f.valueAt(new Vector(l));
+                fl = f.valueAt(l);
             } while (fm > fl);
         }
 

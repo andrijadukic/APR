@@ -1,13 +1,13 @@
-package apr.optimization.algorithms;
+package apr.optimization.algorithms.fminsearch;
 
 import apr.linear.util.Matrices;
 import apr.linear.vector.IVector;
-import apr.optimization.function.IFunction;
+import apr.optimization.function.IMultivariableFunction;
 
 import java.util.Arrays;
 
 
-public class NelderMeadMethod extends AbstractOptimizationAlgorithm {
+public class NelderMeadMethod extends AbstractMultivariableOptimizationAlgorithm {
 
     private double alpha = 1.0;
     private double beta = 0.5;
@@ -16,11 +16,11 @@ public class NelderMeadMethod extends AbstractOptimizationAlgorithm {
     private double sigma = 0.5;
     private double step = 1;
 
-    public NelderMeadMethod(IFunction f) {
+    public NelderMeadMethod(IMultivariableFunction f) {
         super(f);
     }
 
-    public NelderMeadMethod(IFunction f, double epsilon, double alpha, double beta, double gamma, double sigma, double step) {
+    public NelderMeadMethod(IMultivariableFunction f, double epsilon, double alpha, double beta, double gamma, double sigma, double step) {
         super(f, epsilon);
         this.alpha = alpha;
         this.beta = beta;

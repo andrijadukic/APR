@@ -5,7 +5,7 @@ import apr.linear.vector.IVector;
 /**
  * Interface defining a multivariable function
  */
-public interface IFunction {
+public interface IMultivariableFunction {
 
     /**
      * Calculates value at given point of this function

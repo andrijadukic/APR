@@ -2,9 +2,15 @@ package apr.optimization.demo;
 
 import apr.linear.vector.IVector;
 import apr.linear.vector.Vector;
-import apr.optimization.algorithms.*;
-import apr.optimization.function.CostFunctions;
-import apr.optimization.function.ICostFunction;
+import apr.optimization.algorithms.fminbnd.GoldenSectionSearch;
+import apr.optimization.algorithms.fminbnd.ISingleVariableOptimizationAlgorithm;
+import apr.optimization.algorithms.fminbnd.UnimodalInterval;
+import apr.optimization.algorithms.fminsearch.CoordinateDescent;
+import apr.optimization.algorithms.fminsearch.HookeJeeves;
+import apr.optimization.algorithms.fminsearch.IMultivariableOptimizationAlgorithm;
+import apr.optimization.algorithms.fminsearch.NelderMeadMethod;
+import apr.optimization.function.MultivariableCostFunctions;
+import apr.optimization.function.IMultivariableCostFunction;
 
 import java.util.List;
 import java.util.Random;
@@ -21,19 +27,26 @@ public class Lab {
     }
 
     private static void zadatak1() {
-        ICostFunction f3 = CostFunctions.f3();
+        IMultivariableCostFunction f3 = MultivariableCostFunctions.f3();
 
         List<Double> startingPoints = List.of(10., 100., 200., 500., 1000.);
-        List<IOptimizationAlgorithm> algorithms = List.of(new UnimodalInterval(f3),
-                new GoldenSectionSearch(f3),
-                new CoordinateDescent(f3),
-                new HookeJeeves(f3),
-                new NelderMeadMethod(f3));
+        List<ISingleVariableOptimizationAlgorithm> singleVariableOptimizationAlgorithms = List.of(new UnimodalInterval(x -> f3.valueAt(new Vector(x))),
+                new GoldenSectionSearch(x -> f3.valueAt(new Vector(x))));
+        List<IMultivariableOptimizationAlgorithm> multivariableOptimizationAlgorithms = List.of(new CoordinateDescent(f3), new HookeJeeves(f3), new NelderMeadMethod(f3));
 
         for (Double point : startingPoints) {
             IVector x = new Vector(point);
 
-            for (IOptimizationAlgorithm algorithm : algorithms) {
+            for (var algorithm : singleVariableOptimizationAlgorithms) {
+                System.out.println(algorithm.getName());
+                System.out.println(algorithm.search(point));
+                System.out.println(f3.getCounter());
+                System.out.println();
+
+                f3.reset();
+            }
+
+            for (var algorithm : multivariableOptimizationAlgorithms) {
                 System.out.println(algorithm.getName());
                 System.out.println(algorithm.search(x));
                 System.out.println(f3.getCounter());
@@ -45,14 +58,14 @@ public class Lab {
     }
 
     private static void zadatak2() {
-        List<ICostFunction> functions = List.of(CostFunctions.f1(), CostFunctions.f2(), CostFunctions.f3(), CostFunctions.f4());
+        List<IMultivariableCostFunction> functions = List.of(MultivariableCostFunctions.f1(), MultivariableCostFunctions.f2(), MultivariableCostFunctions.f3(), MultivariableCostFunctions.f4());
         List<IVector> points = List.of(new Vector(-1.9, 2), new Vector(0.1, 0.3), new Vector(0, 0, 0, 0, 0), new Vector(5.1, 1.1));
         List<IVector> minimums = List.of(new Vector(1., 1.), new Vector(4., 2.), new Vector(1, 2, 3, 4, 5), new Vector(0., 0.));
 
         for (int i = 0; i < 4; i++) {
-            ICostFunction f = functions.get(i);
-            List<IOptimizationAlgorithm> algorithms = List.of(new CoordinateDescent(f), new HookeJeeves(f), new NelderMeadMethod(f));
-            for (IOptimizationAlgorithm algorithm : algorithms) {
+            IMultivariableCostFunction f = functions.get(i);
+            List<IMultivariableOptimizationAlgorithm> algorithms = List.of(new CoordinateDescent(f), new HookeJeeves(f), new NelderMeadMethod(f));
+            for (var algorithm : algorithms) {
                 System.out.println("Function: f" + (i + 1));
                 test(f, points.get(i), minimums.get(i), algorithm);
                 f.reset();
@@ -61,17 +74,17 @@ public class Lab {
     }
 
     private static void zadatak3() {
-        ICostFunction f = CostFunctions.f4();
+        IMultivariableCostFunction f = MultivariableCostFunctions.f4();
         IVector x0 = new Vector(5.5, 5.5);
         IVector min = new Vector(0., 0.);
 
-        for (IOptimizationAlgorithm algorithm : List.of(new HookeJeeves(f), new NelderMeadMethod(f))) {
+        for (var algorithm : List.of(new HookeJeeves(f), new NelderMeadMethod(f))) {
             test(f, x0, min, algorithm);
         }
     }
 
     private static void zadatak4() {
-        ICostFunction f = CostFunctions.f1();
+        IMultivariableCostFunction f = MultivariableCostFunctions.f1();
         IVector min = new Vector(1., 1.);
 
         IVector startingPoint1 = new Vector(0.5, 0.5);
@@ -100,9 +113,9 @@ public class Lab {
     }
 
     private static void zadatak5() {
-        ICostFunction f = CostFunctions.f6();
+        IMultivariableCostFunction f = MultivariableCostFunctions.f6();
         double min = f.valueAt(new Vector(0., 0.));
-        IOptimizationAlgorithm algorithm = new NelderMeadMethod(f);
+        IMultivariableOptimizationAlgorithm algorithm = new NelderMeadMethod(f);
 
         int count = 0;
         int maxIter = 1000;
@@ -120,7 +133,7 @@ public class Lab {
         System.out.printf("%.6f%%", (double) count / maxIter * 100);
     }
 
-    private static void test(ICostFunction f, IVector startingPoint, IVector minimum, IOptimizationAlgorithm algorithm) {
+    private static void test(IMultivariableCostFunction f, IVector startingPoint, IVector minimum, IMultivariableOptimizationAlgorithm algorithm) {
         System.out.println("Algorithm: " + algorithm.getName());
         System.out.println("x0: " + startingPoint);
         System.out.println("min: " + minimum);

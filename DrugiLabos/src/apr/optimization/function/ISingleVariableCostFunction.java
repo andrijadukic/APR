@@ -1,9 +1,6 @@
 package apr.optimization.function;
 
-/**
- * Interface defining a cost function with a counter feature
- */
-public interface ICostFunction extends IFunction {
+public interface ISingleVariableCostFunction extends ISingleVariableFunction {
 
     /**
      * Resets the memory

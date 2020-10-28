@@ -8,13 +8,13 @@ import java.util.Map;
 /**
  * Class implementing ICostFunction interface, using a Map<String, Double> object to cache calculated values
  */
-public class CostFunction implements ICostFunction {
+public class MultivariableCostFunction implements IMultivariableCostFunction {
 
-    protected final IFunction function;
+    protected final IMultivariableFunction function;
     protected final Map<String, Double> values;
     protected long counter;
 
-    public CostFunction(IFunction function) {
+    public MultivariableCostFunction(IMultivariableFunction function) {
         this.function = function;
         values = new HashMap<>();
     }

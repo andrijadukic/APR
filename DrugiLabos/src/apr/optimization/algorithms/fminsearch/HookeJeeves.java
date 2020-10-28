@@ -1,17 +1,17 @@
-package apr.optimization.algorithms;
+package apr.optimization.algorithms.fminsearch;
 
 import apr.linear.vector.IVector;
-import apr.optimization.function.IFunction;
+import apr.optimization.function.IMultivariableFunction;
 
-public class HookeJeeves extends AbstractOptimizationAlgorithm {
+public class HookeJeeves extends AbstractMultivariableOptimizationAlgorithm {
 
     private double delta = 0.5;
 
-    public HookeJeeves(IFunction f) {
+    public HookeJeeves(IMultivariableFunction f) {
         super(f);
     }
 
-    public HookeJeeves(IFunction f, double epsilon, double dx) {
+    public HookeJeeves(IMultivariableFunction f, double epsilon, double dx) {
         super(f, epsilon);
         this.delta = dx;
     }
