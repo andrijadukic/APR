@@ -4,9 +4,12 @@ import apr.linear.exceptions.DimensionMismatchException;
 import apr.linear.exceptions.MatrixDimensionMismatchException;
 import apr.linear.exceptions.SingularMatrixException;
 import apr.linear.matrix.IMatrix;
+import apr.linear.util.functions.IDoubleBinaryFunction;
+import apr.linear.util.functions.IDoubleUnaryFunction;
 import apr.linear.vector.IVector;
 
 import java.security.InvalidParameterException;
+import java.util.function.DoublePredicate;
 
 /**
  * Class implementing common linear algebra operations
@@ -16,153 +19,99 @@ public class LinearAlgebra {
     /**
      * Performs matrix-matrix addition
      *
-     * @param m1 first matrix
-     * @param m2 second matrix
+     * @param m1         first matrix
+     * @param m2         second matrix
+     * @param mutability if set to MUTABLE then result overwrites first operand
      * @return result matrix
      */
-    public static IMatrix add(IMatrix m1, IMatrix m2) {
-        checkAdditionApplicable(m1, m2);
-
-        int rowDimension = m1.getRowDimension();
-        int columnDimension = m1.getColumnDimension();
-        IMatrix result = Matrices.zeroes(rowDimension, columnDimension, m1::newInstance);
-        for (int i = 0; i < rowDimension; i++) {
-            for (int j = 0; j < columnDimension; j++) {
-                result.set(i, j, m1.get(i, j) + m2.get(i, j));
-            }
-        }
-        return result;
+    public static IMatrix add(IMatrix m1, IMatrix m2, OperationMutability mutability) {
+        return apply(m1, m2, Double::sum, mutability);
     }
 
     /**
      * Performs matrix-scalar addition
      *
-     * @param matrix matrix
-     * @param value  scalar value
+     * @param matrix     matrix
+     * @param value      scalar value
+     * @param mutability if set to MUTABLE then result overwrites first operand
      * @return result matrix
      */
-    public static IMatrix add(IMatrix matrix, double value) {
-        int rowDimension = matrix.getRowDimension();
-        int columnDimension = matrix.getColumnDimension();
-        IMatrix result = Matrices.zeroes(rowDimension, columnDimension, matrix::newInstance);
-        for (int i = 0; i < rowDimension; i++) {
-            for (int j = 0; j < columnDimension; j++) {
-                result.set(i, j, matrix.get(i, j) + value);
-            }
-        }
-        return result;
+    public static IMatrix add(IMatrix matrix, double value, OperationMutability mutability) {
+        return apply(matrix, x -> x + value, mutability);
     }
 
     /**
      * Performs vector-vector addition
      *
-     * @param v1 first matrix
-     * @param v2 second matrix
+     * @param v1         first matrix
+     * @param v2         second matrix
+     * @param mutability if set to MUTABLE then result overwrites first operand
      * @return result vector
      */
-    public static IVector add(IVector v1, IVector v2) {
-        checkAdditionApplicable(v1, v2);
-
-        int n = v1.getDimension();
-        IVector result = Matrices.zeroes(n, v1::newInstance);
-        for (int i = 0; i < n; i++) {
-            result.set(i, v1.get(i) + v2.get(i));
-        }
-
-        return result;
+    public static IVector add(IVector v1, IVector v2, OperationMutability mutability) {
+        return apply(v1, v2, Double::sum, mutability);
     }
 
     /**
      * Performs vector-scalar addition
      *
-     * @param vector matrix
-     * @param value  scalar value
+     * @param vector     matrix
+     * @param value      scalar value
+     * @param mutability if set to MUTABLE then result overwrites first operand
      * @return result vector
      */
-    public static IVector add(IVector vector, double value) {
-        int n = vector.getDimension();
-        IVector result = Matrices.zeroes(n, vector::newInstance);
-        for (int i = 0; i < n; i++) {
-            result.set(i, vector.get(i) + value);
-        }
-
-        return result;
+    public static IVector add(IVector vector, double value, OperationMutability mutability) {
+        return apply(vector, x -> x + value, mutability);
     }
 
     /**
      * Performs matrix-matrix subtraction
      *
-     * @param m1 first matrix
-     * @param m2 second matrix
+     * @param m1         first matrix
+     * @param m2         second matrix
+     * @param mutability if set to MUTABLE then result overwrites first operand
      * @return result matrix
      */
-    public static IMatrix subtract(IMatrix m1, IMatrix m2) {
-        checkAdditionApplicable(m1, m2);
-
-        int rowDimension = m1.getRowDimension();
-        int columnDimension = m1.getColumnDimension();
-        IMatrix result = Matrices.zeroes(rowDimension, columnDimension, m1::newInstance);
-        for (int i = 0; i < rowDimension; i++) {
-            for (int j = 0; j < columnDimension; j++) {
-                result.set(i, j, m1.get(i, j) + m2.get(i, j));
-            }
-        }
-        return result;
+    public static IMatrix subtract(IMatrix m1, IMatrix m2, OperationMutability mutability) {
+        return apply(m1, m2, Double::sum, mutability);
     }
 
     /**
      * Performs matrix-scalar subtraction
      *
-     * @param matrix matrix
-     * @param value  scalar value
+     * @param matrix     matrix
+     * @param value      scalar value
+     * @param mutability if set to MUTABLE then result overwrites first operand
      * @return result matrix
      */
-    public static IMatrix subtract(IMatrix matrix, double value) {
-        int rowDimension = matrix.getRowDimension();
-        int columnDimension = matrix.getColumnDimension();
-        IMatrix result = Matrices.zeroes(rowDimension, columnDimension, matrix::newInstance);
-        for (int i = 0; i < rowDimension; i++) {
-            for (int j = 0; j < columnDimension; j++) {
-                result.set(i, j, matrix.get(i, j) + value);
-            }
-        }
-        return result;
+    public static IMatrix subtract(IMatrix matrix, double value, OperationMutability mutability) {
+        return apply(matrix, x -> x - value, mutability);
+
     }
 
     /**
      * Performs vector-vector subtraction
      *
-     * @param v1 first matrix
-     * @param v2 second matrix
+     * @param v1         first matrix
+     * @param v2         second matrix
+     * @param mutability if set to MUTABLE then result overwrites first operand
      * @return result vector
      */
-    public static IVector subtract(IVector v1, IVector v2) {
-        checkAdditionApplicable(v1, v2);
-
-        int n = v1.getDimension();
-        IVector result = Matrices.zeroes(n, v1::newInstance);
-        for (int i = 0; i < n; i++) {
-            result.set(i, v1.get(i) - v2.get(i));
-        }
-
-        return result;
+    public static IVector subtract(IVector v1, IVector v2, OperationMutability mutability) {
+        return apply(v1, v2, Double::sum, mutability);
     }
 
     /**
      * Performs vector-scalar subtraction
      *
-     * @param vector vector
-     * @param value  scalar value
+     * @param vector     vector
+     * @param value      scalar value
+     * @param mutability if set to MUTABLE then result overwrites first operand
      * @return result vector
      */
-    public static IVector subtract(IVector vector, double value) {
-        int n = vector.getDimension();
-        IVector result = Matrices.zeroes(n, vector::newInstance);
-        for (int i = 0; i < n; i++) {
-            result.set(i, vector.get(i) + value);
-        }
+    public static IVector subtract(IVector vector, double value, OperationMutability mutability) {
+        return apply(vector, x -> x - value, mutability);
 
-        return result;
     }
 
     /**
@@ -178,7 +127,7 @@ public class LinearAlgebra {
         int r1 = m1.getRowDimension();
         int c1 = m1.getColumnDimension();
         int c2 = m2.getColumnDimension();
-        IMatrix result = Matrices.zeroes(r1, c2, m1::newInstance);
+        IMatrix result = m1.newInstance(r1, c2);
 
         for (int i = 0; i < r1; i++) {
             for (int j = 0; j < c2; j++) {
@@ -203,7 +152,7 @@ public class LinearAlgebra {
         checkMultiplicationApplicable(matrix, vector);
 
         int n = matrix.getColumnDimension();
-        IVector result = Matrices.zeroes(n, vector::newInstance);
+        IVector result = vector.newInstance(n);
         for (int i = 0; i < n; i++) {
             double sum = 0.;
             for (int j = 0, m = matrix.getRowDimension(); j < m; j++) {
@@ -217,20 +166,13 @@ public class LinearAlgebra {
     /**
      * Performs matrix-scalar multiplication
      *
-     * @param matrix matrix
-     * @param scalar scalar value
+     * @param matrix     matrix
+     * @param scalar     scalar value
+     * @param mutability if set to MUTABLE then result overwrites first operand
      * @return result matrix
      */
-    public static IMatrix multiply(IMatrix matrix, double scalar) {
-        int rowDimension = matrix.getRowDimension();
-        int columnDimension = matrix.getColumnDimension();
-        IMatrix result = Matrices.zeroes(rowDimension, columnDimension, matrix::newInstance);
-        for (int i = 0; i < rowDimension; i++) {
-            for (int j = 0; j < columnDimension; j++) {
-                result.set(i, j, matrix.get(i, j) * scalar);
-            }
-        }
-        return result;
+    public static IMatrix multiply(IMatrix matrix, double scalar, OperationMutability mutability) {
+        return apply(matrix, x -> x * scalar, mutability);
     }
 
     /**
@@ -253,17 +195,144 @@ public class LinearAlgebra {
     /**
      * Performs vector-scalar multiplication
      *
-     * @param vector matrix
-     * @param scalar scalar value
+     * @param vector     matrix
+     * @param scalar     scalar value
+     * @param mutability if set to MUTABLE then result overwrites first operand
      * @return result vector
      */
-    public static IVector multiply(IVector vector, double scalar) {
-        int n = vector.getDimension();
-        IVector result = Matrices.zeroes(n, vector::newInstance);
-        for (int i = 0; i < n; i++) {
-            result.set(i, vector.get(i) * scalar);
+    public static IVector multiply(IVector vector, double scalar, OperationMutability mutability) {
+        return apply(vector, x -> x * scalar, mutability);
+    }
+
+
+    /**
+     * Applies function to all elements of given matrix
+     *
+     * @param matrix     matrix
+     * @param function   function to be applied
+     * @param mutability if set to MUTABLE then result overwrites first operand
+     * @return result matrix
+     */
+    public static IMatrix apply(IMatrix matrix, IDoubleUnaryFunction function, OperationMutability mutability) {
+        int rowDimension = matrix.getRowDimension();
+        int columnDimension = matrix.getColumnDimension();
+        IMatrix result = mutability == OperationMutability.MUTABLE ? matrix : matrix.newInstance(rowDimension, columnDimension);
+        for (int i = 0; i < rowDimension; i++) {
+            for (int j = 0; j < columnDimension; j++) {
+                result.set(i, j, function.apply(matrix.get(i, j)));
+            }
         }
         return result;
+    }
+
+    /**
+     * Applies function to all elements of given matrices
+     *
+     * @param m1         first matrix
+     * @param m2         second matrix
+     * @param function   function to be applied
+     * @param mutability if set to MUTABLE then result overwrites first operand
+     */
+    public static IMatrix apply(IMatrix m1, IMatrix m2, IDoubleBinaryFunction function, OperationMutability mutability) {
+        checkDimensionsSame(m1, m2);
+        int rowDimension = m1.getRowDimension();
+        int columnDimension = m1.getColumnDimension();
+        IMatrix result = mutability == OperationMutability.MUTABLE ? m1 : m1.newInstance(rowDimension, columnDimension);
+        for (int i = 0; i < rowDimension; i++) {
+            for (int j = 0; j < columnDimension; j++) {
+                result.set(i, j, function.apply(m1.get(i, j), m2.get(i, j)));
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Applies function to all elements of given vector
+     *
+     * @param vector     vector
+     * @param function   function to be applied
+     * @param mutability if set to MUTABLE then result overwrites first operand
+     * @return new vector
+     */
+    public static IVector apply(IVector vector, IDoubleUnaryFunction function, OperationMutability mutability) {
+        int n = vector.getDimension();
+        IVector result = mutability == OperationMutability.MUTABLE ? vector : vector.newInstance(n);
+        for (int i = 0; i < n; i++) {
+            result.set(i, function.apply(vector.get(i)));
+        }
+        return result;
+    }
+
+    /**
+     * Applies function to all elements of given vectors
+     *
+     * @param v1         first vector
+     * @param v2         second vector
+     * @param function   function to be applied
+     * @param mutability if set to MUTABLE then result overwrites first operand
+     * @return new vector
+     */
+    public static IVector apply(IVector v1, IVector v2, IDoubleBinaryFunction function, OperationMutability mutability) {
+        checkDimensionsSame(v1, v2);
+
+        int n = v1.getDimension();
+        IVector result = mutability == OperationMutability.MUTABLE ? v1 : v1.newInstance(n);
+        for (int i = 0; i < n; i++) {
+            result.set(i, function.apply(v1.get(i), v2.get(i)));
+        }
+        return result;
+    }
+
+    /**
+     * Tests if any elements of matrix match predicate
+     *
+     * @param matrix    matrix
+     * @param predicate predicate to be tested
+     * @return true if any element matches, false otherwise
+     */
+    public static boolean anyMatch(IMatrix matrix, DoublePredicate predicate) {
+        for (int i = 0, n = matrix.getRowDimension(); i < n; i++) {
+            for (int j = 0, m = matrix.getColumnDimension(); j < m; j++) {
+                if (predicate.test(matrix.get(i, j))) return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Tests if any elements of vector match predicate
+     *
+     * @param vector    vector
+     * @param predicate predicate to be tested
+     * @return true if any element matches, false otherwise
+     */
+    public static boolean anyMatch(IVector vector, DoublePredicate predicate) {
+        for (int i = 0, n = vector.getDimension(); i < n; i++) {
+            if (predicate.test(vector.get(i))) return true;
+        }
+        return false;
+    }
+
+    /**
+     * Tests if all elements of matrix match predicate
+     *
+     * @param matrix    matrix
+     * @param predicate predicate to be tested
+     * @return true if all elements match, false otherwise
+     */
+    public static boolean allMatch(IMatrix matrix, DoublePredicate predicate) {
+        return !anyMatch(matrix, x -> !predicate.test(x));
+    }
+
+    /**
+     * Tests if all elements of vector match predicate
+     *
+     * @param vector    vector
+     * @param predicate predicate to be tested
+     * @return true if all elements match, false otherwise
+     */
+    public static boolean allMatch(IVector vector, DoublePredicate predicate) {
+        return !anyMatch(vector, x -> !predicate.test(x));
     }
 
     /**

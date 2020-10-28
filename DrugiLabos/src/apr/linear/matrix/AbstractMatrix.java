@@ -1,6 +1,10 @@
 package apr.linear.matrix;
 
 import apr.linear.util.LinearAlgebra;
+import apr.linear.util.OperationMutability;
+import apr.linear.util.functions.IDoubleUnaryFunction;
+
+import java.util.function.DoublePredicate;
 
 /**
  * Abstract Matrix class which implements matrix operations, independent of the underlying data structure
@@ -9,22 +13,22 @@ public abstract class AbstractMatrix implements IMatrix {
 
     @Override
     public IMatrix add(IMatrix other) {
-        return LinearAlgebra.add(this, other);
+        return LinearAlgebra.add(this, other, OperationMutability.MUTABLE);
     }
 
     @Override
     public IMatrix add(double value) {
-        return LinearAlgebra.add(this, value);
+        return LinearAlgebra.add(this, value, OperationMutability.MUTABLE);
     }
 
     @Override
     public IMatrix subtract(IMatrix other) {
-        return LinearAlgebra.subtract(this, other);
+        return LinearAlgebra.subtract(this, other, OperationMutability.MUTABLE);
     }
 
     @Override
     public IMatrix subtract(double value) {
-        return LinearAlgebra.subtract(this, value);
+        return LinearAlgebra.subtract(this, value, OperationMutability.MUTABLE);
     }
 
     @Override
@@ -34,7 +38,7 @@ public abstract class AbstractMatrix implements IMatrix {
 
     @Override
     public IMatrix multiply(double scalar) {
-        return LinearAlgebra.multiply(this, scalar);
+        return LinearAlgebra.multiply(this, scalar, OperationMutability.MUTABLE);
     }
 
     @Override
@@ -43,8 +47,18 @@ public abstract class AbstractMatrix implements IMatrix {
     }
 
     @Override
-    public void print() {
-        System.out.println(toString());
+    public IMatrix apply(IDoubleUnaryFunction function) {
+        return LinearAlgebra.apply(this, function, OperationMutability.MUTABLE);
+    }
+
+    @Override
+    public boolean anyMatch(DoublePredicate predicate) {
+        return LinearAlgebra.anyMatch(this, predicate);
+    }
+
+    @Override
+    public boolean allMatch(DoublePredicate predicate) {
+        return LinearAlgebra.allMatch(this, predicate);
     }
 
     @Override

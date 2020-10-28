@@ -23,7 +23,7 @@ public class Matrices {
      * @return new blank matrix
      */
     public static IMatrix zeroes(int rows, int columns, IMatrixBuilder builder) {
-        return builder.build(rows, columns);
+        return LinearAlgebra.apply(builder.build(rows, columns), x -> 0, OperationMutability.MUTABLE);
     }
 
     /**
@@ -75,15 +75,7 @@ public class Matrices {
      * @return new random matrix
      */
     public static IMatrix random(int rows, int columns, IMatrixBuilder builder, Random random) {
-        IMatrix matrix = builder.build(rows, columns);
-
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns; j++) {
-                matrix.set(i, j, random.nextDouble());
-            }
-        }
-
-        return matrix;
+        return LinearAlgebra.apply(builder.build(rows, columns), x -> random.nextDouble(), OperationMutability.MUTABLE);
     }
 
     /**
@@ -106,15 +98,12 @@ public class Matrices {
      * @return new null vector
      */
     public static IVector zeroes(int dimension, IVectorBuilder builder) {
-        return builder.build(dimension);
+        return LinearAlgebra.apply(builder.build(dimension), x -> 0, OperationMutability.MUTABLE);
     }
 
     public static IVector ones(int dimension, IVectorBuilder builder) {
-        IVector ones = builder.build(dimension);
-        for (int i = 0; i < dimension; i++) {
-            ones.set(i, 1);
-        }
-        return ones;
+        return LinearAlgebra.apply(builder.build(dimension), x -> 1, OperationMutability.MUTABLE);
+
     }
 
     /**

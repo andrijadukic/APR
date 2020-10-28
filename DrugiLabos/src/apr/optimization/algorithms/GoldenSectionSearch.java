@@ -53,9 +53,9 @@ public class GoldenSectionSearch {
         fm = f.valueAt(new Vector(x0));
         fr = f.valueAt(new Vector(r));
 
-        if (fm < fr && fm < fl) {
-            return new Interval(l, r);
-        } else if (fm > fr) {
+        if (fm < fr && fm < fl) return new Interval(l, r);
+
+        if (fm > fr) {
             do {
                 l = m;
                 m = r;

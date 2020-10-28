@@ -1,6 +1,9 @@
 package apr.linear.matrix;
 
+import apr.linear.util.functions.IDoubleUnaryFunction;
 import apr.linear.vector.IVector;
+
+import java.util.function.DoublePredicate;
 
 /**
  * Interface defining a matrix that holds real numbers (double precision)
@@ -144,6 +147,31 @@ public interface IMatrix {
     IMatrix transpose();
 
     /**
+     * Applies function to all elements of matrix
+     *
+     * @param function function to be applied
+     * @return new matrix
+     */
+    IMatrix apply(IDoubleUnaryFunction function);
+
+    /**
+     * Tests if any elements of IMatrix match predicate
+     *
+     * @param predicate predicate to be tested
+     * @return true if any element matches, false otherwise
+     */
+    boolean anyMatch(DoublePredicate predicate);
+
+
+    /**
+     * Tests if all elements of IMatrix match predicate
+     *
+     * @param predicate predicate to be tested
+     * @return true if all elements match, false otherwise
+     */
+    boolean allMatch(DoublePredicate predicate);
+
+    /**
      * Turns this matrix into vector array by columns
      *
      * @return column vector array
@@ -163,9 +191,4 @@ public interface IMatrix {
      * @return array representation of this matrix
      */
     double[][] toArray();
-
-    /**
-     * Prints this matrix to standard output
-     */
-    void print();
 }

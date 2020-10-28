@@ -2,6 +2,10 @@ package apr.linear.vector;
 
 import apr.linear.matrix.IMatrix;
 import apr.linear.util.LinearAlgebra;
+import apr.linear.util.OperationMutability;
+import apr.linear.util.functions.IDoubleUnaryFunction;
+
+import java.util.function.DoublePredicate;
 
 /**
  * Abstract Vector class which implements vector operations, independent of the underlying data structure
@@ -10,22 +14,22 @@ public abstract class AbstractVector implements IVector {
 
     @Override
     public IVector add(IVector other) {
-        return LinearAlgebra.add(this, other);
+        return LinearAlgebra.add(this, other, OperationMutability.MUTABLE);
     }
 
     @Override
     public IVector add(double value) {
-        return LinearAlgebra.add(this, value);
+        return LinearAlgebra.add(this, value, OperationMutability.MUTABLE);
     }
 
     @Override
     public IVector subtract(IVector other) {
-        return LinearAlgebra.subtract(this, other);
+        return LinearAlgebra.subtract(this, other, OperationMutability.MUTABLE);
     }
 
     @Override
     public IVector subtract(double value) {
-        return LinearAlgebra.subtract(this, value);
+        return LinearAlgebra.subtract(this, value, OperationMutability.MUTABLE);
     }
 
     @Override
@@ -40,7 +44,22 @@ public abstract class AbstractVector implements IVector {
 
     @Override
     public IVector multiply(double scalar) {
-        return LinearAlgebra.multiply(this, scalar);
+        return LinearAlgebra.multiply(this, scalar, OperationMutability.MUTABLE);
+    }
+
+    @Override
+    public IVector apply(IDoubleUnaryFunction function) {
+        return LinearAlgebra.apply(this, function, OperationMutability.MUTABLE);
+    }
+
+    @Override
+    public boolean anyMatch(DoublePredicate predicate) {
+        return LinearAlgebra.anyMatch(this, predicate);
+    }
+
+    @Override
+    public boolean allMatch(DoublePredicate predicate) {
+        return LinearAlgebra.allMatch(this, predicate);
     }
 
     @Override

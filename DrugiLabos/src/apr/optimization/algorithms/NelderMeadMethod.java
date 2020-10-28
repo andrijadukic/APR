@@ -4,6 +4,8 @@ import apr.linear.util.Matrices;
 import apr.linear.vector.IVector;
 import apr.optimization.function.IFunction;
 
+import java.util.Arrays;
+
 
 public class NelderMeadMethod {
 
@@ -17,9 +19,8 @@ public class NelderMeadMethod {
     public static double step = 1;
 
     public static IVector simplex(IFunction f, IVector x0) {
-        IVector[] simplex = buildInitialSimplex(x0);
-        IVector xc;
-        do {
+        IVector[] simplex = initialSimplex(x0);
+        while (true) {
             Pair argMaxMin = argMaxMin(f, simplex);
             int h = argMaxMin.first;
             int l = argMaxMin.second;
@@ -28,17 +29,13 @@ public class NelderMeadMethod {
             double min = f.valueAt(xl);
             double max = f.valueAt(xh);
 
-            xc = centroid(simplex, xh);
+            IVector xc = centroid(simplex, xh);
             IVector xr = reflection(xc, xh);
 
             double fxr = f.valueAt(xr);
             if (fxr < min) {
                 IVector xe = expansion(xc, xr);
-                if (f.valueAt(xe) < min) {
-                    simplex[h] = xe;
-                } else {
-                    simplex[h] = xr;
-                }
+                simplex[h] = f.valueAt(xe) < min ? xe : xr;
             } else {
                 boolean isConditionMet = true;
                 for (int i = 0, n = simplex.length; i < n; i++) {
@@ -58,21 +55,20 @@ public class NelderMeadMethod {
                     } else {
                         for (int i = 0, n = simplex.length; i < n; i++) {
                             if (i == l) continue;
-                            simplex[i] = simplex[i].multiply(sigma).add(xl.multiply(sigma));
+                            simplex[i] = simplex[i].add(xl).multiply(sigma);
                         }
                     }
                 } else {
                     simplex[h] = xr;
                 }
             }
-        } while (!isStopCriteriaMet(f, simplex, xc));
 
-        return xc;
+            if (isStopCriteriaMet(f, simplex, xc)) return xl;
+        }
     }
 
-    private static IVector[] buildInitialSimplex(IVector x0) {
+    private static IVector[] initialSimplex(IVector x0) {
         int dimension = x0.getDimension();
-
         IVector[] simplex = new IVector[dimension];
         for (int i = 0; i < dimension; i++) {
             simplex[i] = x0.copy().set(i, x0.get(i) + step);
@@ -103,7 +99,6 @@ public class NelderMeadMethod {
     private static IVector centroid(IVector[] simplex, IVector xh) {
         int n = xh.getDimension();
         IVector centroid = Matrices.zeroes(n, xh::newInstance);
-
         for (IVector point : simplex) {
             if (point.equals(xh)) continue;
             centroid = centroid.add(point);

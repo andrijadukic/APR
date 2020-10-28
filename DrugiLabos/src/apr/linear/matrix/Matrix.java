@@ -19,7 +19,7 @@ public class Matrix extends AbstractMatrix {
         this.columns = columns;
     }
 
-    public Matrix(int rows, int columns, double[][] array) {
+    private Matrix(int rows, int columns, double[][] array) {
         this.rows = rows;
         this.columns = columns;
         this.array = array;

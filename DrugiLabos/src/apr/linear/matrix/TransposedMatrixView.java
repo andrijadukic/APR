@@ -54,6 +54,11 @@ public class TransposedMatrixView extends AbstractMatrix {
     }
 
     @Override
+    public IMatrix transpose() {
+        return view;
+    }
+
+    @Override
     public void swapRows(int i, int j) {
         view.swapColumns(i, j);
     }
@@ -75,10 +80,12 @@ public class TransposedMatrixView extends AbstractMatrix {
 
     @Override
     public double[][] toArray() {
-        double[][] array = new double[view.getColumnDimension()][view.getColumnDimension()];
+        int columnDimension = view.getColumnDimension();
+        int rowDimension = view.getRowDimension();
+        double[][] array = new double[columnDimension][rowDimension];
 
-        for (int i = 0, n = getColumnDimension(); i < n; i++) {
-            for (int j = 0, m = getRowDimension(); j < m; j++) {
+        for (int i = 0; i < columnDimension; i++) {
+            for (int j = 0; j < rowDimension; j++) {
                 array[i][j] = get(i, j);
             }
         }

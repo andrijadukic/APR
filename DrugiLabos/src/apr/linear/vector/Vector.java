@@ -37,7 +37,7 @@ public class Vector extends AbstractVector {
 
     @Override
     public IMatrix toMatrix() {
-        return new Matrix(1, getDimension(), new double[][]{array});
+        return new Matrix(new double[][]{array});
     }
 
     @Override

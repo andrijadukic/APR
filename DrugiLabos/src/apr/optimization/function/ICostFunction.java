@@ -1,7 +1,5 @@
 package apr.optimization.function;
 
-import apr.linear.vector.IVector;
-
 /**
  * Interface defining a cost function with a counter feature
  */
@@ -23,18 +21,4 @@ public interface ICostFunction extends IFunction {
      * @return current value of the counter
      */
     long getCounter();
-
-    /**
-     * Sets starting point
-     *
-     * @param x0 starting point
-     */
-    void setX0(IVector x0);
-
-    /**
-     * Sets argmin of function
-     *
-     * @param xMin argmin of function
-     */
-    void setXMin(IVector xMin);
 }

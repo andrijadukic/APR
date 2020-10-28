@@ -1,6 +1,9 @@
 package apr.linear.vector;
 
 import apr.linear.matrix.IMatrix;
+import apr.linear.util.functions.IDoubleUnaryFunction;
+
+import java.util.function.DoublePredicate;
 
 /**
  * Interface defining a vector that holds real numbers (double precision)
@@ -109,6 +112,31 @@ public interface IVector {
      * @return new vector
      */
     IVector multiply(double scalar);
+
+    /**
+     * Applies function to all elements of vector
+     *
+     * @param function function to be applied
+     * @return new vector
+     */
+    IVector apply(IDoubleUnaryFunction function);
+
+    /**
+     * Tests if any elements of IVector match predicate
+     *
+     * @param predicate predicate to be tested
+     * @return true if any element matches, false otherwise
+     */
+    boolean anyMatch(DoublePredicate predicate);
+
+
+    /**
+     * Tests if all elements of IVector match predicate
+     *
+     * @param predicate predicate to be tested
+     * @return true if all elements match, false otherwise
+     */
+    boolean allMatch(DoublePredicate predicate);
 
     /**
      * Transforms this vector to matrix equivalent

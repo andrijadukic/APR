@@ -1,6 +1,8 @@
 package apr.optimization.algorithms;
 
+import apr.linear.util.LinearAlgebra;
 import apr.linear.util.Matrices;
+import apr.linear.util.OperationMutability;
 import apr.linear.vector.IVector;
 import apr.optimization.function.IFunction;
 import apr.optimization.util.Interval;
@@ -13,7 +15,7 @@ public class CoordinateDescent {
         int dimension = x0.getDimension();
 
         if (e == null) {
-            e = Matrices.ones(dimension, x0::newInstance).multiply(epsilon);
+            e = LinearAlgebra.apply(x0.newInstance(dimension), x -> epsilon, OperationMutability.MUTABLE);
         }
 
         IVector x = x0.copy();
