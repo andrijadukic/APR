@@ -3,6 +3,9 @@ package apr.optimization.algorithms.fminsearch;
 import apr.linear.vector.IVector;
 import apr.optimization.function.IMultivariableFunction;
 
+/**
+ * Class implementing the Hooke-Jeeves method
+ */
 public class HookeJeeves extends AbstractMultivariableOptimizationAlgorithm {
 
     private double delta = 0.5;

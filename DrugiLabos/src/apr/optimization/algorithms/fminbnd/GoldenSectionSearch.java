@@ -3,6 +3,9 @@ package apr.optimization.algorithms.fminbnd;
 import apr.optimization.function.ISingleVariableFunction;
 import apr.optimization.util.Interval;
 
+/**
+ * Class implementing golden section search
+ */
 public class GoldenSectionSearch extends AbstractSingleVariableOptimizationAlgorithm {
 
     private final double K = 0.5 * (Math.sqrt(5) - 1);

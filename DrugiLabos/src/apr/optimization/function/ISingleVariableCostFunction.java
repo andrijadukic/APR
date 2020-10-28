@@ -1,16 +1,9 @@
 package apr.optimization.function;
 
-public interface ISingleVariableCostFunction extends ISingleVariableFunction {
+import apr.optimization.util.ICallCounter;
 
-    /**
-     * Resets the memory
-     */
-    void reset();
-
-    /**
-     * Gets the current value of the counter
-     *
-     * @return current value of the counter
-     */
-    long getCounter();
+/**
+ * Interface defining a single cost function with a counter feature
+ */
+public interface ISingleVariableCostFunction extends ISingleVariableFunction, ICallCounter {
 }

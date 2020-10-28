@@ -4,6 +4,9 @@ import apr.linear.vector.IVector;
 import apr.optimization.algorithms.fminbnd.GoldenSectionSearch;
 import apr.optimization.function.IMultivariableFunction;
 
+/**
+ * Class implementing the coordinate descent algorithm
+ */
 public class CoordinateDescent extends AbstractMultivariableOptimizationAlgorithm {
 
     public CoordinateDescent(IMultivariableFunction function) {

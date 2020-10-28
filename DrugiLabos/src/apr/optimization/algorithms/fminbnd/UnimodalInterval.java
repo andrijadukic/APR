@@ -3,6 +3,9 @@ package apr.optimization.algorithms.fminbnd;
 import apr.optimization.function.ISingleVariableFunction;
 import apr.optimization.util.Interval;
 
+/**
+ * Class implementing unimodal interval search
+ */
 public class UnimodalInterval extends AbstractSingleVariableOptimizationAlgorithm {
 
     private double h = 1;

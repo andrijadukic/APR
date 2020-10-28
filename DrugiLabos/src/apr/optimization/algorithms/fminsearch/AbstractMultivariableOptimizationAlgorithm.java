@@ -2,6 +2,9 @@ package apr.optimization.algorithms.fminsearch;
 
 import apr.optimization.function.IMultivariableFunction;
 
+/**
+ * Abstract helper class which concrete algorithms can extend from
+ */
 public abstract class AbstractMultivariableOptimizationAlgorithm implements IMultivariableOptimizationAlgorithm {
 
     protected final IMultivariableFunction f;

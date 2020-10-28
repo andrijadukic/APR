@@ -7,6 +7,9 @@ import apr.optimization.function.IMultivariableFunction;
 import java.util.Arrays;
 
 
+/**
+ * Class implementing the Nelder-Mead method
+ */
 public class NelderMeadMethod extends AbstractMultivariableOptimizationAlgorithm {
 
     private double alpha = 1.0;
