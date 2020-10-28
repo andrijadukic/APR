@@ -4,21 +4,79 @@ import apr.linear.util.Matrices;
 import apr.linear.vector.IVector;
 import apr.optimization.function.IFunction;
 
-import java.util.Arrays;
 
+public class NelderMeadMethod extends AbstractOptimizationAlgorithm {
 
-public class NelderMeadMethod {
+    private double alpha = 1.0;
+    private double beta = 0.5;
+    private double gamma = 2.0;
 
-    public static double epsilon = 10e-6;
+    private double sigma = 0.5;
+    private double step = 1;
 
-    public static double alpha = 1.0;
-    public static double beta = 0.5;
-    public static double gamma = 2.0;
+    public NelderMeadMethod(IFunction f) {
+        super(f);
+    }
 
-    public static double sigma = 0.5;
-    public static double step = 1;
+    public NelderMeadMethod(IFunction f, double epsilon, double alpha, double beta, double gamma, double sigma, double step) {
+        super(f, epsilon);
+        this.alpha = alpha;
+        this.beta = beta;
+        this.gamma = gamma;
+        this.sigma = sigma;
+        this.step = step;
+    }
 
-    public static IVector simplex(IFunction f, IVector x0) {
+    public double getEpsilon() {
+        return epsilon;
+    }
+
+    public void setEpsilon(double epsilon) {
+        this.epsilon = epsilon;
+    }
+
+    public double getAlpha() {
+        return alpha;
+    }
+
+    public void setAlpha(double alpha) {
+        this.alpha = alpha;
+    }
+
+    public double getBeta() {
+        return beta;
+    }
+
+    public void setBeta(double beta) {
+        this.beta = beta;
+    }
+
+    public double getGamma() {
+        return gamma;
+    }
+
+    public void setGamma(double gamma) {
+        this.gamma = gamma;
+    }
+
+    public double getSigma() {
+        return sigma;
+    }
+
+    public void setSigma(double sigma) {
+        this.sigma = sigma;
+    }
+
+    public double getStep() {
+        return step;
+    }
+
+    public void setStep(double step) {
+        this.step = step;
+    }
+
+    @Override
+    public IVector search(IVector x0) {
         IVector[] simplex = initialSimplex(x0);
         while (true) {
             Pair argMaxMin = argMaxMin(f, simplex);
@@ -54,7 +112,7 @@ public class NelderMeadMethod {
                         simplex[h] = xk;
                     } else {
                         for (int i = 0, n = simplex.length; i < n; i++) {
-                            if (i == l) continue;
+//                            if (i == l) continue;
                             simplex[i] = simplex[i].add(xl).multiply(sigma);
                         }
                     }
@@ -67,7 +125,7 @@ public class NelderMeadMethod {
         }
     }
 
-    private static IVector[] initialSimplex(IVector x0) {
+    private IVector[] initialSimplex(IVector x0) {
         int dimension = x0.getDimension();
         IVector[] simplex = new IVector[dimension];
         for (int i = 0; i < dimension; i++) {
@@ -107,25 +165,30 @@ public class NelderMeadMethod {
         return n == 1 ? centroid : centroid.multiply((double) 1 / (n - 1));
     }
 
-    private static IVector reflection(IVector xc, IVector xh) {
+    private IVector reflection(IVector xc, IVector xh) {
         return xc.multiply(1 + alpha).subtract(xh.multiply(alpha));
     }
 
-    private static IVector contraction(IVector xc, IVector xh) {
+    private IVector contraction(IVector xc, IVector xh) {
         return xc.multiply(1 - beta).add(xh.multiply(beta));
     }
 
-    private static IVector expansion(IVector xc, IVector xr) {
+    private IVector expansion(IVector xc, IVector xr) {
         return xc.multiply(1 - gamma).add(xr.multiply(gamma));
     }
 
-    private static boolean isStopCriteriaMet(IFunction f, IVector[] simplex, IVector centroid) {
+    private boolean isStopCriteriaMet(IFunction f, IVector[] simplex, IVector centroid) {
         double val = 0;
         double fxc = f.valueAt(centroid);
         for (IVector point : simplex) {
             val += Math.pow(f.valueAt(point) - fxc, 2);
         }
         return Math.sqrt(val / simplex.length) <= epsilon;
+    }
+
+    @Override
+    public String getName() {
+        return "Nelder Mead";
     }
 
     private static record Pair(int first, int second) {

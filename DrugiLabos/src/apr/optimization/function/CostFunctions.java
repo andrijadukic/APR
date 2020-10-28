@@ -1,9 +1,15 @@
 package apr.optimization.function;
 
-import java.util.ArrayList;
-
+/**
+ * Utility class defining several cost functions through static factory methods
+ */
 public class CostFunctions {
 
+    /**
+     * f(x) = 100 * (x2 - x1^2)^2 + (1 - x1)^2
+     *
+     * @return cost function f1
+     */
     public static ICostFunction f1() {
         return new CostFunction(x -> {
             double x1 = x.get(0);
@@ -12,6 +18,11 @@ public class CostFunctions {
         });
     }
 
+    /**
+     * f(x) = (x1 - 4)^2 + 4 * (x2 - 2)^2
+     *
+     * @return cost function f2
+     */
     public static ICostFunction f2() {
         return new CostFunction(x -> {
             double x1 = x.get(0);
@@ -20,6 +31,11 @@ public class CostFunctions {
         });
     }
 
+    /**
+     * f(x) = sum((xi - i)^2)
+     *
+     * @return cost function f3
+     */
     public static ICostFunction f3() {
         return new CostFunction(x -> {
             double result = 0.;
@@ -30,6 +46,11 @@ public class CostFunctions {
         });
     }
 
+    /**
+     * f(x) = abs((x1 - x2) * (x1 + x2)) + sqrt(x1^2 + x2^2)
+     *
+     * @return cost function f4
+     */
     public static ICostFunction f4() {
         return new CostFunction(x -> {
             double x1 = x.get(0);
@@ -38,6 +59,11 @@ public class CostFunctions {
         });
     }
 
+    /**
+     * f(x) = 0.5 + (sin^2(sqrt(sum(xi^2)) - 0.5) / (1 + 0.001 * sum(xi^2))^2
+     *
+     * @return cost function f6
+     */
     public static ICostFunction f6() {
         return new CostFunction(x -> {
             double sum = 0.;

@@ -1,19 +1,43 @@
 package apr.optimization.algorithms;
 
+import apr.linear.vector.IVector;
 import apr.linear.vector.Vector;
 import apr.optimization.function.IFunction;
 import apr.optimization.util.Interval;
 
-public class GoldenSectionSearch {
+public class GoldenSectionSearch extends AbstractOptimizationAlgorithm {
 
-    public static double epsilon = 10e-6;
-    public static final double K = 0.5 * (Math.sqrt(5) - 1);
+    private final double K = 0.5 * (Math.sqrt(5) - 1);
+    private double h = 1;
 
-    public static Interval goldenRatio(IFunction f, double h, double x0) {
-        return goldenRatio(f, unimodalInterval(f, h, x0));
+    public GoldenSectionSearch(IFunction f) {
+        super(f);
     }
 
-    public static Interval goldenRatio(IFunction f, Interval interval) {
+    public GoldenSectionSearch(IFunction f, double epsilon, double h) {
+        super(f, epsilon);
+        this.h = h;
+    }
+
+    public double getH() {
+        return h;
+    }
+
+    public void setH(double h) {
+        this.h = h;
+    }
+
+    @Override
+    public IVector search(IVector x0) {
+        Interval interval = search(x0.get(0));
+        return x0.newInstance(1).set(0, (interval.end() - interval.start()) / 2);
+    }
+
+    public Interval search(double x0) {
+        return search(new UnimodalInterval(f, epsilon, h).search(x0));
+    }
+
+    public Interval search(Interval interval) {
         double a = interval.start();
         double b = interval.end();
 
@@ -42,37 +66,8 @@ public class GoldenSectionSearch {
         return new Interval(a, b);
     }
 
-    public static Interval unimodalInterval(IFunction f, double h, double x0) {
-        double l = x0 - h;
-        double m = x0;
-        double r = x0 + h;
-        double fl, fm, fr;
-        int step = 1;
-
-        fl = f.valueAt(new Vector(l));
-        fm = f.valueAt(new Vector(x0));
-        fr = f.valueAt(new Vector(r));
-
-        if (fm < fr && fm < fl) return new Interval(l, r);
-
-        if (fm > fr) {
-            do {
-                l = m;
-                m = r;
-                fm = fr;
-                r = x0 + h * (step *= 2);
-                fr = f.valueAt(new Vector(r));
-            } while (fm > fr);
-        } else {
-            do {
-                r = m;
-                m = l;
-                fm = fl;
-                l = x0 - h * (step *= 2);
-                fl = f.valueAt(new Vector(l));
-            } while (fm > fl);
-        }
-
-        return new Interval(l, r);
+    @Override
+    public String getName() {
+        return "Golden section search";
     }
 }

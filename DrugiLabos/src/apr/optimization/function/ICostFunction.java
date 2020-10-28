@@ -6,11 +6,6 @@ package apr.optimization.function;
 public interface ICostFunction extends IFunction {
 
     /**
-     * Increments the counter
-     */
-    void increment();
-
-    /**
      * Resets the memory
      */
     void reset();

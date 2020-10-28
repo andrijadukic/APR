@@ -2,12 +2,11 @@ package apr.optimization.demo;
 
 import apr.linear.vector.IVector;
 import apr.linear.vector.Vector;
-import apr.optimization.algorithms.GoldenSectionSearch;
-import apr.optimization.algorithms.HookeJeeves;
-import apr.optimization.algorithms.NelderMeadMethod;
-import apr.optimization.function.CostFunction;
+import apr.optimization.algorithms.*;
 import apr.optimization.function.CostFunctions;
 import apr.optimization.function.ICostFunction;
+
+import java.util.List;
 
 public class Lab {
 
@@ -22,33 +21,21 @@ public class Lab {
     private static void zadatak1() {
         ICostFunction f3 = CostFunctions.f3();
 
-        for (int i = 10; i < 1000; i += 100) {
-            IVector x0 = new Vector(i, 0, 0);
-            System.out.println("Golden ratio search");
-            System.out.println(GoldenSectionSearch.goldenRatio(f3, 1, x0.get(0)));
-            System.out.println(f3.getCounter());
-            f3.reset();
+        List<Double> startingPoints = List.of(10., 100., 200., 500., 1000.);
+        List<IOptimizationAlgorithm> algorithms = List.of(new UnimodalInterval(f3),
+                new GoldenSectionSearch(f3),
+                new CoordinateDescent(f3),
+                new HookeJeeves(f3),
+                new NelderMeadMethod(f3));
 
-            System.out.println();
+        for (Double point : startingPoints) {
+            IVector x = new Vector(point, 0., 0.);
 
-            System.out.println("unimodal interval search");
-            System.out.println(GoldenSectionSearch.unimodalInterval(f3, 1, x0.get(0)));
-            System.out.println(f3.getCounter());
-            f3.reset();
-
-            System.out.println();
-
-            System.out.println("Hooke Jeeves");
-            System.out.println(HookeJeeves.patternSearch(f3, x0));
-            System.out.println(f3.getCounter());
-            f3.reset();
-
-            System.out.println();
-
-            System.out.println("Nelder Mead");
-            System.out.println(NelderMeadMethod.simplex(f3, x0));
-            System.out.println(f3.getCounter());
-            f3.reset();
+            for (IOptimizationAlgorithm algorithm : algorithms) {
+                System.out.println(algorithm.getName());
+                System.out.println(algorithm.search(x));
+                System.out.println();
+            }
         }
     }
 

@@ -1,48 +1,49 @@
 package apr.optimization.algorithms;
 
-import apr.linear.util.LinearAlgebra;
-import apr.linear.util.Matrices;
-import apr.linear.util.OperationMutability;
 import apr.linear.vector.IVector;
 import apr.optimization.function.IFunction;
 import apr.optimization.util.Interval;
 
-public class CoordinateDescent {
+public class CoordinateDescent extends AbstractOptimizationAlgorithm {
 
-    public static double epsilon = 10e-6;
+    public CoordinateDescent(IFunction function) {
+        super(function);
+    }
 
-    public static IVector search(IFunction f, IVector x0, IVector e) {
+    public CoordinateDescent(IFunction f, double epsilon) {
+        this(f);
+        this.epsilon = epsilon;
+    }
+
+    @Override
+    public IVector search(IVector x0) {
         int dimension = x0.getDimension();
-
-        if (e == null) {
-            e = Matrices.fill(x0.newInstance(dimension), epsilon);
-        }
 
         IVector x = x0.copy();
         IVector xPrev = x.copy();
         while (true) {
-            IVector ei = Matrices.zeroes(dimension, x0::newInstance);
             for (int i = 0; i < dimension; i++) {
-                ei.set(i, 1);
-                GoldenSectionSearch.epsilon = e.get(i);
-                Interval min = GoldenSectionSearch.goldenRatio(lambda -> f.valueAt(x.add(lambda.multiply(ei))), 1, x.get(i));
+                final int ei = i;
+                Interval min = new GoldenSectionSearch(lambda -> f.valueAt(x.set(ei, lambda.get(0)))).search(x.get(i));
                 x.set(i, x.get(i) + (min.end() - min.start()) / 2);
-                ei.set(i, 0);
             }
-
-            if (isStopCriteriaMet(xPrev, x, e)) break;
-
+            if (isStopCriteriaMet(xPrev, x)) break;
             xPrev = x.copy();
         }
         return x;
     }
 
-    private static boolean isStopCriteriaMet(IVector prev, IVector current, IVector e) {
+    private boolean isStopCriteriaMet(IVector prev, IVector current) {
         for (int i = 0, n = prev.getDimension(); i < n; i++) {
-            if (Math.abs(prev.get(i) - current.get(i)) > e.get(i)) {
+            if (Math.abs(prev.get(i) - current.get(i)) > epsilon) {
                 return false;
             }
         }
         return true;
+    }
+
+    @Override
+    public String getName() {
+        return "Coordinate descent";
     }
 }

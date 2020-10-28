@@ -3,12 +3,37 @@ package apr.optimization.algorithms;
 import apr.linear.vector.IVector;
 import apr.optimization.function.IFunction;
 
-public class HookeJeeves {
+public class HookeJeeves extends AbstractOptimizationAlgorithm {
 
-    public static double epsilon = 10e-6;
-    public static double dx = 0.5;
+    private double dx = 0.5;
 
-    public static IVector patternSearch(IFunction f, IVector x0) {
+    public HookeJeeves(IFunction f) {
+        super(f);
+    }
+
+    public HookeJeeves(IFunction f, double epsilon, double dx) {
+        super(f, epsilon);
+        this.dx = dx;
+    }
+
+    public double getEpsilon() {
+        return epsilon;
+    }
+
+    public void setEpsilon(double epsilon) {
+        this.epsilon = epsilon;
+    }
+
+    public double getDx() {
+        return dx;
+    }
+
+    public void setDx(double dx) {
+        this.dx = dx;
+    }
+
+    @Override
+    public IVector search(IVector x0) {
         IVector xp = x0;
         IVector xb = x0;
 
@@ -27,7 +52,12 @@ public class HookeJeeves {
         return xb;
     }
 
-    private static IVector explore(IFunction f, IVector xp) {
+    @Override
+    public String getName() {
+        return "Hooke Jeeves";
+    }
+
+    private IVector explore(IFunction f, IVector xp) {
         IVector x = xp.copy();
         for (int i = 0, n = x.getDimension(); i < n; i++) {
             double oldValue = f.valueAt(x);

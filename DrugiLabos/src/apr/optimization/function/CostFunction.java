@@ -5,6 +5,9 @@ import apr.linear.vector.IVector;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Class implementing ICostFunction interface, using a Map<String, Double> object to cache calculated values
+ */
 public class CostFunction implements ICostFunction {
 
     protected final IFunction function;
@@ -22,11 +25,6 @@ public class CostFunction implements ICostFunction {
     }
 
     @Override
-    public void increment() {
-        counter++;
-    }
-
-    @Override
     public void reset() {
         counter = 0;
         values.clear();
@@ -34,7 +32,7 @@ public class CostFunction implements ICostFunction {
 
     @Override
     public double valueAt(IVector x) {
-        increment();
+        counter++;
 
         String key = x.toString();
         if (values.containsKey(key)) return values.get(key);

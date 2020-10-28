@@ -14,22 +14,22 @@ public abstract class AbstractVector implements IVector {
 
     @Override
     public IVector add(IVector other) {
-        return LinearAlgebra.add(this, other, OperationMutability.MUTABLE);
+        return LinearAlgebra.add(this, other, OperationMutability.IMMUTABLE);
     }
 
     @Override
     public IVector add(double value) {
-        return LinearAlgebra.add(this, value, OperationMutability.MUTABLE);
+        return LinearAlgebra.add(this, value, OperationMutability.IMMUTABLE);
     }
 
     @Override
     public IVector subtract(IVector other) {
-        return LinearAlgebra.subtract(this, other, OperationMutability.MUTABLE);
+        return LinearAlgebra.subtract(this, other, OperationMutability.IMMUTABLE);
     }
 
     @Override
     public IVector subtract(double value) {
-        return LinearAlgebra.subtract(this, value, OperationMutability.MUTABLE);
+        return LinearAlgebra.subtract(this, value, OperationMutability.IMMUTABLE);
     }
 
     @Override
@@ -44,12 +44,12 @@ public abstract class AbstractVector implements IVector {
 
     @Override
     public IVector multiply(double scalar) {
-        return LinearAlgebra.multiply(this, scalar, OperationMutability.MUTABLE);
+        return LinearAlgebra.multiply(this, scalar, OperationMutability.IMMUTABLE);
     }
 
     @Override
     public IVector apply(IDoubleUnaryFunction function) {
-        return LinearAlgebra.apply(this, function, OperationMutability.MUTABLE);
+        return LinearAlgebra.apply(this, function, OperationMutability.IMMUTABLE);
     }
 
     @Override

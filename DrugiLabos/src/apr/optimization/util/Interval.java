@@ -2,6 +2,9 @@ package apr.optimization.util;
 
 import java.security.InvalidParameterException;
 
+/**
+ * Record class for storing intervals
+ */
 public record Interval(double start, double end) {
 
     public Interval {
