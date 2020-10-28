@@ -24,12 +24,12 @@ public class HookeJeeves extends AbstractOptimizationAlgorithm {
         this.epsilon = epsilon;
     }
 
-    public double getDx() {
+    public double getDelta() {
         return delta;
     }
 
-    public void setDx(double dx) {
-        this.delta = dx;
+    public void setDelta(double delta) {
+        this.delta = delta;
     }
 
     @Override
