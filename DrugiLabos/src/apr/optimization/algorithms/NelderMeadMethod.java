@@ -4,6 +4,8 @@ import apr.linear.util.Matrices;
 import apr.linear.vector.IVector;
 import apr.optimization.function.IFunction;
 
+import java.util.Arrays;
+
 
 public class NelderMeadMethod extends AbstractOptimizationAlgorithm {
 
@@ -77,51 +79,52 @@ public class NelderMeadMethod extends AbstractOptimizationAlgorithm {
 
     @Override
     public IVector search(IVector x0) {
-        IVector[] simplex = initialSimplex(x0);
+        IVector[] X = initialSimplex(x0);
         while (true) {
-            Pair argMaxMin = argMaxMin(f, simplex);
+            double[] fX = Arrays.stream(X).mapToDouble(f::valueAt).toArray();
+            Pair argMaxMin = argMaxMin(fX);
             int h = argMaxMin.first;
             int l = argMaxMin.second;
-            IVector xh = simplex[h];
-            IVector xl = simplex[l];
-            double min = f.valueAt(xl);
-            double max = f.valueAt(xh);
+            IVector xh = X[h];
+            IVector xl = X[l];
+            double max = fX[h];
+            double min = fX[l];
 
-            IVector xc = centroid(simplex, xh);
+            IVector xc = centroid(X, xh);
             IVector xr = reflection(xc, xh);
 
             double fxr = f.valueAt(xr);
             if (fxr < min) {
                 IVector xe = expansion(xc, xr);
-                simplex[h] = f.valueAt(xe) < min ? xe : xr;
+                X[h] = f.valueAt(xe) < min ? xe : xr;
             } else {
                 boolean isConditionMet = true;
-                for (int i = 0, n = simplex.length; i < n; i++) {
+                for (int i = 0, n = fX.length; i < n; i++) {
                     if (i == h) continue;
-                    if (fxr < f.valueAt(simplex[i])) {
+                    if (fxr < fX[i]) {
                         isConditionMet = false;
                         break;
                     }
                 }
                 if (isConditionMet) {
                     if (fxr < max) {
-                        simplex[h] = xr;
+                        xh = X[h] = xr;
                     }
-                    IVector xk = contraction(xc, simplex[h]);
-                    if (f.valueAt(xk) < f.valueAt(simplex[h])) {
-                        simplex[h] = xk;
+                    IVector xk = contraction(xc, xh);
+                    if (f.valueAt(xk) < f.valueAt(xh)) {
+                        X[h] = xk;
                     } else {
-                        for (int i = 0, n = simplex.length; i < n; i++) {
+                        for (int i = 0, n = X.length; i < n; i++) {
                             if (i == l) continue;
-                            simplex[i] = simplex[i].add(xl).multiply(sigma);
+                            X[i] = shrink(X[i], xl);
                         }
                     }
                 } else {
-                    simplex[h] = xr;
+                    X[h] = xr;
                 }
             }
 
-            if (isStopCriteriaMet(f, simplex, xc)) return xl;
+            if (isStopCriteriaMet(fX, xc)) return xl;
         }
     }
 
@@ -135,14 +138,14 @@ public class NelderMeadMethod extends AbstractOptimizationAlgorithm {
         return simplex;
     }
 
-    private static Pair argMaxMin(IFunction f, IVector[] simplex) {
+    private static Pair argMaxMin(double[] array) {
         double maxValue, minValue;
         int maxIndex, minIndex;
-        maxValue = minValue = f.valueAt(simplex[0]);
+        maxValue = minValue = array[0];
         maxIndex = minIndex = 0;
 
-        for (int i = 1, n = simplex.length; i < n; i++) {
-            double temp = f.valueAt(simplex[i]);
+        for (int i = 1, n = array.length; i < n; i++) {
+            double temp = array[i];
             if (temp > maxValue) {
                 maxValue = temp;
                 maxIndex = i;
@@ -181,13 +184,9 @@ public class NelderMeadMethod extends AbstractOptimizationAlgorithm {
         return xl.add(xi.subtract(xl).multiply(sigma));
     }
 
-    private boolean isStopCriteriaMet(IFunction f, IVector[] simplex, IVector centroid) {
-        double val = 0;
+    private boolean isStopCriteriaMet(double[] fX, IVector centroid) {
         double fxc = f.valueAt(centroid);
-        for (IVector point : simplex) {
-            val += Math.pow(f.valueAt(point) - fxc, 2);
-        }
-        return Math.sqrt(val / simplex.length) <= epsilon;
+        return Math.sqrt(Arrays.stream(fX).map(x -> Math.pow(x - fxc, 2)).average().orElseThrow(IllegalStateException::new)) <= epsilon;
     }
 
     @Override

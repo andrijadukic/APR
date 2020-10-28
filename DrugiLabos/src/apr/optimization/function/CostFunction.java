@@ -32,10 +32,10 @@ public class CostFunction implements ICostFunction {
 
     @Override
     public double valueAt(IVector x) {
-        counter++;
-
         String key = x.toString();
         if (values.containsKey(key)) return values.get(key);
+
+        counter++;
 
         double value = function.valueAt(x);
         values.put(key, value);

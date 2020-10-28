@@ -11,8 +11,7 @@ public class CoordinateDescent extends AbstractOptimizationAlgorithm {
     }
 
     public CoordinateDescent(IFunction f, double epsilon) {
-        this(f);
-        this.epsilon = epsilon;
+        super(f, epsilon);
     }
 
     @Override

@@ -40,7 +40,7 @@ public class UnimodalInterval extends AbstractOptimizationAlgorithm {
         int step = 1;
 
         fl = f.valueAt(new Vector(l));
-        fm = f.valueAt(new Vector(x0));
+        fm = f.valueAt(new Vector(m));
         fr = f.valueAt(new Vector(r));
 
         if (fm < fr && fm < fl) return new Interval(l, r);

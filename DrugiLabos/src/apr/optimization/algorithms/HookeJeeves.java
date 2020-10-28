@@ -34,8 +34,8 @@ public class HookeJeeves extends AbstractOptimizationAlgorithm {
 
     @Override
     public IVector search(IVector x0) {
-        IVector xp = x0.copy();
-        IVector xb = x0.copy();
+        IVector xp = x0;
+        IVector xb = x0;
 
         double dx = delta;
         while (dx >= epsilon) {
