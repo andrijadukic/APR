@@ -5,7 +5,7 @@ import apr.optimization.function.IFunction;
 
 public class HookeJeeves extends AbstractOptimizationAlgorithm {
 
-    private double dx = 0.5;
+    private double delta = 0.5;
 
     public HookeJeeves(IFunction f) {
         super(f);
@@ -13,7 +13,7 @@ public class HookeJeeves extends AbstractOptimizationAlgorithm {
 
     public HookeJeeves(IFunction f, double epsilon, double dx) {
         super(f, epsilon);
-        this.dx = dx;
+        this.delta = dx;
     }
 
     public double getEpsilon() {
@@ -25,26 +25,26 @@ public class HookeJeeves extends AbstractOptimizationAlgorithm {
     }
 
     public double getDx() {
-        return dx;
+        return delta;
     }
 
     public void setDx(double dx) {
-        this.dx = dx;
+        this.delta = dx;
     }
 
     @Override
     public IVector search(IVector x0) {
-        IVector xp = x0;
-        IVector xb = x0;
+        IVector xp = x0.copy();
+        IVector xb = x0.copy();
 
-        double delta = dx;
-        while (delta > epsilon) {
-            IVector xn = explore(f, xp);
+        double dx = delta;
+        while (dx >= epsilon) {
+            IVector xn = explore(xp, dx);
             if (f.valueAt(xn) < f.valueAt(xb)) {
                 xp = xn.multiply(2).subtract(xb);
                 xb = xn;
             } else {
-                delta /= 2;
+                dx /= 2;
                 xp = xb;
             }
         }
@@ -52,24 +52,23 @@ public class HookeJeeves extends AbstractOptimizationAlgorithm {
         return xb;
     }
 
-    @Override
-    public String getName() {
-        return "Hooke Jeeves";
-    }
-
-    private IVector explore(IFunction f, IVector xp) {
+    private IVector explore(IVector xp, double dx) {
         IVector x = xp.copy();
         for (int i = 0, n = x.getDimension(); i < n; i++) {
             double oldValue = f.valueAt(x);
-            double xi = x.get(i);
-            x.set(i, xi + dx);
+            x.set(i, x.get(i) + dx);
             if (f.valueAt(x) > oldValue) {
-                x.set(i, xi - dx);
+                x.set(i, x.get(i) - 2 * dx);
                 if (f.valueAt(x) > oldValue) {
-                    x.set(i, xi);
+                    x.set(i, x.get(i) + dx);
                 }
             }
         }
         return x;
+    }
+
+    @Override
+    public String getName() {
+        return "Hooke Jeeves";
     }
 }

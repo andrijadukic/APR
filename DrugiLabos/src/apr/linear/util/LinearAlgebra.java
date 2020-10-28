@@ -73,7 +73,7 @@ public class LinearAlgebra {
      * @return result matrix
      */
     public static IMatrix subtract(IMatrix m1, IMatrix m2, OperationMutability mutability) {
-        return apply(m1, m2, Double::sum, mutability);
+        return apply(m1, m2, (x, y) -> x - y, mutability);
     }
 
     /**
@@ -98,7 +98,7 @@ public class LinearAlgebra {
      * @return result vector
      */
     public static IVector subtract(IVector v1, IVector v2, OperationMutability mutability) {
-        return apply(v1, v2, Double::sum, mutability);
+        return apply(v1, v2, (x, y) -> x - y, mutability);
     }
 
     /**

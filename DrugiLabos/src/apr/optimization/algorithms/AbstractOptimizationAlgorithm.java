@@ -5,7 +5,7 @@ import apr.optimization.function.IFunction;
 public abstract class AbstractOptimizationAlgorithm implements IOptimizationAlgorithm {
 
     protected final IFunction f;
-    protected double epsilon = 10e-6;
+    protected double epsilon = 1e-6;
 
     protected AbstractOptimizationAlgorithm(IFunction f) {
         this.f = f;

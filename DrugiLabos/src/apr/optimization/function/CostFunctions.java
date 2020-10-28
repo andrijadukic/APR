@@ -40,7 +40,7 @@ public class CostFunctions {
         return new CostFunction(x -> {
             double result = 0.;
             for (int i = 0, n = x.getDimension(); i < n; i++) {
-                result += Math.pow(x.get(i) - i, 2);
+                result += Math.pow(x.get(i) - (i + 1), 2);
             }
             return result;
         });

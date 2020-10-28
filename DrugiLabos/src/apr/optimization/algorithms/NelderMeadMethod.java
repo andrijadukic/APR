@@ -112,7 +112,7 @@ public class NelderMeadMethod extends AbstractOptimizationAlgorithm {
                         simplex[h] = xk;
                     } else {
                         for (int i = 0, n = simplex.length; i < n; i++) {
-//                            if (i == l) continue;
+                            if (i == l) continue;
                             simplex[i] = simplex[i].add(xl).multiply(sigma);
                         }
                     }
@@ -126,10 +126,11 @@ public class NelderMeadMethod extends AbstractOptimizationAlgorithm {
     }
 
     private IVector[] initialSimplex(IVector x0) {
-        int dimension = x0.getDimension();
-        IVector[] simplex = new IVector[dimension];
-        for (int i = 0; i < dimension; i++) {
-            simplex[i] = x0.copy().set(i, x0.get(i) + step);
+        int n = x0.getDimension() + 1;
+        IVector[] simplex = new IVector[n];
+        simplex[0] = x0.copy();
+        for (int i = 1; i < n; i++) {
+            simplex[i] = x0.copy().set(i - 1, x0.get(i - 1) + step);
         }
         return simplex;
     }
@@ -161,20 +162,23 @@ public class NelderMeadMethod extends AbstractOptimizationAlgorithm {
             if (point.equals(xh)) continue;
             centroid = centroid.add(point);
         }
-
-        return n == 1 ? centroid : centroid.multiply((double) 1 / (n - 1));
+        return centroid.multiply((double) 1 / n);
     }
 
     private IVector reflection(IVector xc, IVector xh) {
         return xc.multiply(1 + alpha).subtract(xh.multiply(alpha));
     }
 
+    private IVector expansion(IVector xc, IVector xr) {
+        return xc.multiply(1 - gamma).add(xr.multiply(gamma));
+    }
+
     private IVector contraction(IVector xc, IVector xh) {
         return xc.multiply(1 - beta).add(xh.multiply(beta));
     }
 
-    private IVector expansion(IVector xc, IVector xr) {
-        return xc.multiply(1 - gamma).add(xr.multiply(gamma));
+    private IVector shrink(IVector xi, IVector xl) {
+        return xl.add(xi.subtract(xl).multiply(sigma));
     }
 
     private boolean isStopCriteriaMet(IFunction f, IVector[] simplex, IVector centroid) {
