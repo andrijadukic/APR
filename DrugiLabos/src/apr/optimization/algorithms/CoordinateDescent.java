@@ -15,7 +15,7 @@ public class CoordinateDescent {
         int dimension = x0.getDimension();
 
         if (e == null) {
-            e = LinearAlgebra.apply(x0.newInstance(dimension), x -> epsilon, OperationMutability.MUTABLE);
+            e = Matrices.fill(x0.newInstance(dimension), epsilon);
         }
 
         IVector x = x0.copy();

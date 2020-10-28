@@ -15,6 +15,17 @@ public class Matrices {
     public static final double EPSILON = 1e-6;
 
     /**
+     * Fills matrix with given value
+     *
+     * @param matrix matrix to be filled
+     * @param value  value
+     * @return filled matrix
+     */
+    public static IMatrix fill(IMatrix matrix, double value) {
+        return LinearAlgebra.apply(matrix, x -> value, OperationMutability.MUTABLE);
+    }
+
+    /**
      * Builds a new blank matrix
      *
      * @param rows    row dimension of new matrix
@@ -23,7 +34,7 @@ public class Matrices {
      * @return new blank matrix
      */
     public static IMatrix zeroes(int rows, int columns, IMatrixBuilder builder) {
-        return LinearAlgebra.apply(builder.build(rows, columns), x -> 0, OperationMutability.MUTABLE);
+        return fill(builder.build(rows, columns), 0);
     }
 
     /**
@@ -35,17 +46,6 @@ public class Matrices {
      */
     public static IMatrix zeroes(int dimension, IMatrixBuilder builder) {
         return zeroes(dimension, dimension, builder);
-    }
-
-    /**
-     * Builds a new identity matrix
-     *
-     * @param dimension dimension of new matrix
-     * @param builder   builder object used to dynamically create an instance of an IMatrix
-     * @return new identity matrix
-     */
-    public static IMatrix ones(int dimension, IMatrixBuilder builder) {
-        return diagonal(dimension, 1., builder);
     }
 
     /**
@@ -63,6 +63,17 @@ public class Matrices {
         }
 
         return matrix;
+    }
+
+    /**
+     * Builds a new identity matrix
+     *
+     * @param dimension dimension of new matrix
+     * @param builder   builder object used to dynamically create an instance of an IMatrix
+     * @return new identity matrix
+     */
+    public static IMatrix ones(int dimension, IMatrixBuilder builder) {
+        return diagonal(dimension, 1., builder);
     }
 
     /**
@@ -91,6 +102,17 @@ public class Matrices {
     }
 
     /**
+     * Fills given vector
+     *
+     * @param vector vector to be filled
+     * @param value  value
+     * @return filled vector
+     */
+    public static IVector fill(IVector vector, double value) {
+        return LinearAlgebra.apply(vector, x -> value, OperationMutability.MUTABLE);
+    }
+
+    /**
      * Builds a new null vector
      *
      * @param dimension dimension of null vector
@@ -98,11 +120,11 @@ public class Matrices {
      * @return new null vector
      */
     public static IVector zeroes(int dimension, IVectorBuilder builder) {
-        return LinearAlgebra.apply(builder.build(dimension), x -> 0, OperationMutability.MUTABLE);
+        return fill(builder.build(dimension), 0);
     }
 
     public static IVector ones(int dimension, IVectorBuilder builder) {
-        return LinearAlgebra.apply(builder.build(dimension), x -> 1, OperationMutability.MUTABLE);
+        return fill(builder.build(dimension), 1);
 
     }
 
