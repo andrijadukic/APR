@@ -49,7 +49,7 @@ public class Lab {
         System.out.println();
 
         var functions = List.of(CostFunctions.f1(), CostFunctions.f2(), CostFunctions.f3(), CostFunctions.f4());
-        var points = List.of(new Vector(-1.9, 2), new Vector(0.1, 0.3), new Vector(0, 0, 0, 0, 0), new Vector(5.1, 1.1));
+        var points = List.of(new Vector(-1.9, 2.), new Vector(0.1, 0.3), new Vector(0, 0, 0, 0, 0), new Vector(5.1, 1.1));
         var minimums = List.of(new Vector(1., 1.), new Vector(4., 2.), new Vector(1, 2, 3, 4, 5), new Vector(0., 0.));
 
         Tester tester = new Tester();

@@ -134,7 +134,7 @@ public class NelderMeadMethod extends AbstractMultivariableOptimizationAlgorithm
                 }
             }
 
-            if (isStopCriteriaMet(fX, xc)) return xl;
+            if (isStopCriteriaMet(fX, xc)) return X[argMin(fX)];
         }
     }
 
@@ -152,9 +152,9 @@ public class NelderMeadMethod extends AbstractMultivariableOptimizationAlgorithm
     private static Pair argMaxMin(double[] array) {
         double maxValue, minValue;
         int maxIndex, minIndex;
+
         maxValue = minValue = array[0];
         maxIndex = minIndex = 0;
-
         for (int i = 1, n = array.length; i < n; i++) {
             double temp = array[i];
             if (temp > maxValue) {
@@ -165,7 +165,6 @@ public class NelderMeadMethod extends AbstractMultivariableOptimizationAlgorithm
                 minIndex = i;
             }
         }
-
         return new Pair(maxIndex, minIndex);
     }
 
@@ -214,6 +213,19 @@ public class NelderMeadMethod extends AbstractMultivariableOptimizationAlgorithm
             val += Math.pow(x - fxc, 2);
         }
         return Math.sqrt(val / (fX.length - 1)) <= epsilon;
+    }
+
+    private int argMin(double[] array) {
+        int minIndex = 0;
+        double minValue = array[0];
+        for (int i = 1, n = array.length; i < n; i++) {
+            double temp = array[i];
+            if (temp < minValue) {
+                minValue = temp;
+                minIndex = i;
+            }
+        }
+        return minIndex;
     }
 
     @Override

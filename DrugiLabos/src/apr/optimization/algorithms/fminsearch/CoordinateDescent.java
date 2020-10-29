@@ -26,7 +26,7 @@ public class CoordinateDescent extends AbstractMultivariableOptimizationAlgorith
         while (true) {
             for (int i = 0; i < dimension; i++) {
                 final int nthDimension = i;
-                x.set(nthDimension, new GoldenSectionSearch(lambda -> f.valueAt(x.set(nthDimension, lambda))).search(x.get(nthDimension)));
+                x.set(i, new GoldenSectionSearch(lambda -> f.valueAt(x.set(nthDimension, lambda))).search(snapshot.get(i)));
             }
             if (isStopCriteriaMet(snapshot, x)) break;
             snapshot = x.copy();
