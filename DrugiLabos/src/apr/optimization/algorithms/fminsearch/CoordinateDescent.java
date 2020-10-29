@@ -5,7 +5,7 @@ import apr.optimization.algorithms.fminbnd.GoldenSectionSearch;
 import apr.optimization.function.IMultivariableFunction;
 
 /**
- * Class implementing the coordinate descent algorithm
+ * Class implementing coordinate descent algorithm
  */
 public class CoordinateDescent extends AbstractMultivariableOptimizationAlgorithm {
 
@@ -22,22 +22,21 @@ public class CoordinateDescent extends AbstractMultivariableOptimizationAlgorith
         int dimension = x0.getDimension();
 
         IVector x = x0.copy();
-        IVector xPrev = x.copy();
+        IVector snapshot = x.copy();
         while (true) {
             for (int i = 0; i < dimension; i++) {
-                final int ei = i;
-                double lambdaMin = new GoldenSectionSearch(lambda -> f.valueAt(x.set(ei, lambda))).search(x.get(i));
-                x.set(i, lambdaMin);
+                final int nthDimension = i;
+                x.set(nthDimension, new GoldenSectionSearch(lambda -> f.valueAt(x.set(nthDimension, lambda))).search(x.get(nthDimension)));
             }
-            if (isStopCriteriaMet(xPrev, x)) break;
-            xPrev = x.copy();
+            if (isStopCriteriaMet(snapshot, x)) break;
+            snapshot = x.copy();
         }
         return x;
     }
 
-    private boolean isStopCriteriaMet(IVector prev, IVector current) {
-        for (int i = 0, n = prev.getDimension(); i < n; i++) {
-            if (Math.abs(prev.get(i) - current.get(i)) > epsilon) {
+    private boolean isStopCriteriaMet(IVector previous, IVector current) {
+        for (int i = 0, n = previous.getDimension(); i < n; i++) {
+            if (Math.abs(previous.get(i) - current.get(i)) > epsilon) {
                 return false;
             }
         }

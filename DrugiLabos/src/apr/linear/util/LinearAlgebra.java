@@ -37,6 +37,7 @@ public class LinearAlgebra {
      * @return result matrix
      */
     public static IMatrix add(IMatrix matrix, double value, OperationMutability mutability) {
+        if (value == 0) return mutability == OperationMutability.MUTABLE ? matrix : matrix.copy();
         return apply(matrix, x -> x + value, mutability);
     }
 
@@ -61,6 +62,7 @@ public class LinearAlgebra {
      * @return result vector
      */
     public static IVector add(IVector vector, double value, OperationMutability mutability) {
+        if (value == 0) return mutability == OperationMutability.MUTABLE ? vector : vector.copy();
         return apply(vector, x -> x + value, mutability);
     }
 
@@ -85,6 +87,7 @@ public class LinearAlgebra {
      * @return result matrix
      */
     public static IMatrix subtract(IMatrix matrix, double value, OperationMutability mutability) {
+        if (value == 0) return mutability == OperationMutability.MUTABLE ? matrix : matrix.copy();
         return apply(matrix, x -> x - value, mutability);
 
     }
@@ -110,6 +113,7 @@ public class LinearAlgebra {
      * @return result vector
      */
     public static IVector subtract(IVector vector, double value, OperationMutability mutability) {
+        if (value == 0) return mutability == OperationMutability.MUTABLE ? vector : vector.copy();
         return apply(vector, x -> x - value, mutability);
 
     }
@@ -172,6 +176,7 @@ public class LinearAlgebra {
      * @return result matrix
      */
     public static IMatrix multiply(IMatrix matrix, double scalar, OperationMutability mutability) {
+        if (scalar == 1) return mutability == OperationMutability.MUTABLE ? matrix : matrix.copy();
         return apply(matrix, x -> x * scalar, mutability);
     }
 
@@ -201,6 +206,7 @@ public class LinearAlgebra {
      * @return result vector
      */
     public static IVector multiply(IVector vector, double scalar, OperationMutability mutability) {
+        if (scalar == 1) return mutability == OperationMutability.MUTABLE ? vector : vector.copy();
         return apply(vector, x -> x * scalar, mutability);
     }
 

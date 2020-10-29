@@ -6,34 +6,9 @@ import apr.optimization.util.Interval;
 /**
  * Class implementing unimodal interval search
  */
-public class UnimodalInterval extends AbstractSingleVariableOptimizationAlgorithm {
+public class UnimodalInterval {
 
-    private double h = 1;
-
-    public UnimodalInterval(ISingleVariableFunction f) {
-        super(f);
-    }
-
-    public UnimodalInterval(ISingleVariableFunction f, double epsilon, double h) {
-        super(f, epsilon);
-        this.h = h;
-    }
-
-    public double getH() {
-        return h;
-    }
-
-    public void setH(double h) {
-        this.h = h;
-    }
-
-    @Override
-    public double search(double x0) {
-        Interval interval = findInterval(x0);
-        return (interval.start() + interval.end()) / 2;
-    }
-
-    public Interval findInterval(double x0) {
+    public static Interval findInterval(ISingleVariableFunction f, double h, double x0) {
         double l = x0 - h;
         double m = x0;
         double r = x0 + h;
@@ -65,10 +40,5 @@ public class UnimodalInterval extends AbstractSingleVariableOptimizationAlgorith
         }
 
         return new Interval(l, r);
-    }
-
-    @Override
-    public String getName() {
-        return "Unimodal interval";
     }
 }

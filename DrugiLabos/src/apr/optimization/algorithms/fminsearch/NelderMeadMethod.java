@@ -1,7 +1,11 @@
 package apr.optimization.algorithms.fminsearch;
 
+import apr.linear.util.LinearAlgebra;
 import apr.linear.util.Matrices;
+import apr.linear.util.OperationMutability;
 import apr.linear.vector.IVector;
+import apr.linear.vector.IVectorBuilder;
+import apr.linear.vector.Vector;
 import apr.optimization.function.IMultivariableFunction;
 
 import java.util.Arrays;
@@ -30,14 +34,6 @@ public class NelderMeadMethod extends AbstractMultivariableOptimizationAlgorithm
         this.gamma = gamma;
         this.sigma = sigma;
         this.step = step;
-    }
-
-    public double getEpsilon() {
-        return epsilon;
-    }
-
-    public void setEpsilon(double epsilon) {
-        this.epsilon = epsilon;
     }
 
     public double getAlpha() {
@@ -82,24 +78,29 @@ public class NelderMeadMethod extends AbstractMultivariableOptimizationAlgorithm
 
     @Override
     public IVector search(IVector x0) {
-        IVector[] X = initialSimplex(x0);
+        final IVector[] X = initialSimplex(x0);
+        final double[] fX = Arrays.stream(X).mapToDouble(f::valueAt).toArray();
         while (true) {
-            double[] fX = Arrays.stream(X).mapToDouble(f::valueAt).toArray();
             Pair argMaxMin = argMaxMin(fX);
             int h = argMaxMin.first;
             int l = argMaxMin.second;
             IVector xh = X[h];
             IVector xl = X[l];
-            double max = fX[h];
-            double min = fX[l];
 
-            IVector xc = centroid(X, xh);
+            IVector xc = centroid(X, h);
             IVector xr = reflection(xc, xh);
 
             double fxr = f.valueAt(xr);
-            if (fxr < min) {
+            if (fxr < fX[l]) {
                 IVector xe = expansion(xc, xr);
-                X[h] = f.valueAt(xe) < min ? xe : xr;
+                double fxe = f.valueAt(xe);
+                if (fxe < fX[l]) {
+                    X[h] = xe;
+                    fX[h] = fxe;
+                } else {
+                    X[h] = xr;
+                    fX[h] = fxr;
+                }
             } else {
                 boolean isConditionMet = true;
                 for (int i = 0, n = fX.length; i < n; i++) {
@@ -110,20 +111,25 @@ public class NelderMeadMethod extends AbstractMultivariableOptimizationAlgorithm
                     }
                 }
                 if (isConditionMet) {
-                    if (fxr < max) {
+                    if (fxr < fX[h]) {
                         xh = X[h] = xr;
+                        fX[h] = fxr;
                     }
                     IVector xk = contraction(xc, xh);
-                    if (f.valueAt(xk) < f.valueAt(xh)) {
+                    double fxk = f.valueAt(xk);
+                    if (fxk < fX[h]) {
                         X[h] = xk;
+                        fX[h] = fxk;
                     } else {
                         for (int i = 0, n = X.length; i < n; i++) {
                             if (i == l) continue;
                             X[i] = shrink(X[i], xl);
+                            fX[i] = f.valueAt(X[i]);
                         }
                     }
                 } else {
                     X[h] = xr;
+                    fX[h] = fxr;
                 }
             }
 
@@ -136,7 +142,8 @@ public class NelderMeadMethod extends AbstractMultivariableOptimizationAlgorithm
         IVector[] simplex = new IVector[n];
         simplex[0] = x0.copy();
         for (int i = 1; i < n; i++) {
-            simplex[i] = x0.copy().set(i - 1, x0.get(i - 1) + step);
+            int nthDimension = i - 1;
+            simplex[i] = x0.copy().set(nthDimension, x0.get(nthDimension) + step);
         }
         return simplex;
     }
@@ -161,14 +168,14 @@ public class NelderMeadMethod extends AbstractMultivariableOptimizationAlgorithm
         return new Pair(maxIndex, minIndex);
     }
 
-    private static IVector centroid(IVector[] simplex, IVector xh) {
-        int n = xh.getDimension();
-        IVector centroid = Matrices.zeroes(n, xh::newInstance);
-        for (IVector point : simplex) {
-            if (point.equals(xh)) continue;
-            centroid = centroid.add(point);
+    private static IVector centroid(IVector[] simplex, int h) {
+        int n = simplex.length - 1;
+        IVector centroid = Matrices.zeroes(n, (IVectorBuilder) Vector::new);
+        for (int i = 0, length = n + 1; i < length; i++) {
+            if (i == h) continue;
+            LinearAlgebra.add(centroid, simplex[i], OperationMutability.MUTABLE);
         }
-        return centroid.multiply((double) 1 / n);
+        return LinearAlgebra.multiply(centroid, (double) 1 / n, OperationMutability.MUTABLE);
     }
 
     private IVector reflection(IVector xc, IVector xh) {
@@ -184,12 +191,16 @@ public class NelderMeadMethod extends AbstractMultivariableOptimizationAlgorithm
     }
 
     private IVector shrink(IVector xi, IVector xl) {
-        return xl.add(xi.subtract(xl).multiply(sigma));
+        return xl.add(xi).multiply(sigma);
     }
 
     private boolean isStopCriteriaMet(double[] fX, IVector centroid) {
+        double val = 0.;
         double fxc = f.valueAt(centroid);
-        return Math.sqrt(Arrays.stream(fX).map(x -> Math.pow(x - fxc, 2)).average().orElseThrow(IllegalStateException::new)) <= epsilon;
+        for (double x : fX) {
+            val += Math.pow(x - fxc, 2);
+        }
+        return Math.sqrt(val / (fX.length - 1)) <= epsilon;
     }
 
     @Override

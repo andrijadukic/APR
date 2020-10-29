@@ -30,7 +30,7 @@ public class GoldenSectionSearch extends AbstractSingleVariableOptimizationAlgor
 
     @Override
     public double search(double x0) {
-        Interval interval = findInterval(new UnimodalInterval(f, epsilon, h).findInterval(x0));
+        Interval interval = findInterval(UnimodalInterval.findInterval(f, h, x0));
         return (interval.start() + interval.end()) / 2;
     }
 

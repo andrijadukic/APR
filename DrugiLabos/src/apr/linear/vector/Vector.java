@@ -14,6 +14,10 @@ public class Vector extends AbstractVector {
 
     private final double[] array;
 
+    public Vector(int dimension) {
+        this(new double[dimension]);
+    }
+
     public Vector(double... array) {
         this.array = array;
     }
