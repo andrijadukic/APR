@@ -17,8 +17,8 @@ import java.util.stream.IntStream;
 public class Lab {
 
     public static void main(String[] args) {
-        zadatak1();
-//        zadatak2();
+//        zadatak1();
+        zadatak2();
 //        zadatak3();
 //        zadatak4();
 //        zadatak5();
@@ -27,7 +27,7 @@ public class Lab {
     private static void zadatak1() {
         var f3 = MultivariableCostFunctions.f3();
 
-        var startingPoints = List.of(10., 110., 210., 310., 410., 510., 610., 710., 810.);
+        var startingPoints = List.of(10., 1000., 100.);
         var goldenSectionSearch = new GoldenSectionSearch(x -> f3.valueAt(new Vector(x)));
         var multivariableOptimizationAlgorithms = List.of(new CoordinateDescent(f3), new HookeJeeves(f3), new NelderMeadMethod(f3));
 

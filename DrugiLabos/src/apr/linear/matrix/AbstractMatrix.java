@@ -13,22 +13,22 @@ public abstract class AbstractMatrix implements IMatrix {
 
     @Override
     public IMatrix add(IMatrix other) {
-        return LinearAlgebra.add(this, other, OperationMutability.MUTABLE);
+        return LinearAlgebra.add(this, other, OperationMutability.IMMUTABLE);
     }
 
     @Override
     public IMatrix add(double value) {
-        return LinearAlgebra.add(this, value, OperationMutability.MUTABLE);
+        return LinearAlgebra.add(this, value, OperationMutability.IMMUTABLE);
     }
 
     @Override
     public IMatrix subtract(IMatrix other) {
-        return LinearAlgebra.subtract(this, other, OperationMutability.MUTABLE);
+        return LinearAlgebra.subtract(this, other, OperationMutability.IMMUTABLE);
     }
 
     @Override
     public IMatrix subtract(double value) {
-        return LinearAlgebra.subtract(this, value, OperationMutability.MUTABLE);
+        return LinearAlgebra.subtract(this, value, OperationMutability.IMMUTABLE);
     }
 
     @Override
@@ -38,7 +38,7 @@ public abstract class AbstractMatrix implements IMatrix {
 
     @Override
     public IMatrix multiply(double scalar) {
-        return LinearAlgebra.multiply(this, scalar, OperationMutability.MUTABLE);
+        return LinearAlgebra.multiply(this, scalar, OperationMutability.IMMUTABLE);
     }
 
     @Override
@@ -48,7 +48,7 @@ public abstract class AbstractMatrix implements IMatrix {
 
     @Override
     public IMatrix apply(IDoubleUnaryFunction function) {
-        return LinearAlgebra.apply(this, function, OperationMutability.MUTABLE);
+        return LinearAlgebra.apply(this, function, OperationMutability.IMMUTABLE);
     }
 
     @Override

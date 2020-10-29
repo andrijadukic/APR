@@ -1,14 +1,15 @@
 package apr.optimization.algorithms.fminsearch;
 
-import apr.linear.util.LinearAlgebra;
 import apr.linear.util.Matrices;
-import apr.linear.util.OperationMutability;
 import apr.linear.vector.IVector;
 import apr.linear.vector.IVectorBuilder;
 import apr.linear.vector.Vector;
 import apr.optimization.function.IMultivariableFunction;
 
 import java.util.Arrays;
+
+import static apr.linear.util.LinearAlgebra.*;
+import static apr.linear.util.OperationMutability.*;
 
 
 /**
@@ -173,25 +174,25 @@ public class NelderMeadMethod extends AbstractMultivariableOptimizationAlgorithm
         IVector centroid = Matrices.zeroes(n, (IVectorBuilder) Vector::new);
         for (int i = 0, length = n + 1; i < length; i++) {
             if (i == h) continue;
-            LinearAlgebra.add(centroid, simplex[i], OperationMutability.MUTABLE);
+            add(centroid, simplex[i], MUTABLE);
         }
-        return LinearAlgebra.multiply(centroid, (double) 1 / n, OperationMutability.MUTABLE);
+        return multiply(centroid, (double) 1 / n, MUTABLE);
     }
 
     private IVector reflection(IVector xc, IVector xh) {
-        return xc.multiply(1 + alpha).subtract(xh.multiply(alpha));
+        return subtract(multiply(xc, 1 + alpha, IMMUTABLE), multiply(xh, alpha, IMMUTABLE), MUTABLE);
     }
 
     private IVector expansion(IVector xc, IVector xr) {
-        return xc.multiply(1 - gamma).add(xr.multiply(gamma));
+        return add(multiply(xc, 1 - gamma, IMMUTABLE), multiply(xr, gamma, IMMUTABLE), MUTABLE);
     }
 
     private IVector contraction(IVector xc, IVector xh) {
-        return xc.multiply(1 - beta).add(xh.multiply(beta));
+        return add(multiply(xc, 1 - beta, IMMUTABLE), multiply(xh, beta, IMMUTABLE), MUTABLE);
     }
 
     private IVector shrink(IVector xi, IVector xl) {
-        return xl.add(xi).multiply(sigma);
+        return multiply(add(xi, xl, MUTABLE), sigma, MUTABLE);
     }
 
     private boolean isStopCriteriaMet(double[] fX, IVector centroid) {

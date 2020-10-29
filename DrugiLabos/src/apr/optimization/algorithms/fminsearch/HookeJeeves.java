@@ -1,7 +1,12 @@
 package apr.optimization.algorithms.fminsearch;
 
+import apr.linear.util.LinearAlgebra;
+import apr.linear.util.OperationMutability;
 import apr.linear.vector.IVector;
 import apr.optimization.function.IMultivariableFunction;
+
+import static apr.linear.util.LinearAlgebra.*;
+import static apr.linear.util.OperationMutability.*;
 
 /**
  * Class implementing the Hooke-Jeeves method
@@ -46,7 +51,7 @@ public class HookeJeeves extends AbstractMultivariableOptimizationAlgorithm {
             IVector xn = explore(xp, dx);
             double fxn = f.valueAt(xn);
             if (fxn < fxb) {
-                xp = xn.multiply(2).subtract(xb);
+                xp = subtract(multiply(xn, 2, IMMUTABLE), xb, MUTABLE);
                 xb = xn;
                 fxb = fxn;
             } else {
