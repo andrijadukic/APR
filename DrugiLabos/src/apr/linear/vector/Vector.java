@@ -66,11 +66,4 @@ public class Vector extends AbstractVector {
         array[i] = array[j];
         array[j] = temp;
     }
-
-    @Override
-    public String toString() {
-        return Arrays.stream(array)
-                .mapToObj(String::valueOf)
-                .collect(Collectors.joining(" "));
-    }
 }
