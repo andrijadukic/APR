@@ -1,7 +1,7 @@
 package apr.linear.io;
 
 import apr.linear.matrix.IMatrix;
-import apr.linear.matrix.IMatrixBuilder;
+import apr.linear.util.builders.IMatrixBuilder;
 
 import java.io.IOException;
 import java.nio.file.Files;

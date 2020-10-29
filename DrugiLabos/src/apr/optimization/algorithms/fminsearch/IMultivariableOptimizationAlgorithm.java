@@ -1,11 +1,12 @@
 package apr.optimization.algorithms.fminsearch;
 
 import apr.linear.vector.IVector;
+import apr.optimization.util.INamedAlgorithm;
 
 /**
  * Interface defining a multivariable function minimization algorithm
  */
-public interface IMultivariableOptimizationAlgorithm {
+public interface IMultivariableOptimizationAlgorithm extends INamedAlgorithm {
 
     /**
      * Computes the minimum of function from a starting point
@@ -14,11 +15,4 @@ public interface IMultivariableOptimizationAlgorithm {
      * @return argmin
      */
     IVector search(IVector x0);
-
-    /**
-     * Gets the name of this algorithm
-     *
-     * @return name of algorithm
-     */
-    String getName();
 }

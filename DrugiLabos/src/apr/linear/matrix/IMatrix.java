@@ -1,21 +1,14 @@
 package apr.linear.matrix;
 
+import apr.linear.util.ICopyable;
+import apr.linear.util.IMatchable;
 import apr.linear.util.functions.IDoubleUnaryFunction;
 import apr.linear.vector.IVector;
-
-import java.util.function.DoublePredicate;
 
 /**
  * Interface defining a matrix that holds real numbers (double precision)
  */
-public interface IMatrix {
-
-    /**
-     * Copies this matrix
-     *
-     * @return deep copy of this matrix
-     */
-    IMatrix copy();
+public interface IMatrix extends Iterable<Double>, ICopyable<IMatrix>, IMatchable {
 
     /**
      * Creates a new matrix of this type
@@ -153,23 +146,6 @@ public interface IMatrix {
      * @return new matrix
      */
     IMatrix apply(IDoubleUnaryFunction function);
-
-    /**
-     * Tests if any elements of IMatrix match predicate
-     *
-     * @param predicate predicate to be tested
-     * @return true if any element matches, false otherwise
-     */
-    boolean anyMatch(DoublePredicate predicate);
-
-
-    /**
-     * Tests if all elements of IMatrix match predicate
-     *
-     * @param predicate predicate to be tested
-     * @return true if all elements match, false otherwise
-     */
-    boolean allMatch(DoublePredicate predicate);
 
     /**
      * Turns this matrix into vector array by columns

@@ -3,7 +3,7 @@ package apr.optimization.function;
 /**
  * Utility class defining several cost functions through static factory methods
  */
-public class MultivariableCostFunctions {
+public class CostFunctions {
 
     /**
      * f(x) = 100 * (x2 - x1^2)^2 + (1 - x1)^2

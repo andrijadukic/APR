@@ -2,7 +2,7 @@ package apr.linear.decompose;
 
 import apr.linear.exceptions.SingularMatrixException;
 import apr.linear.matrix.IMatrix;
-import apr.linear.util.LinearAlgebra;
+import apr.linear.util.linalg.LinearAlgebra;
 import apr.linear.util.Matrices;
 import apr.linear.vector.IVector;
 import apr.linear.vector.Vector;
@@ -48,7 +48,7 @@ public class LUPDecomposer extends AbstractMatrixDecomposer {
                 isSwapCountEven = !isSwapCountEven;
             }
 
-            if (Math.abs(matrix.get(i, i)) < Matrices.EPSILON) throw new SingularMatrixException();
+            if (Math.abs(matrix.get(i, i)) < LinearAlgebra.EPSILON) throw new SingularMatrixException();
 
             for (int j = i + 1, m = n + 1; j < m; j++) {
                 matrix.set(j, i, matrix.get(j, i) / matrix.get(i, i));

@@ -1,9 +1,11 @@
 package apr.optimization.algorithms.fminbnd;
 
+import apr.optimization.util.INamedAlgorithm;
+
 /**
  * Interface defining a single variable function minimization algorithm
  */
-public interface ISingleVariableOptimizationAlgorithm {
+public interface ISingleVariableOptimizationAlgorithm extends INamedAlgorithm {
 
     /**
      * Computes the minimum of function from a starting point
@@ -12,11 +14,4 @@ public interface ISingleVariableOptimizationAlgorithm {
      * @return argmin
      */
     double search(double x0);
-
-    /**
-     * Gets the name of this algorithm
-     *
-     * @return name of algorithm
-     */
-    String getName();
 }

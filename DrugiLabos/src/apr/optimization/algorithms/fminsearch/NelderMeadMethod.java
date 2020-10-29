@@ -2,14 +2,14 @@ package apr.optimization.algorithms.fminsearch;
 
 import apr.linear.util.Matrices;
 import apr.linear.vector.IVector;
-import apr.linear.vector.IVectorBuilder;
+import apr.linear.util.builders.IVectorBuilder;
 import apr.linear.vector.Vector;
 import apr.optimization.function.IMultivariableFunction;
 
 import java.util.Arrays;
 
-import static apr.linear.util.LinearAlgebra.*;
-import static apr.linear.util.OperationMutability.*;
+import static apr.linear.util.linalg.LinearAlgebra.*;
+import static apr.linear.util.linalg.OperationMutability.*;
 
 
 /**
@@ -176,23 +176,35 @@ public class NelderMeadMethod extends AbstractMultivariableOptimizationAlgorithm
             if (i == h) continue;
             add(centroid, simplex[i], MUTABLE);
         }
-        return multiply(centroid, (double) 1 / n, MUTABLE);
+        return multiply(centroid, 1. / n, MUTABLE);
     }
 
     private IVector reflection(IVector xc, IVector xh) {
-        return subtract(multiply(xc, 1 + alpha, IMMUTABLE), multiply(xh, alpha, IMMUTABLE), MUTABLE);
+        return subtract(
+                multiply(xc, 1 + alpha, IMMUTABLE),
+                multiply(xh, alpha, IMMUTABLE),
+                MUTABLE);
     }
 
     private IVector expansion(IVector xc, IVector xr) {
-        return add(multiply(xc, 1 - gamma, IMMUTABLE), multiply(xr, gamma, IMMUTABLE), MUTABLE);
+        return add(
+                multiply(xc, 1 - gamma, IMMUTABLE),
+                multiply(xr, gamma, IMMUTABLE),
+                MUTABLE);
     }
 
     private IVector contraction(IVector xc, IVector xh) {
-        return add(multiply(xc, 1 - beta, IMMUTABLE), multiply(xh, beta, IMMUTABLE), MUTABLE);
+        return add(
+                multiply(xc, 1 - beta, IMMUTABLE),
+                multiply(xh, beta, IMMUTABLE),
+                MUTABLE);
     }
 
     private IVector shrink(IVector xi, IVector xl) {
-        return multiply(add(xi, xl, MUTABLE), sigma, MUTABLE);
+        return multiply(
+                add(xi, xl, MUTABLE),
+                sigma,
+                MUTABLE);
     }
 
     private boolean isStopCriteriaMet(double[] fX, IVector centroid) {

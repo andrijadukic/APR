@@ -6,14 +6,14 @@ package apr.optimization.function;
 public class SingleVariableCostFunction implements ISingleVariableCostFunction {
 
     protected final ISingleVariableFunction function;
-    protected long counter;
+    protected int counter;
 
     public SingleVariableCostFunction(ISingleVariableFunction function) {
         this.function = function;
     }
 
     @Override
-    public long getCounter() {
+    public int getCounter() {
         return counter;
     }
 

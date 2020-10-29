@@ -1,20 +1,24 @@
-package apr.linear.util;
+package apr.linear.util.linalg;
 
 import apr.linear.exceptions.DimensionMismatchException;
 import apr.linear.exceptions.MatrixDimensionMismatchException;
 import apr.linear.exceptions.SingularMatrixException;
 import apr.linear.matrix.IMatrix;
+import apr.linear.util.Matrices;
 import apr.linear.util.functions.IDoubleBinaryFunction;
 import apr.linear.util.functions.IDoubleUnaryFunction;
 import apr.linear.vector.IVector;
 
 import java.security.InvalidParameterException;
+import java.util.Iterator;
 import java.util.function.DoublePredicate;
 
 /**
  * Class implementing common linear algebra operations
  */
 public class LinearAlgebra {
+
+    public static final double EPSILON = 1e-6;
 
     /**
      * Performs matrix-matrix addition
@@ -37,7 +41,7 @@ public class LinearAlgebra {
      * @return result matrix
      */
     public static IMatrix add(IMatrix matrix, double value, OperationMutability mutability) {
-        if (value == 0) return mutability == OperationMutability.MUTABLE ? matrix : matrix.copy();
+        if (value == 0) return (mutability == OperationMutability.MUTABLE) ? matrix : matrix.copy();
         return apply(matrix, x -> x + value, mutability);
     }
 
@@ -62,7 +66,7 @@ public class LinearAlgebra {
      * @return result vector
      */
     public static IVector add(IVector vector, double value, OperationMutability mutability) {
-        if (value == 0) return mutability == OperationMutability.MUTABLE ? vector : vector.copy();
+        if (value == 0) return (mutability == OperationMutability.MUTABLE) ? vector : vector.copy();
         return apply(vector, x -> x + value, mutability);
     }
 
@@ -87,7 +91,7 @@ public class LinearAlgebra {
      * @return result matrix
      */
     public static IMatrix subtract(IMatrix matrix, double value, OperationMutability mutability) {
-        if (value == 0) return mutability == OperationMutability.MUTABLE ? matrix : matrix.copy();
+        if (value == 0) return (mutability == OperationMutability.MUTABLE) ? matrix : matrix.copy();
         return apply(matrix, x -> x - value, mutability);
 
     }
@@ -113,7 +117,7 @@ public class LinearAlgebra {
      * @return result vector
      */
     public static IVector subtract(IVector vector, double value, OperationMutability mutability) {
-        if (value == 0) return mutability == OperationMutability.MUTABLE ? vector : vector.copy();
+        if (value == 0) return (mutability == OperationMutability.MUTABLE) ? vector : vector.copy();
         return apply(vector, x -> x - value, mutability);
 
     }
@@ -176,7 +180,7 @@ public class LinearAlgebra {
      * @return result matrix
      */
     public static IMatrix multiply(IMatrix matrix, double scalar, OperationMutability mutability) {
-        if (scalar == 1) return mutability == OperationMutability.MUTABLE ? matrix : matrix.copy();
+        if (scalar == 1) return (mutability == OperationMutability.MUTABLE) ? matrix : matrix.copy();
         return apply(matrix, x -> x * scalar, mutability);
     }
 
@@ -222,7 +226,7 @@ public class LinearAlgebra {
     public static IMatrix apply(IMatrix matrix, IDoubleUnaryFunction function, OperationMutability mutability) {
         int rowDimension = matrix.getRowDimension();
         int columnDimension = matrix.getColumnDimension();
-        IMatrix result = mutability == OperationMutability.MUTABLE ? matrix : matrix.newInstance(rowDimension, columnDimension);
+        IMatrix result = (mutability == OperationMutability.MUTABLE) ? matrix : matrix.newInstance(rowDimension, columnDimension);
         for (int i = 0; i < rowDimension; i++) {
             for (int j = 0; j < columnDimension; j++) {
                 result.set(i, j, function.apply(matrix.get(i, j)));
@@ -243,7 +247,7 @@ public class LinearAlgebra {
         checkDimensionsSame(m1, m2);
         int rowDimension = m1.getRowDimension();
         int columnDimension = m1.getColumnDimension();
-        IMatrix result = mutability == OperationMutability.MUTABLE ? m1 : m1.newInstance(rowDimension, columnDimension);
+        IMatrix result = (mutability == OperationMutability.MUTABLE) ? m1 : m1.newInstance(rowDimension, columnDimension);
         for (int i = 0; i < rowDimension; i++) {
             for (int j = 0; j < columnDimension; j++) {
                 result.set(i, j, function.apply(m1.get(i, j), m2.get(i, j)));
@@ -262,7 +266,7 @@ public class LinearAlgebra {
      */
     public static IVector apply(IVector vector, IDoubleUnaryFunction function, OperationMutability mutability) {
         int n = vector.getDimension();
-        IVector result = mutability == OperationMutability.MUTABLE ? vector : vector.newInstance(n);
+        IVector result = (mutability == OperationMutability.MUTABLE) ? vector : vector.newInstance(n);
         for (int i = 0; i < n; i++) {
             result.set(i, function.apply(vector.get(i)));
         }
@@ -282,7 +286,7 @@ public class LinearAlgebra {
         checkDimensionsSame(v1, v2);
 
         int n = v1.getDimension();
-        IVector result = mutability == OperationMutability.MUTABLE ? v1 : v1.newInstance(n);
+        IVector result = (mutability == OperationMutability.MUTABLE) ? v1 : v1.newInstance(n);
         for (int i = 0; i < n; i++) {
             result.set(i, function.apply(v1.get(i), v2.get(i)));
         }
@@ -290,55 +294,28 @@ public class LinearAlgebra {
     }
 
     /**
-     * Tests if any elements of matrix match predicate
+     * Tests if any element matches predicate
      *
-     * @param matrix    matrix
+     * @param iterable  iterable object
      * @param predicate predicate to be tested
      * @return true if any element matches, false otherwise
      */
-    public static boolean anyMatch(IMatrix matrix, DoublePredicate predicate) {
-        for (int i = 0, n = matrix.getRowDimension(); i < n; i++) {
-            for (int j = 0, m = matrix.getColumnDimension(); j < m; j++) {
-                if (predicate.test(matrix.get(i, j))) return true;
-            }
+    public static boolean anyMatch(Iterable<Double> iterable, DoublePredicate predicate) {
+        for (Double element : iterable) {
+            if (predicate.test(element)) return true;
         }
         return false;
     }
 
     /**
-     * Tests if any elements of vector match predicate
+     * Tests if all elements match predicate
      *
-     * @param vector    vector
+     * @param iterable  iterable object
      * @param predicate predicate to be tested
      * @return true if any element matches, false otherwise
      */
-    public static boolean anyMatch(IVector vector, DoublePredicate predicate) {
-        for (int i = 0, n = vector.getDimension(); i < n; i++) {
-            if (predicate.test(vector.get(i))) return true;
-        }
-        return false;
-    }
-
-    /**
-     * Tests if all elements of matrix match predicate
-     *
-     * @param matrix    matrix
-     * @param predicate predicate to be tested
-     * @return true if all elements match, false otherwise
-     */
-    public static boolean allMatch(IMatrix matrix, DoublePredicate predicate) {
-        return !anyMatch(matrix, x -> !predicate.test(x));
-    }
-
-    /**
-     * Tests if all elements of vector match predicate
-     *
-     * @param vector    vector
-     * @param predicate predicate to be tested
-     * @return true if all elements match, false otherwise
-     */
-    public static boolean allMatch(IVector vector, DoublePredicate predicate) {
-        return !anyMatch(vector, x -> !predicate.test(x));
+    public static boolean allMatch(Iterable<Double> iterable, DoublePredicate predicate) {
+        return !anyMatch(iterable, x -> !predicate.test(x));
     }
 
     /**
@@ -374,7 +351,7 @@ public class LinearAlgebra {
 
         IVector result = vector.copy();
         for (int i = matrix.getRowDimension() - 1; i >= 0; i--) {
-            if (Math.abs(matrix.get(i, i)) < Matrices.EPSILON) throw new SingularMatrixException();
+            if (Math.abs(matrix.get(i, i)) < LinearAlgebra.EPSILON) throw new SingularMatrixException();
 
             result.set(i, result.get(i) / matrix.get(i, i));
             for (int j = 0; j < i; j++) {

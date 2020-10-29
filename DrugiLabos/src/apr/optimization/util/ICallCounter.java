@@ -15,5 +15,5 @@ public interface ICallCounter {
      *
      * @return current value of the counter
      */
-    long getCounter();
+    int getCounter();
 }

@@ -1,9 +1,11 @@
 package apr.linear.util;
 
 import apr.linear.matrix.IMatrix;
-import apr.linear.matrix.IMatrixBuilder;
+import apr.linear.util.builders.IMatrixBuilder;
+import apr.linear.util.linalg.LinearAlgebra;
+import apr.linear.util.linalg.OperationMutability;
 import apr.linear.vector.IVector;
-import apr.linear.vector.IVectorBuilder;
+import apr.linear.util.builders.IVectorBuilder;
 
 import java.util.Random;
 
@@ -149,7 +151,7 @@ public class Matrices {
 
         for (int i = 0, n = matrix.getRowDimension(); i < n; i++) {
             for (int j = i + 1; j < n; j++) {
-                if (matrix.get(i, j) > Matrices.EPSILON) return false;
+                if (matrix.get(i, j) > LinearAlgebra.EPSILON) return false;
             }
         }
 
@@ -167,7 +169,7 @@ public class Matrices {
 
         for (int i = 0, n = matrix.getRowDimension(); i < n; i++) {
             for (int j = 0; j < i; j++) {
-                if (matrix.get(i, j) > Matrices.EPSILON) return false;
+                if (matrix.get(i, j) > LinearAlgebra.EPSILON) return false;
             }
         }
 

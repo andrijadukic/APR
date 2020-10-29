@@ -1,9 +1,10 @@
 package apr.linear.matrix;
 
-import apr.linear.util.LinearAlgebra;
-import apr.linear.util.OperationMutability;
+import apr.linear.util.linalg.LinearAlgebra;
+import apr.linear.util.linalg.OperationMutability;
 import apr.linear.util.functions.IDoubleUnaryFunction;
 
+import java.util.Iterator;
 import java.util.function.DoublePredicate;
 
 /**
@@ -44,6 +45,11 @@ public abstract class AbstractMatrix implements IMatrix {
     @Override
     public IMatrix transpose() {
         return new TransposedMatrixView(this);
+    }
+
+    @Override
+    public Iterator<Double> iterator() {
+        return new AbstractMatrixIterator(this);
     }
 
     @Override
@@ -94,5 +100,37 @@ public abstract class AbstractMatrix implements IMatrix {
         }
 
         return matrix.toString();
+    }
+
+    private static class AbstractMatrixIterator implements Iterator<Double> {
+
+        private final IMatrix matrix;
+        private final int rowDimension;
+        private final int columnDimension;
+
+        private int rowCount;
+        private int columnCount;
+
+        public AbstractMatrixIterator(IMatrix matrix) {
+            this.matrix = matrix;
+            rowDimension = matrix.getRowDimension();
+            columnDimension = matrix.getColumnDimension();
+        }
+
+        @Override
+        public boolean hasNext() {
+            return rowCount < rowDimension || columnCount < columnDimension;
+        }
+
+        @Override
+        public Double next() {
+            double value = matrix.get(rowCount, columnCount++);
+
+            if (columnCount == columnDimension - 1) {
+                rowCount++;
+            }
+
+            return value;
+        }
     }
 }

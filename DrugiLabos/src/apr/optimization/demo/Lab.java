@@ -7,7 +7,7 @@ import apr.optimization.algorithms.fminsearch.CoordinateDescent;
 import apr.optimization.algorithms.fminsearch.HookeJeeves;
 import apr.optimization.algorithms.fminsearch.IMultivariableOptimizationAlgorithm;
 import apr.optimization.algorithms.fminsearch.NelderMeadMethod;
-import apr.optimization.function.MultivariableCostFunctions;
+import apr.optimization.function.CostFunctions;
 import apr.optimization.function.IMultivariableCostFunction;
 
 import java.util.List;
@@ -25,7 +25,10 @@ public class Lab {
     }
 
     private static void zadatak1() {
-        var f3 = MultivariableCostFunctions.f3();
+        System.out.println("Zadatak 1");
+        System.out.println();
+
+        var f3 = CostFunctions.f3();
 
         var startingPoints = List.of(10., 1000., 100.);
         var goldenSectionSearch = new GoldenSectionSearch(x -> f3.valueAt(new Vector(x)));
@@ -53,7 +56,10 @@ public class Lab {
     }
 
     private static void zadatak2() {
-        var functions = List.of(MultivariableCostFunctions.f1(), MultivariableCostFunctions.f2(), MultivariableCostFunctions.f3(), MultivariableCostFunctions.f4());
+        System.out.println("Zadatak 2");
+        System.out.println();
+
+        var functions = List.of(CostFunctions.f1(), CostFunctions.f2(), CostFunctions.f3(), CostFunctions.f4());
         var points = List.of(new Vector(-1.9, 2), new Vector(0.1, 0.3), new Vector(0, 0, 0, 0, 0), new Vector(5.1, 1.1));
         var minimums = List.of(new Vector(1., 1.), new Vector(4., 2.), new Vector(1, 2, 3, 4, 5), new Vector(0., 0.));
 
@@ -68,7 +74,10 @@ public class Lab {
     }
 
     private static void zadatak3() {
-        var f = MultivariableCostFunctions.f4();
+        System.out.println("Zadatak 3");
+        System.out.println();
+
+        var f = CostFunctions.f4();
         IVector x0 = new Vector(5.5, 5.5);
         IVector min = new Vector(0., 0.);
 
@@ -78,7 +87,10 @@ public class Lab {
     }
 
     private static void zadatak4() {
-        var f = MultivariableCostFunctions.f1();
+        System.out.println("Zadatak 4");
+        System.out.println();
+
+        var f = CostFunctions.f1();
         IVector min = new Vector(1., 1.);
 
         IVector startingPoint1 = new Vector(0.5, 0.5);
@@ -107,8 +119,11 @@ public class Lab {
     }
 
     private static void zadatak5() {
-        var f = MultivariableCostFunctions.f6();
-        double min = f.valueAt(new Vector(0., 0.));
+        System.out.println("Zadatak 5");
+        System.out.println();
+
+        var f = CostFunctions.f6();
+        double fmin = f.valueAt(new Vector(0., 0.));
         var algorithm = new NelderMeadMethod(f);
 
         int count = 0;
@@ -118,7 +133,7 @@ public class Lab {
             double x = -50 + (50 - (-50)) * random.nextDouble();
             double y = -50 + (50 - (-50)) * random.nextDouble();
             IVector startingPoint = new Vector(x, y);
-            if (Math.abs(f.valueAt(algorithm.search(startingPoint)) - min) < 1e-2) {
+            if (Math.abs(f.valueAt(algorithm.search(startingPoint)) - fmin) < 1e-2) {
                 count++;
             }
             f.reset();

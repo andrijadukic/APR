@@ -1,10 +1,11 @@
 package apr.linear.vector;
 
 import apr.linear.matrix.IMatrix;
-import apr.linear.util.LinearAlgebra;
-import apr.linear.util.OperationMutability;
+import apr.linear.util.linalg.LinearAlgebra;
+import apr.linear.util.linalg.OperationMutability;
 import apr.linear.util.functions.IDoubleUnaryFunction;
 
+import java.util.Iterator;
 import java.util.function.DoublePredicate;
 
 /**
@@ -63,6 +64,11 @@ public abstract class AbstractVector implements IVector {
     }
 
     @Override
+    public Iterator<Double> iterator() {
+        return new AbstractVectorIterator(this);
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof IVector other)) return false;
 
@@ -88,5 +94,27 @@ public abstract class AbstractVector implements IVector {
         vector.append(get(n));
 
         return vector.toString();
+    }
+
+    private static class AbstractVectorIterator implements Iterator<Double> {
+
+        private final IVector vector;
+        private final int dimension;
+        private int count;
+
+        public AbstractVectorIterator(IVector vector) {
+            this.vector = vector;
+            dimension = vector.getDimension();
+        }
+
+        @Override
+        public boolean hasNext() {
+            return count < dimension;
+        }
+
+        @Override
+        public Double next() {
+            return vector.get(count++);
+        }
     }
 }

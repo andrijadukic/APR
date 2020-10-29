@@ -1,21 +1,15 @@
 package apr.linear.vector;
 
 import apr.linear.matrix.IMatrix;
+import apr.linear.util.ICopyable;
+import apr.linear.util.IMatchable;
 import apr.linear.util.functions.IDoubleUnaryFunction;
 
-import java.util.function.DoublePredicate;
 
 /**
  * Interface defining a vector that holds real numbers (double precision)
  */
-public interface IVector {
-
-    /**
-     * Copies this vector
-     *
-     * @return deep copy of this vector
-     */
-    IVector copy();
+public interface IVector extends Iterable<Double>, ICopyable<IVector>, IMatchable {
 
     /**
      * Creates a new vector of this type
@@ -120,23 +114,6 @@ public interface IVector {
      * @return new vector
      */
     IVector apply(IDoubleUnaryFunction function);
-
-    /**
-     * Tests if any elements of IVector match predicate
-     *
-     * @param predicate predicate to be tested
-     * @return true if any element matches, false otherwise
-     */
-    boolean anyMatch(DoublePredicate predicate);
-
-
-    /**
-     * Tests if all elements of IVector match predicate
-     *
-     * @param predicate predicate to be tested
-     * @return true if all elements match, false otherwise
-     */
-    boolean allMatch(DoublePredicate predicate);
 
     /**
      * Transforms this vector to matrix equivalent

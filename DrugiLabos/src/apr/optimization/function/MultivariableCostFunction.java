@@ -8,14 +8,14 @@ import apr.linear.vector.IVector;
 public class MultivariableCostFunction implements IMultivariableCostFunction {
 
     protected final IMultivariableFunction function;
-    protected long counter;
+    protected int counter;
 
     public MultivariableCostFunction(IMultivariableFunction function) {
         this.function = function;
     }
 
     @Override
-    public long getCounter() {
+    public int getCounter() {
         return counter;
     }
 

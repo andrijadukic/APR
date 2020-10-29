@@ -1,12 +1,10 @@
 package apr.optimization.algorithms.fminsearch;
 
-import apr.linear.util.LinearAlgebra;
-import apr.linear.util.OperationMutability;
 import apr.linear.vector.IVector;
 import apr.optimization.function.IMultivariableFunction;
 
-import static apr.linear.util.LinearAlgebra.*;
-import static apr.linear.util.OperationMutability.*;
+import static apr.linear.util.linalg.LinearAlgebra.*;
+import static apr.linear.util.linalg.OperationMutability.*;
 
 /**
  * Class implementing the Hooke-Jeeves method

@@ -1,4 +1,4 @@
-package apr.linear.util;
+package apr.linear.util.linalg;
 
 public enum OperationMutability {
 

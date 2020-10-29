@@ -5,6 +5,7 @@ import apr.linear.vector.IVector;
 /**
  * Interface defining a multivariable function
  */
+@FunctionalInterface
 public interface IMultivariableFunction {
 
     /**
