@@ -4,7 +4,7 @@ import apr.optimization.function.ISingleVariableFunction;
 import apr.optimization.util.Interval;
 
 /**
- * Class implementing golden section search
+ * Implementation of the golden section search algorithm
  */
 public class GoldenSectionSearch extends AbstractSingleVariableOptimizationAlgorithm {
 

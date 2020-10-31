@@ -3,12 +3,13 @@ package apr.linear.decompose;
 import apr.linear.matrix.IMatrix;
 
 /**
- * Interface defining an object used for matrix decomposition
+ * Represents an object used for matrix decomposition
  */
 public interface IMatrixDecomposer {
 
     /**
      * Tests whether the given matrix is applicable for this decomposition algorithm
+     *
      * @param matrix matrix to be tested
      * @return true if matrix is applicable, false otherwise
      */
@@ -16,12 +17,14 @@ public interface IMatrixDecomposer {
 
     /**
      * Gets the determinant of the given matrix
+     *
      * @return determinant of the given matrix
      */
     double getDeterminant();
 
     /**
-     * Gets the LinearEquationSolver which uses this decomposition algorithm for solving linear equations
+     * Gets a linear equation solver
+     *
      * @return solver object
      */
     ILinearEquationSolver solver();

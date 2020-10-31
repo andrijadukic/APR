@@ -22,10 +22,9 @@ public class Tester {
     public void test(IMultivariableCostFunction f, IMultivariableOptimizationAlgorithm algorithm, IVector x0) {
         f.reset();
 
-        IVector min = algorithm.search(x0);
-
         String name = algorithm.getName();
         List<TestResult> algorithmResults = results.getOrDefault(name, new ArrayList<>());
+        IVector min = algorithm.search(x0);
         algorithmResults.add(new TestResult(x0, min, f.getCounter()));
         results.put(name, algorithmResults);
 
@@ -35,10 +34,9 @@ public class Tester {
     public void test(IMultivariableCostFunction f, ISingleVariableOptimizationAlgorithm algorithm, double x0) {
         f.reset();
 
-        double min = algorithm.search(x0);
-
         String name = algorithm.getName();
         List<TestResult> algorithmResults = results.getOrDefault(name, new ArrayList<>());
+        double min = algorithm.search(x0);
         algorithmResults.add(new TestResult(new Vector(x0), new Vector(min), f.getCounter()));
         results.put(name, algorithmResults);
 
@@ -50,7 +48,6 @@ public class Tester {
         results.forEach((algorithm, tests) -> {
             System.out.println(algorithm);
             tests.forEach(System.out::println);
-
             System.out.println();
             System.out.println();
         });

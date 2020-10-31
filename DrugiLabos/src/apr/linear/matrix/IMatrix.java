@@ -6,7 +6,7 @@ import apr.linear.util.functions.IDoubleUnaryFunction;
 import apr.linear.vector.IVector;
 
 /**
- * Interface defining a matrix that holds real numbers (double precision)
+ * Represents a matrix that holds real numbers (double precision)
  */
 public interface IMatrix extends Iterable<Double>, ICopyable<IMatrix>, IMatchable {
 

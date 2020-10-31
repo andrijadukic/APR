@@ -3,7 +3,7 @@ package apr.optimization.algorithms.fminbnd;
 import apr.optimization.function.ISingleVariableFunction;
 
 /**
- * Abstract helper class which concrete algorithms can extend from
+ * Abstract helper class for storing common properties of {@code ISingleVariableOptimizationAlgorithm} classes
  */
 public abstract class AbstractSingleVariableOptimizationAlgorithm implements ISingleVariableOptimizationAlgorithm {
 

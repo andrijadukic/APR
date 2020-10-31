@@ -3,7 +3,7 @@ package apr.optimization.function;
 import apr.linear.vector.IVector;
 
 /**
- * Interface defining a multivariable function
+ * Represents a multivariable function
  */
 @FunctionalInterface
 public interface IMultivariableFunction {

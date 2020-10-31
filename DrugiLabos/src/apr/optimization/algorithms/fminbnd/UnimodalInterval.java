@@ -4,7 +4,7 @@ import apr.optimization.function.ISingleVariableFunction;
 import apr.optimization.util.Interval;
 
 /**
- * Class implementing unimodal interval search
+ * Static implementation of the unimodal interval search algorithm
  */
 public class UnimodalInterval {
 

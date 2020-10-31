@@ -1,12 +1,10 @@
 package apr.linear.vector;
 
 import apr.linear.matrix.IMatrix;
-import apr.linear.util.MatrixFormat;
 import apr.linear.util.linalg.LinearAlgebra;
 import apr.linear.util.linalg.OperationMutability;
 import apr.linear.util.functions.IDoubleUnaryFunction;
 
-import java.text.DecimalFormat;
 import java.util.Iterator;
 import java.util.function.DoublePredicate;
 
@@ -88,13 +86,12 @@ public abstract class AbstractVector implements IVector {
     @Override
     public String toString() {
         StringBuilder vector = new StringBuilder();
-        DecimalFormat format = MatrixFormat.getPrintFormat();
 
         int n = getDimension() - 1;
         for (int i = 0; i < n; i++) {
-            vector.append(format.format(get(i))).append(" ");
+            vector.append(get(i)).append(" ");
         }
-        vector.append(format.format(get(n)));
+        vector.append(get(n));
 
         return vector.toString();
     }

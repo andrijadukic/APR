@@ -1,7 +1,7 @@
 package apr.optimization.util;
 
 /**
- * Interface defining an object which keeps track of number of times a certain method was called
+ * Represents an object which keeps track of number of times a certain method was called
  */
 public interface ICallCounter {
 

@@ -1,7 +1,7 @@
 package apr.optimization.function;
 
 /**
- * Class implementing ISingleVariableCostFunction interface
+ * Implementation of the {@code ISingleVariableCostFunction} interface
  */
 public class SingleVariableCostFunction implements ISingleVariableCostFunction {
 

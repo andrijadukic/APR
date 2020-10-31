@@ -11,9 +11,8 @@ import java.util.Arrays;
 import static apr.linear.util.linalg.LinearAlgebra.*;
 import static apr.linear.util.linalg.OperationMutability.*;
 
-
 /**
- * Class implementing the Nelder-Mead method
+ * Implementation of the Nelder-Mead simplex method
  */
 public class NelderMeadMethod extends AbstractMultivariableOptimizationAlgorithm {
 

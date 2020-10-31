@@ -5,7 +5,7 @@ import apr.optimization.algorithms.fminbnd.GoldenSectionSearch;
 import apr.optimization.function.IMultivariableFunction;
 
 /**
- * Class implementing coordinate descent algorithm
+ * Implementation of the coordinate descent algorithm
  */
 public class CoordinateDescent extends AbstractMultivariableOptimizationAlgorithm {
 

@@ -3,7 +3,7 @@ package apr.optimization.function;
 import apr.linear.vector.IVector;
 
 /**
- * Class implementing IMultivariableCostFunction interface
+ * Implementation of the {@code IMultivariableCostFunction} interface
  */
 public class MultivariableCostFunction implements IMultivariableCostFunction {
 

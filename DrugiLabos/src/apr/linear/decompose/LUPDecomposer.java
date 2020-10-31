@@ -9,7 +9,7 @@ import apr.linear.vector.Vector;
 
 
 /**
- * Class defining an object used for LUP decomposition of a matrix and storing the resulting L and U matrices and the permutation vector
+ * Implementation of LUP decomposition
  */
 public class LUPDecomposer extends AbstractMatrixDecomposer {
 

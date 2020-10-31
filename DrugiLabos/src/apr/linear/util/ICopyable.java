@@ -1,5 +1,10 @@
 package apr.linear.util;
 
+/**
+ * Represents an object which can copy itself
+ *
+ * @param <T>
+ */
 public interface ICopyable<T> {
 
     /**

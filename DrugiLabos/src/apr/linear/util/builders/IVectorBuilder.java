@@ -3,8 +3,9 @@ package apr.linear.util.builders;
 import apr.linear.vector.IVector;
 
 /**
- * Interface used to create a matrix builder
+ * Represents a vector builder
  */
+@FunctionalInterface
 public interface IVectorBuilder {
 
     /**

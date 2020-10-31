@@ -65,11 +65,12 @@ public class HookeJeeves extends AbstractMultivariableOptimizationAlgorithm {
         IVector x = xp.copy();
         for (int i = 0, n = x.getDimension(); i < n; i++) {
             double initialFx = f.valueAt(x);
-            x.set(i, x.get(i) + dx);
+            double xi = x.get(i);
+            x.set(i, xi + dx);
             if (f.valueAt(x) > initialFx) {
-                x.set(i, x.get(i) - 2 * dx);
+                x.set(i, xi - dx);
                 if (f.valueAt(x) > initialFx) {
-                    x.set(i, x.get(i) + dx);
+                    x.set(i, xi);
                 }
             }
         }

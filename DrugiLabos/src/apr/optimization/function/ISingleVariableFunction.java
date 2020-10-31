@@ -1,7 +1,7 @@
 package apr.optimization.function;
 
 /**
- * Interface defining a single variable function
+ * Represents a single variable function
  */
 @FunctionalInterface
 public interface ISingleVariableFunction {

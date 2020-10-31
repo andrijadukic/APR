@@ -2,6 +2,9 @@ package apr.linear.util;
 
 import java.util.function.DoublePredicate;
 
+/**
+ * Represents a collection of real numbers (double precision) which can apply common predicate methods to its elements
+ */
 public interface IMatchable {
 
     /**

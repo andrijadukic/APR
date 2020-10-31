@@ -10,11 +10,10 @@ import apr.linear.util.functions.IDoubleUnaryFunction;
 import apr.linear.vector.IVector;
 
 import java.security.InvalidParameterException;
-import java.util.Iterator;
 import java.util.function.DoublePredicate;
 
 /**
- * Class implementing common linear algebra operations
+ * Class implementing common linear algebra operations as static methods
  */
 public class LinearAlgebra {
 

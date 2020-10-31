@@ -3,8 +3,9 @@ package apr.linear.util.builders;
 import apr.linear.matrix.IMatrix;
 
 /**
- * Interface used to create a matrix builder
+ * Represents a matrix builder
  */
+@FunctionalInterface
 public interface IMatrixBuilder {
 
     /**

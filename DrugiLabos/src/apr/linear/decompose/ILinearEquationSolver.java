@@ -4,7 +4,7 @@ import apr.linear.matrix.IMatrix;
 import apr.linear.vector.IVector;
 
 /**
- * Interface defining an object used for solving linear equations
+ * Represents an object used for solving linear equations
  */
 public interface ILinearEquationSolver {
 

@@ -1,7 +1,7 @@
 package apr.linear.exceptions;
 
 /**
- * Exception class for use when given matrix dimensions differ from expected
+ * Exception class used when given matrix dimensions differ from expected
  */
 public class MatrixDimensionMismatchException extends RuntimeException {
 

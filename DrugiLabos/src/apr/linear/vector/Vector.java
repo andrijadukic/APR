@@ -3,8 +3,6 @@ package apr.linear.vector;
 import apr.linear.matrix.IMatrix;
 import apr.linear.matrix.Matrix;
 
-import java.util.Arrays;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
