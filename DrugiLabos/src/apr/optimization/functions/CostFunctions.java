@@ -1,4 +1,4 @@
-package apr.optimization.function;
+package apr.optimization.functions;
 
 /**
  * Utility class defining several cost functions through static factory methods

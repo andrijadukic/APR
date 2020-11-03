@@ -6,7 +6,7 @@ import apr.optimization.algorithms.fminbnd.GoldenSectionSearch;
 import apr.optimization.algorithms.fminsearch.CoordinateDescent;
 import apr.optimization.algorithms.fminsearch.HookeJeeves;
 import apr.optimization.algorithms.fminsearch.NelderMead;
-import apr.optimization.function.CostFunctions;
+import apr.optimization.functions.CostFunctions;
 
 import java.util.List;
 import java.util.Random;

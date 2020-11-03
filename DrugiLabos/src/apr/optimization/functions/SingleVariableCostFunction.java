@@ -1,4 +1,4 @@
-package apr.optimization.function;
+package apr.optimization.functions;
 
 /**
  * Implementation of the {@code ISingleVariableCostFunction} interface

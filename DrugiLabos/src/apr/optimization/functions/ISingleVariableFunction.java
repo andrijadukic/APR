@@ -1,4 +1,4 @@
-package apr.optimization.function;
+package apr.optimization.functions;
 
 /**
  * Represents a single variable function
