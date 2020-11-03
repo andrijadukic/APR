@@ -5,7 +5,7 @@ import apr.linear.vector.Vector;
 import apr.optimization.algorithms.fminbnd.GoldenSectionSearch;
 import apr.optimization.algorithms.fminsearch.CoordinateDescent;
 import apr.optimization.algorithms.fminsearch.HookeJeeves;
-import apr.optimization.algorithms.fminsearch.NelderMeadMethod;
+import apr.optimization.algorithms.fminsearch.NelderMead;
 import apr.optimization.function.CostFunctions;
 
 import java.util.List;
@@ -30,7 +30,7 @@ public class Lab {
         var f3 = CostFunctions.f3();
 
         var goldenSectionSearch = new GoldenSectionSearch(x -> f3.valueAt(new Vector(x)));
-        var multivariableOptimizationAlgorithms = List.of(new CoordinateDescent(f3), new HookeJeeves(f3), new NelderMeadMethod(f3));
+        var multivariableOptimizationAlgorithms = List.of(new CoordinateDescent(f3), new HookeJeeves(f3), new NelderMead(f3));
 
         Tester tester = new Tester();
         for (double point = 10; point < 1000; point += 100) {
@@ -59,7 +59,7 @@ public class Lab {
             System.out.println("xMin: " + minimums.get(i));
             System.out.println();
             var f = functions.get(i);
-            for (var algorithm : List.of(new CoordinateDescent(f), new HookeJeeves(f), new NelderMeadMethod(f))) {
+            for (var algorithm : List.of(new CoordinateDescent(f), new HookeJeeves(f), new NelderMead(f))) {
                 tester.test(f, algorithm, points.get(i));
             }
             tester.printResults();
@@ -76,7 +76,7 @@ public class Lab {
         IVector x0 = new Vector(5.5, 5.5);
 
         Tester tester = new Tester();
-        for (var algorithm : List.of(new HookeJeeves(f), new NelderMeadMethod(f))) {
+        for (var algorithm : List.of(new HookeJeeves(f), new NelderMead(f))) {
             tester.test(f, algorithm, x0);
         }
         tester.printResults();
@@ -98,7 +98,7 @@ public class Lab {
             hookeJeeves.setDelta(step);
             tester.test(f, hookeJeeves, startingPoint1);
 
-            var nelderMead = new NelderMeadMethod(f);
+            var nelderMead = new NelderMead(f);
             nelderMead.setStep(step);
             tester.test(f, nelderMead, startingPoint1);
         });
@@ -111,7 +111,7 @@ public class Lab {
             hookeJeeves.setDelta(step);
             tester.test(f, hookeJeeves, startingPoint2);
 
-            var nelderMead = new NelderMeadMethod(f);
+            var nelderMead = new NelderMead(f);
             nelderMead.setStep(step);
             tester.test(f, nelderMead, startingPoint2);
         });
@@ -125,7 +125,7 @@ public class Lab {
 
         var f = CostFunctions.f6();
         double fmin = f.valueAt(new Vector(0., 0.));
-        var algorithm = new NelderMeadMethod(f);
+        var algorithm = new NelderMead(f);
 
         int count = 0;
         int maxIter = 10000;

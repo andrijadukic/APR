@@ -14,7 +14,7 @@ import static apr.linear.util.linalg.OperationMutability.*;
 /**
  * Implementation of the Nelder-Mead simplex method
  */
-public class NelderMeadMethod extends AbstractMultivariableOptimizationAlgorithm {
+public class NelderMead extends AbstractMultivariableOptimizationAlgorithm {
 
     private double alpha = 1.0;
     private double beta = 0.5;
@@ -23,11 +23,11 @@ public class NelderMeadMethod extends AbstractMultivariableOptimizationAlgorithm
     private double sigma = 0.5;
     private double step = 1;
 
-    public NelderMeadMethod(IMultivariableFunction f) {
+    public NelderMead(IMultivariableFunction f) {
         super(f);
     }
 
-    public NelderMeadMethod(IMultivariableFunction f, double epsilon, double alpha, double beta, double gamma, double sigma, double step) {
+    public NelderMead(IMultivariableFunction f, double epsilon, double alpha, double beta, double gamma, double sigma, double step) {
         super(f, epsilon);
         this.alpha = alpha;
         this.beta = beta;
@@ -208,8 +208,8 @@ public class NelderMeadMethod extends AbstractMultivariableOptimizationAlgorithm
     private boolean isStopCriteriaMet(double[] fX, IVector centroid) {
         double val = 0.;
         double fxc = f.valueAt(centroid);
-        for (double x : fX) {
-            val += Math.pow(x - fxc, 2);
+        for (double fx : fX) {
+            val += Math.pow(fx - fxc, 2);
         }
         return Math.sqrt(val / (fX.length - 1)) <= epsilon;
     }
