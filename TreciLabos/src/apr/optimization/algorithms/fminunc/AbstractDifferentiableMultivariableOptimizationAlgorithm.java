@@ -62,8 +62,8 @@ abstract class AbstractDifferentiableMultivariableOptimizationAlgorithm implemen
     public IVector search(IVector x0) {
         IVector x = x0.copy();
 
-        double prevFx = f.valueAt(x);
-        double currFx = prevFx;
+        double previousValue = f.valueAt(x);
+        double currentValue = previousValue;
 
         int iter = 0;
         while (true) {
@@ -76,21 +76,21 @@ abstract class AbstractDifferentiableMultivariableOptimizationAlgorithm implemen
 
             IVector direction = computeDirection(x, gradient);
 
-            double ratio = -1;
             if (computeOptimalStep) {
-                direction = multiply(direction, 1 / norm, MUTABLE);
+                double ratio = 1. / norm;
+                direction = multiply(direction, ratio, MUTABLE);
                 final IVector argX = x.copy();
                 final IVector argV = direction.copy();
                 ratio *= new GoldenSectionSearch(lambda -> f.valueAt(add(multiply(argV, lambda, IMMUTABLE), argX, MUTABLE))).search(0);
+                direction = multiply(direction, ratio, MUTABLE);
             }
-            gradient = multiply(gradient, ratio, MUTABLE);
 
-            x = add(x, multiply(gradient, ratio, MUTABLE), MUTABLE);
+            x = add(x, direction, MUTABLE);
 
-            prevFx = currFx;
-            currFx = f.valueAt(x);
+            previousValue = currentValue;
+            currentValue = f.valueAt(x);
 
-            if (prevFx > currFx) {
+            if (previousValue > currentValue) {
                 iter = 0;
             } else {
                 iter++;
