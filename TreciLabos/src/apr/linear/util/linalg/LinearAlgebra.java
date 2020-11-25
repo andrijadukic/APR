@@ -509,4 +509,8 @@ public class LinearAlgebra {
     private static boolean isBackwardSubstitutionApplicable(IMatrix matrix, IVector vector) {
         return vector.getDimension() == matrix.getRowDimension() && Matrices.isUpperTriangleMatrix(matrix);
     }
+
+    public static double norm(IVector vector) {
+        return Math.sqrt(LinearAlgebra.multiply(vector, vector));
+    }
 }

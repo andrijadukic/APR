@@ -1,6 +1,7 @@
 package apr.optimization.algorithms.fminsearch;
 
 import apr.linear.vector.IVector;
+import apr.optimization.functions.IMultivariableCostFunction;
 import apr.optimization.functions.IMultivariableFunction;
 
 import static apr.linear.util.linalg.LinearAlgebra.*;
@@ -13,11 +14,11 @@ public class HookeJeeves extends AbstractMultivariableOptimizationAlgorithm {
 
     private double delta = 0.5;
 
-    public HookeJeeves(IMultivariableFunction f) {
+    public HookeJeeves(IMultivariableCostFunction f) {
         super(f);
     }
 
-    public HookeJeeves(IMultivariableFunction f, double epsilon, double dx) {
+    public HookeJeeves(IMultivariableCostFunction f, double epsilon, double dx) {
         super(f, epsilon);
         this.delta = dx;
     }

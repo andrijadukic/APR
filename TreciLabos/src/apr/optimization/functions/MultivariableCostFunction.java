@@ -8,25 +8,25 @@ import apr.linear.vector.IVector;
 public class MultivariableCostFunction implements IMultivariableCostFunction {
 
     protected final IMultivariableFunction function;
-    protected int counter;
+    protected int functionEvalCounter;
 
     public MultivariableCostFunction(IMultivariableFunction function) {
         this.function = function;
     }
 
     @Override
-    public int getCounter() {
-        return counter;
+    public int getFunctionEvaluationCount() {
+        return functionEvalCounter;
     }
 
     @Override
     public void reset() {
-        counter = 0;
+        functionEvalCounter = 0;
     }
 
     @Override
     public double valueAt(IVector x) {
-        counter++;
+        functionEvalCounter++;
         return function.valueAt(x);
     }
 }

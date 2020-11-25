@@ -5,17 +5,19 @@ import apr.optimization.functions.ISingleVariableFunction;
 /**
  * Abstract helper class for storing common properties of {@code ISingleVariableOptimizationAlgorithm} classes
  */
-public abstract class AbstractSingleVariableOptimizationAlgorithm implements ISingleVariableOptimizationAlgorithm {
+abstract class AbstractSingleVariableOptimizationAlgorithm implements ISingleVariableOptimizationAlgorithm {
 
     protected final ISingleVariableFunction f;
-    protected double epsilon = 1e-6;
+    protected double epsilon;
+
+    protected static double DEFAULT_EPSILON = 1e-6;
 
     protected AbstractSingleVariableOptimizationAlgorithm(ISingleVariableFunction f) {
-        this.f = f;
+        this(f, DEFAULT_EPSILON);
     }
 
     protected AbstractSingleVariableOptimizationAlgorithm(ISingleVariableFunction f, double epsilon) {
-        this(f);
+        this.f = f;
         this.epsilon = epsilon;
     }
 

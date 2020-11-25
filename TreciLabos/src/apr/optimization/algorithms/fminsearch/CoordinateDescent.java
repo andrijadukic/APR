@@ -2,6 +2,7 @@ package apr.optimization.algorithms.fminsearch;
 
 import apr.linear.vector.IVector;
 import apr.optimization.algorithms.fminbnd.GoldenSectionSearch;
+import apr.optimization.functions.IMultivariableCostFunction;
 import apr.optimization.functions.IMultivariableFunction;
 
 /**
@@ -9,11 +10,11 @@ import apr.optimization.functions.IMultivariableFunction;
  */
 public class CoordinateDescent extends AbstractMultivariableOptimizationAlgorithm {
 
-    public CoordinateDescent(IMultivariableFunction function) {
+    public CoordinateDescent(IMultivariableCostFunction function) {
         super(function);
     }
 
-    public CoordinateDescent(IMultivariableFunction f, double epsilon) {
+    public CoordinateDescent(IMultivariableCostFunction f, double epsilon) {
         super(f, epsilon);
     }
 

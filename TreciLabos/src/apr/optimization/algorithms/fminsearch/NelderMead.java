@@ -4,6 +4,7 @@ import apr.linear.util.Matrices;
 import apr.linear.vector.IVector;
 import apr.linear.util.builders.IVectorBuilder;
 import apr.linear.vector.Vector;
+import apr.optimization.functions.IMultivariableCostFunction;
 import apr.optimization.functions.IMultivariableFunction;
 
 import java.util.Arrays;
@@ -24,11 +25,11 @@ public class NelderMead extends AbstractMultivariableOptimizationAlgorithm {
 
     private double step = 1;
 
-    public NelderMead(IMultivariableFunction f) {
+    public NelderMead(IMultivariableCostFunction f) {
         super(f);
     }
 
-    public NelderMead(IMultivariableFunction f, double epsilon, double alpha, double beta, double gamma, double sigma, double step) {
+    public NelderMead(IMultivariableCostFunction f, double epsilon, double alpha, double beta, double gamma, double sigma, double step) {
         super(f, epsilon);
         this.alpha = alpha;
         this.beta = beta;

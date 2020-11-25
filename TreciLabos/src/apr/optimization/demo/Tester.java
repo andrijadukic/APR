@@ -25,7 +25,7 @@ public class Tester {
         String name = algorithm.getName();
         List<TestResult> algorithmResults = results.getOrDefault(name, new ArrayList<>());
         IVector min = algorithm.search(x0);
-        algorithmResults.add(new TestResult(x0, min, f.getCounter()));
+        algorithmResults.add(new TestResult(x0, min, f.getFunctionEvaluationCount()));
         results.put(name, algorithmResults);
 
         f.reset();
@@ -37,7 +37,7 @@ public class Tester {
         String name = algorithm.getName();
         List<TestResult> algorithmResults = results.getOrDefault(name, new ArrayList<>());
         double min = algorithm.search(x0);
-        algorithmResults.add(new TestResult(new Vector(x0), new Vector(min), f.getCounter()));
+        algorithmResults.add(new TestResult(new Vector(x0), new Vector(min), f.getFunctionEvaluationCount()));
         results.put(name, algorithmResults);
 
         f.reset();
