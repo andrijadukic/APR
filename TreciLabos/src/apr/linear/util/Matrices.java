@@ -8,13 +8,13 @@ import apr.linear.vector.IVector;
 import apr.linear.util.builders.IVectorBuilder;
 
 import java.util.Random;
+import java.util.function.DoubleSupplier;
 
 /**
  * Utility class with factory methods for building matrices
  */
 public class Matrices {
 
-    public static final double EPSILON = 1e-6;
 
     /**
      * Fills matrix with given value
@@ -25,6 +25,10 @@ public class Matrices {
      */
     public static IMatrix fill(IMatrix matrix, double value) {
         return LinearAlgebra.apply(matrix, x -> value, OperationMutability.MUTABLE);
+    }
+
+    public static IMatrix fill(IMatrix matrix, DoubleSupplier supplier) {
+        return LinearAlgebra.apply(matrix, x -> supplier.getAsDouble(), OperationMutability.MUTABLE);
     }
 
     /**
@@ -112,6 +116,10 @@ public class Matrices {
      */
     public static IVector fill(IVector vector, double value) {
         return LinearAlgebra.apply(vector, x -> value, OperationMutability.MUTABLE);
+    }
+
+    public static IVector fill(IVector vector, DoubleSupplier supplier) {
+        return LinearAlgebra.apply(vector, x -> supplier.getAsDouble(), OperationMutability.MUTABLE);
     }
 
     /**

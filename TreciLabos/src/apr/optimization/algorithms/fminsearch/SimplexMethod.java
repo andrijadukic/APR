@@ -80,6 +80,6 @@ public abstract class SimplexMethod extends AbstractMultivariableOptimizationAlg
         return Math.sqrt(val / (fX.length - 1)) <= epsilon;
     }
 
-    protected static record Pair(int first, int second) {
+    public record Pair(int first, int second) {
     }
 }
