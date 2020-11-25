@@ -1,7 +1,5 @@
 package apr.optimization.functions;
 
-import apr.optimization.exceptions.GradientNotAvailableException;
-
 /**
  * Implementation of the {@code ISingleVariableCostFunction} interface
  */
@@ -28,8 +26,6 @@ public class SingleVariableCostFunction implements ISingleVariableCostFunction {
     }
 
     public int getGradientEvaluationCount() {
-        if (gradient == null) throw new GradientNotAvailableException();
-
         return gradientEvalCounter;
     }
 
@@ -46,8 +42,6 @@ public class SingleVariableCostFunction implements ISingleVariableCostFunction {
 
     @Override
     public double gradient(double x) {
-        if (gradient == null) throw new GradientNotAvailableException();
-
         gradientEvalCounter++;
         return gradient.valueAt(x);
     }

@@ -77,11 +77,10 @@ abstract class AbstractDifferentiableMultivariableOptimizationAlgorithm implemen
             IVector direction = computeDirection(x, gradient);
 
             if (computeOptimalStep) {
-                double ratio = 1. / norm;
-                direction = multiply(direction, ratio, MUTABLE);
+                direction = multiply(direction,  1. / norm, MUTABLE);
                 final IVector argX = x.copy();
                 final IVector argV = direction.copy();
-                ratio *= new GoldenSectionSearch(lambda -> f.valueAt(add(multiply(argV, lambda, IMMUTABLE), argX, MUTABLE))).search(0);
+                double ratio = new GoldenSectionSearch(lambda -> f.valueAt(add(multiply(argV, lambda, IMMUTABLE), argX, MUTABLE))).search(0);
                 direction = multiply(direction, ratio, MUTABLE);
             }
 

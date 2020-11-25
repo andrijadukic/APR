@@ -1,11 +1,7 @@
 package apr.optimization.algorithms.fminsearch;
 
-import apr.linear.util.Matrices;
 import apr.linear.vector.IVector;
-import apr.linear.util.builders.IVectorBuilder;
-import apr.linear.vector.Vector;
 import apr.optimization.functions.IMultivariableCostFunction;
-import apr.optimization.functions.IMultivariableFunction;
 
 import java.util.Arrays;
 
@@ -15,7 +11,7 @@ import static apr.linear.util.linalg.OperationMutability.*;
 /**
  * Implementation of the Nelder-Mead simplex method
  */
-public class NelderMead extends AbstractMultivariableOptimizationAlgorithm {
+public class NelderMead extends SimplexMethod {
 
     private double alpha = 1.0;
     private double beta = 0.5;
@@ -84,8 +80,8 @@ public class NelderMead extends AbstractMultivariableOptimizationAlgorithm {
         final double[] fX = Arrays.stream(X).mapToDouble(f::valueAt).toArray();
         while (true) {
             Pair argMaxMin = argMaxMin(fX);
-            int h = argMaxMin.first;
-            int l = argMaxMin.second;
+            int h = argMaxMin.first();
+            int l = argMaxMin.second();
             IVector xh = X[h];
             IVector xl = X[l];
 
@@ -150,35 +146,6 @@ public class NelderMead extends AbstractMultivariableOptimizationAlgorithm {
         return simplex;
     }
 
-    private static Pair argMaxMin(double[] array) {
-        double maxValue, minValue;
-        int maxIndex, minIndex;
-
-        maxValue = minValue = array[0];
-        maxIndex = minIndex = 0;
-        for (int i = 1, n = array.length; i < n; i++) {
-            double temp = array[i];
-            if (temp > maxValue) {
-                maxValue = temp;
-                maxIndex = i;
-            } else if (temp < minValue) {
-                minValue = temp;
-                minIndex = i;
-            }
-        }
-        return new Pair(maxIndex, minIndex);
-    }
-
-    private static IVector centroid(IVector[] simplex, int h) {
-        int n = simplex.length - 1;
-        IVector centroid = Matrices.zeroes(n, (IVectorBuilder) Vector::new);
-        for (int i = 0, length = n + 1; i < length; i++) {
-            if (i == h) continue;
-            add(centroid, simplex[i], MUTABLE);
-        }
-        return multiply(centroid, 1. / n, MUTABLE);
-    }
-
     private IVector reflection(IVector xc, IVector xh) {
         return subtract(
                 multiply(xc, 1 + alpha, IMMUTABLE),
@@ -207,33 +174,8 @@ public class NelderMead extends AbstractMultivariableOptimizationAlgorithm {
                 MUTABLE);
     }
 
-    private boolean isStopCriteriaMet(double[] fX, IVector centroid) {
-        double val = 0.;
-        double fxc = f.valueAt(centroid);
-        for (double fx : fX) {
-            val += Math.pow(fx - fxc, 2);
-        }
-        return Math.sqrt(val / (fX.length - 1)) <= epsilon;
-    }
-
-    private int argMin(double[] array) {
-        int minIndex = 0;
-        double minValue = array[0];
-        for (int i = 1, n = array.length; i < n; i++) {
-            double temp = array[i];
-            if (temp < minValue) {
-                minValue = temp;
-                minIndex = i;
-            }
-        }
-        return minIndex;
-    }
-
     @Override
     public String getName() {
         return "Nelder Mead";
-    }
-
-    private static record Pair(int first, int second) {
     }
 }
