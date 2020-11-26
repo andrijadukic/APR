@@ -4,6 +4,10 @@ import apr.linear.matrix.IMatrix;
 import apr.linear.util.ICopyable;
 import apr.linear.util.IMatchable;
 import apr.linear.util.functions.IDoubleUnaryFunction;
+import apr.linear.util.linalg.LinearAlgebra;
+import apr.linear.util.linalg.OperationMutability;
+
+import javax.sound.sampled.Line;
 
 
 /**
@@ -57,7 +61,9 @@ public interface IVector extends Iterable<Double>, ICopyable<IVector>, IMatchabl
      * @param other vector to be added to this vector
      * @return new vector
      */
-    IVector add(IVector other);
+    default IVector add(IVector other) {
+        return LinearAlgebra.add(this, other, OperationMutability.IMMUTABLE);
+    }
 
     /**
      * Performs scalar addition
@@ -65,7 +71,9 @@ public interface IVector extends Iterable<Double>, ICopyable<IVector>, IMatchabl
      * @param value value to be added to this vector
      * @return new vector
      */
-    IVector add(double value);
+    default IVector add(double value) {
+        return LinearAlgebra.add(this, value, OperationMutability.IMMUTABLE);
+    }
 
     /**
      * Performs vector subtraction
@@ -73,7 +81,9 @@ public interface IVector extends Iterable<Double>, ICopyable<IVector>, IMatchabl
      * @param other vector to be subtracted from this vector
      * @return new vector
      */
-    IVector subtract(IVector other);
+    default IVector subtract(IVector other) {
+        return LinearAlgebra.subtract(this, other, OperationMutability.IMMUTABLE);
+    }
 
     /**
      * Performs scalar subtraction
@@ -81,7 +91,9 @@ public interface IVector extends Iterable<Double>, ICopyable<IVector>, IMatchabl
      * @param value value to be subtracted from this vector
      * @return new vector
      */
-    IVector subtract(double value);
+    default IVector subtract(double value) {
+        return LinearAlgebra.subtract(this, value, OperationMutability.IMMUTABLE);
+    }
 
     /**
      * Performs vector-matrix multiplication
@@ -89,7 +101,9 @@ public interface IVector extends Iterable<Double>, ICopyable<IVector>, IMatchabl
      * @param matrix second operand in vector-matrix multiplication
      * @return new vector
      */
-    IVector multiply(IMatrix matrix);
+    default IVector multiply(IMatrix matrix) {
+        return LinearAlgebra.multiply(this, matrix);
+    }
 
     /**
      * Performs vector-vector multiplication
@@ -97,7 +111,9 @@ public interface IVector extends Iterable<Double>, ICopyable<IVector>, IMatchabl
      * @param other second operand in vector-vector multiplication
      * @return new vector
      */
-    double multiply(IVector other);
+    default double multiply(IVector other) {
+        return LinearAlgebra.multiply(this, other);
+    }
 
     /**
      * Performs vector-scalar multiplication
@@ -105,7 +121,9 @@ public interface IVector extends Iterable<Double>, ICopyable<IVector>, IMatchabl
      * @param scalar second operand in matrix-scalar multiplication
      * @return new vector
      */
-    IVector multiply(double scalar);
+    default IVector multiply(double scalar) {
+        return LinearAlgebra.multiply(this, scalar, OperationMutability.IMMUTABLE);
+    }
 
     /**
      * Applies function to all elements of vector
@@ -113,7 +131,9 @@ public interface IVector extends Iterable<Double>, ICopyable<IVector>, IMatchabl
      * @param function function to be applied
      * @return new vector
      */
-    IVector apply(IDoubleUnaryFunction function);
+    default IVector apply(IDoubleUnaryFunction function) {
+        return LinearAlgebra.apply(this, function, OperationMutability.IMMUTABLE);
+    }
 
     /**
      * Transforms this vector to matrix equivalent

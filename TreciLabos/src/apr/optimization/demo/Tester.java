@@ -2,9 +2,9 @@ package apr.optimization.demo;
 
 import apr.linear.vector.IVector;
 import apr.linear.vector.Vector;
-import apr.optimization.algorithms.fminbnd.ISingleVariableOptimizationAlgorithm;
-import apr.optimization.algorithms.fminsearch.IMultivariableOptimizationAlgorithm;
-import apr.optimization.functions.IMultivariableCostFunction;
+import apr.optimization.algorithms.fminbnd.IUnivariateOptimizer;
+import apr.optimization.algorithms.fminsearch.IMultivariateOptimizer;
+import apr.optimization.functions.IMultivariateCostFunction;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,7 +19,7 @@ public class Tester {
         results = new HashMap<>();
     }
 
-    public void test(IMultivariableCostFunction f, IMultivariableOptimizationAlgorithm algorithm, IVector x0) {
+    public void test(IMultivariateCostFunction f, IMultivariateOptimizer algorithm, IVector x0) {
         f.reset();
 
         String name = algorithm.getName();
@@ -31,7 +31,7 @@ public class Tester {
         f.reset();
     }
 
-    public void test(IMultivariableCostFunction f, ISingleVariableOptimizationAlgorithm algorithm, double x0) {
+    public void test(IMultivariateCostFunction f, IUnivariateOptimizer algorithm, double x0) {
         f.reset();
 
         String name = algorithm.getName();

@@ -3,19 +3,19 @@ package apr.optimization.functions;
 /**
  * Implementation of the {@code ISingleVariableCostFunction} interface
  */
-public class SingleVariableCostFunction implements ISingleVariableCostFunction {
+public class UnivariateCostFunction implements IUnivariateCostFunction {
 
-    protected final ISingleVariableFunction function;
-    protected ISingleVariableFunction gradient;
+    protected final IUnivariateFunction function;
+    protected IUnivariateFunction gradient;
 
     protected int functionEvalCounter;
     protected int gradientEvalCounter;
 
-    public SingleVariableCostFunction(ISingleVariableFunction function) {
+    public UnivariateCostFunction(IUnivariateFunction function) {
         this.function = function;
     }
 
-    public SingleVariableCostFunction(ISingleVariableFunction function, ISingleVariableFunction gradient) {
+    public UnivariateCostFunction(IUnivariateFunction function, IUnivariateFunction gradient) {
         this(function);
         this.gradient = gradient;
     }

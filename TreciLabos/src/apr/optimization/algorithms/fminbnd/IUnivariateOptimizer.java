@@ -5,7 +5,7 @@ import apr.optimization.util.INamedAlgorithm;
 /**
  * Represents a single variable function minimization algorithm
  */
-public interface ISingleVariableOptimizationAlgorithm extends INamedAlgorithm {
+public interface IUnivariateOptimizer extends INamedAlgorithm {
 
     /**
      * Computes the minimum of a function from a starting point

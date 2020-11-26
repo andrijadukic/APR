@@ -1,46 +1,14 @@
 package apr.linear.matrix;
 
 import apr.linear.util.linalg.LinearAlgebra;
-import apr.linear.util.linalg.OperationMutability;
-import apr.linear.util.functions.IDoubleUnaryFunction;
 
 import java.util.Iterator;
 import java.util.function.DoublePredicate;
 
 /**
- * Abstract Matrix class which implements matrix operations, independent of the underlying data structure
+ * Abstract Matrix class from which all IMatrix implementations should inherit
  */
 public abstract class AbstractMatrix implements IMatrix {
-
-    @Override
-    public IMatrix add(IMatrix other) {
-        return LinearAlgebra.add(this, other, OperationMutability.IMMUTABLE);
-    }
-
-    @Override
-    public IMatrix add(double value) {
-        return LinearAlgebra.add(this, value, OperationMutability.IMMUTABLE);
-    }
-
-    @Override
-    public IMatrix subtract(IMatrix other) {
-        return LinearAlgebra.subtract(this, other, OperationMutability.IMMUTABLE);
-    }
-
-    @Override
-    public IMatrix subtract(double value) {
-        return LinearAlgebra.subtract(this, value, OperationMutability.IMMUTABLE);
-    }
-
-    @Override
-    public IMatrix multiply(IMatrix other) {
-        return LinearAlgebra.multiply(this, other);
-    }
-
-    @Override
-    public IMatrix multiply(double scalar) {
-        return LinearAlgebra.multiply(this, scalar, OperationMutability.IMMUTABLE);
-    }
 
     @Override
     public IMatrix transpose() {
@@ -50,11 +18,6 @@ public abstract class AbstractMatrix implements IMatrix {
     @Override
     public Iterator<Double> iterator() {
         return new AbstractMatrixIterator(this);
-    }
-
-    @Override
-    public IMatrix apply(IDoubleUnaryFunction function) {
-        return LinearAlgebra.apply(this, function, OperationMutability.IMMUTABLE);
     }
 
     @Override

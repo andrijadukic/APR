@@ -4,55 +4,49 @@ import apr.linear.util.Matrices;
 import apr.linear.util.builders.IVectorBuilder;
 import apr.linear.vector.IVector;
 import apr.linear.vector.Vector;
-import apr.optimization.functions.IMultivariableCostFunction;
+import apr.optimization.functions.IMultivariateCostFunction;
+
+import java.util.Arrays;
 
 import static apr.linear.util.linalg.LinearAlgebra.add;
 import static apr.linear.util.linalg.LinearAlgebra.multiply;
 import static apr.linear.util.linalg.OperationMutability.MUTABLE;
 
-public abstract class SimplexMethod extends AbstractMultivariableOptimizationAlgorithm {
+public abstract class AbstractSimplexMethod extends AbstractMultivariateOptimizer {
 
-    protected SimplexMethod(IMultivariableCostFunction f) {
+    protected AbstractSimplexMethod(IMultivariateCostFunction f) {
         super(f);
     }
 
-    protected SimplexMethod(IMultivariableCostFunction f, double epsilon) {
+    protected AbstractSimplexMethod(IMultivariateCostFunction f, double epsilon) {
         super(f, epsilon);
     }
 
-    protected Pair argMaxMin(double[] array) {
-        double maxValue, minValue;
-        int maxIndex, minIndex;
+    @Override
+    public IVector search(IVector x0) {
+        validate(x0);
 
-        maxValue = minValue = array[0];
-        maxIndex = minIndex = 0;
-        for (int i = 1, n = array.length; i < n; i++) {
-            double temp = array[i];
-            if (temp > maxValue) {
-                maxValue = temp;
-                maxIndex = i;
-            } else if (temp < minValue) {
-                minValue = temp;
-                minIndex = i;
-            }
+        final IVector[] X = initialSimplex(x0);
+        final double[] fX = Arrays.stream(X).mapToDouble(f::valueAt).toArray();
+        while (true) {
+            boolean convergence = iterate(X, fX);
+            if (convergence) break;
         }
-        return new Pair(maxIndex, minIndex);
+
+        return X[argMin(fX)];
     }
+
+    protected abstract void validate(IVector x0);
+
+    protected abstract IVector[] initialSimplex(IVector x0);
+
+    protected abstract boolean iterate(IVector[] X, double[] fX);
 
     protected IVector centroid(IVector[] simplex, int h) {
         int n = simplex.length - 1;
         IVector centroid = Matrices.zeroes(n, (IVectorBuilder) Vector::new);
         for (int i = 0, length = n + 1; i < length; i++) {
             if (i == h) continue;
-            add(centroid, simplex[i], MUTABLE);
-        }
-        return multiply(centroid, 1. / n, MUTABLE);
-    }
-
-    protected IVector centroid(IVector[] simplex) {
-        int n = simplex[0].getDimension();
-        IVector centroid = Matrices.zeroes(n, (IVectorBuilder) Vector::new);
-        for (int i = 0; i < n; i++) {
             add(centroid, simplex[i], MUTABLE);
         }
         return multiply(centroid, 1. / n, MUTABLE);
@@ -78,8 +72,5 @@ public abstract class SimplexMethod extends AbstractMultivariableOptimizationAlg
             val += Math.pow(fx - fxc, 2);
         }
         return Math.sqrt(val / (fX.length - 1)) <= epsilon;
-    }
-
-    public record Pair(int first, int second) {
     }
 }

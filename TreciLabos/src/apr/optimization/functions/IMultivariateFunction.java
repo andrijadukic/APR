@@ -6,10 +6,10 @@ import apr.linear.vector.IVector;
  * Represents a multivariable function
  */
 @FunctionalInterface
-public interface IMultivariableFunction {
+public interface IMultivariateFunction {
 
     /**
-     * Calculates value at given point of this function
+     * Calculates value at given point
      *
      * @param vector point
      * @return real number in double precision

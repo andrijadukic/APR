@@ -3,7 +3,7 @@ package apr.optimization.functions;
 import apr.linear.matrix.IMatrix;
 import apr.linear.vector.IVector;
 
-public class DifferentiableMultivariableCostFunction extends MultivariableCostFunction implements IDifferentiableMultivariableCostFunction {
+public class DifferentiableMultivariateCostFunction extends MultivariateCostFunction implements IDifferentiableMultivariateCostFunction {
 
     protected final IMultivariableFunctionGradient gradient;
     protected final IHessian hessian;
@@ -11,12 +11,13 @@ public class DifferentiableMultivariableCostFunction extends MultivariableCostFu
     protected int gradientEvalCounter;
     protected int hessianEvalCounter;
 
-    public DifferentiableMultivariableCostFunction(IMultivariableFunction function, IMultivariableFunctionGradient gradient, IHessian hessian) {
+    public DifferentiableMultivariateCostFunction(IMultivariateFunction function, IMultivariableFunctionGradient gradient, IHessian hessian) {
         super(function);
         this.gradient = gradient;
         this.hessian = hessian;
     }
 
+    @Override
     public int getGradientEvaluationCount() {
         return gradientEvalCounter;
     }

@@ -1,22 +1,22 @@
 package apr.optimization.algorithms.fminsearch;
 
-import apr.optimization.functions.IMultivariableCostFunction;
+import apr.optimization.functions.IMultivariateCostFunction;
 
 /**
  * Abstract helper class for storing common properties of {@code IMultivariableOptimizationAlgorithm} classes
  */
-abstract class AbstractMultivariableOptimizationAlgorithm implements IMultivariableOptimizationAlgorithm {
+abstract class AbstractMultivariateOptimizer implements IMultivariateOptimizer {
 
-    protected final IMultivariableCostFunction f;
+    protected final IMultivariateCostFunction f;
     protected double epsilon;
 
     protected static double DEFAULT_EPSILON = 1e-6;
 
-    protected AbstractMultivariableOptimizationAlgorithm(IMultivariableCostFunction f) {
+    protected AbstractMultivariateOptimizer(IMultivariateCostFunction f) {
         this(f, DEFAULT_EPSILON);
     }
 
-    protected AbstractMultivariableOptimizationAlgorithm(IMultivariableCostFunction f, double epsilon) {
+    protected AbstractMultivariateOptimizer(IMultivariateCostFunction f, double epsilon) {
         this.f = f;
         this.epsilon = epsilon;
     }

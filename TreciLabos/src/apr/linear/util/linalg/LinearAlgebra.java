@@ -12,6 +12,8 @@ import apr.linear.vector.IVector;
 import java.security.InvalidParameterException;
 import java.util.function.DoublePredicate;
 
+import static apr.linear.util.linalg.LinearAlgebraUtil.*;
+
 /**
  * Class implementing common linear algebra operations as static methods
  */
@@ -92,7 +94,6 @@ public class LinearAlgebra {
     public static IMatrix subtract(IMatrix matrix, double value, OperationMutability mutability) {
         if (value == 0) return (mutability == OperationMutability.MUTABLE) ? matrix : matrix.copy();
         return apply(matrix, x -> x - value, mutability);
-
     }
 
     /**
@@ -118,7 +119,6 @@ public class LinearAlgebra {
     public static IVector subtract(IVector vector, double value, OperationMutability mutability) {
         if (value == 0) return (mutability == OperationMutability.MUTABLE) ? vector : vector.copy();
         return apply(vector, x -> x - value, mutability);
-
     }
 
     /**
@@ -213,7 +213,6 @@ public class LinearAlgebra {
         return apply(vector, x -> x * scalar, mutability);
     }
 
-
     /**
      * Applies function to all elements of given matrix
      *
@@ -244,6 +243,7 @@ public class LinearAlgebra {
      */
     public static IMatrix apply(IMatrix m1, IMatrix m2, IDoubleBinaryFunction function, OperationMutability mutability) {
         checkDimensionsSame(m1, m2);
+
         int rowDimension = m1.getRowDimension();
         int columnDimension = m1.getColumnDimension();
         IMatrix result = (mutability == OperationMutability.MUTABLE) ? m1 : m1.newInstance(rowDimension, columnDimension);
@@ -354,7 +354,7 @@ public class LinearAlgebra {
 
         IVector result = vector.copy();
         for (int i = matrix.getRowDimension() - 1; i >= 0; i--) {
-            if (Math.abs(matrix.get(i, i)) < LinearAlgebra.EPSILON) throw new SingularMatrixException();
+            if (Math.abs(matrix.get(i, i)) < EPSILON) throw new SingularMatrixException();
 
             result.set(i, result.get(i) / matrix.get(i, i));
             for (int j = 0; j < i; j++) {
@@ -376,7 +376,6 @@ public class LinearAlgebra {
             throw new DimensionMismatchException(matrix.getRowDimension(), permutationVector.getDimension());
 
         IMatrix result = matrix.copy();
-
         for (int i = 0, n = permutationVector.getDimension(); i < n; i++) {
             if (permutationVector.get(i) == i) continue;
 
@@ -393,124 +392,14 @@ public class LinearAlgebra {
      * @return permuted vector
      */
     public static IVector permute(IVector vector, IVector permutationVector) {
+        checkDimensionsSame(vector, permutationVector);
+
         int dimension = vector.getDimension();
 
-        if (dimension != permutationVector.getDimension()) throw new InvalidParameterException();
-
         IVector result = vector.copy();
-
         for (int i = 0; i < dimension; i++) {
             result.set(i, vector.get((int) permutationVector.get(i)));
         }
         return result;
-    }
-
-    /**
-     * Checks if dimensions of given matrices are the same
-     *
-     * @param m1 first matrix
-     * @param m2 second matrix
-     */
-    private static void checkDimensionsSame(IMatrix m1, IMatrix m2) {
-        int r1 = m1.getRowDimension();
-        int c1 = m1.getColumnDimension();
-        int r2 = m2.getRowDimension();
-        int c2 = m2.getColumnDimension();
-
-        if (!(r1 == r2 && c1 == c2)) throw new MatrixDimensionMismatchException(r1, c1, r2, c2);
-    }
-
-
-    /**
-     * Checks if dimensions of given vertices are the same
-     *
-     * @param v1 first vector
-     * @param v2 second vector
-     */
-    private static void checkDimensionsSame(IVector v1, IVector v2) {
-        int d1 = v1.getDimension();
-        int d2 = v2.getDimension();
-
-        if (d1 != d2) throw new DimensionMismatchException(d1, d2);
-    }
-
-    /**
-     * Checks if matrix-matrix addition of given matrices is applicable
-     *
-     * @param m1 first matrix
-     * @param m2 second matrix
-     */
-    private static void checkAdditionApplicable(IMatrix m1, IMatrix m2) {
-        checkDimensionsSame(m1, m2);
-    }
-
-    /**
-     * Checks if vector-vector addition of given matrices is applicable
-     *
-     * @param v1 first vector
-     * @param v2 second vector
-     */
-    private static void checkAdditionApplicable(IVector v1, IVector v2) {
-        checkDimensionsSame(v1, v2);
-    }
-
-    /**
-     * Checks if matrix-matrix multiplication of given matrices is applicable
-     *
-     * @param m1 first matrix
-     * @param m2 second matrix
-     */
-    private static void checkMultiplicationApplicable(IMatrix m1, IMatrix m2) {
-        int columnDimension = m1.getColumnDimension();
-        int rowDimension = m2.getRowDimension();
-
-        if (columnDimension != rowDimension) throw new DimensionMismatchException(columnDimension, rowDimension);
-    }
-
-    /**
-     * Checks if matrix-vector addition of given matrices is applicable
-     *
-     * @param matrix matrix operand
-     * @param vector vector operand
-     */
-    private static void checkMultiplicationApplicable(IMatrix matrix, IVector vector) {
-        int columnDimension = matrix.getColumnDimension();
-        int vectorDimension = vector.getDimension();
-
-        if (columnDimension != vectorDimension) throw new DimensionMismatchException(columnDimension, vectorDimension);
-    }
-
-    /**
-     * Checks if vector-vector addition of given matrices is applicable
-     *
-     * @param v1 first vector
-     * @param v2 second vector
-     */
-    private static void checkMultiplicationApplicable(IVector v1, IVector v2) {
-        checkDimensionsSame(v1, v2);
-    }
-
-    /**
-     * Tests if forward substitution is applicable with these parameters
-     * (vector b is of the same dimensions as the row count of matrix L and matrix L is lower triangle matrix)
-     *
-     * @param matrix L matrix
-     * @param vector b vector
-     * @return true if forward substitution is applicable, false otherwise
-     */
-    private static boolean isForwardSubstitutionApplicable(IMatrix matrix, IVector vector) {
-        return vector.getDimension() == matrix.getRowDimension() && Matrices.isLowerTriangleMatrix(matrix);
-    }
-
-    /**
-     * Tests if backward substitution is applicable with these parameters
-     * (vector y is of the same dimensions as the row count of matrix U and matrix U is upper triangle matrix)
-     *
-     * @param matrix U matrix
-     * @param vector y vector
-     * @return true if backward substitution is applicable, false otherwise
-     */
-    private static boolean isBackwardSubstitutionApplicable(IMatrix matrix, IVector vector) {
-        return vector.getDimension() == matrix.getRowDimension() && Matrices.isUpperTriangleMatrix(matrix);
     }
 }

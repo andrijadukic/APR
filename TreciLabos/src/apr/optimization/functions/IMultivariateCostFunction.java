@@ -3,7 +3,7 @@ package apr.optimization.functions;
 /**
  * Represents a multivariable cost function with a counter feature
  */
-public interface IMultivariableCostFunction extends IMultivariableFunction {
+public interface IMultivariateCostFunction extends IMultivariateFunction {
 
     int getFunctionEvaluationCount();
 

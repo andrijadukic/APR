@@ -15,7 +15,6 @@ import java.util.function.DoubleSupplier;
  */
 public class Matrices {
 
-
     /**
      * Fills matrix with given value
      *
@@ -27,6 +26,13 @@ public class Matrices {
         return LinearAlgebra.apply(matrix, x -> value, OperationMutability.MUTABLE);
     }
 
+    /**
+     * Fills matrix using given supplier
+     *
+     * @param matrix   matrix to be filled
+     * @param supplier supplier
+     * @return filled matrix
+     */
     public static IMatrix fill(IMatrix matrix, DoubleSupplier supplier) {
         return LinearAlgebra.apply(matrix, x -> supplier.getAsDouble(), OperationMutability.MUTABLE);
     }
@@ -108,7 +114,7 @@ public class Matrices {
     }
 
     /**
-     * Fills given vector
+     * Fills vector with given value
      *
      * @param vector vector to be filled
      * @param value  value
@@ -118,6 +124,13 @@ public class Matrices {
         return LinearAlgebra.apply(vector, x -> value, OperationMutability.MUTABLE);
     }
 
+    /**
+     * Fills vector using given supplier
+     *
+     * @param vector   vector to be filled
+     * @param supplier supplier
+     * @return filled vector
+     */
     public static IVector fill(IVector vector, DoubleSupplier supplier) {
         return LinearAlgebra.apply(vector, x -> supplier.getAsDouble(), OperationMutability.MUTABLE);
     }

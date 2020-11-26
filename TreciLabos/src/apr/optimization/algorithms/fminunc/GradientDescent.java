@@ -1,21 +1,23 @@
 package apr.optimization.algorithms.fminunc;
 
+import apr.linear.util.linalg.LinearAlgebra;
+import apr.linear.util.linalg.OperationMutability;
 import apr.linear.vector.IVector;
-import apr.optimization.functions.IDifferentiableMultivariableCostFunction;
+import apr.optimization.functions.IDifferentiableMultivariateCostFunction;
 
-public class GradientDescent extends AbstractDifferentiableMultivariableOptimizationAlgorithm {
+public class GradientDescent extends AbstractDifferentiableMultivariateOptimizer {
 
-    public GradientDescent(IDifferentiableMultivariableCostFunction f) {
+    public GradientDescent(IDifferentiableMultivariateCostFunction f) {
         super(f);
     }
 
-    public GradientDescent(IDifferentiableMultivariableCostFunction f, double epsilon, int maxIter, boolean computeOptimalStep) {
+    public GradientDescent(IDifferentiableMultivariateCostFunction f, double epsilon, int maxIter, boolean computeOptimalStep) {
         super(f, epsilon, maxIter, computeOptimalStep);
     }
 
     @Override
     protected IVector computeDirection(IVector x, IVector gradient) {
-        return gradient;
+        return LinearAlgebra.multiply(gradient, -1., OperationMutability.IMMUTABLE);
     }
 
     @Override

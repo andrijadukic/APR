@@ -1,22 +1,22 @@
 package apr.optimization.algorithms.fminbnd;
 
-import apr.optimization.functions.ISingleVariableFunction;
+import apr.optimization.functions.IUnivariateFunction;
 
 /**
  * Abstract helper class for storing common properties of {@code ISingleVariableOptimizationAlgorithm} classes
  */
-abstract class AbstractSingleVariableOptimizationAlgorithm implements ISingleVariableOptimizationAlgorithm {
+abstract class AbstractUnivariateOptimizer implements IUnivariateOptimizer {
 
-    protected final ISingleVariableFunction f;
+    protected final IUnivariateFunction f;
     protected double epsilon;
 
     protected static double DEFAULT_EPSILON = 1e-6;
 
-    protected AbstractSingleVariableOptimizationAlgorithm(ISingleVariableFunction f) {
+    protected AbstractUnivariateOptimizer(IUnivariateFunction f) {
         this(f, DEFAULT_EPSILON);
     }
 
-    protected AbstractSingleVariableOptimizationAlgorithm(ISingleVariableFunction f, double epsilon) {
+    protected AbstractUnivariateOptimizer(IUnivariateFunction f, double epsilon) {
         this.f = f;
         this.epsilon = epsilon;
     }

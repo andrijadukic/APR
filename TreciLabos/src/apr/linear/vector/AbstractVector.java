@@ -1,57 +1,14 @@
 package apr.linear.vector;
 
-import apr.linear.matrix.IMatrix;
 import apr.linear.util.linalg.LinearAlgebra;
-import apr.linear.util.linalg.OperationMutability;
-import apr.linear.util.functions.IDoubleUnaryFunction;
 
 import java.util.Iterator;
 import java.util.function.DoublePredicate;
 
 /**
- * Abstract Vector class which implements vector operations, independent of the underlying data structure
+ * Abstract Vector class which all IVector implementations should inherit
  */
 public abstract class AbstractVector implements IVector {
-
-    @Override
-    public IVector add(IVector other) {
-        return LinearAlgebra.add(this, other, OperationMutability.IMMUTABLE);
-    }
-
-    @Override
-    public IVector add(double value) {
-        return LinearAlgebra.add(this, value, OperationMutability.IMMUTABLE);
-    }
-
-    @Override
-    public IVector subtract(IVector other) {
-        return LinearAlgebra.subtract(this, other, OperationMutability.IMMUTABLE);
-    }
-
-    @Override
-    public IVector subtract(double value) {
-        return LinearAlgebra.subtract(this, value, OperationMutability.IMMUTABLE);
-    }
-
-    @Override
-    public IVector multiply(IMatrix matrix) {
-        return LinearAlgebra.multiply(this, matrix);
-    }
-
-    @Override
-    public double multiply(IVector other) {
-        return LinearAlgebra.multiply(this, other);
-    }
-
-    @Override
-    public IVector multiply(double scalar) {
-        return LinearAlgebra.multiply(this, scalar, OperationMutability.IMMUTABLE);
-    }
-
-    @Override
-    public IVector apply(IDoubleUnaryFunction function) {
-        return LinearAlgebra.apply(this, function, OperationMutability.IMMUTABLE);
-    }
 
     @Override
     public boolean anyMatch(DoublePredicate predicate) {

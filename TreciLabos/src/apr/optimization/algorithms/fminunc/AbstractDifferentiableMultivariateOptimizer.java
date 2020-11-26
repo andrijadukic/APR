@@ -2,32 +2,31 @@ package apr.optimization.algorithms.fminunc;
 
 import apr.linear.vector.IVector;
 import apr.optimization.algorithms.fminbnd.GoldenSectionSearch;
-import apr.optimization.algorithms.fminsearch.IMultivariableOptimizationAlgorithm;
+import apr.optimization.algorithms.fminsearch.IMultivariateOptimizer;
 import apr.optimization.exceptions.MaximumIterationCountExceededException;
-import apr.optimization.functions.IDifferentiableMultivariableCostFunction;
+import apr.optimization.functions.IDifferentiableMultivariateCostFunction;
 
 import static apr.linear.util.linalg.LinearAlgebra.*;
-import static apr.linear.util.linalg.LinearAlgebra.multiply;
 import static apr.linear.util.linalg.OperationMutability.IMMUTABLE;
 import static apr.linear.util.linalg.OperationMutability.MUTABLE;
 
-abstract class AbstractDifferentiableMultivariableOptimizationAlgorithm implements IMultivariableOptimizationAlgorithm {
+abstract class AbstractDifferentiableMultivariateOptimizer implements IMultivariateOptimizer {
 
-    protected final IDifferentiableMultivariableCostFunction f;
+    protected final IDifferentiableMultivariateCostFunction f;
 
     protected double epsilon;
     protected int maxIter;
     protected boolean computeOptimalStep;
 
     private static final double DEFAULT_EPSILON = 1e-6;
-    private static final int DEFAULT_MAXIMUM_ITERATION = 1000;
+    private static final int DEFAULT_MAXIMUM_ITERATION = 100;
     private static final boolean DEFAULT_COMPUTE_OPTIMAL_STEP = false;
 
-    protected AbstractDifferentiableMultivariableOptimizationAlgorithm(IDifferentiableMultivariableCostFunction f) {
+    protected AbstractDifferentiableMultivariateOptimizer(IDifferentiableMultivariateCostFunction f) {
         this(f, DEFAULT_EPSILON, DEFAULT_MAXIMUM_ITERATION, DEFAULT_COMPUTE_OPTIMAL_STEP);
     }
 
-    protected AbstractDifferentiableMultivariableOptimizationAlgorithm(IDifferentiableMultivariableCostFunction f, double epsilon, int maxIter, boolean computeOptimalStep) {
+    protected AbstractDifferentiableMultivariateOptimizer(IDifferentiableMultivariateCostFunction f, double epsilon, int maxIter, boolean computeOptimalStep) {
         this.f = f;
         this.epsilon = epsilon;
         this.maxIter = maxIter;
@@ -69,18 +68,19 @@ abstract class AbstractDifferentiableMultivariableOptimizationAlgorithm implemen
         while (true) {
             if (iter > maxIter) throw new MaximumIterationCountExceededException();
 
-            IVector gradient = f.gradient(x);
-            double norm = norm(gradient);
+            IVector direction = computeDirection(x, f.gradient(x));
+            double norm = norm(direction);
 
             if (norm < epsilon) break;
 
-            IVector direction = computeDirection(x, gradient);
+            direction = multiply(direction, 1. / norm, MUTABLE);
 
             if (computeOptimalStep) {
-                direction = multiply(direction,  1. / norm, MUTABLE);
-                final IVector argX = x.copy();
-                final IVector argV = direction.copy();
-                double ratio = new GoldenSectionSearch(lambda -> f.valueAt(add(multiply(argV, lambda, IMMUTABLE), argX, MUTABLE))).search(0);
+                final IVector currentX = x.copy();
+                final IVector initialDirection = direction.copy();
+                double ratio = new GoldenSectionSearch(
+                        lambda -> f.valueAt(add(multiply(initialDirection, lambda, IMMUTABLE), currentX, MUTABLE))
+                ).search(0);
                 direction = multiply(direction, ratio, MUTABLE);
             }
 

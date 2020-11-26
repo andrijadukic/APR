@@ -3,7 +3,11 @@ package apr.linear.matrix;
 import apr.linear.util.ICopyable;
 import apr.linear.util.IMatchable;
 import apr.linear.util.functions.IDoubleUnaryFunction;
+import apr.linear.util.linalg.LinearAlgebra;
+import apr.linear.util.linalg.OperationMutability;
 import apr.linear.vector.IVector;
+
+import java.util.function.DoublePredicate;
 
 /**
  * Represents a matrix that holds real numbers (double precision)
@@ -90,7 +94,9 @@ public interface IMatrix extends Iterable<Double>, ICopyable<IMatrix>, IMatchabl
      * @param other matrix to be added to this matrix
      * @return new matrix
      */
-    IMatrix add(IMatrix other);
+    default IMatrix add(IMatrix other) {
+        return LinearAlgebra.add(this, other, OperationMutability.IMMUTABLE);
+    }
 
     /**
      * Performs scalar addition
@@ -98,7 +104,9 @@ public interface IMatrix extends Iterable<Double>, ICopyable<IMatrix>, IMatchabl
      * @param value value to be added to this matrix
      * @return new matrix
      */
-    IMatrix add(double value);
+    default IMatrix add(double value) {
+        return LinearAlgebra.add(this, value, OperationMutability.IMMUTABLE);
+    }
 
     /**
      * Performs matrix subtraction
@@ -106,7 +114,9 @@ public interface IMatrix extends Iterable<Double>, ICopyable<IMatrix>, IMatchabl
      * @param other matrix to be subtracted from this matrix
      * @return new matrix
      */
-    IMatrix subtract(IMatrix other);
+    default IMatrix subtract(IMatrix other) {
+        return LinearAlgebra.subtract(this, other, OperationMutability.IMMUTABLE);
+    }
 
     /**
      * Performs scalar subtraction
@@ -114,7 +124,9 @@ public interface IMatrix extends Iterable<Double>, ICopyable<IMatrix>, IMatchabl
      * @param value value to be subtracted from this matrix
      * @return new matrix
      */
-    IMatrix subtract(double value);
+    default IMatrix subtract(double value) {
+        return LinearAlgebra.subtract(this, value, OperationMutability.IMMUTABLE);
+    }
 
     /**
      * Performs matrix-matrix multiplication
@@ -122,7 +134,9 @@ public interface IMatrix extends Iterable<Double>, ICopyable<IMatrix>, IMatchabl
      * @param other second operand in matrix multiplication
      * @return new matrix
      */
-    IMatrix multiply(IMatrix other);
+    default IMatrix multiply(IMatrix other) {
+        return LinearAlgebra.multiply(this, other);
+    }
 
     /**
      * Performs matrix-scalar multiplication
@@ -130,7 +144,9 @@ public interface IMatrix extends Iterable<Double>, ICopyable<IMatrix>, IMatchabl
      * @param scalar second operand in matrix-scalar multiplication
      * @return new matrix
      */
-    IMatrix multiply(double scalar);
+    default IMatrix multiply(double scalar) {
+        return LinearAlgebra.multiply(this, scalar, OperationMutability.IMMUTABLE);
+    }
 
     /**
      * Transposes this matrix
@@ -145,7 +161,9 @@ public interface IMatrix extends Iterable<Double>, ICopyable<IMatrix>, IMatchabl
      * @param function function to be applied
      * @return new matrix
      */
-    IMatrix apply(IDoubleUnaryFunction function);
+    default IMatrix apply(IDoubleUnaryFunction function) {
+        return LinearAlgebra.apply(this, function, OperationMutability.IMMUTABLE);
+    }
 
     /**
      * Turns this matrix into vector array by columns

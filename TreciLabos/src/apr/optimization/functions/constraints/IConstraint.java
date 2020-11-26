@@ -1,4 +1,4 @@
-package apr.optimization.algorithms.fmincon.constraints;
+package apr.optimization.functions.constraints;
 
 import apr.linear.vector.IVector;
 

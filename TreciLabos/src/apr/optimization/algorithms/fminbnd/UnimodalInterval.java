@@ -1,14 +1,13 @@
 package apr.optimization.algorithms.fminbnd;
 
-import apr.optimization.functions.ISingleVariableFunction;
-import apr.optimization.util.Interval;
+import apr.optimization.functions.IUnivariateFunction;
 
 /**
  * Static implementation of the unimodal interval search algorithm
  */
 public class UnimodalInterval {
 
-    public static Interval findInterval(ISingleVariableFunction f, double h, double x0) {
+    public static Interval findInterval(IUnivariateFunction f, double h, double x0) {
         double l = x0 - h;
         double m = x0;
         double r = x0 + h;
@@ -19,7 +18,7 @@ public class UnimodalInterval {
         fm = f.valueAt(m);
         fr = f.valueAt(r);
 
-        if (fm < fr && fm < fl) return new Interval(l, r);
+        if (fm < fl && fm < fr) return new Interval(l, r);
 
         if (fm > fr) {
             do {

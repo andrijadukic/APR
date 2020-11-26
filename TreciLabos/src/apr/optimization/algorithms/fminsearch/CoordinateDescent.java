@@ -2,19 +2,18 @@ package apr.optimization.algorithms.fminsearch;
 
 import apr.linear.vector.IVector;
 import apr.optimization.algorithms.fminbnd.GoldenSectionSearch;
-import apr.optimization.functions.IMultivariableCostFunction;
-import apr.optimization.functions.IMultivariableFunction;
+import apr.optimization.functions.IMultivariateCostFunction;
 
 /**
  * Implementation of the coordinate descent algorithm
  */
-public class CoordinateDescent extends AbstractMultivariableOptimizationAlgorithm {
+public class CoordinateDescent extends AbstractMultivariateOptimizer {
 
-    public CoordinateDescent(IMultivariableCostFunction function) {
+    public CoordinateDescent(IMultivariateCostFunction function) {
         super(function);
     }
 
-    public CoordinateDescent(IMultivariableCostFunction f, double epsilon) {
+    public CoordinateDescent(IMultivariateCostFunction f, double epsilon) {
         super(f, epsilon);
     }
 

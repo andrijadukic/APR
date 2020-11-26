@@ -6,7 +6,7 @@ import apr.optimization.util.INamedAlgorithm;
 /**
  * Represents a multivariable function minimization algorithm
  */
-public interface IMultivariableOptimizationAlgorithm extends INamedAlgorithm {
+public interface IMultivariateOptimizer extends INamedAlgorithm {
 
     /**
      * Computes the minimum of a function from a starting point

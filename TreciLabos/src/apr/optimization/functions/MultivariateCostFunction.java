@@ -5,12 +5,12 @@ import apr.linear.vector.IVector;
 /**
  * Implementation of the {@code IMultivariableCostFunction} interface
  */
-public class MultivariableCostFunction implements IMultivariableCostFunction {
+public class MultivariateCostFunction implements IMultivariateCostFunction {
 
-    protected final IMultivariableFunction function;
+    protected final IMultivariateFunction function;
     protected int functionEvalCounter;
 
-    public MultivariableCostFunction(IMultivariableFunction function) {
+    public MultivariateCostFunction(IMultivariateFunction function) {
         this.function = function;
     }
 

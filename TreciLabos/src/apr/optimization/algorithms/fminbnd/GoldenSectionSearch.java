@@ -1,21 +1,20 @@
 package apr.optimization.algorithms.fminbnd;
 
-import apr.optimization.functions.ISingleVariableFunction;
-import apr.optimization.util.Interval;
+import apr.optimization.functions.IUnivariateFunction;
 
 /**
  * Implementation of the golden section search algorithm
  */
-public class GoldenSectionSearch extends AbstractSingleVariableOptimizationAlgorithm {
+public class GoldenSectionSearch extends AbstractUnivariateOptimizer {
 
     private final double K = 0.5 * (Math.sqrt(5) - 1);
     private double h = 1;
 
-    public GoldenSectionSearch(ISingleVariableFunction f) {
+    public GoldenSectionSearch(IUnivariateFunction f) {
         super(f);
     }
 
-    public GoldenSectionSearch(ISingleVariableFunction f, double epsilon, double h) {
+    public GoldenSectionSearch(IUnivariateFunction f, double epsilon, double h) {
         super(f, epsilon);
         this.h = h;
     }
@@ -31,12 +30,12 @@ public class GoldenSectionSearch extends AbstractSingleVariableOptimizationAlgor
     @Override
     public double search(double x0) {
         Interval interval = findInterval(UnimodalInterval.findInterval(f, h, x0));
-        return (interval.start() + interval.end()) / 2;
+        return (interval.lowerbound() + interval.upperbound()) / 2.;
     }
 
     public Interval findInterval(Interval interval) {
-        double a = interval.start();
-        double b = interval.end();
+        double a = interval.lowerbound();
+        double b = interval.upperbound();
 
         double c = b - K * (b - a);
         double d = a + K * (b - a);

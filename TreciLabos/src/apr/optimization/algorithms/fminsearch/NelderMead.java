@@ -1,9 +1,9 @@
 package apr.optimization.algorithms.fminsearch;
 
 import apr.linear.vector.IVector;
-import apr.optimization.functions.IMultivariableCostFunction;
+import apr.optimization.functions.IMultivariateCostFunction;
+import apr.optimization.util.Pair;
 
-import java.util.Arrays;
 
 import static apr.linear.util.linalg.LinearAlgebra.*;
 import static apr.linear.util.linalg.OperationMutability.*;
@@ -11,7 +11,7 @@ import static apr.linear.util.linalg.OperationMutability.*;
 /**
  * Implementation of the Nelder-Mead simplex method
  */
-public class NelderMead extends SimplexMethod {
+public class NelderMead extends AbstractSimplexMethod {
 
     private double alpha = 1.0;
     private double beta = 0.5;
@@ -21,11 +21,11 @@ public class NelderMead extends SimplexMethod {
 
     private double step = 1;
 
-    public NelderMead(IMultivariableCostFunction f) {
+    public NelderMead(IMultivariateCostFunction f) {
         super(f);
     }
 
-    public NelderMead(IMultivariableCostFunction f, double epsilon, double alpha, double beta, double gamma, double sigma, double step) {
+    public NelderMead(IMultivariateCostFunction f, double epsilon, double alpha, double beta, double gamma, double sigma, double step) {
         super(f, epsilon);
         this.alpha = alpha;
         this.beta = beta;
@@ -75,67 +75,68 @@ public class NelderMead extends SimplexMethod {
     }
 
     @Override
-    public IVector search(IVector x0) {
-        final IVector[] X = initialSimplex(x0);
-        final double[] fX = Arrays.stream(X).mapToDouble(f::valueAt).toArray();
-        while (true) {
-            Pair argMaxMin = argMaxMin(fX);
-            int h = argMaxMin.first();
-            int l = argMaxMin.second();
-            IVector xh = X[h];
-            IVector xl = X[l];
-
-            IVector xc = centroid(X, h);
-            IVector xr = reflection(xc, xh);
-
-            double fxr = f.valueAt(xr);
-            if (fxr < fX[l]) {
-                IVector xe = expansion(xc, xr);
-                double fxe = f.valueAt(xe);
-                if (fxe < fX[l]) {
-                    X[h] = xe;
-                    fX[h] = fxe;
-                } else {
-                    X[h] = xr;
-                    fX[h] = fxr;
-                }
-            } else {
-                boolean isConditionMet = true;
-                for (int i = 0, n = fX.length; i < n; i++) {
-                    if (i == h) continue;
-                    if (fxr < fX[i]) {
-                        isConditionMet = false;
-                        break;
-                    }
-                }
-                if (isConditionMet) {
-                    if (fxr < fX[h]) {
-                        xh = X[h] = xr;
-                        fX[h] = fxr;
-                    }
-                    IVector xk = contraction(xc, xh);
-                    double fxk = f.valueAt(xk);
-                    if (fxk < fX[h]) {
-                        X[h] = xk;
-                        fX[h] = fxk;
-                    } else {
-                        for (int i = 0, n = X.length; i < n; i++) {
-                            if (i == l) continue;
-                            X[i] = shrink(X[i], xl);
-                            fX[i] = f.valueAt(X[i]);
-                        }
-                    }
-                } else {
-                    X[h] = xr;
-                    fX[h] = fxr;
-                }
-            }
-
-            if (isStopCriteriaMet(fX, xc)) return X[argMin(fX)];
-        }
+    protected void validate(IVector x0) {
     }
 
-    private IVector[] initialSimplex(IVector x0) {
+    @Override
+    protected boolean iterate(IVector[] X, double[] fX) {
+        Pair argMaxMin = argMaxMin(fX);
+        int h = argMaxMin.first();
+        int l = argMaxMin.second();
+        IVector xh = X[h];
+        IVector xl = X[l];
+
+        IVector xc = centroid(X, h);
+        IVector xr = reflection(xc, xh);
+
+        double fxr = f.valueAt(xr);
+        if (fxr < fX[l]) {
+            IVector xe = expansion(xc, xr);
+            double fxe = f.valueAt(xe);
+            if (fxe < fX[l]) {
+                X[h] = xe;
+                fX[h] = fxe;
+            } else {
+                X[h] = xr;
+                fX[h] = fxr;
+            }
+        } else {
+            boolean isConditionMet = true;
+            for (int i = 0, n = fX.length; i < n; i++) {
+                if (i == h) continue;
+                if (fxr < fX[i]) {
+                    isConditionMet = false;
+                    break;
+                }
+            }
+            if (isConditionMet) {
+                if (fxr < fX[h]) {
+                    xh = X[h] = xr;
+                    fX[h] = fxr;
+                }
+                IVector xk = contraction(xc, xh);
+                double fxk = f.valueAt(xk);
+                if (fxk < fX[h]) {
+                    X[h] = xk;
+                    fX[h] = fxk;
+                } else {
+                    for (int i = 0, n = X.length; i < n; i++) {
+                        if (i == l) continue;
+                        X[i] = shrink(X[i], xl);
+                        fX[i] = f.valueAt(X[i]);
+                    }
+                }
+            } else {
+                X[h] = xr;
+                fX[h] = fxr;
+            }
+        }
+
+        return isStopCriteriaMet(fX, xc);
+    }
+
+    @Override
+    protected IVector[] initialSimplex(IVector x0) {
         int n = x0.getDimension() + 1;
         IVector[] simplex = new IVector[n];
         simplex[0] = x0.copy();
@@ -144,6 +145,25 @@ public class NelderMead extends SimplexMethod {
             simplex[i] = x0.copy().set(nthDimension, x0.get(nthDimension) + step);
         }
         return simplex;
+    }
+
+    private Pair argMaxMin(double[] array) {
+        double maxValue, minValue;
+        int maxIndex, minIndex;
+
+        maxValue = minValue = array[0];
+        maxIndex = minIndex = 0;
+        for (int i = 1, n = array.length; i < n; i++) {
+            double temp = array[i];
+            if (temp > maxValue) {
+                maxValue = temp;
+                maxIndex = i;
+            } else if (temp < minValue) {
+                minValue = temp;
+                minIndex = i;
+            }
+        }
+        return new Pair(maxIndex, minIndex);
     }
 
     private IVector reflection(IVector xc, IVector xh) {

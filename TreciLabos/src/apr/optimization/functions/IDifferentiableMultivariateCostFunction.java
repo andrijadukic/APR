@@ -3,7 +3,7 @@ package apr.optimization.functions;
 import apr.linear.matrix.IMatrix;
 import apr.linear.vector.IVector;
 
-public interface IDifferentiableMultivariableCostFunction extends IMultivariableCostFunction {
+public interface IDifferentiableMultivariateCostFunction extends IMultivariateCostFunction {
 
     IVector gradient(IVector x);
 
