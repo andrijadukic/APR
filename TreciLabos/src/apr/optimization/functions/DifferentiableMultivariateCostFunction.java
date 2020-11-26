@@ -2,16 +2,17 @@ package apr.optimization.functions;
 
 import apr.linear.matrix.IMatrix;
 import apr.linear.vector.IVector;
+import apr.optimization.algorithms.multi.MultivariateCostFunction;
 
 public class DifferentiableMultivariateCostFunction extends MultivariateCostFunction implements IDifferentiableMultivariateCostFunction {
 
-    protected final IMultivariableFunctionGradient gradient;
-    protected final IHessian hessian;
+    protected final IMultivariableVectorFunction gradient;
+    protected final IMultivariableMatrixFunction hessian;
 
     protected int gradientEvalCounter;
     protected int hessianEvalCounter;
 
-    public DifferentiableMultivariateCostFunction(IMultivariateFunction function, IMultivariableFunctionGradient gradient, IHessian hessian) {
+    public DifferentiableMultivariateCostFunction(IMultivariateFunction function, IMultivariableVectorFunction gradient, IMultivariableMatrixFunction hessian) {
         super(function);
         this.gradient = gradient;
         this.hessian = hessian;

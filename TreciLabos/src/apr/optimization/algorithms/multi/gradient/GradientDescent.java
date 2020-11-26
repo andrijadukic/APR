@@ -1,9 +1,10 @@
-package apr.optimization.algorithms.fminunc;
+package apr.optimization.algorithms.multi.gradient;
 
-import apr.linear.util.linalg.LinearAlgebra;
-import apr.linear.util.linalg.OperationMutability;
 import apr.linear.vector.IVector;
 import apr.optimization.functions.IDifferentiableMultivariateCostFunction;
+
+import static apr.linear.util.linalg.LinearAlgebra.*;
+import static apr.linear.util.linalg.OperationMutability.*;
 
 public class GradientDescent extends AbstractDifferentiableMultivariateOptimizer {
 
@@ -17,7 +18,7 @@ public class GradientDescent extends AbstractDifferentiableMultivariateOptimizer
 
     @Override
     protected IVector computeDirection(IVector x, IVector gradient) {
-        return LinearAlgebra.multiply(gradient, -1., OperationMutability.IMMUTABLE);
+        return multiply(gradient, -1., IMMUTABLE);
     }
 
     @Override

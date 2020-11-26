@@ -1,16 +1,14 @@
-package apr.optimization.algorithms.fmincon;
+package apr.optimization.algorithms.multi.noderiv;
 
 import apr.linear.util.Matrices;
 import apr.linear.vector.IVector;
-import apr.optimization.algorithms.fminbnd.Interval;
+import apr.optimization.algorithms.uni.Interval;
 import apr.optimization.functions.constraints.Constraints;
 import apr.optimization.functions.constraints.ExplicitConstraint;
 import apr.optimization.functions.constraints.ImplicitConstraint;
 import apr.optimization.functions.constraints.InequalityConstraint;
-import apr.optimization.algorithms.fminsearch.AbstractSimplexMethod;
 import apr.optimization.exceptions.ConstraintsNotSatisfiedException;
-import apr.optimization.functions.IMultivariateCostFunction;
-import apr.optimization.util.Pair;
+import apr.optimization.algorithms.multi.IMultivariateCostFunction;
 
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;

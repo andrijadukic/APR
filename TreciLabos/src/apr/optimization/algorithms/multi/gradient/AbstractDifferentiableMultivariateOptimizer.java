@@ -1,8 +1,8 @@
-package apr.optimization.algorithms.fminunc;
+package apr.optimization.algorithms.multi.gradient;
 
 import apr.linear.vector.IVector;
-import apr.optimization.algorithms.fminbnd.GoldenSectionSearch;
-import apr.optimization.algorithms.fminsearch.IMultivariateOptimizer;
+import apr.optimization.algorithms.uni.GoldenSectionSearch;
+import apr.optimization.algorithms.multi.noderiv.IMultivariateOptimizer;
 import apr.optimization.exceptions.MaximumIterationCountExceededException;
 import apr.optimization.functions.IDifferentiableMultivariateCostFunction;
 

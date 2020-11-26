@@ -1,7 +1,7 @@
-package apr.optimization.algorithms.fminsearch;
+package apr.optimization.algorithms.multi.noderiv;
 
 import apr.linear.vector.IVector;
-import apr.optimization.functions.IMultivariateCostFunction;
+import apr.optimization.algorithms.multi.IMultivariateCostFunction;
 
 import static apr.linear.util.linalg.LinearAlgebra.*;
 import static apr.linear.util.linalg.OperationMutability.*;

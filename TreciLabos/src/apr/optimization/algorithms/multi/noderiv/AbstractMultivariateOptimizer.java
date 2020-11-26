@@ -1,6 +1,6 @@
-package apr.optimization.algorithms.fminsearch;
+package apr.optimization.algorithms.multi.noderiv;
 
-import apr.optimization.functions.IMultivariateCostFunction;
+import apr.optimization.algorithms.multi.IMultivariateCostFunction;
 
 /**
  * Abstract helper class for storing common properties of {@code IMultivariableOptimizationAlgorithm} classes

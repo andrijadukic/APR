@@ -1,4 +1,4 @@
-package apr.optimization.util;
+package apr.optimization.algorithms.util;
 
 /**
  * Helper interface used by objects with a name property

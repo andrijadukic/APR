@@ -1,4 +1,7 @@
-package apr.optimization.functions;
+package apr.optimization.algorithms.util;
+
+import apr.optimization.algorithms.multi.IMultivariateCostFunction;
+import apr.optimization.algorithms.multi.MultivariateCostFunction;
 
 /**
  * Utility class defining several cost functions through static factory methods

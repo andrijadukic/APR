@@ -1,10 +1,10 @@
-package apr.optimization.algorithms.fminsearch;
+package apr.optimization.algorithms.multi.noderiv;
 
 import apr.linear.util.Matrices;
 import apr.linear.util.builders.IVectorBuilder;
 import apr.linear.vector.IVector;
 import apr.linear.vector.Vector;
-import apr.optimization.functions.IMultivariateCostFunction;
+import apr.optimization.algorithms.multi.IMultivariateCostFunction;
 
 import java.util.Arrays;
 

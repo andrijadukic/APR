@@ -2,9 +2,9 @@ package apr.optimization.demo;
 
 import apr.linear.vector.IVector;
 import apr.linear.vector.Vector;
-import apr.optimization.algorithms.fminbnd.IUnivariateOptimizer;
-import apr.optimization.algorithms.fminsearch.IMultivariateOptimizer;
-import apr.optimization.functions.IMultivariateCostFunction;
+import apr.optimization.algorithms.uni.IUnivariateOptimizer;
+import apr.optimization.algorithms.multi.noderiv.IMultivariateOptimizer;
+import apr.optimization.algorithms.multi.IMultivariateCostFunction;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,4 +1,6 @@
-package apr.optimization.functions;
+package apr.optimization.algorithms.uni;
+
+import apr.optimization.functions.IUnivariateFunction;
 
 /**
  * Represents a single cost function with a counter feature

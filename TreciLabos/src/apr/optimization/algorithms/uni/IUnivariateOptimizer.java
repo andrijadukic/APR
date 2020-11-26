@@ -1,6 +1,6 @@
-package apr.optimization.algorithms.fminbnd;
+package apr.optimization.algorithms.uni;
 
-import apr.optimization.util.INamedAlgorithm;
+import apr.optimization.algorithms.util.INamedAlgorithm;
 
 /**
  * Represents a single variable function minimization algorithm

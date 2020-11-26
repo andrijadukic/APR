@@ -1,4 +1,4 @@
-package apr.optimization.algorithms.fminbnd;
+package apr.optimization.algorithms.uni;
 
 import java.security.InvalidParameterException;
 

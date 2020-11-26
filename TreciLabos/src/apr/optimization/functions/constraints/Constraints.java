@@ -1,7 +1,7 @@
 package apr.optimization.functions.constraints;
 
 import apr.linear.vector.IVector;
-import apr.optimization.algorithms.fminbnd.Interval;
+import apr.optimization.algorithms.uni.Interval;
 import apr.optimization.functions.IMultivariateFunction;
 
 public class Constraints {

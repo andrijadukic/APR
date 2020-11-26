@@ -1,4 +1,4 @@
-package apr.optimization.algorithms.fminbnd;
+package apr.optimization.algorithms.uni;
 
 import apr.optimization.functions.IUnivariateFunction;
 

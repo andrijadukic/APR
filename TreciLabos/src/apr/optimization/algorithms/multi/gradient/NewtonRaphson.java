@@ -1,4 +1,4 @@
-package apr.optimization.algorithms.fminunc;
+package apr.optimization.algorithms.multi.gradient;
 
 import apr.linear.decompose.LUPDecomposer;
 import apr.linear.vector.IVector;
@@ -6,6 +6,7 @@ import apr.optimization.functions.IDifferentiableMultivariateCostFunction;
 
 import static apr.linear.util.linalg.LinearAlgebra.multiply;
 import static apr.linear.util.linalg.OperationMutability.IMMUTABLE;
+import static apr.linear.util.linalg.OperationMutability.MUTABLE;
 
 public class NewtonRaphson extends AbstractDifferentiableMultivariateOptimizer {
 
@@ -19,7 +20,10 @@ public class NewtonRaphson extends AbstractDifferentiableMultivariateOptimizer {
 
     @Override
     protected IVector computeDirection(IVector x, IVector gradient) {
-        return new LUPDecomposer(f.hessian(x)).solver().solve(multiply(gradient, -1, IMMUTABLE));
+        return multiply(
+                new LUPDecomposer(f.hessian(x)).solver().solve(multiply(gradient, -1, IMMUTABLE)),
+                -1,
+                MUTABLE);
     }
 
     @Override

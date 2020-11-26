@@ -1,8 +1,8 @@
-package apr.optimization.algorithms.fminsearch;
+package apr.optimization.algorithms.multi.noderiv;
 
 import apr.linear.vector.IVector;
-import apr.optimization.algorithms.fminbnd.GoldenSectionSearch;
-import apr.optimization.functions.IMultivariateCostFunction;
+import apr.optimization.algorithms.uni.GoldenSectionSearch;
+import apr.optimization.algorithms.multi.IMultivariateCostFunction;
 
 /**
  * Implementation of the coordinate descent algorithm

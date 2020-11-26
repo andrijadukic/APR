@@ -1,7 +1,7 @@
-package apr.optimization.algorithms.fminsearch;
+package apr.optimization.algorithms.multi.noderiv;
 
 import apr.linear.vector.IVector;
-import apr.optimization.util.INamedAlgorithm;
+import apr.optimization.algorithms.util.INamedAlgorithm;
 
 /**
  * Represents a multivariable function minimization algorithm

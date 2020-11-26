@@ -1,6 +1,7 @@
-package apr.optimization.functions;
+package apr.optimization.algorithms.multi;
 
 import apr.linear.vector.IVector;
+import apr.optimization.functions.IMultivariateFunction;
 
 /**
  * Implementation of the {@code IMultivariableCostFunction} interface

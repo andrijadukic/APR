@@ -1,4 +1,6 @@
-package apr.optimization.functions;
+package apr.optimization.algorithms.uni;
+
+import apr.optimization.functions.IUnivariateFunction;
 
 /**
  * Implementation of the {@code ISingleVariableCostFunction} interface
