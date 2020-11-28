@@ -1,8 +1,11 @@
-package apr.optimization.functions;
+package apr.optimization.algorithms.multi.gradient;
 
 import apr.linear.matrix.IMatrix;
 import apr.linear.vector.IVector;
 import apr.optimization.algorithms.multi.MultivariateCostFunction;
+import apr.optimization.functions.IMultivariableMatrixFunction;
+import apr.optimization.functions.IMultivariableVectorFunction;
+import apr.optimization.functions.IMultivariateFunction;
 
 public class DifferentiableMultivariateCostFunction extends MultivariateCostFunction implements IDifferentiableMultivariateCostFunction {
 

@@ -1,13 +1,18 @@
 package apr.optimization.functions.constraints;
 
+import apr.linear.exceptions.DimensionMismatchException;
 import apr.linear.vector.IVector;
 import apr.optimization.algorithms.uni.Interval;
 import apr.optimization.functions.IMultivariateFunction;
 
+import java.util.Arrays;
+
 public class Constraints {
 
-    public static ExplicitConstraint explicit(Interval... bounds) {
-        return new ExplicitConstraint(bounds);
+    public static ExplicitConstraint[] explicit(Interval... bounds) {
+        return Arrays.stream(bounds)
+                .map(ExplicitConstraint::new)
+                .toArray(ExplicitConstraint[]::new);
     }
 
     public static ImplicitConstraint equality(IMultivariateFunction f) {
@@ -21,6 +26,17 @@ public class Constraints {
     public static boolean test(IVector x, IConstraint... constraints) {
         for (IConstraint constraint : constraints) {
             if (!constraint.test(x)) return false;
+        }
+        return true;
+    }
+
+    public static boolean test(IVector x, ExplicitConstraint... constraints) {
+        int n = x.getDimension();
+
+        if (n != constraints.length) throw new DimensionMismatchException(n, constraints.length);
+
+        for (int i = 0; i < n; i++) {
+            if (!constraints[i].test(x.get(i))) return false;
         }
         return true;
     }

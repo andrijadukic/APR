@@ -1,4 +1,4 @@
-package apr.optimization.functions;
+package apr.optimization.algorithms.multi.gradient;
 
 import apr.linear.matrix.IMatrix;
 import apr.linear.vector.IVector;

@@ -2,7 +2,6 @@ package apr.optimization.algorithms.multi.noderiv;
 
 import apr.linear.util.Matrices;
 import apr.linear.vector.IVector;
-import apr.optimization.algorithms.uni.Interval;
 import apr.optimization.functions.constraints.Constraints;
 import apr.optimization.functions.constraints.ExplicitConstraint;
 import apr.optimization.functions.constraints.ImplicitConstraint;
@@ -18,23 +17,23 @@ import static apr.linear.util.linalg.OperationMutability.*;
 
 public class BoxMethod extends AbstractSimplexMethod {
 
-    private ExplicitConstraint explicitConstraint;
+    private ExplicitConstraint[] explicitConstraints;
     private InequalityConstraint[] implicitConstraints;
 
     private double alpha;
 
     private static final double DEFAULT_ALPHA = 1.3;
 
-    public BoxMethod(IMultivariateCostFunction f, ExplicitConstraint explicitConstraint, InequalityConstraint[] implicitConstraints) {
+    public BoxMethod(IMultivariateCostFunction f, ExplicitConstraint[] explicitConstraints, InequalityConstraint[] implicitConstraints) {
         super(f);
-        this.explicitConstraint = explicitConstraint;
+        this.explicitConstraints = explicitConstraints;
         this.implicitConstraints = implicitConstraints;
         alpha = DEFAULT_ALPHA;
     }
 
-    public BoxMethod(IMultivariateCostFunction f, ExplicitConstraint explicitConstraint, InequalityConstraint[] implicitConstraints, double epsilon, double alpha) {
+    public BoxMethod(IMultivariateCostFunction f, ExplicitConstraint[] explicitConstraints, InequalityConstraint[] implicitConstraints, double epsilon, double alpha) {
         super(f, epsilon);
-        this.explicitConstraint = explicitConstraint;
+        this.explicitConstraints = explicitConstraints;
         this.implicitConstraints = implicitConstraints;
         this.alpha = alpha;
     }
@@ -47,12 +46,12 @@ public class BoxMethod extends AbstractSimplexMethod {
         this.alpha = alpha;
     }
 
-    public ExplicitConstraint getExplicitConstraint() {
-        return explicitConstraint;
+    public ExplicitConstraint[] getExplicitConstraints() {
+        return explicitConstraints;
     }
 
-    public void setExplicitConstraint(ExplicitConstraint explicitConstraint) {
-        this.explicitConstraint = explicitConstraint;
+    public void setExplicitConstraints(ExplicitConstraint[] explicitConstraints) {
+        this.explicitConstraints = explicitConstraints;
     }
 
     public ImplicitConstraint[] getImplicitConstraints() {
@@ -65,7 +64,7 @@ public class BoxMethod extends AbstractSimplexMethod {
 
     @Override
     protected void validate(IVector x0) {
-        if (explicitConstraint.test(x0) || Constraints.test(x0, implicitConstraints))
+        if (Constraints.test(x0, explicitConstraints) || Constraints.test(x0, implicitConstraints))
             throw new ConstraintsNotSatisfiedException();
     }
 
@@ -78,12 +77,12 @@ public class BoxMethod extends AbstractSimplexMethod {
         IVector xh2 = X[h2];
 
         IVector xc = centroid(X, h);
-        IVector xr = reflection(xc, xh);
 
+        IVector xr = reflection(xc, xh);
         for (int i = 0, n = xr.getDimension(); i < n; i++) {
-            Interval bound = explicitConstraint.getBound(i);
-            double lb = bound.lowerbound();
-            double ub = bound.upperbound();
+            ExplicitConstraint constraint = explicitConstraints[i];
+            double lb = constraint.lowerbound();
+            double ub = constraint.upperbound();
             if (xr.get(i) < lb) {
                 xr.set(i, lb);
             } else if (xr.get(i) > ub) {
@@ -114,9 +113,9 @@ public class BoxMethod extends AbstractSimplexMethod {
         IVector centroid = x0.copy();
         Random random = ThreadLocalRandom.current();
         for (int i = 1; i < size; i++) {
-            Interval bound = explicitConstraint.getBound(i);
-            double lb = bound.lowerbound();
-            double ub = bound.upperbound();
+            ExplicitConstraint constraint = explicitConstraints[i - 1];
+            double lb = constraint.lowerbound();
+            double ub = constraint.upperbound();
             IVector xi = Matrices.fill(x0.copy(), () -> lb + random.nextDouble() * (ub - lb));
             while (!Constraints.test(xi, implicitConstraints)) {
                 xi = multiply(

@@ -30,12 +30,12 @@ public class GoldenSectionSearch extends AbstractUnivariateOptimizer {
     @Override
     public double search(double x0) {
         Interval interval = findInterval(UnimodalInterval.findInterval(f, h, x0));
-        return (interval.lowerbound() + interval.upperbound()) / 2.;
+        return (interval.start() + interval.end()) / 2.;
     }
 
     public Interval findInterval(Interval interval) {
-        double a = interval.lowerbound();
-        double b = interval.upperbound();
+        double a = interval.start();
+        double b = interval.end();
 
         double c = b - K * (b - a);
         double d = a + K * (b - a);

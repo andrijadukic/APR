@@ -5,14 +5,14 @@ import java.security.InvalidParameterException;
 /**
  * Record class for storing intervals
  */
-public record Interval(double lowerbound, double upperbound) {
+public record Interval(double start, double end) {
 
     public Interval {
-        if (lowerbound > upperbound) throw new InvalidParameterException();
+        if (start > end) throw new InvalidParameterException();
     }
 
     @Override
     public String toString() {
-        return "[" + lowerbound + ", " + upperbound + "]";
+        return "[" + start + ", " + end + "]";
     }
 }

@@ -9,4 +9,8 @@ public abstract class ImplicitConstraint implements IConstraint {
     public ImplicitConstraint(IMultivariateFunction f) {
         this.f = f;
     }
+
+    public IMultivariateFunction getFunction() {
+        return f;
+    }
 }

@@ -4,7 +4,6 @@ import apr.linear.vector.IVector;
 import apr.optimization.algorithms.uni.GoldenSectionSearch;
 import apr.optimization.algorithms.multi.noderiv.IMultivariateOptimizer;
 import apr.optimization.exceptions.MaximumIterationCountExceededException;
-import apr.optimization.functions.IDifferentiableMultivariateCostFunction;
 
 import static apr.linear.util.linalg.LinearAlgebra.*;
 import static apr.linear.util.linalg.OperationMutability.IMMUTABLE;

@@ -1,7 +1,6 @@
 package apr.optimization.algorithms.multi.gradient;
 
 import apr.linear.vector.IVector;
-import apr.optimization.functions.IDifferentiableMultivariateCostFunction;
 
 import static apr.linear.util.linalg.LinearAlgebra.*;
 import static apr.linear.util.linalg.OperationMutability.*;

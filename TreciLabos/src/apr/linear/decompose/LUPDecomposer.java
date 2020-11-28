@@ -105,7 +105,7 @@ public class LUPDecomposer extends AbstractMatrixDecomposer {
 
     @Override
     public double getDeterminant() {
-        double det = (isSwapCountEven ? 1 : -1);
+        double det = (isSwapCountEven ? 1. : -1.);
         for (int i = 0; i < rowDimension; i++) {
             det *= matrix.get(i, i);
         }

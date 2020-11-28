@@ -11,8 +11,8 @@ public interface IMultivariateFunction {
     /**
      * Calculates value at given point
      *
-     * @param vector point
+     * @param x point
      * @return real number in double precision
      */
-    double valueAt(IVector vector);
+    double valueAt(IVector x);
 }

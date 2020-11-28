@@ -322,7 +322,7 @@ public class LinearAlgebra {
     }
 
     /**
-     * Performs forward substitution Ly = b
+     * Performs forward substitution (Ly = b)
      *
      * @param matrix L matrix
      * @param vector b vector
@@ -342,7 +342,7 @@ public class LinearAlgebra {
     }
 
     /**
-     * Performs backward substitution Ux = y
+     * Performs backward substitution (Ux = y)
      *
      * @param matrix U matrix
      * @param vector y vector
