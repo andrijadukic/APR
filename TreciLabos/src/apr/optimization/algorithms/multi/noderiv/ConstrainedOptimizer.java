@@ -41,8 +41,9 @@ public abstract class ConstrainedOptimizer implements IMultivariateOptimizer {
         IVector x = x0.copy();
         double t = coefficient;
         while (true) {
-            function.setCoefficient(t);
             IVector snapshot = x.copy();
+
+            function.setCoefficient(t);
             x = argMin(function, x);
 
             if (norm(subtract(x, snapshot, IMMUTABLE)) < epsilon) break;

@@ -2,6 +2,7 @@ package apr.optimization.algorithms.multi.noderiv;
 
 import apr.linear.util.Matrices;
 import apr.linear.vector.IVector;
+import apr.optimization.exceptions.MaximumIterationCountExceededException;
 import apr.optimization.functions.constraints.Constraints;
 import apr.optimization.functions.constraints.ExplicitConstraint;
 import apr.optimization.functions.constraints.ImplicitConstraint;
@@ -18,23 +19,27 @@ import static apr.linear.util.linalg.OperationMutability.*;
 public class BoxMethod extends AbstractSimplexMethod {
 
     private ExplicitConstraint[] explicitConstraints;
-    private InequalityConstraint[] implicitConstraints;
+    private ImplicitConstraint[] implicitConstraints;
 
     private double alpha;
 
-    private static final double DEFAULT_ALPHA = 1.3;
+    private int maxIter;
 
-    public BoxMethod(IMultivariateCostFunction function, ExplicitConstraint[] explicitConstraints, InequalityConstraint[] implicitConstraints) {
-        this(function, explicitConstraints, implicitConstraints, DEFAULT_EPSILON, DEFAULT_ALPHA);
+    private static final double DEFAULT_ALPHA = 1.3;
+    private static final int DEFAULT_MAXIMUM_ITERATION = 100;
+
+    public BoxMethod(IMultivariateCostFunction function, ExplicitConstraint[] explicitConstraints, ImplicitConstraint[] implicitConstraints) {
+        this(function, explicitConstraints, implicitConstraints, DEFAULT_EPSILON, DEFAULT_ALPHA, DEFAULT_MAXIMUM_ITERATION);
     }
 
     public BoxMethod(IMultivariateCostFunction function,
-                     ExplicitConstraint[] explicitConstraints, InequalityConstraint[] implicitConstraints,
-                     double epsilon, double alpha) {
+                     ExplicitConstraint[] explicitConstraints, ImplicitConstraint[] implicitConstraints,
+                     double epsilon, double alpha, int maxIter) {
         super(function, epsilon);
         this.explicitConstraints = explicitConstraints;
         this.implicitConstraints = implicitConstraints;
         this.alpha = alpha;
+        this.maxIter = maxIter;
     }
 
     public double getAlpha() {
@@ -43,6 +48,14 @@ public class BoxMethod extends AbstractSimplexMethod {
 
     public void setAlpha(double alpha) {
         this.alpha = alpha;
+    }
+
+    public int getMaxIter() {
+        return maxIter;
+    }
+
+    public void setMaxIter(int maxIter) {
+        this.maxIter = maxIter;
     }
 
     public ExplicitConstraint[] getExplicitConstraints() {
@@ -63,7 +76,7 @@ public class BoxMethod extends AbstractSimplexMethod {
 
     @Override
     protected void validate(IVector x0) {
-        if (Constraints.test(x0, explicitConstraints) || Constraints.test(x0, implicitConstraints))
+        if (!Constraints.test(x0, explicitConstraints) || !Constraints.test(x0, implicitConstraints))
             throw new ConstraintsNotSatisfiedException();
     }
 
@@ -89,8 +102,11 @@ public class BoxMethod extends AbstractSimplexMethod {
             }
         }
 
+        int iter = 0;
         while (!Constraints.test(xr, implicitConstraints)) {
+            if (iter > maxIter) throw new MaximumIterationCountExceededException(maxIter);
             xr = multiply(add(xr, xc, MUTABLE), 0.5, MUTABLE);
+            iter++;
         }
 
         if (function.valueAt(xr) > function.valueAt(xh2)) {
@@ -105,25 +121,29 @@ public class BoxMethod extends AbstractSimplexMethod {
 
     @Override
     protected IVector[] initialSimplex(IVector x0) {
-        int size = x0.getDimension() * 2;
+        int n = x0.getDimension();
+        int size = n * 2;
         IVector[] simplex = new IVector[size];
         simplex[0] = x0.copy();
 
         IVector centroid = x0.copy();
         Random random = ThreadLocalRandom.current();
         for (int i = 1; i < size; i++) {
-            ExplicitConstraint constraint = explicitConstraints[i - 1];
-            double lb = constraint.lowerbound();
-            double ub = constraint.upperbound();
-            IVector xi = Matrices.fill(x0.copy(), () -> lb + random.nextDouble() * (ub - lb));
+            IVector xi = x0.newInstance(n);
+            for (int j = 0; j < n; j++) {
+                ExplicitConstraint constraint = explicitConstraints[j];
+                double lb = constraint.lowerbound();
+                double ub = constraint.upperbound();
+                xi.set(j, lb + random.nextDouble() * (ub - lb));
+            }
+            int iter = 0;
             while (!Constraints.test(xi, implicitConstraints)) {
-                xi = multiply(
-                        add(xi, centroid, MUTABLE),
-                        0.5,
-                        MUTABLE);
+                if (iter > maxIter) throw new MaximumIterationCountExceededException(maxIter);
+                xi = multiply(add(xi, centroid, MUTABLE), 0.5, MUTABLE);
+                iter++;
             }
             simplex[i] = xi;
-            centroid = add(centroid, multiply(subtract(centroid, xi, IMMUTABLE), 1. / (i + 1), MUTABLE), MUTABLE);
+            centroid = add(multiply(subtract(xi, centroid, IMMUTABLE), 1. / (i + 1), MUTABLE), centroid, MUTABLE);
         }
 
         return simplex;

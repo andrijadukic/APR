@@ -11,7 +11,7 @@ import static apr.linear.util.linalg.OperationMutability.MUTABLE;
 
 abstract class AbstractDifferentiableMultivariateOptimizer implements IMultivariateOptimizer {
 
-    protected final IDifferentiableMultivariateCostFunction f;
+    protected final IDifferentiableMultivariateCostFunction function;
 
     protected double epsilon;
     protected int maxIter;
@@ -21,12 +21,12 @@ abstract class AbstractDifferentiableMultivariateOptimizer implements IMultivari
     private static final int DEFAULT_MAXIMUM_ITERATION = 100;
     private static final boolean DEFAULT_COMPUTE_OPTIMAL_STEP = false;
 
-    protected AbstractDifferentiableMultivariateOptimizer(IDifferentiableMultivariateCostFunction f) {
-        this(f, DEFAULT_EPSILON, DEFAULT_MAXIMUM_ITERATION, DEFAULT_COMPUTE_OPTIMAL_STEP);
+    protected AbstractDifferentiableMultivariateOptimizer(IDifferentiableMultivariateCostFunction function) {
+        this(function, DEFAULT_EPSILON, DEFAULT_MAXIMUM_ITERATION, DEFAULT_COMPUTE_OPTIMAL_STEP);
     }
 
-    protected AbstractDifferentiableMultivariateOptimizer(IDifferentiableMultivariateCostFunction f, double epsilon, int maxIter, boolean computeOptimalStep) {
-        this.f = f;
+    protected AbstractDifferentiableMultivariateOptimizer(IDifferentiableMultivariateCostFunction function, double epsilon, int maxIter, boolean computeOptimalStep) {
+        this.function = function;
         this.epsilon = epsilon;
         this.maxIter = maxIter;
         this.computeOptimalStep = computeOptimalStep;
@@ -61,11 +61,12 @@ abstract class AbstractDifferentiableMultivariateOptimizer implements IMultivari
         IVector x = x0.copy();
 
         int iter = 0;
-        double best = f.valueAt(x);
+        double best = function.valueAt(x);
         while (true) {
-            if (iter > maxIter) throw new MaximumIterationCountExceededException();
+            if (iter > maxIter)
+                throw new MaximumIterationCountExceededException(maxIter, "best value reached is [" + x.toString() + "]");
 
-            IVector direction = computeDirection(x, f.gradient(x));
+            IVector direction = computeDirection(x, function.gradient(x));
             double norm = norm(direction);
 
             if (norm < epsilon) break;
@@ -76,14 +77,14 @@ abstract class AbstractDifferentiableMultivariateOptimizer implements IMultivari
                 final IVector currentX = x.copy();
                 final IVector initialDirection = direction.copy();
                 double ratio = new GoldenSectionSearch(
-                        lambda -> f.valueAt(add(multiply(initialDirection, lambda, IMMUTABLE), currentX, MUTABLE))
+                        lambda -> function.valueAt(add(multiply(initialDirection, lambda, IMMUTABLE), currentX, MUTABLE))
                 ).search(0);
                 direction = multiply(direction, ratio, MUTABLE);
             }
 
             x = add(x, direction, MUTABLE);
 
-            double value = f.valueAt(x);
+            double value = function.valueAt(x);
             if (value < best) {
                 iter = 0;
                 best = value;

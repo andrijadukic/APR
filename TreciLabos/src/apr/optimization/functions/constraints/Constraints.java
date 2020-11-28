@@ -5,14 +5,10 @@ import apr.linear.vector.IVector;
 import apr.optimization.algorithms.uni.Interval;
 import apr.optimization.functions.IMultivariateFunction;
 
-import java.util.Arrays;
-
 public class Constraints {
 
-    public static ExplicitConstraint[] explicit(Interval... bounds) {
-        return Arrays.stream(bounds)
-                .map(ExplicitConstraint::new)
-                .toArray(ExplicitConstraint[]::new);
+    public static ExplicitConstraint explicit(double lb, double ub) {
+        return new ExplicitConstraint(new Interval(lb, ub));
     }
 
     public static ImplicitConstraint equality(IMultivariateFunction f) {
@@ -34,7 +30,7 @@ public class Constraints {
         int n = x.getDimension();
         int numConstraints = constraints.length;
 
-        if (n != numConstraints) throw new DimensionMismatchException(n,numConstraints);
+        if (n != numConstraints) throw new DimensionMismatchException(n, numConstraints);
 
         for (int i = 0; i < n; i++) {
             if (!constraints[i].test(x.get(i))) return false;

@@ -8,17 +8,17 @@ import static apr.linear.util.linalg.OperationMutability.IMMUTABLE;
 
 public class NewtonRaphson extends AbstractDifferentiableMultivariateOptimizer {
 
-    public NewtonRaphson(IDifferentiableMultivariateCostFunction f) {
-        super(f);
+    public NewtonRaphson(IDifferentiableMultivariateCostFunction function) {
+        super(function);
     }
 
-    public NewtonRaphson(IDifferentiableMultivariateCostFunction f, double epsilon, int maxIter, boolean computeOptimalStep) {
-        super(f, epsilon, maxIter, computeOptimalStep);
+    public NewtonRaphson(IDifferentiableMultivariateCostFunction function, double epsilon, int maxIter, boolean computeOptimalStep) {
+        super(function, epsilon, maxIter, computeOptimalStep);
     }
 
     @Override
     protected IVector computeDirection(IVector x, IVector gradient) {
-        return new LUPDecomposer(f.hessian(x)).solver().solve(multiply(gradient, -1, IMMUTABLE));
+        return new LUPDecomposer(function.hessian(x)).solver().solve(multiply(gradient, -1, IMMUTABLE));
     }
 
     @Override

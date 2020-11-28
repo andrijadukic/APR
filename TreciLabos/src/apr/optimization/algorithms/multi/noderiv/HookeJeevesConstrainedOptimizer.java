@@ -15,13 +15,8 @@ public class HookeJeevesConstrainedOptimizer extends ConstrainedOptimizer {
         delta = DEFAULT_DELTA;
     }
 
-    public HookeJeevesConstrainedOptimizer(ConstrainedMultivariateCostFunction f, double epsilon, double coefficient) {
-        super(f, epsilon, coefficient);
-        delta = DEFAULT_DELTA;
-    }
-
     public HookeJeevesConstrainedOptimizer(ConstrainedMultivariateCostFunction f, double coefficient, double epsilon, double delta) {
-        super(f);
+        super(f, epsilon, coefficient);
         this.delta = delta;
     }
 

@@ -35,11 +35,11 @@ public class ConstrainedMultivariateFunction implements IConstrainedMultivariate
         this.coefficient = coefficient;
     }
 
-    public ConstrainedMultivariateFunction(IMultivariateFunction unconstrainedFunction, InequalityConstraint[] inequalityConstraints) {
+    public ConstrainedMultivariateFunction(IMultivariateFunction unconstrainedFunction, InequalityConstraint... inequalityConstraints) {
         this(unconstrainedFunction, inequalityConstraints, DEFAULT_COEFFICIENT);
     }
 
-    public ConstrainedMultivariateFunction(IMultivariateFunction unconstrainedFunction, EqualityConstraint[] equalityConstraints) {
+    public ConstrainedMultivariateFunction(IMultivariateFunction unconstrainedFunction, EqualityConstraint... equalityConstraints) {
         this(unconstrainedFunction, equalityConstraints, DEFAULT_COEFFICIENT);
     }
 
@@ -66,6 +66,8 @@ public class ConstrainedMultivariateFunction implements IConstrainedMultivariate
     }
 
     private static double inequalityConstraintsPenalty(IVector x, InequalityConstraint[] inequalityConstraints) {
+        if (inequalityConstraints == null) return 0.;
+
         double penalty = 0.;
         for (InequalityConstraint constraint : inequalityConstraints) {
             double constraintFunctionValue = constraint.getFunction().valueAt(x);
@@ -79,6 +81,8 @@ public class ConstrainedMultivariateFunction implements IConstrainedMultivariate
     }
 
     private static double equalityConstraintsPenalty(IVector x, EqualityConstraint[] equalityConstraints) {
+        if (equalityConstraints == null) return 0.;
+
         double penalty = 0.;
         for (EqualityConstraint constraint : equalityConstraints) {
             double constraintFunctionValue = constraint.getFunction().valueAt(x);

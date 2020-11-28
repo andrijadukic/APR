@@ -10,7 +10,7 @@ public class HookeJeevesInteriorPointSearch extends InteriorPointSearch {
 
     private static final double DEFAULT_DELTA = 0.5;
 
-    public HookeJeevesInteriorPointSearch(InequalityConstraint[] inequalityConstraints) {
+    public HookeJeevesInteriorPointSearch(InequalityConstraint... inequalityConstraints) {
         super(inequalityConstraints);
         delta = DEFAULT_DELTA;
     }

@@ -1,4 +1,4 @@
-package apr.optimization.algorithms.util;
+package apr.optimization.demo;
 
 import apr.linear.matrix.Matrix;
 import apr.linear.vector.Vector;
@@ -49,16 +49,8 @@ public class CostFunctions {
      */
     public static IDifferentiableMultivariateCostFunction f2() {
         return new DifferentiableMultivariateCostFunction(
-                x -> {
-                    double x1 = x.get(0);
-                    double x2 = x.get(1);
-                    return Math.pow(x1 - 4, 2) + 4 * Math.pow(x2 - 2, 2);
-                },
-                x -> {
-                    double x1 = x.get(0);
-                    double x2 = x.get(1);
-                    return new Vector(2 * (x1 - 4), 8 * (x2 - 2));
-                },
+                x -> Math.pow(x.get(0) - 4, 2) + 4 * Math.pow(x.get(1) - 2, 2),
+                x -> new Vector(2 * (x.get(0) - 4), 8 * (x.get(1) - 2)),
                 x -> new Matrix(new double[][]{
                         {2, 0},
                         {0, 8}})
@@ -72,16 +64,8 @@ public class CostFunctions {
      */
     public static IDifferentiableMultivariateCostFunction f3() {
         return new DifferentiableMultivariateCostFunction(
-                x -> {
-                    double x1 = x.get(0);
-                    double x2 = x.get(1);
-                    return Math.pow(x1 - 2, 2) + 4 * Math.pow(x2 + 3, 2);
-                },
-                x -> {
-                    double x1 = x.get(0);
-                    double x2 = x.get(1);
-                    return new Vector(2 * (x1 - 2), 2 * (x2 + 3));
-                },
+                x -> Math.pow(x.get(0) - 2, 2) + 4 * Math.pow(x.get(1) + 3, 2),
+                x -> new Vector(2 * (x.get(0) - 2), 2 * (x.get(1) + 3)),
                 x -> new Matrix(new double[][]{
                         {2, 0},
                         {0, 2}})
@@ -89,16 +73,18 @@ public class CostFunctions {
     }
 
     /**
-     * f(x) = abs((x1 - x2) * (x1 + x2)) + sqrt(x1^2 + x2^2)
+     * f(x) = (x1 - 3)^2 + (x2)^2
      *
      * @return cost function f4
      */
-    public static IMultivariateCostFunction f4() {
-        return new MultivariateCostFunction(x -> {
-            double x1 = x.get(0);
-            double x2 = x.get(1);
-            return Math.abs((x1 - x2) * (x1 + x2)) + Math.sqrt(x1 * x1 + x2 * x2);
-        });
+    public static IDifferentiableMultivariateCostFunction f4() {
+        return new DifferentiableMultivariateCostFunction(
+                x -> Math.pow(x.get(0) - 3, 2) + Math.pow(x.get(1), 2),
+                x -> new Vector(2 * (x.get(0) - 3), 2 * x.get(1)),
+                x -> new Matrix(new double[][]{
+                        {2, 0},
+                        {0, 2}})
+        );
     }
 
     /**

@@ -43,13 +43,13 @@ public abstract class AbstractSimplexMethod extends AbstractMultivariateOptimize
     protected abstract boolean iterate(IVector[] X, double[] fX);
 
     protected IVector centroid(IVector[] simplex, int h) {
-        int n = simplex.length - 1;
-        IVector centroid = Matrices.zeroes(n, (IVectorBuilder) Vector::new);
-        for (int i = 0, length = n + 1; i < length; i++) {
+        int n = simplex.length;
+        IVector centroid = Matrices.zeroes(simplex[0].getDimension(), (IVectorBuilder) Vector::new);
+        for (int i = 0; i < n; i++) {
             if (i == h) continue;
             add(centroid, simplex[i], MUTABLE);
         }
-        return multiply(centroid, 1. / n, MUTABLE);
+        return multiply(centroid, 1. / (n - 1), MUTABLE);
     }
 
     protected int argMin(double[] array) {
