@@ -14,12 +14,12 @@ import static apr.linear.util.linalg.OperationMutability.MUTABLE;
 
 public abstract class AbstractSimplexMethod extends AbstractMultivariateOptimizer {
 
-    protected AbstractSimplexMethod(IMultivariateCostFunction f) {
-        super(f);
+    protected AbstractSimplexMethod(IMultivariateCostFunction function) {
+        super(function);
     }
 
-    protected AbstractSimplexMethod(IMultivariateCostFunction f, double epsilon) {
-        super(f, epsilon);
+    protected AbstractSimplexMethod(IMultivariateCostFunction function, double epsilon) {
+        super(function, epsilon);
     }
 
     @Override
@@ -27,7 +27,7 @@ public abstract class AbstractSimplexMethod extends AbstractMultivariateOptimize
         validate(x0);
 
         final IVector[] X = initialSimplex(x0);
-        final double[] fX = Arrays.stream(X).mapToDouble(f::valueAt).toArray();
+        final double[] fX = Arrays.stream(X).mapToDouble(function::valueAt).toArray();
         while (true) {
             boolean convergence = iterate(X, fX);
             if (convergence) break;
@@ -67,7 +67,7 @@ public abstract class AbstractSimplexMethod extends AbstractMultivariateOptimize
 
     protected boolean isStopCriteriaMet(double[] fX, IVector centroid) {
         double val = 0.;
-        double fxc = f.valueAt(centroid);
+        double fxc = function.valueAt(centroid);
         for (double fx : fX) {
             val += Math.pow(fx - fxc, 2);
         }

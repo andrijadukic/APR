@@ -37,11 +37,11 @@ public abstract class InteriorPointSearch extends AbstractMultivariateOptimizer 
         IVector x = x0.copy();
         while (true) {
             IVector snapshot = x;
-            x = argMin(x);
+            x = argMin(function, x);
             if (norm(subtract(x, snapshot, IMMUTABLE)) < epsilon) break;
         }
         return x;
     }
 
-    protected abstract IVector argMin(IVector x0);
+    protected abstract IVector argMin(IMultivariateCostFunction f, IVector x0);
 }

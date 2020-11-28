@@ -15,13 +15,17 @@ public class NelderMead extends AbstractSimplexMethod {
     private double alpha = 1.0;
     private double beta = 0.5;
     private double gamma = 2.0;
-
     private double sigma = 0.5;
-
     private double step = 1;
 
+    private static final double DEFAULT_ALPHA = 1.0;
+    private static final double DEFAULT_BETA = 0.5;
+    private static final double DEFAULT_GAMMA = 2.0;
+    private static final double DEFAULT_SIGMA = 0.5;
+    private static final double DEFAULT_STEP = 1.0;
+
     public NelderMead(IMultivariateCostFunction f) {
-        super(f);
+        this(f, DEFAULT_EPSILON, DEFAULT_ALPHA, DEFAULT_BETA, DEFAULT_GAMMA, DEFAULT_SIGMA, DEFAULT_STEP);
     }
 
     public NelderMead(IMultivariateCostFunction f, double epsilon, double alpha, double beta, double gamma, double sigma, double step) {
@@ -79,7 +83,7 @@ public class NelderMead extends AbstractSimplexMethod {
 
     @Override
     protected boolean iterate(IVector[] X, double[] fX) {
-        Pair argMaxMin = argMaxMin(fX);
+        Pair argMaxMin = worstAndBest(fX);
         int h = argMaxMin.first();
         int l = argMaxMin.second();
         IVector xh = X[h];
@@ -88,10 +92,10 @@ public class NelderMead extends AbstractSimplexMethod {
         IVector xc = centroid(X, h);
         IVector xr = reflection(xc, xh);
 
-        double fxr = f.valueAt(xr);
+        double fxr = function.valueAt(xr);
         if (fxr < fX[l]) {
             IVector xe = expansion(xc, xr);
-            double fxe = f.valueAt(xe);
+            double fxe = function.valueAt(xe);
             if (fxe < fX[l]) {
                 X[h] = xe;
                 fX[h] = fxe;
@@ -114,7 +118,7 @@ public class NelderMead extends AbstractSimplexMethod {
                     fX[h] = fxr;
                 }
                 IVector xk = contraction(xc, xh);
-                double fxk = f.valueAt(xk);
+                double fxk = function.valueAt(xk);
                 if (fxk < fX[h]) {
                     X[h] = xk;
                     fX[h] = fxk;
@@ -122,7 +126,7 @@ public class NelderMead extends AbstractSimplexMethod {
                     for (int i = 0, n = X.length; i < n; i++) {
                         if (i == l) continue;
                         X[i] = shrink(X[i], xl);
-                        fX[i] = f.valueAt(X[i]);
+                        fX[i] = function.valueAt(X[i]);
                     }
                 }
             } else {
@@ -146,7 +150,7 @@ public class NelderMead extends AbstractSimplexMethod {
         return simplex;
     }
 
-    private Pair argMaxMin(double[] array) {
+    private Pair worstAndBest(double[] array) {
         double maxValue, minValue;
         int maxIndex, minIndex;
 

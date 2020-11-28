@@ -32,8 +32,9 @@ public class Constraints {
 
     public static boolean test(IVector x, ExplicitConstraint... constraints) {
         int n = x.getDimension();
+        int numConstraints = constraints.length;
 
-        if (n != constraints.length) throw new DimensionMismatchException(n, constraints.length);
+        if (n != numConstraints) throw new DimensionMismatchException(n,numConstraints);
 
         for (int i = 0; i < n; i++) {
             if (!constraints[i].test(x.get(i))) return false;

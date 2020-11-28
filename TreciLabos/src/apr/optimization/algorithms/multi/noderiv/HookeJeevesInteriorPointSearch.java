@@ -1,6 +1,7 @@
 package apr.optimization.algorithms.multi.noderiv;
 
 import apr.linear.vector.IVector;
+import apr.optimization.algorithms.multi.IMultivariateCostFunction;
 import apr.optimization.functions.constraints.InequalityConstraint;
 
 public class HookeJeevesInteriorPointSearch extends InteriorPointSearch {
@@ -11,10 +12,12 @@ public class HookeJeevesInteriorPointSearch extends InteriorPointSearch {
 
     public HookeJeevesInteriorPointSearch(InequalityConstraint[] inequalityConstraints) {
         super(inequalityConstraints);
+        delta = DEFAULT_DELTA;
     }
 
-    public HookeJeevesInteriorPointSearch(double epsilon, InequalityConstraint[] inequalityConstraints) {
+    public HookeJeevesInteriorPointSearch(InequalityConstraint[] inequalityConstraints, double epsilon, double delta) {
         super(inequalityConstraints, epsilon);
+        this.delta = delta;
     }
 
     public double getDelta() {
@@ -26,12 +29,12 @@ public class HookeJeevesInteriorPointSearch extends InteriorPointSearch {
     }
 
     @Override
-    protected IVector argMin(IVector x0) {
+    protected IVector argMin(IMultivariateCostFunction f, IVector x0) {
         return new HookeJeeves(f, epsilon, delta).search(x0);
     }
 
     @Override
     public String getName() {
-        return null;
+        return "Hooke-Jeeves interior point search";
     }
 }

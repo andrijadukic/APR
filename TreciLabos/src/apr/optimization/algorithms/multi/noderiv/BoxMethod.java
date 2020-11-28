@@ -24,15 +24,14 @@ public class BoxMethod extends AbstractSimplexMethod {
 
     private static final double DEFAULT_ALPHA = 1.3;
 
-    public BoxMethod(IMultivariateCostFunction f, ExplicitConstraint[] explicitConstraints, InequalityConstraint[] implicitConstraints) {
-        super(f);
-        this.explicitConstraints = explicitConstraints;
-        this.implicitConstraints = implicitConstraints;
-        alpha = DEFAULT_ALPHA;
+    public BoxMethod(IMultivariateCostFunction function, ExplicitConstraint[] explicitConstraints, InequalityConstraint[] implicitConstraints) {
+        this(function, explicitConstraints, implicitConstraints, DEFAULT_EPSILON, DEFAULT_ALPHA);
     }
 
-    public BoxMethod(IMultivariateCostFunction f, ExplicitConstraint[] explicitConstraints, InequalityConstraint[] implicitConstraints, double epsilon, double alpha) {
-        super(f, epsilon);
+    public BoxMethod(IMultivariateCostFunction function,
+                     ExplicitConstraint[] explicitConstraints, InequalityConstraint[] implicitConstraints,
+                     double epsilon, double alpha) {
+        super(function, epsilon);
         this.explicitConstraints = explicitConstraints;
         this.implicitConstraints = implicitConstraints;
         this.alpha = alpha;
@@ -94,12 +93,12 @@ public class BoxMethod extends AbstractSimplexMethod {
             xr = multiply(add(xr, xc, MUTABLE), 0.5, MUTABLE);
         }
 
-        if (f.valueAt(xr) > f.valueAt(xh2)) {
+        if (function.valueAt(xr) > function.valueAt(xh2)) {
             xr = multiply(add(xr, xc, MUTABLE), 0.5, MUTABLE);
         }
 
         X[h] = xr;
-        fX[h] = f.valueAt(xr);
+        fX[h] = function.valueAt(xr);
 
         return isStopCriteriaMet(fX, xc);
     }

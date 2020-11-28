@@ -7,7 +7,7 @@ import apr.optimization.functions.IUnivariateFunction;
  */
 public class UnimodalInterval {
 
-    public static Interval findInterval(IUnivariateFunction f, double h, double x0) {
+    public static Interval find(IUnivariateFunction f, double h, double x0) {
         double l = x0 - h;
         double m = x0;
         double r = x0 + h;

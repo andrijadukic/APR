@@ -7,17 +7,18 @@ import apr.optimization.algorithms.multi.IMultivariateCostFunction;
  */
 abstract class AbstractMultivariateOptimizer implements IMultivariateOptimizer {
 
-    protected final IMultivariateCostFunction f;
+    protected final IMultivariateCostFunction function;
+
     protected double epsilon;
 
     protected static double DEFAULT_EPSILON = 1e-6;
 
-    protected AbstractMultivariateOptimizer(IMultivariateCostFunction f) {
-        this(f, DEFAULT_EPSILON);
+    protected AbstractMultivariateOptimizer(IMultivariateCostFunction function) {
+        this(function, DEFAULT_EPSILON);
     }
 
-    protected AbstractMultivariateOptimizer(IMultivariateCostFunction f, double epsilon) {
-        this.f = f;
+    protected AbstractMultivariateOptimizer(IMultivariateCostFunction function, double epsilon) {
+        this.function = function;
         this.epsilon = epsilon;
     }
 

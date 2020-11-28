@@ -11,15 +11,18 @@ import static apr.linear.util.linalg.OperationMutability.*;
  */
 public class HookeJeeves extends AbstractMultivariateOptimizer {
 
-    private double delta = 0.5;
+    private double delta;
+
+    private static final double DEFAULT_DELTA = 0.5;
 
     public HookeJeeves(IMultivariateCostFunction f) {
         super(f);
+        delta = DEFAULT_DELTA;
     }
 
-    public HookeJeeves(IMultivariateCostFunction f, double epsilon, double dx) {
+    public HookeJeeves(IMultivariateCostFunction f, double epsilon, double delta) {
         super(f, epsilon);
-        this.delta = dx;
+        this.delta = delta;
     }
 
     public double getEpsilon() {
@@ -43,11 +46,11 @@ public class HookeJeeves extends AbstractMultivariateOptimizer {
         IVector xp = x0;
         IVector xb = x0;
 
-        double fxb = f.valueAt(xb);
+        double fxb = function.valueAt(xb);
         double dx = delta;
         while (dx >= epsilon) {
             IVector xn = explore(xp, dx);
-            double fxn = f.valueAt(xn);
+            double fxn = function.valueAt(xn);
             if (fxn < fxb) {
                 xp = subtract(multiply(xn, 2, IMMUTABLE), xb, MUTABLE);
                 xb = xn;
@@ -63,14 +66,14 @@ public class HookeJeeves extends AbstractMultivariateOptimizer {
 
     private IVector explore(IVector xp, double dx) {
         IVector x = xp.copy();
-        double fxInitial = f.valueAt(x);
+        double fxInitial = function.valueAt(x);
         for (int i = 0, n = x.getDimension(); i < n; i++) {
             double xi = x.get(i);
             x.set(i, xi + dx);
-            double fxNew = f.valueAt(x);
+            double fxNew = function.valueAt(x);
             if (fxNew > fxInitial) {
                 x.set(i, xi - dx);
-                fxNew = f.valueAt(x);
+                fxNew = function.valueAt(x);
                 if (fxNew > fxInitial) {
                     x.set(i, xi);
                 } else {

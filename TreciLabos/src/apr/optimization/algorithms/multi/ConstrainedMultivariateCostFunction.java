@@ -32,6 +32,7 @@ public class ConstrainedMultivariateCostFunction implements IMultivariateCostFun
 
     @Override
     public double valueAt(IVector x) {
+        functionEvalCounter++;
         return function.valueAt(x);
     }
 }

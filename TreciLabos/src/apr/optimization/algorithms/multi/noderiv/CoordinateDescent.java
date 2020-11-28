@@ -13,8 +13,8 @@ public class CoordinateDescent extends AbstractMultivariateOptimizer {
         super(function);
     }
 
-    public CoordinateDescent(IMultivariateCostFunction f, double epsilon) {
-        super(f, epsilon);
+    public CoordinateDescent(IMultivariateCostFunction function, double epsilon) {
+        super(function, epsilon);
     }
 
     @Override
@@ -27,7 +27,7 @@ public class CoordinateDescent extends AbstractMultivariateOptimizer {
             for (int i = 0; i < dimension; i++) {
                 final int nthDimension = i;
                 final double xi = x.get(nthDimension);
-                x.set(nthDimension, xi + new GoldenSectionSearch(lambda -> f.valueAt(x.set(nthDimension, xi + lambda))).search(xi));
+                x.set(nthDimension, xi + new GoldenSectionSearch(lambda -> function.valueAt(x.set(nthDimension, xi + lambda))).search(xi));
             }
             if (isStopCriteriaMet(snapshot, x)) break;
             snapshot = x.copy();

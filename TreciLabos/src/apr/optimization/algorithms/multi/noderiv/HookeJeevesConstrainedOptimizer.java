@@ -2,6 +2,7 @@ package apr.optimization.algorithms.multi.noderiv;
 
 import apr.linear.vector.IVector;
 import apr.optimization.algorithms.multi.ConstrainedMultivariateCostFunction;
+import apr.optimization.algorithms.multi.IMultivariateCostFunction;
 
 public class HookeJeevesConstrainedOptimizer extends ConstrainedOptimizer {
 
@@ -11,10 +12,12 @@ public class HookeJeevesConstrainedOptimizer extends ConstrainedOptimizer {
 
     public HookeJeevesConstrainedOptimizer(ConstrainedMultivariateCostFunction f) {
         super(f);
+        delta = DEFAULT_DELTA;
     }
 
     public HookeJeevesConstrainedOptimizer(ConstrainedMultivariateCostFunction f, double epsilon, double coefficient) {
         super(f, epsilon, coefficient);
+        delta = DEFAULT_DELTA;
     }
 
     public HookeJeevesConstrainedOptimizer(ConstrainedMultivariateCostFunction f, double coefficient, double epsilon, double delta) {
@@ -31,7 +34,7 @@ public class HookeJeevesConstrainedOptimizer extends ConstrainedOptimizer {
     }
 
     @Override
-    protected IVector argMin(IVector x0) {
+    protected IVector argMin(IMultivariateCostFunction f, IVector x0) {
         return new HookeJeeves(f, epsilon, delta).search(x0);
     }
 

@@ -34,7 +34,7 @@ public class DifferentiableMultivariateCostFunction extends MultivariateCostFunc
     @Override
     public void reset() {
         super.reset();
-        hessianEvalCounter = gradientEvalCounter = 0;
+        gradientEvalCounter = hessianEvalCounter = 0;
     }
 
     @Override
@@ -45,6 +45,7 @@ public class DifferentiableMultivariateCostFunction extends MultivariateCostFunc
 
     @Override
     public IMatrix hessian(IVector x) {
+        hessianEvalCounter++;
         return hessian.valueAt(x);
     }
 }

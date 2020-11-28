@@ -60,10 +60,8 @@ abstract class AbstractDifferentiableMultivariateOptimizer implements IMultivari
     public IVector search(IVector x0) {
         IVector x = x0.copy();
 
-        double previousValue = f.valueAt(x);
-        double currentValue = previousValue;
-
         int iter = 0;
+        double best = f.valueAt(x);
         while (true) {
             if (iter > maxIter) throw new MaximumIterationCountExceededException();
 
@@ -85,11 +83,10 @@ abstract class AbstractDifferentiableMultivariateOptimizer implements IMultivari
 
             x = add(x, direction, MUTABLE);
 
-            previousValue = currentValue;
-            currentValue = f.valueAt(x);
-
-            if (previousValue > currentValue) {
+            double value = f.valueAt(x);
+            if (value < best) {
                 iter = 0;
+                best = value;
             } else {
                 iter++;
             }
