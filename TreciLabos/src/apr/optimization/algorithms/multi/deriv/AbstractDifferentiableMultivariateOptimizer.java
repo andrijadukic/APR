@@ -2,15 +2,12 @@ package apr.optimization.algorithms.multi.deriv;
 
 import apr.linear.vector.IVector;
 import apr.optimization.algorithms.multi.LineSearch;
-import apr.optimization.algorithms.uni.GoldenSectionSearch;
 import apr.optimization.algorithms.multi.noderiv.IMultivariateOptimizer;
-import apr.optimization.algorithms.uni.IUnivariateOptimizer;
 import apr.optimization.exceptions.MaximumIterationCountExceededException;
 
 import java.util.Objects;
 
 import static apr.linear.util.linalg.LinearAlgebra.*;
-import static apr.linear.util.linalg.OperationMutability.IMMUTABLE;
 import static apr.linear.util.linalg.OperationMutability.MUTABLE;
 
 /**
@@ -80,8 +77,8 @@ abstract class AbstractDifferentiableMultivariateOptimizer implements IMultivari
 
             direction = multiply(direction, 1. / norm, MUTABLE);
             if (computeOptimalStep) {
-                double ratio = new LineSearch(function, x, direction).search(0);
-                direction = multiply(direction, ratio, MUTABLE);
+                double coefficient = new LineSearch(function, x, direction).search(0);
+                direction = multiply(direction, coefficient, MUTABLE);
             }
 
             x = add(x, direction, MUTABLE);

@@ -15,8 +15,8 @@ public class Lab {
 
     public static void main(String[] args) {
 //        zadatak1();
-        zadatak2();
-//        zadatak3();
+//        zadatak2();
+        zadatak3();
 //        zadatak4();
 //        zadatak5();
     }

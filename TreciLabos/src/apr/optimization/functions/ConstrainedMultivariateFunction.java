@@ -75,7 +75,7 @@ public class ConstrainedMultivariateFunction implements IConstrainedMultivariate
         for (InequalityConstraint constraint : inequalityConstraints) {
             double constraintFunctionValue = constraint.getFunction().valueAt(x);
 
-            if (constraintFunctionValue < 0) return Double.POSITIVE_INFINITY;
+            if (constraintFunctionValue < 0) return Double.NEGATIVE_INFINITY;
 
             penalty += Math.log(constraintFunctionValue);
 

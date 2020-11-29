@@ -3,6 +3,7 @@ package apr.optimization.algorithms.multi.noderiv;
 import apr.linear.vector.IVector;
 import apr.optimization.algorithms.multi.ConstrainedMultivariateCostFunction;
 import apr.optimization.algorithms.multi.IMultivariateCostFunction;
+import apr.optimization.functions.constraints.Constraints;
 
 import java.util.Objects;
 

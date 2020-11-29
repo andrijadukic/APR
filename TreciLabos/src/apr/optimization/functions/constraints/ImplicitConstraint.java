@@ -2,18 +2,20 @@ package apr.optimization.functions.constraints;
 
 import apr.optimization.functions.IMultivariateFunction;
 
+import java.util.Objects;
+
 /**
  * Abstract class representing equality or inequality constraints
  */
 public abstract class ImplicitConstraint implements IConstraint {
 
-    protected final IMultivariateFunction f;
+    protected final IMultivariateFunction function;
 
-    public ImplicitConstraint(IMultivariateFunction f) {
-        this.f = f;
+    public ImplicitConstraint(IMultivariateFunction function) {
+        this.function = Objects.requireNonNull(function);
     }
 
     public IMultivariateFunction getFunction() {
-        return f;
+        return function;
     }
 }

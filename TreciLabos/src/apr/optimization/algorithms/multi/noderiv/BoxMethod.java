@@ -6,7 +6,6 @@ import apr.optimization.exceptions.MaximumIterationCountExceededException;
 import apr.optimization.functions.constraints.Constraints;
 import apr.optimization.functions.constraints.ExplicitConstraint;
 import apr.optimization.functions.constraints.ImplicitConstraint;
-import apr.optimization.functions.constraints.InequalityConstraint;
 import apr.optimization.exceptions.ConstraintsNotSatisfiedException;
 import apr.optimization.algorithms.multi.IMultivariateCostFunction;
 
@@ -22,8 +21,8 @@ import static apr.linear.util.linalg.OperationMutability.*;
  */
 public class BoxMethod extends AbstractSimplexMethod {
 
-    private ExplicitConstraint[] explicitConstraints;
-    private ImplicitConstraint[] implicitConstraints;
+    private final ExplicitConstraint[] explicitConstraints;
+    private final ImplicitConstraint[] implicitConstraints;
 
     private double alpha = DEFAULT_ALPHA;
     private int maxIter = DEFAULT_MAXIMUM_ITERATION;
@@ -63,26 +62,46 @@ public class BoxMethod extends AbstractSimplexMethod {
         this.maxIter = maxIter;
     }
 
-    public ExplicitConstraint[] getExplicitConstraints() {
-        return explicitConstraints;
-    }
-
-    public void setExplicitConstraints(ExplicitConstraint[] explicitConstraints) {
-        this.explicitConstraints = explicitConstraints;
-    }
-
-    public ImplicitConstraint[] getImplicitConstraints() {
-        return implicitConstraints;
-    }
-
-    public void setImplicitConstraints(InequalityConstraint[] implicitConstraints) {
-        this.implicitConstraints = implicitConstraints;
-    }
-
     @Override
     protected void validate(IVector x0) {
         if (!Constraints.test(x0, explicitConstraints) || !Constraints.test(x0, implicitConstraints))
             throw new ConstraintsNotSatisfiedException();
+    }
+
+    @Override
+    protected IVector[] initialSimplex(IVector x0) {
+        int n = x0.getDimension();
+        int size = n * 2;
+        IVector[] simplex = new IVector[size];
+        simplex[0] = x0.copy();
+        IVector centroid = x0.copy();
+        for (int i = 1; i < size; i++) {
+            IVector candidate = buildCandidate(x0, explicitConstraints);
+            int iter = 0;
+            while (!Constraints.test(candidate, implicitConstraints)) {
+                if (iter > maxIter) throw new MaximumIterationCountExceededException(maxIter);
+                candidate = multiply(add(candidate, centroid, MUTABLE), 0.5, MUTABLE);
+                iter++;
+            }
+            simplex[i] = candidate;
+            
+            centroid = add(multiply(subtract(candidate, centroid, IMMUTABLE), 1. / (i + 1), MUTABLE), centroid, MUTABLE);
+        }
+
+        return simplex;
+    }
+
+    protected IVector buildCandidate(IVector x0, ExplicitConstraint[] explicitConstraints) {
+        int n = x0.getDimension();
+        Random random = ThreadLocalRandom.current();
+        IVector candidate = x0.newInstance(n);
+        for (int i = 0; i < n; i++) {
+            ExplicitConstraint constraint = explicitConstraints[i];
+            double lb = constraint.lowerbound();
+            double ub = constraint.upperbound();
+            candidate.set(i, lb + random.nextDouble() * (ub - lb));
+        }
+        return candidate;
     }
 
     @Override
@@ -124,43 +143,6 @@ public class BoxMethod extends AbstractSimplexMethod {
         return isStopCriteriaMet(fX, xc);
     }
 
-    @Override
-    protected IVector[] initialSimplex(IVector x0) {
-        int n = x0.getDimension();
-        int size = n * 2;
-        IVector[] simplex = new IVector[size];
-        simplex[0] = x0.copy();
-
-        IVector centroid = x0.copy();
-        Random random = ThreadLocalRandom.current();
-        for (int i = 1; i < size; i++) {
-            IVector xi = x0.newInstance(n);
-            for (int j = 0; j < n; j++) {
-                ExplicitConstraint constraint = explicitConstraints[j];
-                double lb = constraint.lowerbound();
-                double ub = constraint.upperbound();
-                xi.set(j, lb + random.nextDouble() * (ub - lb));
-            }
-            int iter = 0;
-            while (!Constraints.test(xi, implicitConstraints)) {
-                if (iter > maxIter) throw new MaximumIterationCountExceededException(maxIter);
-                xi = multiply(add(xi, centroid, MUTABLE), 0.5, MUTABLE);
-                iter++;
-            }
-            simplex[i] = xi;
-            centroid = add(multiply(subtract(xi, centroid, IMMUTABLE), 1. / (i + 1), MUTABLE), centroid, MUTABLE);
-        }
-
-        return simplex;
-    }
-
-    private IVector reflection(IVector xc, IVector xh) {
-        return subtract(
-                multiply(xc, 1 + alpha, IMMUTABLE),
-                multiply(xh, alpha, IMMUTABLE),
-                MUTABLE);
-    }
-
     private Pair worstTwo(double[] array) {
         int maxIndex = 0;
         int secondMaxIndex = 0;
@@ -177,6 +159,13 @@ public class BoxMethod extends AbstractSimplexMethod {
             }
         }
         return new Pair(maxIndex, secondMaxIndex);
+    }
+
+    private IVector reflection(IVector xc, IVector xh) {
+        return subtract(
+                multiply(xc, 1 + alpha, IMMUTABLE),
+                multiply(xh, alpha, IMMUTABLE),
+                MUTABLE);
     }
 
     @Override

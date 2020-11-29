@@ -8,12 +8,12 @@ import apr.optimization.functions.IMultivariateFunction;
  */
 public final class EqualityConstraint extends ImplicitConstraint {
 
-    public EqualityConstraint(IMultivariateFunction f) {
-        super(f);
+    public EqualityConstraint(IMultivariateFunction function) {
+        super(function);
     }
 
     @Override
     public boolean test(IVector x) {
-        return f.valueAt(x) == 0.;
+        return function.valueAt(x) == 0.;
     }
 }

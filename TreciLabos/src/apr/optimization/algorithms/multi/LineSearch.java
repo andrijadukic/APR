@@ -5,6 +5,8 @@ import apr.optimization.algorithms.uni.GoldenSectionSearch;
 import apr.optimization.algorithms.uni.IUnivariateOptimizer;
 import apr.optimization.functions.IMultivariateFunction;
 
+import java.util.Objects;
+
 import static apr.linear.util.linalg.LinearAlgebra.add;
 import static apr.linear.util.linalg.LinearAlgebra.multiply;
 import static apr.linear.util.linalg.OperationMutability.IMMUTABLE;
@@ -20,9 +22,9 @@ public class LineSearch implements IUnivariateOptimizer {
     private final IVector direction;
 
     public LineSearch(IMultivariateFunction function, IVector x, IVector direction) {
-        this.function = function;
-        this.x = x;
-        this.direction = direction;
+        this.function = Objects.requireNonNull(function);
+        this.x = Objects.requireNonNull(x);
+        this.direction = Objects.requireNonNull(direction);
     }
 
     @Override

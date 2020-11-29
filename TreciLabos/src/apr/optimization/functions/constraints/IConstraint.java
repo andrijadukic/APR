@@ -2,6 +2,8 @@ package apr.optimization.functions.constraints;
 
 import apr.linear.vector.IVector;
 
+import java.util.Objects;
+
 /**
  * Represents a constraint on a function
  */
@@ -23,6 +25,7 @@ public interface IConstraint {
      * @return new constraint
      */
     default IConstraint and(IConstraint next) {
+        Objects.requireNonNull(next);
         return x -> test(x) && next.test(x);
     }
 
@@ -33,6 +36,7 @@ public interface IConstraint {
      * @return new constraint
      */
     default IConstraint or(IConstraint next) {
+        Objects.requireNonNull(next);
         return x -> test(x) || next.test(x);
     }
 
