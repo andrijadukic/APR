@@ -79,7 +79,6 @@ abstract class AbstractDifferentiableMultivariateOptimizer implements IMultivari
             if (norm < epsilon) break;
 
             direction = multiply(direction, 1. / norm, MUTABLE);
-
             if (computeOptimalStep) {
                 double ratio = new LineSearch(function, x, direction).search(0);
                 direction = multiply(direction, ratio, MUTABLE);

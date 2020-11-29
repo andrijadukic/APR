@@ -13,4 +13,13 @@ public interface IUnivariateFunction {
      * @return real number in double precision
      */
     double valueAt(double x);
+
+    /**
+     * Creates new function which returns negative value of the original (f2(x) = -f1(x))
+     *
+     * @return new function
+     */
+    default IUnivariateFunction negate() {
+        return x -> -valueAt(x);
+    }
 }
