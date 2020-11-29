@@ -2,6 +2,9 @@ package apr.optimization.functions.constraints;
 
 import apr.optimization.functions.IMultivariateFunction;
 
+/**
+ * Abstract class representing equality or inequality constraints
+ */
 public abstract class ImplicitConstraint implements IConstraint {
 
     protected final IMultivariateFunction f;

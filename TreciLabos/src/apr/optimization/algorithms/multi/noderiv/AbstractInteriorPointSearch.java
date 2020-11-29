@@ -7,15 +7,18 @@ import apr.optimization.functions.constraints.InequalityConstraint;
 
 import static apr.linear.util.linalg.LinearAlgebra.norm;
 import static apr.linear.util.linalg.LinearAlgebra.subtract;
-import static apr.linear.util.linalg.OperationMutability.IMMUTABLE;
+import static apr.linear.util.linalg.OperationMutability.MUTABLE;
 
-public abstract class InteriorPointSearch extends AbstractMultivariateOptimizer {
+/**
+ * Abstract implementation of an interior point search algorithm
+ */
+public abstract class AbstractInteriorPointSearch extends AbstractMultivariateOptimizer {
 
-    public InteriorPointSearch(InequalityConstraint[] inequalityConstraints) {
+    public AbstractInteriorPointSearch(InequalityConstraint[] inequalityConstraints) {
         super(buildConstrainedFunction(inequalityConstraints));
     }
 
-    public InteriorPointSearch(InequalityConstraint[] inequalityConstraints, double epsilon) {
+    public AbstractInteriorPointSearch(InequalityConstraint[] inequalityConstraints, double epsilon) {
         super(buildConstrainedFunction(inequalityConstraints), epsilon);
     }
 
@@ -36,12 +39,12 @@ public abstract class InteriorPointSearch extends AbstractMultivariateOptimizer 
     public IVector search(IVector x0) {
         IVector x = x0.copy();
         while (true) {
-            IVector snapshot = x;
+            IVector snapshot = x.copy();
             x = argMin(function, x);
-            if (norm(subtract(x, snapshot, IMMUTABLE)) < epsilon) break;
+            if (norm(subtract(snapshot, x, MUTABLE)) < epsilon) break;
         }
         return x;
     }
 
-    protected abstract IVector argMin(IMultivariateCostFunction f, IVector x0);
+    protected abstract IVector argMin(IMultivariateCostFunction function, IVector x0);
 }

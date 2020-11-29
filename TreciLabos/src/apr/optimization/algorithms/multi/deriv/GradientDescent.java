@@ -5,6 +5,9 @@ import apr.linear.vector.IVector;
 import static apr.linear.util.linalg.LinearAlgebra.*;
 import static apr.linear.util.linalg.OperationMutability.*;
 
+/**
+ * Implementation of the gradient descent algorithm
+ */
 public class GradientDescent extends AbstractDifferentiableMultivariateOptimizer {
 
     public GradientDescent(IDifferentiableMultivariateCostFunction f) {

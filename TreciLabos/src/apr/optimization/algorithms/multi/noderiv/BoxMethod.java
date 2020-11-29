@@ -1,7 +1,7 @@
 package apr.optimization.algorithms.multi.noderiv;
 
-import apr.linear.util.Matrices;
 import apr.linear.vector.IVector;
+import apr.optimization.algorithms.util.Pair;
 import apr.optimization.exceptions.MaximumIterationCountExceededException;
 import apr.optimization.functions.constraints.Constraints;
 import apr.optimization.functions.constraints.ExplicitConstraint;
@@ -16,6 +16,9 @@ import java.util.concurrent.ThreadLocalRandom;
 import static apr.linear.util.linalg.LinearAlgebra.*;
 import static apr.linear.util.linalg.OperationMutability.*;
 
+/**
+ * Implementation of the box simplex method
+ */
 public class BoxMethod extends AbstractSimplexMethod {
 
     private ExplicitConstraint[] explicitConstraints;

@@ -7,7 +7,10 @@ import apr.optimization.algorithms.multi.IMultivariateCostFunction;
 import static apr.linear.util.linalg.LinearAlgebra.*;
 import static apr.linear.util.linalg.OperationMutability.*;
 
-public abstract class ConstrainedOptimizer implements IMultivariateOptimizer {
+/**
+ * Abstract implementation of a constrained optimizer
+ */
+public abstract class AbstractConstrainedOptimizer implements IMultivariateOptimizer {
 
     private final ConstrainedMultivariateCostFunction function;
 
@@ -17,11 +20,11 @@ public abstract class ConstrainedOptimizer implements IMultivariateOptimizer {
     private static final double DEFAULT_EPSILON = 1e-6;
     private static final double DEFAULT_COEFFICIENT = 1.;
 
-    protected ConstrainedOptimizer(ConstrainedMultivariateCostFunction function) {
+    protected AbstractConstrainedOptimizer(ConstrainedMultivariateCostFunction function) {
         this.function = function;
     }
 
-    protected ConstrainedOptimizer(ConstrainedMultivariateCostFunction function, double epsilon, double coefficient) {
+    protected AbstractConstrainedOptimizer(ConstrainedMultivariateCostFunction function, double epsilon, double coefficient) {
         this.function = function;
         this.coefficient = coefficient;
         this.epsilon = epsilon;
@@ -40,12 +43,11 @@ public abstract class ConstrainedOptimizer implements IMultivariateOptimizer {
         IVector x = x0.copy();
         double t = coefficient;
         while (true) {
-            IVector snapshot = x.copy();
-
             function.setCoefficient(t);
+            IVector snapshot = x.copy();
             x = argMin(function, x);
 
-            if (norm(subtract(x, snapshot, IMMUTABLE)) < epsilon) break;
+            if (norm(subtract(snapshot, x, MUTABLE)) < epsilon) break;
 
             t *= 10;
         }

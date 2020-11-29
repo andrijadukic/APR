@@ -317,6 +317,12 @@ public class LinearAlgebra {
         return !anyMatch(iterable, x -> !predicate.test(x));
     }
 
+    /**
+     * Calculates euclidean norm of a vector
+     *
+     * @param vector vector
+     * @return euclidean norm of a vector
+     */
     public static double norm(IVector vector) {
         return Math.sqrt(LinearAlgebra.multiply(vector, vector));
     }

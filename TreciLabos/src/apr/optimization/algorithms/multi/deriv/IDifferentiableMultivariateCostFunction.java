@@ -4,6 +4,9 @@ import apr.linear.matrix.IMatrix;
 import apr.linear.vector.IVector;
 import apr.optimization.algorithms.multi.IMultivariateCostFunction;
 
+/**
+ * Represents a differentiable {@code IMultivariableCostFunction} object
+ */
 public interface IDifferentiableMultivariateCostFunction extends IMultivariateCostFunction {
 
     IVector gradient(IVector x);

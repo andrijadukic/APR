@@ -3,6 +3,9 @@ package apr.optimization.algorithms.multi;
 import apr.linear.vector.IVector;
 import apr.optimization.functions.IConstrainedMultivariateFunction;
 
+/**
+ * Implementation of the {@code IMultivariableCostFunction} interface used for constrained optimization problems
+ */
 public class ConstrainedMultivariateCostFunction implements IMultivariateCostFunction {
 
     protected final IConstrainedMultivariateFunction function;

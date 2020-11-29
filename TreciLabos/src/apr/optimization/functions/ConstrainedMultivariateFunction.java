@@ -4,6 +4,9 @@ import apr.linear.vector.IVector;
 import apr.optimization.functions.constraints.EqualityConstraint;
 import apr.optimization.functions.constraints.InequalityConstraint;
 
+/**
+ * Implementation of the {@code IConstrainedMultivariateFunction} interface
+ */
 public class ConstrainedMultivariateFunction implements IConstrainedMultivariateFunction {
 
     protected final IMultivariateFunction unconstrainedFunction;

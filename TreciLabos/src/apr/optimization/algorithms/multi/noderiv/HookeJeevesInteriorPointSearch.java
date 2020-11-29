@@ -4,7 +4,10 @@ import apr.linear.vector.IVector;
 import apr.optimization.algorithms.multi.IMultivariateCostFunction;
 import apr.optimization.functions.constraints.InequalityConstraint;
 
-public class HookeJeevesInteriorPointSearch extends InteriorPointSearch {
+/**
+ * Implementation of an interior point search algorithm using Hooke-Jeeves optimizer
+ */
+public class HookeJeevesInteriorPointSearch extends AbstractInteriorPointSearch {
 
     private double delta = DEFAULT_DELTA;
 
@@ -12,7 +15,6 @@ public class HookeJeevesInteriorPointSearch extends InteriorPointSearch {
 
     public HookeJeevesInteriorPointSearch(InequalityConstraint... inequalityConstraints) {
         super(inequalityConstraints);
-        delta = DEFAULT_DELTA;
     }
 
     public HookeJeevesInteriorPointSearch(InequalityConstraint[] inequalityConstraints, double epsilon, double delta) {
@@ -29,8 +31,8 @@ public class HookeJeevesInteriorPointSearch extends InteriorPointSearch {
     }
 
     @Override
-    protected IVector argMin(IMultivariateCostFunction f, IVector x0) {
-        return new HookeJeeves(f, epsilon, delta).search(x0);
+    protected IVector argMin(IMultivariateCostFunction function, IVector x0) {
+        return new HookeJeeves(function, epsilon, delta).search(x0);
     }
 
     @Override

@@ -9,6 +9,9 @@ import static apr.linear.util.linalg.LinearAlgebra.*;
 import static apr.linear.util.linalg.OperationMutability.IMMUTABLE;
 import static apr.linear.util.linalg.OperationMutability.MUTABLE;
 
+/**
+ * Abstract implementation of an optimizer using derivation methods
+ */
 abstract class AbstractDifferentiableMultivariateOptimizer implements IMultivariateOptimizer {
 
     protected final IDifferentiableMultivariateCostFunction function;

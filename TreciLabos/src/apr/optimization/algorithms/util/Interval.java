@@ -1,4 +1,4 @@
-package apr.optimization.algorithms.uni;
+package apr.optimization.algorithms.util;
 
 import java.security.InvalidParameterException;
 

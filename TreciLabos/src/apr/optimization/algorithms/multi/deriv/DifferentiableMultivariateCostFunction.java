@@ -7,6 +7,9 @@ import apr.optimization.functions.IMultivariableMatrixFunction;
 import apr.optimization.functions.IMultivariableVectorFunction;
 import apr.optimization.functions.IMultivariateFunction;
 
+/**
+ * Implementation of {@code IDifferentiableMultivariableCostFunction} interface
+ */
 public class DifferentiableMultivariateCostFunction extends MultivariateCostFunction implements IDifferentiableMultivariateCostFunction {
 
     protected final IMultivariableVectorFunction gradient;

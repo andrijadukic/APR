@@ -12,6 +12,9 @@ import static apr.linear.util.linalg.LinearAlgebra.add;
 import static apr.linear.util.linalg.LinearAlgebra.multiply;
 import static apr.linear.util.linalg.OperationMutability.MUTABLE;
 
+/**
+ * Abstract implementation of a simplex optimization method
+ */
 public abstract class AbstractSimplexMethod extends AbstractMultivariateOptimizer {
 
     protected AbstractSimplexMethod(IMultivariateCostFunction function) {

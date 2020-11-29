@@ -1,6 +1,6 @@
 package apr.optimization.functions.constraints;
 
-import apr.optimization.algorithms.uni.Interval;
+import apr.optimization.algorithms.util.Interval;
 
 public record ExplicitConstraint(double lowerbound, double upperbound) {
 

@@ -2,6 +2,7 @@ package apr.optimization.algorithms.multi.noderiv;
 
 import apr.linear.vector.IVector;
 import apr.optimization.algorithms.multi.IMultivariateCostFunction;
+import apr.optimization.algorithms.util.Pair;
 
 
 import static apr.linear.util.linalg.LinearAlgebra.*;

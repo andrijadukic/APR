@@ -4,18 +4,21 @@ import apr.linear.vector.IVector;
 import apr.optimization.algorithms.multi.ConstrainedMultivariateCostFunction;
 import apr.optimization.algorithms.multi.IMultivariateCostFunction;
 
-public class HookeJeevesConstrainedOptimizer extends ConstrainedOptimizer {
+/**
+ * Implementation of a constrained optimizer using Hooke-Jeeves optimizer
+ */
+public class HookeJeevesConstrainedOptimizer extends AbstractConstrainedOptimizer {
 
     private double delta = DEFAULT_DELTA;
 
     private static final double DEFAULT_DELTA = 0.5;
 
-    public HookeJeevesConstrainedOptimizer(ConstrainedMultivariateCostFunction f) {
-        super(f);
+    public HookeJeevesConstrainedOptimizer(ConstrainedMultivariateCostFunction function) {
+        super(function);
     }
 
-    public HookeJeevesConstrainedOptimizer(ConstrainedMultivariateCostFunction f, double epsilon, double coefficient, double delta) {
-        super(f, epsilon, coefficient);
+    public HookeJeevesConstrainedOptimizer(ConstrainedMultivariateCostFunction function, double epsilon, double coefficient, double delta) {
+        super(function, epsilon, coefficient);
         this.delta = delta;
     }
 
@@ -28,8 +31,8 @@ public class HookeJeevesConstrainedOptimizer extends ConstrainedOptimizer {
     }
 
     @Override
-    protected IVector argMin(IMultivariateCostFunction f, IVector x0) {
-        return new HookeJeeves(f, epsilon, delta).search(x0);
+    protected IVector argMin(IMultivariateCostFunction function, IVector x0) {
+        return new HookeJeeves(function, epsilon, delta).search(x0);
     }
 
     @Override
