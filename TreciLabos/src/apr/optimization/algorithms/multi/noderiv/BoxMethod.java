@@ -84,7 +84,7 @@ public class BoxMethod extends AbstractSimplexMethod {
                 iter++;
             }
             simplex[i] = candidate;
-            
+
             centroid = add(multiply(subtract(candidate, centroid, IMMUTABLE), 1. / (i + 1), MUTABLE), centroid, MUTABLE);
         }
 
@@ -92,8 +92,8 @@ public class BoxMethod extends AbstractSimplexMethod {
     }
 
     protected IVector buildCandidate(IVector x0, ExplicitConstraint[] explicitConstraints) {
-        int n = x0.getDimension();
         Random random = ThreadLocalRandom.current();
+        int n = x0.getDimension();
         IVector candidate = x0.newInstance(n);
         for (int i = 0; i < n; i++) {
             ExplicitConstraint constraint = explicitConstraints[i];

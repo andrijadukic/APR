@@ -108,9 +108,22 @@ public class Lab {
                 Constraints.inequality(x -> x.get(1) - x.get(0)),
                 Constraints.inequality(x -> 2 - x.get(0))};
 
+        System.out.println("Function f1");
         var constrained = new ConstrainedMultivariateCostFunction(new ConstrainedMultivariateFunction(CostFunctions.f1(), inequalityConstraints));
         IVector startingPoint = new Vector(-1.9, 2.);
         var constrainedOptimizer = new HookeJeevesConstrainedOptimizer(constrained);
+        System.out.println("Min: " + constrainedOptimizer.search(startingPoint));
+        System.out.println("Function evaluations: " + constrained.getFunctionEvaluationCount());
+        startingPoint = new Vector(1, 1.5);
+        System.out.println("Min: " + constrainedOptimizer.search(startingPoint));
+        System.out.println("Function evaluations: " + constrained.getFunctionEvaluationCount());
+
+        System.out.println();
+
+        System.out.println("Function f2");
+        constrained = new ConstrainedMultivariateCostFunction(new ConstrainedMultivariateFunction(CostFunctions.f2(), inequalityConstraints));
+        startingPoint = new Vector(0.1, 0.3);
+        constrainedOptimizer = new HookeJeevesConstrainedOptimizer(constrained);
         System.out.println("Min: " + constrainedOptimizer.search(startingPoint));
         System.out.println("Function evaluations: " + constrained.getFunctionEvaluationCount());
     }
@@ -122,10 +135,11 @@ public class Lab {
         EqualityConstraint[] equalityConstraints = new EqualityConstraint[]{Constraints.equality(x -> x.get(1) - 1)};
 
         IVector startingPoint = new Vector(5., 5.);
+        IVector newStartingPoint = new HookeJeevesInteriorPointSearch(inequalityConstraints).search(startingPoint);
 
         var function = new ConstrainedMultivariateCostFunction(new ConstrainedMultivariateFunction(CostFunctions.f4(), equalityConstraints, inequalityConstraints));
-        var optimizer = new HookeJeeves(function);
-        System.out.println("Min: " + optimizer.search(new HookeJeevesInteriorPointSearch(inequalityConstraints).search(startingPoint)));
+        var optimizer = new HookeJeevesConstrainedOptimizer(function);
+        System.out.println("Min: " + optimizer.search(newStartingPoint));
         System.out.println("Function evaluations: " + function.getFunctionEvaluationCount());
     }
 

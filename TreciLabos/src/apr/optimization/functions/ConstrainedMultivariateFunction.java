@@ -63,33 +63,34 @@ public class ConstrainedMultivariateFunction implements IConstrainedMultivariate
 
     @Override
     public double valueAt(IVector x) {
-        return unconstrainedFunction.valueAt(x) -
-                (1. / coefficient) * inequalityConstraintsPenalty(x, inequalityConstraints) +
-                coefficient * equalityConstraintsPenalty(x, equalityConstraints);
+        return unconstrainedFunction.valueAt(x)
+                - inequalityConstraintsPenalty(x, coefficient, inequalityConstraints)
+                + equalityConstraintsPenalty(x, coefficient, equalityConstraints);
     }
 
-    protected double inequalityConstraintsPenalty(IVector x, InequalityConstraint[] inequalityConstraints) {
+    protected double inequalityConstraintsPenalty(IVector x, double coefficient, InequalityConstraint[] inequalityConstraints) {
         if (inequalityConstraints == null) return 0.;
 
+        coefficient = 1. / coefficient;
         double penalty = 0.;
         for (InequalityConstraint constraint : inequalityConstraints) {
             double constraintFunctionValue = constraint.getFunction().valueAt(x);
 
-            if (constraintFunctionValue < 0) return Double.NEGATIVE_INFINITY;
+            if (constraintFunctionValue <= 0) return Double.NEGATIVE_INFINITY;
 
-            penalty += Math.log(constraintFunctionValue);
+            penalty += coefficient * Math.log(constraintFunctionValue);
 
         }
         return penalty;
     }
 
-    protected double equalityConstraintsPenalty(IVector x, EqualityConstraint[] equalityConstraints) {
+    protected double equalityConstraintsPenalty(IVector x, double coefficient, EqualityConstraint[] equalityConstraints) {
         if (equalityConstraints == null) return 0.;
 
         double penalty = 0.;
         for (EqualityConstraint constraint : equalityConstraints) {
             double constraintFunctionValue = constraint.getFunction().valueAt(x);
-            penalty += constraintFunctionValue * constraintFunctionValue;
+            penalty += coefficient * constraintFunctionValue * constraintFunctionValue;
         }
         return penalty;
     }
