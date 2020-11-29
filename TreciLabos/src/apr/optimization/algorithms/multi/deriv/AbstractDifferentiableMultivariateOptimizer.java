@@ -1,8 +1,10 @@
 package apr.optimization.algorithms.multi.deriv;
 
 import apr.linear.vector.IVector;
+import apr.optimization.algorithms.multi.LineSearch;
 import apr.optimization.algorithms.uni.GoldenSectionSearch;
 import apr.optimization.algorithms.multi.noderiv.IMultivariateOptimizer;
+import apr.optimization.algorithms.uni.IUnivariateOptimizer;
 import apr.optimization.exceptions.MaximumIterationCountExceededException;
 
 import java.util.Objects;
@@ -24,7 +26,7 @@ abstract class AbstractDifferentiableMultivariateOptimizer implements IMultivari
 
     private static final double DEFAULT_EPSILON = 1e-6;
     private static final int DEFAULT_MAXIMUM_ITERATION = 100;
-    private static final boolean DEFAULT_COMPUTE_OPTIMAL_STEP = false;
+    private static final boolean DEFAULT_COMPUTE_OPTIMAL_STEP = true;
 
     protected AbstractDifferentiableMultivariateOptimizer(IDifferentiableMultivariateCostFunction function) {
         this.function = Objects.requireNonNull(function);
@@ -79,11 +81,7 @@ abstract class AbstractDifferentiableMultivariateOptimizer implements IMultivari
             direction = multiply(direction, 1. / norm, MUTABLE);
 
             if (computeOptimalStep) {
-                final IVector currentX = x.copy();
-                final IVector initialDirection = direction.copy();
-                double ratio = new GoldenSectionSearch(
-                        lambda -> function.valueAt(add(multiply(initialDirection, lambda, IMMUTABLE), currentX, MUTABLE))
-                ).search(0);
+                double ratio = new LineSearch(function, x, direction).search(0);
                 direction = multiply(direction, ratio, MUTABLE);
             }
 

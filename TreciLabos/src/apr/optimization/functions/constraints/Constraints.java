@@ -27,7 +27,7 @@ public class Constraints {
      * @param function constraint function
      * @return new equality constraint
      */
-    public static ImplicitConstraint equality(IMultivariateFunction function) {
+    public static EqualityConstraint equality(IMultivariateFunction function) {
         return new EqualityConstraint(function);
     }
 
@@ -37,7 +37,7 @@ public class Constraints {
      * @param function constraint function
      * @return new inequality constraint
      */
-    public static ImplicitConstraint inequality(IMultivariateFunction function) {
+    public static InequalityConstraint inequality(IMultivariateFunction function) {
         return new InequalityConstraint(function);
     }
 

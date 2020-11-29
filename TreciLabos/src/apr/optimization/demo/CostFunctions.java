@@ -86,22 +86,4 @@ public class CostFunctions {
                         {0, 2}})
         );
     }
-
-    /**
-     * f(x) = 0.5 + (sin^2(sqrt(sum(xi^2)) - 0.5) / (1 + 0.001 * sum(xi^2))^2
-     *
-     * @return cost function f6
-     */
-    public static IMultivariateCostFunction f6() {
-        return new MultivariateCostFunction(x -> {
-            double sum = 0.;
-            for (int i = 0, n = x.getDimension(); i < n; i++) {
-                sum += Math.pow(x.get(i), 2);
-            }
-
-            double numerator = Math.pow(Math.sin(Math.sqrt(sum)), 2) - 0.5;
-            double denominator = Math.pow(1 + 0.001 * sum, 2);
-            return 0.5 + numerator / denominator;
-        });
-    }
 }
