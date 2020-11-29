@@ -2,6 +2,8 @@ package apr.optimization.algorithms.uni;
 
 import apr.optimization.functions.IUnivariateFunction;
 
+import java.util.Objects;
+
 /**
  * Implementation of the {@code ISingleVariableCostFunction} interface
  */
@@ -11,7 +13,7 @@ public class UnivariateCostFunction implements IUnivariateCostFunction {
     protected int functionEvalCounter;
 
     public UnivariateCostFunction(IUnivariateFunction function) {
-        this.function = function;
+        this.function = Objects.requireNonNull(function);
     }
 
     @Override

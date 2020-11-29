@@ -7,6 +7,8 @@ import apr.optimization.functions.IMultivariableMatrixFunction;
 import apr.optimization.functions.IMultivariableVectorFunction;
 import apr.optimization.functions.IMultivariateFunction;
 
+import java.util.Objects;
+
 /**
  * Implementation of {@code IDifferentiableMultivariableCostFunction} interface
  */
@@ -20,8 +22,8 @@ public class DifferentiableMultivariateCostFunction extends MultivariateCostFunc
 
     public DifferentiableMultivariateCostFunction(IMultivariateFunction function, IMultivariableVectorFunction gradient, IMultivariableMatrixFunction hessian) {
         super(function);
-        this.gradient = gradient;
-        this.hessian = hessian;
+        this.gradient = Objects.requireNonNull(gradient);
+        this.hessian = Objects.requireNonNull(hessian);
     }
 
     @Override

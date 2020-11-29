@@ -14,12 +14,12 @@ public class GoldenSectionSearch extends AbstractUnivariateOptimizer {
 
     private static final double DEFAULT_H = 1;
 
-    public GoldenSectionSearch(IUnivariateFunction f) {
-        super(f);
+    public GoldenSectionSearch(IUnivariateFunction function) {
+        super(function);
     }
 
-    public GoldenSectionSearch(IUnivariateFunction f, double epsilon, double h) {
-        super(f, epsilon);
+    public GoldenSectionSearch(IUnivariateFunction function, double epsilon, double h) {
+        super(function, epsilon);
         this.h = h;
     }
 

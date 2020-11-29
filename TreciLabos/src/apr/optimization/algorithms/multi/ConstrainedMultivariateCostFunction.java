@@ -3,6 +3,8 @@ package apr.optimization.algorithms.multi;
 import apr.linear.vector.IVector;
 import apr.optimization.functions.IConstrainedMultivariateFunction;
 
+import java.util.Objects;
+
 /**
  * Implementation of the {@code IMultivariableCostFunction} interface used for constrained optimization problems
  */
@@ -12,7 +14,7 @@ public class ConstrainedMultivariateCostFunction implements IMultivariateCostFun
     protected int functionEvalCounter;
 
     public ConstrainedMultivariateCostFunction(IConstrainedMultivariateFunction function) {
-        this.function = function;
+        this.function = Objects.requireNonNull(function);
     }
 
     public double getCoefficient() {

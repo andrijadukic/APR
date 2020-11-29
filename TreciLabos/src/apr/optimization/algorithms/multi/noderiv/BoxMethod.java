@@ -10,6 +10,7 @@ import apr.optimization.functions.constraints.InequalityConstraint;
 import apr.optimization.exceptions.ConstraintsNotSatisfiedException;
 import apr.optimization.algorithms.multi.IMultivariateCostFunction;
 
+import java.util.Objects;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -32,16 +33,16 @@ public class BoxMethod extends AbstractSimplexMethod {
 
     public BoxMethod(IMultivariateCostFunction function, ExplicitConstraint[] explicitConstraints, ImplicitConstraint[] implicitConstraints) {
         super(function);
-        this.explicitConstraints = explicitConstraints;
-        this.implicitConstraints = implicitConstraints;
+        this.explicitConstraints = Objects.requireNonNull(explicitConstraints);
+        this.implicitConstraints = Objects.requireNonNull(implicitConstraints);
     }
 
     public BoxMethod(IMultivariateCostFunction function,
                      ExplicitConstraint[] explicitConstraints, ImplicitConstraint[] implicitConstraints,
                      double epsilon, double alpha, int maxIter) {
         super(function, epsilon);
-        this.explicitConstraints = explicitConstraints;
-        this.implicitConstraints = implicitConstraints;
+        this.explicitConstraints = Objects.requireNonNull(explicitConstraints);
+        this.implicitConstraints = Objects.requireNonNull(implicitConstraints);
         this.alpha = alpha;
         this.maxIter = maxIter;
     }

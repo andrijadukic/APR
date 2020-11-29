@@ -15,12 +15,12 @@ public class HookeJeeves extends AbstractMultivariateOptimizer {
 
     private static final double DEFAULT_DELTA = 0.5;
 
-    public HookeJeeves(IMultivariateCostFunction f) {
-        super(f);
+    public HookeJeeves(IMultivariateCostFunction function) {
+        super(function);
     }
 
-    public HookeJeeves(IMultivariateCostFunction f, double epsilon, double delta) {
-        super(f, epsilon);
+    public HookeJeeves(IMultivariateCostFunction function, double epsilon, double delta) {
+        super(function, epsilon);
         this.delta = delta;
     }
 

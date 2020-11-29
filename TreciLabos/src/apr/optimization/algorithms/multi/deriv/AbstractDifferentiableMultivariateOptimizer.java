@@ -5,6 +5,8 @@ import apr.optimization.algorithms.uni.GoldenSectionSearch;
 import apr.optimization.algorithms.multi.noderiv.IMultivariateOptimizer;
 import apr.optimization.exceptions.MaximumIterationCountExceededException;
 
+import java.util.Objects;
+
 import static apr.linear.util.linalg.LinearAlgebra.*;
 import static apr.linear.util.linalg.OperationMutability.IMMUTABLE;
 import static apr.linear.util.linalg.OperationMutability.MUTABLE;
@@ -25,11 +27,11 @@ abstract class AbstractDifferentiableMultivariateOptimizer implements IMultivari
     private static final boolean DEFAULT_COMPUTE_OPTIMAL_STEP = false;
 
     protected AbstractDifferentiableMultivariateOptimizer(IDifferentiableMultivariateCostFunction function) {
-        this.function = function;
+        this.function = Objects.requireNonNull(function);
     }
 
     protected AbstractDifferentiableMultivariateOptimizer(IDifferentiableMultivariateCostFunction function, double epsilon, int maxIter, boolean computeOptimalStep) {
-        this.function = function;
+        this(function);
         this.epsilon = epsilon;
         this.maxIter = maxIter;
         this.computeOptimalStep = computeOptimalStep;

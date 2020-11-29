@@ -10,12 +10,12 @@ import static apr.linear.util.linalg.OperationMutability.*;
  */
 public class GradientDescent extends AbstractDifferentiableMultivariateOptimizer {
 
-    public GradientDescent(IDifferentiableMultivariateCostFunction f) {
-        super(f);
+    public GradientDescent(IDifferentiableMultivariateCostFunction function) {
+        super(function);
     }
 
-    public GradientDescent(IDifferentiableMultivariateCostFunction f, double epsilon, int maxIter, boolean computeOptimalStep) {
-        super(f, epsilon, maxIter, computeOptimalStep);
+    public GradientDescent(IDifferentiableMultivariateCostFunction function, double epsilon, int maxIter, boolean computeOptimalStep) {
+        super(function, epsilon, maxIter, computeOptimalStep);
     }
 
     @Override

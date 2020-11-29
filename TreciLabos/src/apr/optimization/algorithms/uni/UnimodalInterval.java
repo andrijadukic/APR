@@ -3,21 +3,25 @@ package apr.optimization.algorithms.uni;
 import apr.optimization.algorithms.util.Interval;
 import apr.optimization.functions.IUnivariateFunction;
 
+import java.util.Objects;
+
 /**
  * Static implementation of the unimodal interval search algorithm
  */
 public class UnimodalInterval {
 
-    public static Interval find(IUnivariateFunction f, double h, double x0) {
+    public static Interval find(IUnivariateFunction function, double h, double x0) {
+        Objects.requireNonNull(function);
+
         double l = x0 - h;
         double m = x0;
         double r = x0 + h;
         double fl, fm, fr;
         int step = 1;
 
-        fl = f.valueAt(l);
-        fm = f.valueAt(m);
-        fr = f.valueAt(r);
+        fl = function.valueAt(l);
+        fm = function.valueAt(m);
+        fr = function.valueAt(r);
 
         if (fm < fl && fm < fr) return new Interval(l, r);
 
@@ -27,7 +31,7 @@ public class UnimodalInterval {
                 m = r;
                 fm = fr;
                 r = x0 + h * (step *= 2);
-                fr = f.valueAt(r);
+                fr = function.valueAt(r);
             } while (fm > fr);
         } else {
             do {
@@ -35,7 +39,7 @@ public class UnimodalInterval {
                 m = l;
                 fm = fl;
                 l = x0 - h * (step *= 2);
-                fl = f.valueAt(l);
+                fl = function.valueAt(l);
             } while (fm > fl);
         }
 

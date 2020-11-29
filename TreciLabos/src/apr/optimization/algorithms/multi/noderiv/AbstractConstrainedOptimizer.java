@@ -4,6 +4,8 @@ import apr.linear.vector.IVector;
 import apr.optimization.algorithms.multi.ConstrainedMultivariateCostFunction;
 import apr.optimization.algorithms.multi.IMultivariateCostFunction;
 
+import java.util.Objects;
+
 import static apr.linear.util.linalg.LinearAlgebra.*;
 import static apr.linear.util.linalg.OperationMutability.*;
 
@@ -21,11 +23,11 @@ public abstract class AbstractConstrainedOptimizer implements IMultivariateOptim
     private static final double DEFAULT_COEFFICIENT = 1.;
 
     protected AbstractConstrainedOptimizer(ConstrainedMultivariateCostFunction function) {
-        this.function = function;
+        this.function = Objects.requireNonNull(function);
     }
 
     protected AbstractConstrainedOptimizer(ConstrainedMultivariateCostFunction function, double epsilon, double coefficient) {
-        this.function = function;
+        this(function);
         this.coefficient = coefficient;
         this.epsilon = epsilon;
     }
