@@ -4,8 +4,8 @@ import apr.linear.matrix.Matrix;
 import apr.linear.vector.Vector;
 import apr.optimization.algorithms.multi.IMultivariateCostFunction;
 import apr.optimization.algorithms.multi.MultivariateCostFunction;
-import apr.optimization.algorithms.multi.gradient.DifferentiableMultivariateCostFunction;
-import apr.optimization.algorithms.multi.gradient.IDifferentiableMultivariateCostFunction;
+import apr.optimization.algorithms.multi.deriv.DifferentiableMultivariateCostFunction;
+import apr.optimization.algorithms.multi.deriv.IDifferentiableMultivariateCostFunction;
 
 /**
  * Utility class defining several cost functions through static factory methods

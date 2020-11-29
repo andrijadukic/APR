@@ -11,15 +11,14 @@ public abstract class ConstrainedOptimizer implements IMultivariateOptimizer {
 
     private final ConstrainedMultivariateCostFunction function;
 
-    private double coefficient;
-
-    protected double epsilon;
+    protected double epsilon = DEFAULT_EPSILON;
+    private double coefficient = DEFAULT_COEFFICIENT;
 
     private static final double DEFAULT_EPSILON = 1e-6;
     private static final double DEFAULT_COEFFICIENT = 1.;
 
     protected ConstrainedOptimizer(ConstrainedMultivariateCostFunction function) {
-        this(function, DEFAULT_EPSILON, DEFAULT_COEFFICIENT);
+        this.function = function;
     }
 
     protected ConstrainedOptimizer(ConstrainedMultivariateCostFunction function, double epsilon, double coefficient) {

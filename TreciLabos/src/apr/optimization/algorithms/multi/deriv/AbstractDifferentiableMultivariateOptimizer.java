@@ -1,4 +1,4 @@
-package apr.optimization.algorithms.multi.gradient;
+package apr.optimization.algorithms.multi.deriv;
 
 import apr.linear.vector.IVector;
 import apr.optimization.algorithms.uni.GoldenSectionSearch;
@@ -13,16 +13,16 @@ abstract class AbstractDifferentiableMultivariateOptimizer implements IMultivari
 
     protected final IDifferentiableMultivariateCostFunction function;
 
-    protected double epsilon;
-    protected int maxIter;
-    protected boolean computeOptimalStep;
+    protected double epsilon = DEFAULT_EPSILON;
+    protected int maxIter = DEFAULT_MAXIMUM_ITERATION;
+    protected boolean computeOptimalStep = DEFAULT_COMPUTE_OPTIMAL_STEP;
 
     private static final double DEFAULT_EPSILON = 1e-6;
     private static final int DEFAULT_MAXIMUM_ITERATION = 100;
     private static final boolean DEFAULT_COMPUTE_OPTIMAL_STEP = false;
 
     protected AbstractDifferentiableMultivariateOptimizer(IDifferentiableMultivariateCostFunction function) {
-        this(function, DEFAULT_EPSILON, DEFAULT_MAXIMUM_ITERATION, DEFAULT_COMPUTE_OPTIMAL_STEP);
+        this.function = function;
     }
 
     protected AbstractDifferentiableMultivariateOptimizer(IDifferentiableMultivariateCostFunction function, double epsilon, int maxIter, boolean computeOptimalStep) {

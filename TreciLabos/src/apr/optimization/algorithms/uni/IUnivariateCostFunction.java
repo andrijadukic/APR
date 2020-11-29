@@ -7,11 +7,7 @@ import apr.optimization.functions.IUnivariateFunction;
  */
 public interface IUnivariateCostFunction extends IUnivariateFunction {
 
-    double gradient(double x);
-
     int getFunctionEvaluationCount();
-
-    int getGradientEvaluationCount();
 
     void reset();
 }

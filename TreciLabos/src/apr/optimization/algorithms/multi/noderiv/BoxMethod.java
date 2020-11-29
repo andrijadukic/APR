@@ -21,15 +21,16 @@ public class BoxMethod extends AbstractSimplexMethod {
     private ExplicitConstraint[] explicitConstraints;
     private ImplicitConstraint[] implicitConstraints;
 
-    private double alpha;
-
-    private int maxIter;
+    private double alpha = DEFAULT_ALPHA;
+    private int maxIter = DEFAULT_MAXIMUM_ITERATION;
 
     private static final double DEFAULT_ALPHA = 1.3;
     private static final int DEFAULT_MAXIMUM_ITERATION = 100;
 
     public BoxMethod(IMultivariateCostFunction function, ExplicitConstraint[] explicitConstraints, ImplicitConstraint[] implicitConstraints) {
-        this(function, explicitConstraints, implicitConstraints, DEFAULT_EPSILON, DEFAULT_ALPHA, DEFAULT_MAXIMUM_ITERATION);
+        super(function);
+        this.explicitConstraints = explicitConstraints;
+        this.implicitConstraints = implicitConstraints;
     }
 
     public BoxMethod(IMultivariateCostFunction function,

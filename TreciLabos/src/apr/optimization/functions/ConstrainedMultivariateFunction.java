@@ -6,46 +6,46 @@ import apr.optimization.functions.constraints.InequalityConstraint;
 
 public class ConstrainedMultivariateFunction implements IConstrainedMultivariateFunction {
 
-    private final IMultivariateFunction unconstrainedFunction;
+    protected final IMultivariateFunction unconstrainedFunction;
+
     private EqualityConstraint[] equalityConstraints;
     private InequalityConstraint[] inequalityConstraints;
 
-    private double coefficient;
+    private double coefficient = DEFAULT_COEFFICIENT;
 
     private static final double DEFAULT_COEFFICIENT = 1.;
 
-    public ConstrainedMultivariateFunction(IMultivariateFunction unconstrainedFunction, InequalityConstraint[] inequalityConstraints, double coefficient) {
+    public ConstrainedMultivariateFunction(IMultivariateFunction unconstrainedFunction, InequalityConstraint... inequalityConstraints) {
         this.unconstrainedFunction = unconstrainedFunction;
         this.inequalityConstraints = inequalityConstraints;
-        this.coefficient = coefficient;
-    }
-
-    public ConstrainedMultivariateFunction(IMultivariateFunction unconstrainedFunction, EqualityConstraint[] equalityConstraints, double coefficient) {
-        this.unconstrainedFunction = unconstrainedFunction;
-        this.equalityConstraints = equalityConstraints;
-        this.coefficient = coefficient;
-    }
-
-    public ConstrainedMultivariateFunction(IMultivariateFunction unconstrainedFunction,
-                                           EqualityConstraint[] equalityConstraints, InequalityConstraint[] inequalityConstraints1,
-                                           double coefficient) {
-        this.unconstrainedFunction = unconstrainedFunction;
-        this.equalityConstraints = equalityConstraints;
-        this.inequalityConstraints = inequalityConstraints1;
-        this.coefficient = coefficient;
-    }
-
-    public ConstrainedMultivariateFunction(IMultivariateFunction unconstrainedFunction, InequalityConstraint... inequalityConstraints) {
-        this(unconstrainedFunction, inequalityConstraints, DEFAULT_COEFFICIENT);
     }
 
     public ConstrainedMultivariateFunction(IMultivariateFunction unconstrainedFunction, EqualityConstraint... equalityConstraints) {
-        this(unconstrainedFunction, equalityConstraints, DEFAULT_COEFFICIENT);
+        this.unconstrainedFunction = unconstrainedFunction;
+        this.equalityConstraints = equalityConstraints;
     }
 
     public ConstrainedMultivariateFunction(IMultivariateFunction unconstrainedFunction,
                                            EqualityConstraint[] equalityConstraints, InequalityConstraint[] inequalityConstraints) {
-        this(unconstrainedFunction, equalityConstraints, inequalityConstraints, DEFAULT_COEFFICIENT);
+        this(unconstrainedFunction, equalityConstraints);
+        this.inequalityConstraints = inequalityConstraints;
+    }
+
+    public ConstrainedMultivariateFunction(IMultivariateFunction unconstrainedFunction, InequalityConstraint[] inequalityConstraints, double coefficient) {
+        this(unconstrainedFunction, inequalityConstraints);
+        this.coefficient = coefficient;
+    }
+
+    public ConstrainedMultivariateFunction(IMultivariateFunction unconstrainedFunction, EqualityConstraint[] equalityConstraints, double coefficient) {
+        this(unconstrainedFunction, equalityConstraints);
+        this.coefficient = coefficient;
+    }
+
+    public ConstrainedMultivariateFunction(IMultivariateFunction unconstrainedFunction,
+                                           EqualityConstraint[] equalityConstraints, InequalityConstraint[] inequalityConstraints,
+                                           double coefficient) {
+        this(unconstrainedFunction, equalityConstraints, inequalityConstraints);
+        this.coefficient = coefficient;
     }
 
     @Override
@@ -65,7 +65,7 @@ public class ConstrainedMultivariateFunction implements IConstrainedMultivariate
                 coefficient * equalityConstraintsPenalty(x, equalityConstraints);
     }
 
-    private static double inequalityConstraintsPenalty(IVector x, InequalityConstraint[] inequalityConstraints) {
+    protected double inequalityConstraintsPenalty(IVector x, InequalityConstraint[] inequalityConstraints) {
         if (inequalityConstraints == null) return 0.;
 
         double penalty = 0.;
@@ -80,7 +80,7 @@ public class ConstrainedMultivariateFunction implements IConstrainedMultivariate
         return penalty;
     }
 
-    private static double equalityConstraintsPenalty(IVector x, EqualityConstraint[] equalityConstraints) {
+    protected double equalityConstraintsPenalty(IVector x, EqualityConstraint[] equalityConstraints) {
         if (equalityConstraints == null) return 0.;
 
         double penalty = 0.;

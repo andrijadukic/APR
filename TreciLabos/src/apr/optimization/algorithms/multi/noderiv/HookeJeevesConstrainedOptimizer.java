@@ -6,16 +6,15 @@ import apr.optimization.algorithms.multi.IMultivariateCostFunction;
 
 public class HookeJeevesConstrainedOptimizer extends ConstrainedOptimizer {
 
-    private double delta;
+    private double delta = DEFAULT_DELTA;
 
     private static final double DEFAULT_DELTA = 0.5;
 
     public HookeJeevesConstrainedOptimizer(ConstrainedMultivariateCostFunction f) {
         super(f);
-        delta = DEFAULT_DELTA;
     }
 
-    public HookeJeevesConstrainedOptimizer(ConstrainedMultivariateCostFunction f, double coefficient, double epsilon, double delta) {
+    public HookeJeevesConstrainedOptimizer(ConstrainedMultivariateCostFunction f, double epsilon, double coefficient, double delta) {
         super(f, epsilon, coefficient);
         this.delta = delta;
     }

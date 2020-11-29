@@ -9,12 +9,12 @@ abstract class AbstractMultivariateOptimizer implements IMultivariateOptimizer {
 
     protected final IMultivariateCostFunction function;
 
-    protected double epsilon;
+    protected double epsilon = DEFAULT_EPSILON;
 
     protected static double DEFAULT_EPSILON = 1e-6;
 
     protected AbstractMultivariateOptimizer(IMultivariateCostFunction function) {
-        this(function, DEFAULT_EPSILON);
+        this.function = function;
     }
 
     protected AbstractMultivariateOptimizer(IMultivariateCostFunction function, double epsilon) {

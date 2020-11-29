@@ -6,7 +6,7 @@ import apr.optimization.functions.constraints.InequalityConstraint;
 
 public class HookeJeevesInteriorPointSearch extends InteriorPointSearch {
 
-    private double delta;
+    private double delta = DEFAULT_DELTA;
 
     private static final double DEFAULT_DELTA = 0.5;
 

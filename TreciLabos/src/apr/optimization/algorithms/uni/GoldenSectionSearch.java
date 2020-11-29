@@ -8,7 +8,10 @@ import apr.optimization.functions.IUnivariateFunction;
 public class GoldenSectionSearch extends AbstractUnivariateOptimizer {
 
     private final double K = 0.5 * (Math.sqrt(5) - 1);
-    private double h = 1;
+
+    private double h = DEFAULT_H;
+
+    private static final double DEFAULT_H = 1;
 
     public GoldenSectionSearch(IUnivariateFunction f) {
         super(f);
@@ -29,7 +32,7 @@ public class GoldenSectionSearch extends AbstractUnivariateOptimizer {
 
     @Override
     public double search(double x0) {
-        Interval interval = findInterval(UnimodalInterval.find(f, h, x0));
+        Interval interval = findInterval(UnimodalInterval.find(function, h, x0));
         return (interval.start() + interval.end()) / 2.;
     }
 
@@ -40,8 +43,8 @@ public class GoldenSectionSearch extends AbstractUnivariateOptimizer {
         double c = b - K * (b - a);
         double d = a + K * (b - a);
 
-        double fc = f.valueAt(c);
-        double fd = f.valueAt(d);
+        double fc = function.valueAt(c);
+        double fd = function.valueAt(d);
 
         while ((b - a) > epsilon) {
             if (fc < fd) {
@@ -49,13 +52,13 @@ public class GoldenSectionSearch extends AbstractUnivariateOptimizer {
                 d = c;
                 c = b - K * (b - a);
                 fd = fc;
-                fc = f.valueAt(c);
+                fc = function.valueAt(c);
             } else {
                 a = c;
                 c = d;
                 d = a + K * (b - a);
                 fc = fd;
-                fd = f.valueAt(d);
+                fd = function.valueAt(d);
             }
         }
 

@@ -12,11 +12,11 @@ import static apr.linear.util.linalg.OperationMutability.*;
  */
 public class NelderMead extends AbstractSimplexMethod {
 
-    private double alpha = 1.0;
-    private double beta = 0.5;
-    private double gamma = 2.0;
-    private double sigma = 0.5;
-    private double step = 1;
+    private double alpha = DEFAULT_ALPHA;
+    private double beta = DEFAULT_BETA;
+    private double gamma = DEFAULT_GAMMA;
+    private double sigma = DEFAULT_SIGMA;
+    private double step = DEFAULT_STEP;
 
     private static final double DEFAULT_ALPHA = 1.0;
     private static final double DEFAULT_BETA = 0.5;
@@ -24,12 +24,12 @@ public class NelderMead extends AbstractSimplexMethod {
     private static final double DEFAULT_SIGMA = 0.5;
     private static final double DEFAULT_STEP = 1.0;
 
-    public NelderMead(IMultivariateCostFunction f) {
-        this(f, DEFAULT_EPSILON, DEFAULT_ALPHA, DEFAULT_BETA, DEFAULT_GAMMA, DEFAULT_SIGMA, DEFAULT_STEP);
+    public NelderMead(IMultivariateCostFunction function) {
+        super(function);
     }
 
-    public NelderMead(IMultivariateCostFunction f, double epsilon, double alpha, double beta, double gamma, double sigma, double step) {
-        super(f, epsilon);
+    public NelderMead(IMultivariateCostFunction function, double epsilon, double alpha, double beta, double gamma, double sigma, double step) {
+        super(function, epsilon);
         this.alpha = alpha;
         this.beta = beta;
         this.gamma = gamma;

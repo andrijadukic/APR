@@ -11,26 +11,17 @@ import static apr.linear.util.linalg.OperationMutability.*;
  */
 public class HookeJeeves extends AbstractMultivariateOptimizer {
 
-    private double delta;
+    private double delta = DEFAULT_DELTA;
 
     private static final double DEFAULT_DELTA = 0.5;
 
     public HookeJeeves(IMultivariateCostFunction f) {
         super(f);
-        delta = DEFAULT_DELTA;
     }
 
     public HookeJeeves(IMultivariateCostFunction f, double epsilon, double delta) {
         super(f, epsilon);
         this.delta = delta;
-    }
-
-    public double getEpsilon() {
-        return epsilon;
-    }
-
-    public void setEpsilon(double epsilon) {
-        this.epsilon = epsilon;
     }
 
     public double getDelta() {

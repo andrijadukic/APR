@@ -12,7 +12,7 @@ import static apr.linear.util.linalg.OperationMutability.IMMUTABLE;
 public abstract class InteriorPointSearch extends AbstractMultivariateOptimizer {
 
     public InteriorPointSearch(InequalityConstraint[] inequalityConstraints) {
-        this(inequalityConstraints, DEFAULT_EPSILON);
+        super(buildConstrainedFunction(inequalityConstraints));
     }
 
     public InteriorPointSearch(InequalityConstraint[] inequalityConstraints, double epsilon) {

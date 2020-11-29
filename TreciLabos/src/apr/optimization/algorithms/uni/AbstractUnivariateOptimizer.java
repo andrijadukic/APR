@@ -7,17 +7,18 @@ import apr.optimization.functions.IUnivariateFunction;
  */
 abstract class AbstractUnivariateOptimizer implements IUnivariateOptimizer {
 
-    protected final IUnivariateFunction f;
-    protected double epsilon;
+    protected final IUnivariateFunction function;
+
+    protected double epsilon = DEFAULT_EPSILON;
 
     protected static double DEFAULT_EPSILON = 1e-6;
 
-    protected AbstractUnivariateOptimizer(IUnivariateFunction f) {
-        this(f, DEFAULT_EPSILON);
+    protected AbstractUnivariateOptimizer(IUnivariateFunction function) {
+        this.function = function;
     }
 
-    protected AbstractUnivariateOptimizer(IUnivariateFunction f, double epsilon) {
-        this.f = f;
+    protected AbstractUnivariateOptimizer(IUnivariateFunction function, double epsilon) {
+        this.function = function;
         this.epsilon = epsilon;
     }
 

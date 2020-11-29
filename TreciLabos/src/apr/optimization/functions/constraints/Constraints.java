@@ -11,12 +11,12 @@ public class Constraints {
         return new ExplicitConstraint(new Interval(lb, ub));
     }
 
-    public static ImplicitConstraint equality(IMultivariateFunction f) {
-        return new EqualityConstraint(f);
+    public static ImplicitConstraint equality(IMultivariateFunction function) {
+        return new EqualityConstraint(function);
     }
 
-    public static ImplicitConstraint inequality(IMultivariateFunction f) {
-        return new InequalityConstraint(f);
+    public static ImplicitConstraint inequality(IMultivariateFunction function) {
+        return new InequalityConstraint(function);
     }
 
     public static boolean test(IVector x, IConstraint... constraints) {
