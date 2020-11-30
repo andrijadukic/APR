@@ -131,7 +131,6 @@ public class BoxMethod extends AbstractSimplexMethod {
         int count = 0;
         IVector min = X[argMin(fX)];
         double best = function.valueAt(min);
-
         while (true) {
             if (count > divergenceLimit)
                 throw new DivergenceLimitReachedException(divergenceLimit, "best value reached is [" + min + "]");
@@ -164,7 +163,6 @@ public class BoxMethod extends AbstractSimplexMethod {
                 count++;
             }
         }
-
         return min;
     }
 
