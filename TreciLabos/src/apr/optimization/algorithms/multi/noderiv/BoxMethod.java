@@ -128,9 +128,9 @@ public class BoxMethod extends AbstractSimplexMethod {
 
     @Override
     protected IVector optimize(IVector[] X, double[] fX) {
-        int count = 0;
         IVector min = X[argMin(fX)];
         double best = function.valueAt(min);
+        int count = 0;
         while (true) {
             if (count > divergenceLimit)
                 throw new DivergenceLimitReachedException(divergenceLimit, "minimum found: [" + min + "]");

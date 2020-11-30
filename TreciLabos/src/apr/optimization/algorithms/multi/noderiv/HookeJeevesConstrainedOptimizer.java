@@ -8,7 +8,7 @@ import apr.optimization.algorithms.multi.IMultivariateCostFunction;
 import apr.optimization.algorithms.multi.MultivariateCostFunction;
 
 /**
- * Implementation of a constrained optimizer using Hooke-Jeeves optimizer
+ * Implementation of a constrained optimizer using Hooke-Jeeves
  */
 public final class HookeJeevesConstrainedOptimizer extends AbstractConstrainedOptimizer {
 

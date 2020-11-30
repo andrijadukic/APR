@@ -89,10 +89,7 @@ public class Lab {
         System.out.println();
         var f1 = CostFunctions.f1();
         IVector startingPoint1 = new Vector(-1.9, 2.);
-        var box = new BoxMethod(f1, explicitConstraints, implicitConstraints);
-        test(f1, startingPoint1, box);
-        IVector newStartingPoint1 = new Vector(0., 1.);
-        test(f1, newStartingPoint1, box);
+        test(f1, startingPoint1, new BoxMethod(f1, explicitConstraints, implicitConstraints));
 
         System.out.println();
 
