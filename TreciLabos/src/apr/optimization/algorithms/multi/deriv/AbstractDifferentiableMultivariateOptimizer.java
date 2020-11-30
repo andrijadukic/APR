@@ -13,23 +13,24 @@ import static apr.linear.util.linalg.OperationMutability.MUTABLE;
 /**
  * Abstract implementation of an optimizer using derivation methods
  */
-abstract class AbstractDifferentiableMultivariateOptimizer implements IMultivariateOptimizer {
+public abstract class AbstractDifferentiableMultivariateOptimizer implements IMultivariateOptimizer {
 
     protected final IDifferentiableMultivariateCostFunction function;
 
     protected double epsilon = DEFAULT_EPSILON;
-    protected int divergenceLimit = DEFAULT_MAXIMUM_ITERATION;
+    protected int divergenceLimit = DEFAULT_DIVERGENCE_LIMIT;
     protected boolean computeOptimalStep = DEFAULT_COMPUTE_OPTIMAL_STEP;
 
     private static final double DEFAULT_EPSILON = 1e-6;
-    private static final int DEFAULT_MAXIMUM_ITERATION = 100;
+    private static final int DEFAULT_DIVERGENCE_LIMIT = 100;
     private static final boolean DEFAULT_COMPUTE_OPTIMAL_STEP = true;
 
     protected AbstractDifferentiableMultivariateOptimizer(IDifferentiableMultivariateCostFunction function) {
         this.function = Objects.requireNonNull(function);
     }
 
-    protected AbstractDifferentiableMultivariateOptimizer(IDifferentiableMultivariateCostFunction function, double epsilon, int divergenceLimit, boolean computeOptimalStep) {
+    protected AbstractDifferentiableMultivariateOptimizer(IDifferentiableMultivariateCostFunction function,
+                                                          double epsilon, int divergenceLimit, boolean computeOptimalStep) {
         this(function);
         this.epsilon = epsilon;
         this.divergenceLimit = divergenceLimit;

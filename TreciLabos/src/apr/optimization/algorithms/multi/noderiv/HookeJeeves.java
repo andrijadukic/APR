@@ -9,7 +9,7 @@ import static apr.linear.util.linalg.OperationMutability.*;
 /**
  * Implementation of the Hooke-Jeeves algorithm
  */
-public class HookeJeeves extends AbstractMultivariateOptimizer {
+public final class HookeJeeves extends AbstractMultivariateOptimizer {
 
     private double delta = DEFAULT_DELTA;
 
@@ -79,6 +79,6 @@ public class HookeJeeves extends AbstractMultivariateOptimizer {
 
     @Override
     public String getName() {
-        return "Hooke Jeeves";
+        return "Hooke-Jeeves";
     }
 }

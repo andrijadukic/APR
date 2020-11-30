@@ -3,7 +3,6 @@ package apr.optimization.algorithms.multi.noderiv;
 import apr.linear.vector.IVector;
 import apr.optimization.algorithms.multi.ConstrainedMultivariateCostFunction;
 import apr.optimization.algorithms.multi.IMultivariateCostFunction;
-import apr.optimization.exceptions.ConstraintsNotMetException;
 import apr.optimization.exceptions.DivergenceLimitReachedException;
 import apr.optimization.exceptions.ImplicitConstraintsNotMetException;
 

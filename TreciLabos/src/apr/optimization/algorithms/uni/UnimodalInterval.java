@@ -8,7 +8,7 @@ import java.util.Objects;
 /**
  * Static implementation of the unimodal interval search algorithm
  */
-public class UnimodalInterval {
+public final class UnimodalInterval {
 
     public static Interval find(IUnivariateFunction function, double h, double x0) {
         Objects.requireNonNull(function);

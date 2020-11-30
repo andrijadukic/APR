@@ -9,7 +9,7 @@ import static apr.linear.util.linalg.OperationMutability.IMMUTABLE;
 /**
  * Implementation of the Newton-Raphson algorithm
  */
-public class NewtonRaphson extends AbstractDifferentiableMultivariateOptimizer {
+public final class NewtonRaphson extends AbstractDifferentiableMultivariateOptimizer {
 
     public NewtonRaphson(IDifferentiableMultivariateCostFunction function) {
         super(function);

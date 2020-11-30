@@ -29,13 +29,13 @@ public class CoordinateDescent extends AbstractMultivariateOptimizer {
                 final double xi = x.get(nthDimension);
                 x.set(nthDimension, xi + new GoldenSectionSearch(lambda -> function.valueAt(x.set(nthDimension, xi + lambda))).search(xi));
             }
-            if (isStopCriteriaMet(snapshot, x)) break;
+            if (testConvergence(snapshot, x)) break;
             snapshot = x.copy();
         }
         return x;
     }
 
-    private boolean isStopCriteriaMet(IVector previous, IVector current) {
+    protected boolean testConvergence(IVector previous, IVector current) {
         for (int i = 0, n = previous.getDimension(); i < n; i++) {
             if (Math.abs(previous.get(i) - current.get(i)) > epsilon) {
                 return false;

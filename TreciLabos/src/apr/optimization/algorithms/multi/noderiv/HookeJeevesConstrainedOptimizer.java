@@ -7,7 +7,7 @@ import apr.optimization.algorithms.multi.IMultivariateCostFunction;
 /**
  * Implementation of a constrained optimizer using Hooke-Jeeves optimizer
  */
-public class HookeJeevesConstrainedOptimizer extends AbstractConstrainedOptimizer {
+public final class HookeJeevesConstrainedOptimizer extends AbstractConstrainedOptimizer {
 
     private double delta = DEFAULT_DELTA;
 
@@ -17,7 +17,8 @@ public class HookeJeevesConstrainedOptimizer extends AbstractConstrainedOptimize
         super(function);
     }
 
-    public HookeJeevesConstrainedOptimizer(ConstrainedMultivariateCostFunction function, double coefficient, double epsilon, int divergenceLimit, double delta) {
+    public HookeJeevesConstrainedOptimizer(ConstrainedMultivariateCostFunction function,
+                                           double coefficient, double epsilon, int divergenceLimit, double delta) {
         super(function, coefficient, epsilon, divergenceLimit);
         this.delta = delta;
     }

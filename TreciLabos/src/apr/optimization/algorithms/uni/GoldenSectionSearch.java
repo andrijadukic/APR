@@ -6,7 +6,7 @@ import apr.optimization.functions.IUnivariateFunction;
 /**
  * Implementation of the golden section search algorithm
  */
-public class GoldenSectionSearch extends AbstractUnivariateOptimizer {
+public final class GoldenSectionSearch extends AbstractUnivariateOptimizer {
 
     private final double K = 0.5 * (Math.sqrt(5) - 1);
 

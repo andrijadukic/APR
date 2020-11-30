@@ -15,7 +15,7 @@ import static apr.linear.util.linalg.OperationMutability.MUTABLE;
 /**
  * Implementation of the line search algorithm
  */
-public class LineSearch implements IUnivariateOptimizer {
+public final class LineSearch implements IUnivariateOptimizer {
 
     private final IMultivariateFunction function;
     private final IVector x;
