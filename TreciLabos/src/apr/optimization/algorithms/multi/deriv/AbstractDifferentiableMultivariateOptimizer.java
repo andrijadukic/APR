@@ -3,7 +3,7 @@ package apr.optimization.algorithms.multi.deriv;
 import apr.linear.vector.IVector;
 import apr.optimization.algorithms.multi.LineSearch;
 import apr.optimization.algorithms.multi.noderiv.IMultivariateOptimizer;
-import apr.optimization.exceptions.MaximumIterationCountExceededException;
+import apr.optimization.exceptions.DivergenceLimitReachedException;
 
 import java.util.Objects;
 
@@ -18,7 +18,7 @@ abstract class AbstractDifferentiableMultivariateOptimizer implements IMultivari
     protected final IDifferentiableMultivariateCostFunction function;
 
     protected double epsilon = DEFAULT_EPSILON;
-    protected int maxIter = DEFAULT_MAXIMUM_ITERATION;
+    protected int divergenceLimit = DEFAULT_MAXIMUM_ITERATION;
     protected boolean computeOptimalStep = DEFAULT_COMPUTE_OPTIMAL_STEP;
 
     private static final double DEFAULT_EPSILON = 1e-6;
@@ -29,10 +29,10 @@ abstract class AbstractDifferentiableMultivariateOptimizer implements IMultivari
         this.function = Objects.requireNonNull(function);
     }
 
-    protected AbstractDifferentiableMultivariateOptimizer(IDifferentiableMultivariateCostFunction function, double epsilon, int maxIter, boolean computeOptimalStep) {
+    protected AbstractDifferentiableMultivariateOptimizer(IDifferentiableMultivariateCostFunction function, double epsilon, int divergenceLimit, boolean computeOptimalStep) {
         this(function);
         this.epsilon = epsilon;
-        this.maxIter = maxIter;
+        this.divergenceLimit = divergenceLimit;
         this.computeOptimalStep = computeOptimalStep;
     }
 
@@ -44,12 +44,12 @@ abstract class AbstractDifferentiableMultivariateOptimizer implements IMultivari
         this.epsilon = epsilon;
     }
 
-    public int getMaxIter() {
-        return maxIter;
+    public int getDivergenceLimit() {
+        return divergenceLimit;
     }
 
-    public void setMaxIter(int maxIter) {
-        this.maxIter = maxIter;
+    public void setDivergenceLimit(int divergenceLimit) {
+        this.divergenceLimit = divergenceLimit;
     }
 
     public boolean isComputeOptimalStep() {
@@ -64,11 +64,11 @@ abstract class AbstractDifferentiableMultivariateOptimizer implements IMultivari
     public IVector search(IVector x0) {
         IVector x = x0.copy();
 
-        int iter = 0;
+        int count = 0;
         double best = function.valueAt(x);
         while (true) {
-            if (iter > maxIter)
-                throw new MaximumIterationCountExceededException(maxIter, "best value reached is [" + x.toString() + "]");
+            if (count > divergenceLimit)
+                throw new DivergenceLimitReachedException(divergenceLimit, "best value reached is [" + x + "]");
 
             IVector direction = computeDirection(x, function.gradient(x));
             double norm = norm(direction);
@@ -85,10 +85,10 @@ abstract class AbstractDifferentiableMultivariateOptimizer implements IMultivari
 
             double value = function.valueAt(x);
             if (value < best) {
-                iter = 0;
                 best = value;
+                count = 0;
             } else {
-                iter++;
+                count++;
             }
         }
 

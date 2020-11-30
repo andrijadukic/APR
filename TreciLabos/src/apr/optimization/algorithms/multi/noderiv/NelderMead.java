@@ -83,63 +83,6 @@ public class NelderMead extends AbstractSimplexMethod {
     }
 
     @Override
-    protected boolean iterate(IVector[] X, double[] fX) {
-        Pair argMaxMin = worstAndBest(fX);
-        int h = argMaxMin.first();
-        int l = argMaxMin.second();
-        IVector xh = X[h];
-        IVector xl = X[l];
-
-        IVector xc = centroid(X, h);
-        IVector xr = reflection(xc, xh);
-
-        double fxr = function.valueAt(xr);
-        if (fxr < fX[l]) {
-            IVector xe = expansion(xc, xr);
-            double fxe = function.valueAt(xe);
-            if (fxe < fX[l]) {
-                X[h] = xe;
-                fX[h] = fxe;
-            } else {
-                X[h] = xr;
-                fX[h] = fxr;
-            }
-        } else {
-            boolean isConditionMet = true;
-            for (int i = 0, n = fX.length; i < n; i++) {
-                if (i == h) continue;
-                if (fxr < fX[i]) {
-                    isConditionMet = false;
-                    break;
-                }
-            }
-            if (isConditionMet) {
-                if (fxr < fX[h]) {
-                    xh = X[h] = xr;
-                    fX[h] = fxr;
-                }
-                IVector xk = contraction(xc, xh);
-                double fxk = function.valueAt(xk);
-                if (fxk < fX[h]) {
-                    X[h] = xk;
-                    fX[h] = fxk;
-                } else {
-                    for (int i = 0, n = X.length; i < n; i++) {
-                        if (i == l) continue;
-                        X[i] = shrink(X[i], xl);
-                        fX[i] = function.valueAt(X[i]);
-                    }
-                }
-            } else {
-                X[h] = xr;
-                fX[h] = fxr;
-            }
-        }
-
-        return isStopCriteriaMet(fX, xc);
-    }
-
-    @Override
     protected IVector[] initialSimplex(IVector x0) {
         int n = x0.getDimension() + 1;
         IVector[] simplex = new IVector[n];
@@ -149,6 +92,68 @@ public class NelderMead extends AbstractSimplexMethod {
             simplex[i] = x0.copy().set(nthDimension, x0.get(nthDimension) + step);
         }
         return simplex;
+    }
+
+    @Override
+    protected IVector optimize(IVector[] X, double[] fX) {
+        while (true) {
+            Pair worstAndBest = worstAndBest(fX);
+            int h = worstAndBest.first();
+            int l = worstAndBest.second();
+            IVector xh = X[h];
+            IVector xl = X[l];
+
+            IVector xc = centroid(X, h);
+
+            if (isStopCriteriaMet(fX, function.valueAt(xc))) break;
+
+            IVector xr = reflection(xc, xh, alpha);
+
+            double fxr = function.valueAt(xr);
+            if (fxr < fX[l]) {
+                IVector xe = expansion(xc, xr, gamma);
+                double fxe = function.valueAt(xe);
+                if (fxe < fX[l]) {
+                    X[h] = xe;
+                    fX[h] = fxe;
+                } else {
+                    X[h] = xr;
+                    fX[h] = fxr;
+                }
+            } else {
+                boolean isConditionMet = true;
+                for (int i = 0, n = fX.length; i < n; i++) {
+                    if (i == h) continue;
+                    if (fxr < fX[i]) {
+                        isConditionMet = false;
+                        break;
+                    }
+                }
+                if (isConditionMet) {
+                    if (fxr < fX[h]) {
+                        xh = X[h] = xr;
+                        fX[h] = fxr;
+                    }
+                    IVector xk = contraction(xc, xh, beta);
+                    double fxk = function.valueAt(xk);
+                    if (fxk < fX[h]) {
+                        X[h] = xk;
+                        fX[h] = fxk;
+                    } else {
+                        for (int i = 0, n = X.length; i < n; i++) {
+                            if (i == l) continue;
+                            X[i] = shrink(X[i], xl, sigma);
+                            fX[i] = function.valueAt(X[i]);
+                        }
+                    }
+                } else {
+                    X[h] = xr;
+                    fX[h] = fxr;
+                }
+            }
+        }
+
+        return X[argMin(fX)];
     }
 
     private Pair worstAndBest(double[] array) {
@@ -168,34 +173,6 @@ public class NelderMead extends AbstractSimplexMethod {
             }
         }
         return new Pair(maxIndex, minIndex);
-    }
-
-    private IVector reflection(IVector xc, IVector xh) {
-        return subtract(
-                multiply(xc, 1 + alpha, IMMUTABLE),
-                multiply(xh, alpha, IMMUTABLE),
-                MUTABLE);
-    }
-
-    private IVector expansion(IVector xc, IVector xr) {
-        return add(
-                multiply(xc, 1 - gamma, IMMUTABLE),
-                multiply(xr, gamma, IMMUTABLE),
-                MUTABLE);
-    }
-
-    private IVector contraction(IVector xc, IVector xh) {
-        return add(
-                multiply(xc, 1 - beta, IMMUTABLE),
-                multiply(xh, beta, IMMUTABLE),
-                MUTABLE);
-    }
-
-    private IVector shrink(IVector xi, IVector xl) {
-        return multiply(
-                add(xi, xl, MUTABLE),
-                sigma,
-                MUTABLE);
     }
 
     @Override

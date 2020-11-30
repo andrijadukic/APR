@@ -8,8 +8,8 @@ import apr.optimization.algorithms.multi.IMultivariateCostFunction;
 
 import java.util.Arrays;
 
-import static apr.linear.util.linalg.LinearAlgebra.add;
-import static apr.linear.util.linalg.LinearAlgebra.multiply;
+import static apr.linear.util.linalg.LinearAlgebra.*;
+import static apr.linear.util.linalg.OperationMutability.IMMUTABLE;
 import static apr.linear.util.linalg.OperationMutability.MUTABLE;
 
 /**
@@ -31,19 +31,15 @@ public abstract class AbstractSimplexMethod extends AbstractMultivariateOptimize
 
         final IVector[] X = initialSimplex(x0);
         final double[] fX = Arrays.stream(X).mapToDouble(function::valueAt).toArray();
-        while (true) {
-            boolean convergence = iterate(X, fX);
-            if (convergence) break;
-        }
 
-        return X[argMin(fX)];
+        return optimize(X, fX);
     }
 
     protected abstract void validate(IVector x0);
 
     protected abstract IVector[] initialSimplex(IVector x0);
 
-    protected abstract boolean iterate(IVector[] X, double[] fX);
+    protected abstract IVector optimize(IVector[] X, double[] fX);
 
     protected IVector centroid(IVector[] simplex, int h) {
         int n = simplex.length;
@@ -55,25 +51,52 @@ public abstract class AbstractSimplexMethod extends AbstractMultivariateOptimize
         return multiply(centroid, 1. / (n - 1), MUTABLE);
     }
 
-    protected int argMin(double[] array) {
-        int minIndex = 0;
-        double minValue = array[0];
-        for (int i = 1, n = array.length; i < n; i++) {
-            double temp = array[i];
-            if (temp < minValue) {
-                minValue = temp;
-                minIndex = i;
-            }
-        }
-        return minIndex;
+    protected IVector reflection(IVector xc, IVector xh, double alpha) {
+        return subtract(
+                multiply(xc, 1 + alpha, IMMUTABLE),
+                multiply(xh, alpha, IMMUTABLE),
+                MUTABLE);
     }
 
-    protected boolean isStopCriteriaMet(double[] fX, IVector centroid) {
+    protected IVector expansion(IVector xc, IVector xr, double gamma) {
+        return add(
+                multiply(xc, 1 - gamma, IMMUTABLE),
+                multiply(xr, gamma, IMMUTABLE),
+                MUTABLE);
+    }
+
+    protected IVector contraction(IVector xc, IVector xh, double beta) {
+        return add(
+                multiply(xc, 1 - beta, IMMUTABLE),
+                multiply(xh, beta, IMMUTABLE),
+                MUTABLE);
+    }
+
+    protected IVector shrink(IVector xi, IVector xl, double sigma) {
+        return multiply(
+                add(xi, xl, MUTABLE),
+                sigma,
+                MUTABLE);
+    }
+
+    protected boolean isStopCriteriaMet(double[] fX, double fxc) {
         double val = 0.;
-        double fxc = function.valueAt(centroid);
         for (double fx : fX) {
             val += Math.pow(fx - fxc, 2);
         }
         return Math.sqrt(val / (fX.length - 1)) <= epsilon;
+    }
+
+    protected int argMin(double[] array) {
+        int index = 0;
+        double min = array[0];
+        for (int i = 1, n = array.length; i < n; i++) {
+            double temp = array[i];
+            if (temp < min) {
+                min = temp;
+                index = i;
+            }
+        }
+        return index;
     }
 }

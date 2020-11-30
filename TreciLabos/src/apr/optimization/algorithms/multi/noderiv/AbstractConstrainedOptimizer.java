@@ -3,7 +3,8 @@ package apr.optimization.algorithms.multi.noderiv;
 import apr.linear.vector.IVector;
 import apr.optimization.algorithms.multi.ConstrainedMultivariateCostFunction;
 import apr.optimization.algorithms.multi.IMultivariateCostFunction;
-import apr.optimization.functions.constraints.Constraints;
+import apr.optimization.exceptions.ConstraintsNotSatisfiedException;
+import apr.optimization.exceptions.DivergenceLimitReachedException;
 
 import java.util.Objects;
 
@@ -19,18 +20,21 @@ public abstract class AbstractConstrainedOptimizer implements IMultivariateOptim
 
     protected double epsilon = DEFAULT_EPSILON;
     private double coefficient = DEFAULT_COEFFICIENT;
+    private int divergenceLimit = DEFAULT_DIVERGENCE_LIMIT;
 
     private static final double DEFAULT_EPSILON = 1e-6;
     private static final double DEFAULT_COEFFICIENT = 1.;
+    private static final int DEFAULT_DIVERGENCE_LIMIT = 100;
 
     protected AbstractConstrainedOptimizer(ConstrainedMultivariateCostFunction function) {
         this.function = Objects.requireNonNull(function);
     }
 
-    protected AbstractConstrainedOptimizer(ConstrainedMultivariateCostFunction function, double epsilon, double coefficient) {
+    protected AbstractConstrainedOptimizer(ConstrainedMultivariateCostFunction function, double epsilon, double coefficient, int divergenceLimit) {
         this(function);
         this.coefficient = coefficient;
         this.epsilon = epsilon;
+        this.divergenceLimit = divergenceLimit;
     }
 
     public double getCoefficient() {
@@ -41,14 +45,39 @@ public abstract class AbstractConstrainedOptimizer implements IMultivariateOptim
         this.coefficient = coefficient;
     }
 
+    public int getDivergenceLimit() {
+        return divergenceLimit;
+    }
+
+    public void setDivergenceLimit(int divergenceLimit) {
+        this.divergenceLimit = divergenceLimit;
+    }
+
     @Override
     public IVector search(IVector x0) {
-        IVector x = x0.copy();
+        double initialValue = function.valueAt(x0);
+
+        if (initialValue == Double.POSITIVE_INFINITY) throw new ConstraintsNotSatisfiedException();
+
         double t = coefficient;
+        IVector x = x0.copy();
+        double best = initialValue;
+        int count = 0;
         while (true) {
+            if (count > divergenceLimit)
+                throw new DivergenceLimitReachedException(divergenceLimit, "best value reached is [" + x + "]");
+
             function.setCoefficient(t);
             IVector snapshot = x.copy();
             x = argMin(function, x);
+
+            double value = function.valueAt(x);
+            if (value < best) {
+                best = value;
+                count = 0;
+            } else {
+                count++;
+            }
 
             if (norm(subtract(snapshot, x, MUTABLE)) < epsilon) break;
 

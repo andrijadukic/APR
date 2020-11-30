@@ -1,6 +1,7 @@
 package apr.optimization.functions;
 
 import apr.linear.vector.IVector;
+import apr.optimization.functions.constraints.Constraints;
 import apr.optimization.functions.constraints.EqualityConstraint;
 import apr.optimization.functions.constraints.InequalityConstraint;
 
@@ -64,34 +65,7 @@ public class ConstrainedMultivariateFunction implements IConstrainedMultivariate
     @Override
     public double valueAt(IVector x) {
         return unconstrainedFunction.valueAt(x)
-                - inequalityConstraintsPenalty(x, coefficient, inequalityConstraints)
-                + equalityConstraintsPenalty(x, coefficient, equalityConstraints);
-    }
-
-    protected double inequalityConstraintsPenalty(IVector x, double coefficient, InequalityConstraint[] inequalityConstraints) {
-        if (inequalityConstraints == null) return 0.;
-
-        coefficient = 1. / coefficient;
-        double penalty = 0.;
-        for (InequalityConstraint constraint : inequalityConstraints) {
-            double constraintFunctionValue = constraint.getFunction().valueAt(x);
-
-            if (constraintFunctionValue <= 0) return Double.NEGATIVE_INFINITY;
-
-            penalty += coefficient * Math.log(constraintFunctionValue);
-
-        }
-        return penalty;
-    }
-
-    protected double equalityConstraintsPenalty(IVector x, double coefficient, EqualityConstraint[] equalityConstraints) {
-        if (equalityConstraints == null) return 0.;
-
-        double penalty = 0.;
-        for (EqualityConstraint constraint : equalityConstraints) {
-            double constraintFunctionValue = constraint.getFunction().valueAt(x);
-            penalty += coefficient * constraintFunctionValue * constraintFunctionValue;
-        }
-        return penalty;
+                - (inequalityConstraints == null ? 0. : Constraints.barrier(x, inequalityConstraints, 1. / coefficient))
+                + (equalityConstraints == null ? 0. : Constraints.penalty(x, equalityConstraints, coefficient));
     }
 }

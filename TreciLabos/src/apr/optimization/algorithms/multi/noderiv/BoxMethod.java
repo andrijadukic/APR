@@ -2,7 +2,7 @@ package apr.optimization.algorithms.multi.noderiv;
 
 import apr.linear.vector.IVector;
 import apr.optimization.algorithms.util.Pair;
-import apr.optimization.exceptions.MaximumIterationCountExceededException;
+import apr.optimization.exceptions.DivergenceLimitReachedException;
 import apr.optimization.functions.constraints.Constraints;
 import apr.optimization.functions.constraints.ExplicitConstraint;
 import apr.optimization.functions.constraints.ImplicitConstraint;
@@ -25,10 +25,10 @@ public class BoxMethod extends AbstractSimplexMethod {
     private final ImplicitConstraint[] implicitConstraints;
 
     private double alpha = DEFAULT_ALPHA;
-    private int maxIter = DEFAULT_MAXIMUM_ITERATION;
+    private int divergenceLimit = DEFAULT_DIVERGENCE_LIMIT;
 
     private static final double DEFAULT_ALPHA = 1.3;
-    private static final int DEFAULT_MAXIMUM_ITERATION = 100;
+    private static final int DEFAULT_DIVERGENCE_LIMIT = 200;
 
     public BoxMethod(IMultivariateCostFunction function, ExplicitConstraint[] explicitConstraints, ImplicitConstraint[] implicitConstraints) {
         super(function);
@@ -38,12 +38,12 @@ public class BoxMethod extends AbstractSimplexMethod {
 
     public BoxMethod(IMultivariateCostFunction function,
                      ExplicitConstraint[] explicitConstraints, ImplicitConstraint[] implicitConstraints,
-                     double epsilon, double alpha, int maxIter) {
+                     double epsilon, double alpha, int divergenceLimit) {
         super(function, epsilon);
         this.explicitConstraints = Objects.requireNonNull(explicitConstraints);
         this.implicitConstraints = Objects.requireNonNull(implicitConstraints);
         this.alpha = alpha;
-        this.maxIter = maxIter;
+        this.divergenceLimit = divergenceLimit;
     }
 
     public double getAlpha() {
@@ -54,12 +54,12 @@ public class BoxMethod extends AbstractSimplexMethod {
         this.alpha = alpha;
     }
 
-    public int getMaxIter() {
-        return maxIter;
+    public int getDivergenceLimit() {
+        return divergenceLimit;
     }
 
-    public void setMaxIter(int maxIter) {
-        this.maxIter = maxIter;
+    public void setDivergenceLimit(int divergenceLimit) {
+        this.divergenceLimit = divergenceLimit;
     }
 
     @Override
@@ -79,7 +79,7 @@ public class BoxMethod extends AbstractSimplexMethod {
             IVector candidate = buildCandidate(x0, explicitConstraints);
             int iter = 0;
             while (!Constraints.test(candidate, implicitConstraints)) {
-                if (iter > maxIter) throw new MaximumIterationCountExceededException(maxIter);
+                if (iter > divergenceLimit) throw new DivergenceLimitReachedException(divergenceLimit);
                 candidate = multiply(add(candidate, centroid, MUTABLE), 0.5, MUTABLE);
                 iter++;
             }
@@ -105,42 +105,61 @@ public class BoxMethod extends AbstractSimplexMethod {
     }
 
     @Override
-    protected boolean iterate(IVector[] X, double[] fX) {
-        Pair worst = worstTwo(fX);
-        int h = worst.first();
-        int h2 = worst.second();
-        IVector xh = X[h];
-        IVector xh2 = X[h2];
+    protected IVector optimize(IVector[] X, double[] fX) {
+        int count = 0;
+        IVector min = X[argMin(fX)];
+        double best = function.valueAt(min);
+        while (true) {
+            if (count > divergenceLimit)
+                throw new DivergenceLimitReachedException(divergenceLimit, "best value reached is [" + min + "]");
 
-        IVector xc = centroid(X, h);
+            Pair worst = worstTwo(fX);
+            int h = worst.first();
+            int h2 = worst.second();
+            IVector xh = X[h];
+            IVector xh2 = X[h2];
 
-        IVector xr = reflection(xc, xh);
-        for (int i = 0, n = xr.getDimension(); i < n; i++) {
-            ExplicitConstraint constraint = explicitConstraints[i];
-            double lb = constraint.lowerbound();
-            double ub = constraint.upperbound();
-            if (xr.get(i) < lb) {
-                xr.set(i, lb);
-            } else if (xr.get(i) > ub) {
-                xr.set(i, ub);
+            IVector xc = centroid(X, h);
+
+            if (isStopCriteriaMet(fX, function.valueAt(xc))) break;
+
+            IVector xr = reflection(xc, xh, alpha);
+            for (int i = 0, n = xr.getDimension(); i < n; i++) {
+                ExplicitConstraint constraint = explicitConstraints[i];
+                double lb = constraint.lowerbound();
+                double ub = constraint.upperbound();
+                if (xr.get(i) < lb) {
+                    xr.set(i, lb);
+                } else if (xr.get(i) > ub) {
+                    xr.set(i, ub);
+                }
+            }
+
+            int iter = 0;
+            while (!Constraints.test(xr, implicitConstraints)) {
+                if (iter > divergenceLimit) throw new DivergenceLimitReachedException(divergenceLimit);
+                xr = multiply(add(xr, xc, MUTABLE), 0.5, MUTABLE);
+                iter++;
+            }
+
+            if (function.valueAt(xr) > function.valueAt(xh2)) {
+                xr = multiply(add(xr, xc, MUTABLE), 0.5, MUTABLE);
+            }
+
+            X[h] = xr;
+            fX[h] = function.valueAt(xr);
+
+            min = X[argMin(fX)];
+            double value = function.valueAt(min);
+            if (value < best) {
+                best = value;
+                count = 0;
+            } else {
+                count++;
             }
         }
 
-        int iter = 0;
-        while (!Constraints.test(xr, implicitConstraints)) {
-            if (iter > maxIter) throw new MaximumIterationCountExceededException(maxIter);
-            xr = multiply(add(xr, xc, MUTABLE), 0.5, MUTABLE);
-            iter++;
-        }
-
-        if (function.valueAt(xr) > function.valueAt(xh2)) {
-            xr = multiply(add(xr, xc, MUTABLE), 0.5, MUTABLE);
-        }
-
-        X[h] = xr;
-        fX[h] = function.valueAt(xr);
-
-        return isStopCriteriaMet(fX, xc);
+        return min;
     }
 
     private Pair worstTwo(double[] array) {
@@ -159,13 +178,6 @@ public class BoxMethod extends AbstractSimplexMethod {
             }
         }
         return new Pair(maxIndex, secondMaxIndex);
-    }
-
-    private IVector reflection(IVector xc, IVector xh) {
-        return subtract(
-                multiply(xc, 1 + alpha, IMMUTABLE),
-                multiply(xh, alpha, IMMUTABLE),
-                MUTABLE);
     }
 
     @Override

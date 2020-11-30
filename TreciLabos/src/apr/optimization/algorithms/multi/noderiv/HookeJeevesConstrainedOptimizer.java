@@ -17,8 +17,8 @@ public class HookeJeevesConstrainedOptimizer extends AbstractConstrainedOptimize
         super(function);
     }
 
-    public HookeJeevesConstrainedOptimizer(ConstrainedMultivariateCostFunction function, double epsilon, double coefficient, double delta) {
-        super(function, epsilon, coefficient);
+    public HookeJeevesConstrainedOptimizer(ConstrainedMultivariateCostFunction function, double coefficient, double epsilon, int divergenceLimit, double delta) {
+        super(function, coefficient, epsilon, divergenceLimit);
         this.delta = delta;
     }
 

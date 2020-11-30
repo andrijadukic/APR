@@ -2,6 +2,7 @@ package apr.optimization.functions.constraints;
 
 import apr.linear.exceptions.DimensionMismatchException;
 import apr.linear.vector.IVector;
+import apr.optimization.algorithms.multi.MultivariateCostFunction;
 import apr.optimization.algorithms.util.Interval;
 import apr.optimization.functions.IMultivariateFunction;
 
@@ -72,5 +73,40 @@ public class Constraints {
             if (!constraints[i].test(x.get(i))) return false;
         }
         return true;
+    }
+
+    public static IMultivariateFunction sum(InequalityConstraint[] inequalityConstraints) {
+        return new MultivariateCostFunction(x -> {
+            double penalty = 0.;
+            for (InequalityConstraint constraint : inequalityConstraints) {
+                double constraintValue = constraint.getFunction().valueAt(x);
+                if (constraintValue < 0) {
+                    penalty -= constraintValue;
+                }
+            }
+            return penalty;
+        });
+    }
+
+    public static double penalty(IVector x, EqualityConstraint[] equalityConstraints, double coefficient) {
+        double penalty = 0.;
+        for (EqualityConstraint constraint : equalityConstraints) {
+            double constraintFunctionValue = constraint.getFunction().valueAt(x);
+            penalty += coefficient * constraintFunctionValue * constraintFunctionValue;
+        }
+        return penalty;
+    }
+
+    public static double barrier(IVector x, InequalityConstraint[] inequalityConstraints, double coefficient) {
+        double penalty = 0.;
+        for (InequalityConstraint constraint : inequalityConstraints) {
+            double constraintFunctionValue = constraint.getFunction().valueAt(x);
+
+            if (constraintFunctionValue <= 0) return Double.NEGATIVE_INFINITY;
+
+            penalty += coefficient * Math.log(constraintFunctionValue);
+
+        }
+        return penalty;
     }
 }

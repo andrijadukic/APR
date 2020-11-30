@@ -3,11 +3,12 @@ package apr.optimization.demo;
 import apr.linear.vector.IVector;
 import apr.linear.vector.Vector;
 import apr.optimization.algorithms.multi.ConstrainedMultivariateCostFunction;
+import apr.optimization.algorithms.multi.MultivariateCostFunction;
 import apr.optimization.algorithms.multi.deriv.GradientDescent;
 import apr.optimization.algorithms.multi.deriv.IDifferentiableMultivariateCostFunction;
 import apr.optimization.algorithms.multi.deriv.NewtonRaphson;
 import apr.optimization.algorithms.multi.noderiv.*;
-import apr.optimization.exceptions.MaximumIterationCountExceededException;
+import apr.optimization.exceptions.DivergenceLimitReachedException;
 import apr.optimization.functions.ConstrainedMultivariateFunction;
 import apr.optimization.functions.constraints.*;
 
@@ -16,12 +17,15 @@ public class Lab {
     public static void main(String[] args) {
 //        zadatak1();
 //        zadatak2();
-        zadatak3();
+//        zadatak3();
 //        zadatak4();
-//        zadatak5();
+        zadatak5();
     }
 
     private static void zadatak1() {
+        System.out.println("Zadatak 1");
+        System.out.println("---------");
+
         var f3 = CostFunctions.f3();
         IVector startingPoint = new Vector(0., 0.);
         var gradientDescent = new GradientDescent(f3);
@@ -40,6 +44,9 @@ public class Lab {
     }
 
     private static void zadatak2() {
+        System.out.println("Zadatak 2");
+        System.out.println("---------");
+
         var f1 = CostFunctions.f1();
         IVector startingPoint1 = new Vector(-1.9, 2.);
 
@@ -77,6 +84,9 @@ public class Lab {
     }
 
     private static void zadatak3() {
+        System.out.println("Zadatak 3");
+        System.out.println("---------");
+
         ImplicitConstraint[] implicitConstraints = new ImplicitConstraint[]{
                 Constraints.inequality(x -> x.get(1) - x.get(0)),
                 Constraints.inequality(x -> 2 - x.get(0))};
@@ -104,6 +114,9 @@ public class Lab {
     }
 
     private static void zadatak4() {
+        System.out.println("Zadatak 4");
+        System.out.println("---------");
+
         InequalityConstraint[] inequalityConstraints = new InequalityConstraint[]{
                 Constraints.inequality(x -> x.get(1) - x.get(0)),
                 Constraints.inequality(x -> 2 - x.get(0))};
@@ -129,13 +142,16 @@ public class Lab {
     }
 
     private static void zadatak5() {
+        System.out.println("Zadatak 5");
+        System.out.println("---------");
+
         InequalityConstraint[] inequalityConstraints = new InequalityConstraint[]{
                 Constraints.inequality(x -> 3 - x.get(0) - x.get(1)),
                 Constraints.inequality(x -> 3 + 1.5 * x.get(0) - x.get(1))};
         EqualityConstraint[] equalityConstraints = new EqualityConstraint[]{Constraints.equality(x -> x.get(1) - 1)};
 
         IVector startingPoint = new Vector(5., 5.);
-        IVector newStartingPoint = new HookeJeevesInteriorPointSearch(inequalityConstraints).search(startingPoint);
+        IVector newStartingPoint = new HookeJeeves(new MultivariateCostFunction(Constraints.sum(inequalityConstraints))).search(startingPoint);
 
         var function = new ConstrainedMultivariateCostFunction(new ConstrainedMultivariateFunction(CostFunctions.f4(), equalityConstraints, inequalityConstraints));
         var optimizer = new HookeJeevesConstrainedOptimizer(function);
@@ -143,14 +159,13 @@ public class Lab {
         System.out.println("Function evaluations: " + function.getFunctionEvaluationCount());
     }
 
-
     private static void test(IDifferentiableMultivariateCostFunction function, IVector startingPoint, IMultivariateOptimizer algorithm) {
         try {
             System.out.println("Min: " + algorithm.search(startingPoint));
             System.out.println("Function evaluations: " + function.getFunctionEvaluationCount());
             System.out.println("Gradient evaluations: " + function.getGradientEvaluationCount());
             System.out.println("Hessian evaluations: " + function.getHessianEvaluationCount());
-        } catch (MaximumIterationCountExceededException e) {
+        } catch (DivergenceLimitReachedException e) {
             System.out.println(e.getMessage());
         } finally {
             function.reset();
