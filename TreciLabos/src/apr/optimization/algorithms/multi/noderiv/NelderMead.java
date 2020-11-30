@@ -96,14 +96,12 @@ public class NelderMead extends AbstractSimplexMethod {
             Pair worstAndBest = worstAndBest(fX);
             int h = worstAndBest.first();
             int l = worstAndBest.second();
-            IVector xh = X[h];
-            IVector xl = X[l];
 
             IVector xc = centroid(X, h);
 
             if (testConvergence(fX, function.valueAt(xc))) break;
 
-            IVector xr = reflection(xc, xh, alpha);
+            IVector xr = reflection(xc, X[h], alpha);
 
             double fxr = function.valueAt(xr);
             if (fxr < fX[l]) {
@@ -127,15 +125,16 @@ public class NelderMead extends AbstractSimplexMethod {
                 }
                 if (isConditionMet) {
                     if (fxr < fX[h]) {
-                        xh = X[h] = xr;
+                        X[h] = xr;
                         fX[h] = fxr;
                     }
-                    IVector xk = contraction(xc, xh, beta);
+                    IVector xk = contraction(xc, X[h], beta);
                     double fxk = function.valueAt(xk);
                     if (fxk < fX[h]) {
                         X[h] = xk;
                         fX[h] = fxk;
                     } else {
+                        IVector xl = X[l];
                         for (int i = 0, n = X.length; i < n; i++) {
                             if (i == l) continue;
                             X[i] = shrink(X[i], xl, sigma);

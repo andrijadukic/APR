@@ -139,18 +139,16 @@ public class BoxMethod extends AbstractSimplexMethod {
             Pair worst = worstTwo(fX);
             int h = worst.first();
             int h2 = worst.second();
-            IVector xh = X[h];
-            IVector xh2 = X[h2];
 
             IVector xc = centroid(X, h);
 
             if (testConvergence(fX, function.valueAt(xc))) break;
 
-            IVector xr = reflection(xc, xh, alpha);
+            IVector xr = reflection(xc, X[h], alpha);
 
             xr = adjust(xr, explicitConstraints);
             xr = adjust(xr, xc, implicitConstraints);
-            if (function.valueAt(xr) > function.valueAt(xh2)) {
+            if (function.valueAt(xr) > function.valueAt(X[h2])) {
                 xr = shift(xr, xc);
             }
 
