@@ -36,7 +36,7 @@ public final class HookeJeevesConstrainedOptimizer extends AbstractConstrainedOp
 
     @Override
     protected IVector interiorPoint(IVector x0, InequalityConstraint[] inequalityConstraints) {
-        return new HookeJeeves(new MultivariateCostFunction(Constraints.sum(inequalityConstraints))).search(x0);
+        return new HookeJeeves(new MultivariateCostFunction(Constraints.sum(inequalityConstraints)), epsilon, delta).search(x0);
     }
 
     @Override

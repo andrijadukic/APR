@@ -75,6 +75,12 @@ public class Constraints {
         return true;
     }
 
+    /**
+     * Constructs a multivariate function defined as the sum of all constraints that are not met (g(x) < 0)
+     *
+     * @param inequalityConstraints inequality constraints
+     * @return new multivariate function
+     */
     public static IMultivariateFunction sum(InequalityConstraint[] inequalityConstraints) {
         return new MultivariateCostFunction(x -> {
             double penalty = 0.;
@@ -88,6 +94,14 @@ public class Constraints {
         });
     }
 
+    /**
+     * Calculates value of the penalty function
+     *
+     * @param x                   point
+     * @param equalityConstraints equality constraints
+     * @param coefficient         coefficient
+     * @return value of the penalty function at given point
+     */
     public static double penalty(IVector x, EqualityConstraint[] equalityConstraints, double coefficient) {
         double penalty = 0.;
         for (EqualityConstraint constraint : equalityConstraints) {
@@ -97,6 +111,14 @@ public class Constraints {
         return penalty;
     }
 
+    /**
+     * Calculates value of the barrier penalty function
+     *
+     * @param x                     point
+     * @param inequalityConstraints equality constraints
+     * @param coefficient           coefficient
+     * @return value of the barrier penalty function at given point
+     */
     public static double barrier(IVector x, InequalityConstraint[] inequalityConstraints, double coefficient) {
         double penalty = 0.;
         for (InequalityConstraint constraint : inequalityConstraints) {
