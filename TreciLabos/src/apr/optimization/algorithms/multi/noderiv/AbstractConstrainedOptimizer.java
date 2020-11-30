@@ -3,8 +3,9 @@ package apr.optimization.algorithms.multi.noderiv;
 import apr.linear.vector.IVector;
 import apr.optimization.algorithms.multi.ConstrainedMultivariateCostFunction;
 import apr.optimization.algorithms.multi.IMultivariateCostFunction;
-import apr.optimization.exceptions.ConstraintsNotSatisfiedException;
+import apr.optimization.exceptions.ConstraintsNotMetException;
 import apr.optimization.exceptions.DivergenceLimitReachedException;
+import apr.optimization.exceptions.ImplicitConstraintsNotMetException;
 
 import java.util.Objects;
 
@@ -57,7 +58,7 @@ public abstract class AbstractConstrainedOptimizer implements IMultivariateOptim
     public IVector search(IVector x0) {
         double initialValue = function.valueAt(x0);
 
-        if (initialValue == Double.POSITIVE_INFINITY) throw new ConstraintsNotSatisfiedException();
+        if (initialValue == Double.POSITIVE_INFINITY) throw new ImplicitConstraintsNotMetException();
 
         double t = coefficient;
         IVector x = x0.copy();

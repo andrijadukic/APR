@@ -79,7 +79,7 @@ public abstract class AbstractSimplexMethod extends AbstractMultivariateOptimize
                 MUTABLE);
     }
 
-    protected boolean isStopCriteriaMet(double[] fX, double fxc) {
+    protected boolean testConvergence(double[] fX, double fxc) {
         double val = 0.;
         for (double fx : fX) {
             val += Math.pow(fx - fxc, 2);

@@ -4,10 +4,6 @@ import apr.linear.vector.IVector;
 import apr.optimization.algorithms.multi.IMultivariateCostFunction;
 import apr.optimization.algorithms.util.Pair;
 
-
-import static apr.linear.util.linalg.LinearAlgebra.*;
-import static apr.linear.util.linalg.OperationMutability.*;
-
 /**
  * Implementation of the Nelder-Mead simplex method
  */
@@ -105,7 +101,7 @@ public class NelderMead extends AbstractSimplexMethod {
 
             IVector xc = centroid(X, h);
 
-            if (isStopCriteriaMet(fX, function.valueAt(xc))) break;
+            if (testConvergence(fX, function.valueAt(xc))) break;
 
             IVector xr = reflection(xc, xh, alpha);
 

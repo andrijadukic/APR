@@ -3,10 +3,12 @@ package apr.optimization.algorithms.multi.noderiv;
 import apr.linear.vector.IVector;
 import apr.optimization.algorithms.util.Pair;
 import apr.optimization.exceptions.DivergenceLimitReachedException;
+import apr.optimization.exceptions.ExplicitConstraintsNotMetException;
+import apr.optimization.exceptions.ImplicitConstraintsNotMetException;
 import apr.optimization.functions.constraints.Constraints;
 import apr.optimization.functions.constraints.ExplicitConstraint;
 import apr.optimization.functions.constraints.ImplicitConstraint;
-import apr.optimization.exceptions.ConstraintsNotSatisfiedException;
+import apr.optimization.exceptions.ConstraintsNotMetException;
 import apr.optimization.algorithms.multi.IMultivariateCostFunction;
 
 import java.util.Objects;
@@ -64,8 +66,8 @@ public class BoxMethod extends AbstractSimplexMethod {
 
     @Override
     protected void validate(IVector x0) {
-        if (!Constraints.test(x0, explicitConstraints) || !Constraints.test(x0, implicitConstraints))
-            throw new ConstraintsNotSatisfiedException();
+        if (!Constraints.test(x0, explicitConstraints)) throw new ExplicitConstraintsNotMetException();
+        if (!Constraints.test(x0, implicitConstraints)) throw new ImplicitConstraintsNotMetException();
     }
 
     @Override
@@ -76,15 +78,8 @@ public class BoxMethod extends AbstractSimplexMethod {
         simplex[0] = x0.copy();
         IVector centroid = x0.copy();
         for (int i = 1; i < size; i++) {
-            IVector candidate = buildCandidate(x0, explicitConstraints);
-            int iter = 0;
-            while (!Constraints.test(candidate, implicitConstraints)) {
-                if (iter > divergenceLimit) throw new DivergenceLimitReachedException(divergenceLimit);
-                candidate = multiply(add(candidate, centroid, MUTABLE), 0.5, MUTABLE);
-                iter++;
-            }
+            IVector candidate = adjust(buildCandidate(x0, explicitConstraints), centroid, implicitConstraints);
             simplex[i] = candidate;
-
             centroid = add(multiply(subtract(candidate, centroid, IMMUTABLE), 1. / (i + 1), MUTABLE), centroid, MUTABLE);
         }
 
@@ -104,11 +99,40 @@ public class BoxMethod extends AbstractSimplexMethod {
         return candidate;
     }
 
+    protected IVector adjust(IVector point, IVector centroid, ImplicitConstraint[] implicitConstraints) {
+        int count = 0;
+        while (!Constraints.test(point, implicitConstraints)) {
+            if (count > divergenceLimit) throw new DivergenceLimitReachedException(divergenceLimit);
+            point = shift(point, centroid);
+            count++;
+        }
+        return point;
+    }
+
+    protected IVector adjust(IVector point, ExplicitConstraint[] explicitConstraints) {
+        for (int i = 0, n = point.getDimension(); i < n; i++) {
+            ExplicitConstraint constraint = explicitConstraints[i];
+            double lb = constraint.lowerbound();
+            double ub = constraint.upperbound();
+            if (point.get(i) < lb) {
+                point.set(i, lb);
+            } else if (point.get(i) > ub) {
+                point.set(i, ub);
+            }
+        }
+        return point;
+    }
+
+    protected IVector shift(IVector point, IVector centroid) {
+        return multiply(add(point, centroid, MUTABLE), 0.5, MUTABLE);
+    }
+
     @Override
     protected IVector optimize(IVector[] X, double[] fX) {
         int count = 0;
         IVector min = X[argMin(fX)];
         double best = function.valueAt(min);
+
         while (true) {
             if (count > divergenceLimit)
                 throw new DivergenceLimitReachedException(divergenceLimit, "best value reached is [" + min + "]");
@@ -121,29 +145,14 @@ public class BoxMethod extends AbstractSimplexMethod {
 
             IVector xc = centroid(X, h);
 
-            if (isStopCriteriaMet(fX, function.valueAt(xc))) break;
+            if (testConvergence(fX, function.valueAt(xc))) break;
 
             IVector xr = reflection(xc, xh, alpha);
-            for (int i = 0, n = xr.getDimension(); i < n; i++) {
-                ExplicitConstraint constraint = explicitConstraints[i];
-                double lb = constraint.lowerbound();
-                double ub = constraint.upperbound();
-                if (xr.get(i) < lb) {
-                    xr.set(i, lb);
-                } else if (xr.get(i) > ub) {
-                    xr.set(i, ub);
-                }
-            }
 
-            int iter = 0;
-            while (!Constraints.test(xr, implicitConstraints)) {
-                if (iter > divergenceLimit) throw new DivergenceLimitReachedException(divergenceLimit);
-                xr = multiply(add(xr, xc, MUTABLE), 0.5, MUTABLE);
-                iter++;
-            }
-
+            xr = adjust(xr, explicitConstraints);
+            xr = adjust(xr, xc, implicitConstraints);
             if (function.valueAt(xr) > function.valueAt(xh2)) {
-                xr = multiply(add(xr, xc, MUTABLE), 0.5, MUTABLE);
+                xr = shift(xr, xc);
             }
 
             X[h] = xr;
