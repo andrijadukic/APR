@@ -1,6 +1,6 @@
 package apr.optimization.algorithms.multi;
 
-import apr.optimization.functions.IMultivariateFunction;
+import apr.functions.IMultivariateFunction;
 
 /**
  * Represents a multivariable cost function with a counter feature

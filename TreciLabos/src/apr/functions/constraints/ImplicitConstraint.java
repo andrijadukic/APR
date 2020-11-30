@@ -1,6 +1,6 @@
-package apr.optimization.functions.constraints;
+package apr.functions.constraints;
 
-import apr.optimization.functions.IMultivariateFunction;
+import apr.functions.IMultivariateFunction;
 
 import java.util.Objects;
 

@@ -3,7 +3,7 @@ package apr.optimization.algorithms.multi;
 import apr.linear.vector.IVector;
 import apr.optimization.algorithms.uni.GoldenSectionSearch;
 import apr.optimization.algorithms.uni.IUnivariateOptimizer;
-import apr.optimization.functions.IMultivariateFunction;
+import apr.functions.IMultivariateFunction;
 
 import java.util.Objects;
 

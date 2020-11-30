@@ -3,9 +3,9 @@ package apr.optimization.algorithms.multi.deriv;
 import apr.linear.matrix.IMatrix;
 import apr.linear.vector.IVector;
 import apr.optimization.algorithms.multi.MultivariateCostFunction;
-import apr.optimization.functions.IMultivariableMatrixFunction;
-import apr.optimization.functions.IMultivariableVectorFunction;
-import apr.optimization.functions.IMultivariateFunction;
+import apr.functions.IMultivariableMatrixFunction;
+import apr.functions.IMultivariableVectorFunction;
+import apr.functions.IMultivariateFunction;
 
 import java.util.Objects;
 

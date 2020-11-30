@@ -1,4 +1,4 @@
-package apr.optimization.functions;
+package apr.functions;
 
 import apr.linear.vector.IVector;
 

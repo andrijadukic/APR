@@ -10,8 +10,8 @@ import apr.optimization.algorithms.multi.deriv.IDifferentiableMultivariateCostFu
 import apr.optimization.algorithms.multi.deriv.NewtonRaphson;
 import apr.optimization.algorithms.multi.noderiv.*;
 import apr.optimization.exceptions.DivergenceLimitReachedException;
-import apr.optimization.functions.ConstrainedMultivariateFunction;
-import apr.optimization.functions.constraints.*;
+import apr.functions.ConstrainedMultivariateFunction;
+import apr.functions.constraints.*;
 
 public class Lab {
 

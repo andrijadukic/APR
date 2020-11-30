@@ -5,9 +5,9 @@ import apr.optimization.algorithms.util.Pair;
 import apr.optimization.exceptions.DivergenceLimitReachedException;
 import apr.optimization.exceptions.ExplicitConstraintsNotMetException;
 import apr.optimization.exceptions.ImplicitConstraintsNotMetException;
-import apr.optimization.functions.constraints.Constraints;
-import apr.optimization.functions.constraints.ExplicitConstraint;
-import apr.optimization.functions.constraints.ImplicitConstraint;
+import apr.functions.constraints.Constraints;
+import apr.functions.constraints.ExplicitConstraint;
+import apr.functions.constraints.ImplicitConstraint;
 import apr.optimization.algorithms.multi.IMultivariateCostFunction;
 
 import java.util.Objects;

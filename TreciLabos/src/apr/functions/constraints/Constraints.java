@@ -1,10 +1,10 @@
-package apr.optimization.functions.constraints;
+package apr.functions.constraints;
 
 import apr.linear.exceptions.DimensionMismatchException;
 import apr.linear.vector.IVector;
 import apr.optimization.algorithms.multi.MultivariateCostFunction;
 import apr.optimization.algorithms.util.Interval;
-import apr.optimization.functions.IMultivariateFunction;
+import apr.functions.IMultivariateFunction;
 
 /**
  * Utility class for creating and testing function constraints

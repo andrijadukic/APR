@@ -1,7 +1,7 @@
 package apr.optimization.algorithms.uni;
 
 import apr.optimization.algorithms.util.Interval;
-import apr.optimization.functions.IUnivariateFunction;
+import apr.functions.IUnivariateFunction;
 
 /**
  * Implementation of the golden section search algorithm

@@ -1,12 +1,10 @@
-package apr.optimization.functions;
-
-import apr.linear.vector.IVector;
+package apr.functions;
 
 /**
- * Represents a multivariable function
+ * Represents a single variable function
  */
 @FunctionalInterface
-public interface IMultivariateFunction {
+public interface IUnivariateFunction {
 
     /**
      * Calculates value at given point
@@ -14,13 +12,14 @@ public interface IMultivariateFunction {
      * @param x point
      * @return real number in double precision
      */
-    double valueAt(IVector x);
+    double valueAt(double x);
 
     /**
      * Creates new function which returns negative value of the original (f2(x) = -f1(x))
+     *
      * @return new function
      */
-    default IMultivariateFunction negate() {
+    default IUnivariateFunction negate() {
         return x -> -valueAt(x);
     }
 }

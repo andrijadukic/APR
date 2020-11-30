@@ -1,7 +1,7 @@
-package apr.optimization.functions.constraints;
+package apr.functions.constraints;
 
 import apr.linear.vector.IVector;
-import apr.optimization.functions.IMultivariateFunction;
+import apr.functions.IMultivariateFunction;
 
 /**
  * Implementation of the {@code IConstraint} interface for constraints in the form of f(x) == 0

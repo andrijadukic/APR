@@ -1,7 +1,7 @@
 package apr.optimization.algorithms.multi;
 
 import apr.linear.vector.IVector;
-import apr.optimization.functions.IMultivariateFunction;
+import apr.functions.IMultivariateFunction;
 
 import java.util.Objects;
 
