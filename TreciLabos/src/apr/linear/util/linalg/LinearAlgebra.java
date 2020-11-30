@@ -1,10 +1,9 @@
 package apr.linear.util.linalg;
 
 import apr.linear.exceptions.DimensionMismatchException;
-import apr.linear.exceptions.MatrixDimensionMismatchException;
 import apr.linear.exceptions.SingularMatrixException;
 import apr.linear.matrix.IMatrix;
-import apr.linear.util.Matrices;
+import apr.linear.matrix.Matrix;
 import apr.linear.util.functions.IDoubleBinaryFunction;
 import apr.linear.util.functions.IDoubleUnaryFunction;
 import apr.linear.vector.IVector;
@@ -184,13 +183,13 @@ public class LinearAlgebra {
     }
 
     /**
-     * Performs vector-vector multiplication
+     * Performs inner vector multiplication
      *
      * @param v1 first vector
      * @param v2 second vector
      * @return result scalar value
      */
-    public static double multiply(IVector v1, IVector v2) {
+    public static double inner(IVector v1, IVector v2) {
         checkMultiplicationApplicable(v1, v2);
 
         double sum = 0.;
@@ -198,6 +197,27 @@ public class LinearAlgebra {
             sum += v1.get(i) * v2.get(i);
         }
         return sum;
+    }
+
+
+    /**
+     * Performs outer multiplication
+     *
+     * @param v1 first vector
+     * @param v2 second vector
+     * @return result matrix
+     */
+    public static IMatrix outer(IVector v1, IVector v2) {
+        int rowDimension = v1.getDimension();
+        int columnDimension = v2.getDimension();
+        IMatrix result = new Matrix(rowDimension, columnDimension);
+        for (int i = 0; i < rowDimension; i++) {
+            double xi = v1.get(i);
+            for (int j = 0; j < columnDimension; j++) {
+                result.set(i, j, xi * v2.get(j));
+            }
+        }
+        return result;
     }
 
     /**
@@ -324,7 +344,7 @@ public class LinearAlgebra {
      * @return euclidean norm of a vector
      */
     public static double norm(IVector vector) {
-        return Math.sqrt(LinearAlgebra.multiply(vector, vector));
+        return Math.sqrt(LinearAlgebra.inner(vector, vector));
     }
 
     /**

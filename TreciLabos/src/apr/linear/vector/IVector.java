@@ -7,8 +7,6 @@ import apr.linear.util.functions.IDoubleUnaryFunction;
 import apr.linear.util.linalg.LinearAlgebra;
 import apr.linear.util.linalg.OperationMutability;
 
-import javax.sound.sampled.Line;
-
 
 /**
  * Interface defining a vector that holds real numbers (double precision)
@@ -106,13 +104,23 @@ public interface IVector extends Iterable<Double>, ICopyable<IVector>, IMatchabl
     }
 
     /**
-     * Performs vector-vector multiplication
+     * Performs inner vector multiplication
      *
      * @param other second operand in vector-vector multiplication
      * @return new vector
      */
-    default double multiply(IVector other) {
-        return LinearAlgebra.multiply(this, other);
+    default double inner(IVector other) {
+        return LinearAlgebra.inner(this, other);
+    }
+
+    /**
+     * Performs outer vector multiplication
+     *
+     * @param other second operand in vector-vector multiplication
+     * @return new vector
+     */
+    default IMatrix outer(IVector other) {
+        return LinearAlgebra.outer(this, other);
     }
 
     /**
