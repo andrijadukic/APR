@@ -69,7 +69,7 @@ public abstract class AbstractDifferentiableMultivariateOptimizer implements IMu
         double best = function.valueAt(x);
         while (true) {
             if (count > divergenceLimit)
-                throw new DivergenceLimitReachedException(divergenceLimit, "best value reached is [" + x + "]");
+                throw new DivergenceLimitReachedException(divergenceLimit, "minimum found: [" + x + "]");
 
             IVector direction = computeDirection(x, function.gradient(x));
             double norm = norm(direction);

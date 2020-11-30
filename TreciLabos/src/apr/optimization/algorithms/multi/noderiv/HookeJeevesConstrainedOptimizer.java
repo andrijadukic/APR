@@ -1,8 +1,11 @@
 package apr.optimization.algorithms.multi.noderiv;
 
+import apr.functions.constraints.Constraints;
+import apr.functions.constraints.InequalityConstraint;
 import apr.linear.vector.IVector;
 import apr.optimization.algorithms.multi.ConstrainedMultivariateCostFunction;
 import apr.optimization.algorithms.multi.IMultivariateCostFunction;
+import apr.optimization.algorithms.multi.MultivariateCostFunction;
 
 /**
  * Implementation of a constrained optimizer using Hooke-Jeeves optimizer
@@ -29,6 +32,11 @@ public final class HookeJeevesConstrainedOptimizer extends AbstractConstrainedOp
 
     public void setDelta(double delta) {
         this.delta = delta;
+    }
+
+    @Override
+    protected IVector interiorPoint(IVector x0, InequalityConstraint[] inequalityConstraints) {
+        return new HookeJeeves(new MultivariateCostFunction(Constraints.sum(inequalityConstraints))).search(x0);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package apr.optimization.algorithms.multi;
 
+import apr.functions.constraints.EqualityConstraint;
+import apr.functions.constraints.InequalityConstraint;
 import apr.linear.vector.IVector;
 import apr.functions.IConstrainedMultivariateFunction;
 
@@ -23,6 +25,14 @@ public class ConstrainedMultivariateCostFunction implements IMultivariateCostFun
 
     public void setCoefficient(double coefficient) {
         function.setCoefficient(coefficient);
+    }
+
+    public InequalityConstraint[] getInequalityConstraints() {
+        return function.getInequalityConstraints();
+    }
+
+    public EqualityConstraint[] getEqualityConstraints() {
+        return function.getEqualityConstraints();
     }
 
     @Override

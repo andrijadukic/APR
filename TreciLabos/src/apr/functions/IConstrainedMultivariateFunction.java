@@ -1,12 +1,15 @@
 package apr.functions;
 
+import apr.functions.constraints.EqualityConstraint;
+import apr.functions.constraints.InequalityConstraint;
+
 /**
  * Represents a constrained multivariate function
  */
 public interface IConstrainedMultivariateFunction extends IMultivariateFunction {
 
     /**
-     * Returns coefficient used for scaling constraint penalties
+     * Gets coefficient used for scaling constraint penalties
      *
      * @return coefficient
      */
@@ -18,4 +21,18 @@ public interface IConstrainedMultivariateFunction extends IMultivariateFunction 
      * @param coefficient coefficient
      */
     void setCoefficient(double coefficient);
+
+    /**
+     * Gets inequality constraints on this function
+     *
+     * @return inequality constraints
+     */
+    InequalityConstraint[] getInequalityConstraints();
+
+    /**
+     * Gets equality constraints on this function
+     *
+     * @return equality constraints
+     */
+    EqualityConstraint[] getEqualityConstraints();
 }

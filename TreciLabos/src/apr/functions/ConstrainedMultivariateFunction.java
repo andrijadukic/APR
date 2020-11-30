@@ -62,6 +62,14 @@ public class ConstrainedMultivariateFunction implements IConstrainedMultivariate
         this.coefficient = coefficient;
     }
 
+    public EqualityConstraint[] getEqualityConstraints() {
+        return equalityConstraints;
+    }
+
+    public InequalityConstraint[] getInequalityConstraints() {
+        return inequalityConstraints;
+    }
+
     @Override
     public double valueAt(IVector x) {
         return unconstrainedFunction.valueAt(x)

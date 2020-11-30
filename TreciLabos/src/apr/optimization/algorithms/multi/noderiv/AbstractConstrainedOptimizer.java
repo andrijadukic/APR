@@ -1,10 +1,11 @@
 package apr.optimization.algorithms.multi.noderiv;
 
+import apr.functions.constraints.Constraints;
+import apr.functions.constraints.InequalityConstraint;
 import apr.linear.vector.IVector;
 import apr.optimization.algorithms.multi.ConstrainedMultivariateCostFunction;
 import apr.optimization.algorithms.multi.IMultivariateCostFunction;
 import apr.optimization.exceptions.DivergenceLimitReachedException;
-import apr.optimization.exceptions.ImplicitConstraintsNotMetException;
 
 import java.util.Objects;
 
@@ -57,7 +58,10 @@ public abstract class AbstractConstrainedOptimizer implements IMultivariateOptim
     public IVector search(IVector x0) {
         double initialValue = function.valueAt(x0);
 
-        if (initialValue == Double.POSITIVE_INFINITY) throw new ImplicitConstraintsNotMetException();
+        InequalityConstraint[] inequalityConstraints = function.getInequalityConstraints();
+        if (!Constraints.test(x0, inequalityConstraints)) {
+            x0 = interiorPoint(x0, inequalityConstraints);
+        }
 
         double t = coefficient;
         IVector x = x0.copy();
@@ -65,7 +69,7 @@ public abstract class AbstractConstrainedOptimizer implements IMultivariateOptim
         int count = 0;
         while (true) {
             if (count > divergenceLimit)
-                throw new DivergenceLimitReachedException(divergenceLimit, "best value reached is [" + x + "]");
+                throw new DivergenceLimitReachedException(divergenceLimit, "minimum found [" + x + "]");
 
             function.setCoefficient(t);
             IVector snapshot = x.copy();
@@ -85,6 +89,8 @@ public abstract class AbstractConstrainedOptimizer implements IMultivariateOptim
         }
         return x;
     }
+
+    protected abstract IVector interiorPoint(IVector x0, InequalityConstraint[] inequalityConstraints);
 
     protected abstract IVector argMin(IMultivariateCostFunction function, IVector x0);
 }

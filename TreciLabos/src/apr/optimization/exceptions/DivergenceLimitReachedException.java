@@ -5,11 +5,11 @@ package apr.optimization.exceptions;
  */
 public class DivergenceLimitReachedException extends RuntimeException {
 
-    public DivergenceLimitReachedException(int maxIter) {
-        super("Divergence limit reached (" + maxIter + ")");
+    public DivergenceLimitReachedException(int divergenceLimit) {
+        super("Divergence limit reached (" + divergenceLimit + ")");
     }
 
-    public DivergenceLimitReachedException(int maxIter, String message) {
-        super("Divergence limit reached (" + maxIter + "), " + message);
+    public DivergenceLimitReachedException(int divergenceLimit, String message) {
+        super("Divergence limit reached (" + divergenceLimit + "), " + message);
     }
 }

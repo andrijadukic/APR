@@ -133,7 +133,7 @@ public class BoxMethod extends AbstractSimplexMethod {
         double best = function.valueAt(min);
         while (true) {
             if (count > divergenceLimit)
-                throw new DivergenceLimitReachedException(divergenceLimit, "best value reached is [" + min + "]");
+                throw new DivergenceLimitReachedException(divergenceLimit, "minimum found: [" + min + "]");
 
             Pair worst = worstTwo(fX);
             int h = worst.first();

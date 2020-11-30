@@ -138,11 +138,9 @@ public class Lab {
                 Constraints.inequality(x -> 3 + 1.5 * x.get(0) - x.get(1))};
         var equalityConstraints = new EqualityConstraint[]{Constraints.equality(x -> x.get(1) - 1)};
 
-        IVector startingPoint = new Vector(5., 5.);
-        IVector newStartingPoint = new HookeJeeves(new MultivariateCostFunction(Constraints.sum(inequalityConstraints))).search(startingPoint);
-
         var function = new ConstrainedMultivariateCostFunction(new ConstrainedMultivariateFunction(CostFunctions.f4(), equalityConstraints, inequalityConstraints));
-        test(function, newStartingPoint, new HookeJeevesConstrainedOptimizer(function));
+        IVector startingPoint = new Vector(5., 5.);
+        test(function, startingPoint, new HookeJeevesConstrainedOptimizer(function));
     }
 
     private static void test(IDifferentiableMultivariateCostFunction function, IVector startingPoint, IMultivariateOptimizer algorithm) {
