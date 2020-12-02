@@ -2,7 +2,6 @@ package apr.functions.constraints;
 
 import apr.linear.exceptions.DimensionMismatchException;
 import apr.linear.vector.IVector;
-import apr.optimization.algorithms.multi.MultivariateCostFunction;
 import apr.optimization.algorithms.util.Interval;
 import apr.functions.IMultivariateFunction;
 
@@ -77,26 +76,5 @@ public class Constraints {
             if (!constraints[i].test(x.get(i))) return false;
         }
         return true;
-    }
-
-    /**
-     * Constructs a multivariate function defined as the sum of all constraints that are not met (g(x) < 0)
-     *
-     * @param inequalityConstraints inequality constraints
-     * @return new multivariate function
-     */
-    public static IMultivariateFunction sum(InequalityConstraint[] inequalityConstraints) {
-        Objects.requireNonNull(inequalityConstraints);
-
-        return new MultivariateCostFunction(x -> {
-            double penalty = 0.;
-            for (InequalityConstraint constraint : inequalityConstraints) {
-                double constraintValue = constraint.getFunction().valueAt(x);
-                if (constraintValue < 0) {
-                    penalty -= constraintValue;
-                }
-            }
-            return penalty;
-        });
     }
 }
