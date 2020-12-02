@@ -93,42 +93,4 @@ public class Constraints {
             return penalty;
         });
     }
-
-    /**
-     * Calculates value of the penalty function
-     *
-     * @param x                   point
-     * @param equalityConstraints equality constraints
-     * @param coefficient         coefficient
-     * @return value of the penalty function at given point
-     */
-    public static double penalty(IVector x, EqualityConstraint[] equalityConstraints, double coefficient) {
-        double penalty = 0.;
-        for (EqualityConstraint constraint : equalityConstraints) {
-            double constraintFunctionValue = constraint.getFunction().valueAt(x);
-            penalty += coefficient * constraintFunctionValue * constraintFunctionValue;
-        }
-        return penalty;
-    }
-
-    /**
-     * Calculates value of the barrier penalty function
-     *
-     * @param x                     point
-     * @param inequalityConstraints equality constraints
-     * @param coefficient           coefficient
-     * @return value of the barrier penalty function at given point
-     */
-    public static double barrier(IVector x, InequalityConstraint[] inequalityConstraints, double coefficient) {
-        double penalty = 0.;
-        for (InequalityConstraint constraint : inequalityConstraints) {
-            double constraintFunctionValue = constraint.getFunction().valueAt(x);
-
-            if (constraintFunctionValue <= 0) return Double.NEGATIVE_INFINITY;
-
-            penalty += coefficient * Math.log(constraintFunctionValue);
-
-        }
-        return penalty;
-    }
 }

@@ -1,6 +1,7 @@
 package apr.linear.vector;
 
 import apr.linear.matrix.IMatrix;
+import apr.linear.matrix.Matrix;
 import apr.linear.util.ICopyable;
 import apr.linear.util.IMatchable;
 import apr.linear.util.functions.IDoubleUnaryFunction;
@@ -51,7 +52,11 @@ public interface IVector extends Iterable<Double>, ICopyable<IVector>, IMatchabl
      * @param i first index
      * @param j second index
      */
-    void swap(int i, int j);
+    default void swap(int i, int j) {
+        var temp = get(i);
+        set(i, get(j));
+        set(j, temp);
+    }
 
     /**
      * Performs vector addition
@@ -148,5 +153,12 @@ public interface IVector extends Iterable<Double>, ICopyable<IVector>, IMatchabl
      *
      * @return equivalent matrix
      */
-    IMatrix toMatrix();
+    default IMatrix asMatrix() {
+        int dimension = getDimension();
+        IMatrix result = new Matrix(1, dimension);
+        for (int i = 0; i < dimension; i++) {
+            result.set(0, i, get(i));
+        }
+        return result;
+    }
 }

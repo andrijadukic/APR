@@ -38,11 +38,6 @@ public class Vector extends AbstractVector {
     }
 
     @Override
-    public IMatrix toMatrix() {
-        return new Matrix(new double[][]{array});
-    }
-
-    @Override
     public int getDimension() {
         return array.length;
     }
@@ -59,9 +54,7 @@ public class Vector extends AbstractVector {
     }
 
     @Override
-    public void swap(int i, int j) {
-        double temp = array[i];
-        array[i] = array[j];
-        array[j] = temp;
+    public IMatrix asMatrix() {
+        return new Matrix(new double[][]{array});
     }
 }

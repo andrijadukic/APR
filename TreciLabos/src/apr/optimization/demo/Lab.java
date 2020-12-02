@@ -4,7 +4,6 @@ import apr.linear.vector.IVector;
 import apr.linear.vector.Vector;
 import apr.optimization.algorithms.multi.ConstrainedMultivariateCostFunction;
 import apr.optimization.algorithms.multi.IMultivariateCostFunction;
-import apr.optimization.algorithms.multi.MultivariateCostFunction;
 import apr.optimization.algorithms.multi.deriv.GradientDescent;
 import apr.optimization.algorithms.multi.deriv.IDifferentiableMultivariateCostFunction;
 import apr.optimization.algorithms.multi.deriv.NewtonRaphson;

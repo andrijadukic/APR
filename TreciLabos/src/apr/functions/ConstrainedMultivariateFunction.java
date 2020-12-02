@@ -1,9 +1,10 @@
 package apr.functions;
 
 import apr.linear.vector.IVector;
-import apr.functions.constraints.Constraints;
 import apr.functions.constraints.EqualityConstraint;
 import apr.functions.constraints.InequalityConstraint;
+
+import java.util.Objects;
 
 /**
  * Implementation of the {@code IConstrainedMultivariateFunction} interface
@@ -12,44 +13,44 @@ public class ConstrainedMultivariateFunction implements IConstrainedMultivariate
 
     protected final IMultivariateFunction unconstrainedFunction;
 
-    private EqualityConstraint[] equalityConstraints;
-    private InequalityConstraint[] inequalityConstraints;
+    private final EqualityConstraint[] equalityConstraints;
+    private final InequalityConstraint[] inequalityConstraints;
 
-    private double coefficient = DEFAULT_COEFFICIENT;
+    private double coefficient;
 
     private static final double DEFAULT_COEFFICIENT = 1.;
 
-    public ConstrainedMultivariateFunction(IMultivariateFunction unconstrainedFunction, InequalityConstraint... inequalityConstraints) {
-        this.unconstrainedFunction = unconstrainedFunction;
-        this.inequalityConstraints = inequalityConstraints;
-    }
-
-    public ConstrainedMultivariateFunction(IMultivariateFunction unconstrainedFunction, EqualityConstraint... equalityConstraints) {
-        this.unconstrainedFunction = unconstrainedFunction;
-        this.equalityConstraints = equalityConstraints;
-    }
-
-    public ConstrainedMultivariateFunction(IMultivariateFunction unconstrainedFunction,
-                                           EqualityConstraint[] equalityConstraints, InequalityConstraint[] inequalityConstraints) {
-        this(unconstrainedFunction, equalityConstraints);
-        this.inequalityConstraints = inequalityConstraints;
-    }
-
-    public ConstrainedMultivariateFunction(IMultivariateFunction unconstrainedFunction, InequalityConstraint[] inequalityConstraints, double coefficient) {
-        this(unconstrainedFunction, inequalityConstraints);
-        this.coefficient = coefficient;
-    }
-
-    public ConstrainedMultivariateFunction(IMultivariateFunction unconstrainedFunction, EqualityConstraint[] equalityConstraints, double coefficient) {
-        this(unconstrainedFunction, equalityConstraints);
-        this.coefficient = coefficient;
-    }
+    private static final EqualityConstraint[] EQUALITY_CONSTRAINTS_PLACEHOLDER = new EqualityConstraint[]{};
+    private static final InequalityConstraint[] INEQUALITY_CONSTRAINTS_PLACEHOLDER = new InequalityConstraint[]{};
 
     public ConstrainedMultivariateFunction(IMultivariateFunction unconstrainedFunction,
                                            EqualityConstraint[] equalityConstraints, InequalityConstraint[] inequalityConstraints,
                                            double coefficient) {
-        this(unconstrainedFunction, equalityConstraints, inequalityConstraints);
+        this.unconstrainedFunction = Objects.requireNonNull(unconstrainedFunction);
+        this.equalityConstraints = Objects.requireNonNull(equalityConstraints);
+        this.inequalityConstraints = Objects.requireNonNull(inequalityConstraints);
         this.coefficient = coefficient;
+    }
+
+    public ConstrainedMultivariateFunction(IMultivariateFunction unconstrainedFunction,
+                                           EqualityConstraint[] equalityConstraints, InequalityConstraint[] inequalityConstraints) {
+        this(unconstrainedFunction, equalityConstraints, inequalityConstraints, DEFAULT_COEFFICIENT);
+    }
+
+    public ConstrainedMultivariateFunction(IMultivariateFunction unconstrainedFunction, InequalityConstraint... inequalityConstraints) {
+        this(unconstrainedFunction, EQUALITY_CONSTRAINTS_PLACEHOLDER, inequalityConstraints);
+    }
+
+    public ConstrainedMultivariateFunction(IMultivariateFunction unconstrainedFunction, EqualityConstraint... equalityConstraints) {
+        this(unconstrainedFunction, equalityConstraints, INEQUALITY_CONSTRAINTS_PLACEHOLDER);
+    }
+
+    public ConstrainedMultivariateFunction(IMultivariateFunction unconstrainedFunction, InequalityConstraint[] inequalityConstraints, double coefficient) {
+        this(unconstrainedFunction, EQUALITY_CONSTRAINTS_PLACEHOLDER, inequalityConstraints, coefficient);
+    }
+
+    public ConstrainedMultivariateFunction(IMultivariateFunction unconstrainedFunction, EqualityConstraint[] equalityConstraints, double coefficient) {
+        this(unconstrainedFunction, equalityConstraints, INEQUALITY_CONSTRAINTS_PLACEHOLDER, coefficient);
     }
 
     @Override
@@ -72,8 +73,21 @@ public class ConstrainedMultivariateFunction implements IConstrainedMultivariate
 
     @Override
     public double valueAt(IVector x) {
-        return unconstrainedFunction.valueAt(x)
-                - (inequalityConstraints == null ? 0. : Constraints.barrier(x, inequalityConstraints, 1. / coefficient))
-                + (equalityConstraints == null ? 0. : Constraints.penalty(x, equalityConstraints, coefficient));
+        double value = unconstrainedFunction.valueAt(x);
+
+        double inequalityCoefficient = 1. / coefficient;
+        for (InequalityConstraint constraint : inequalityConstraints) {
+            double constraintFunctionValue = constraint.getFunction().valueAt(x);
+
+            if (constraintFunctionValue <= 0) return Double.POSITIVE_INFINITY;
+
+            value -= inequalityCoefficient * Math.log(constraintFunctionValue);
+        }
+        for (EqualityConstraint constraint : equalityConstraints) {
+            double constraintFunctionValue = constraint.getFunction().valueAt(x);
+            value += coefficient * constraintFunctionValue * constraintFunctionValue;
+        }
+
+        return value;
     }
 }
