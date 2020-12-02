@@ -4,6 +4,7 @@ import apr.linear.exceptions.DimensionMismatchException;
 import apr.linear.exceptions.SingularMatrixException;
 import apr.linear.matrix.IMatrix;
 import apr.linear.matrix.Matrix;
+import apr.linear.util.Matrices;
 import apr.linear.util.functions.IDoubleBinaryFunction;
 import apr.linear.util.functions.IDoubleUnaryFunction;
 import apr.linear.vector.IVector;
@@ -210,7 +211,7 @@ public class LinearAlgebra {
     public static IMatrix outer(IVector v1, IVector v2) {
         int rowDimension = v1.getDimension();
         int columnDimension = v2.getDimension();
-        IMatrix result = new Matrix(rowDimension, columnDimension);
+        IMatrix result = Matrices.zeroes(rowDimension, columnDimension);
         for (int i = 0; i < rowDimension; i++) {
             double xi = v1.get(i);
             for (int j = 0; j < columnDimension; j++) {

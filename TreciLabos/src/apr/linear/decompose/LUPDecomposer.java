@@ -67,7 +67,7 @@ public class LUPDecomposer extends AbstractMatrixDecomposer {
     public IMatrix getL() {
         if (L != null) return L;
 
-        L = Matrices.zeroes(rowDimension, matrix::newInstance);
+        L = Matrices.zeroes(() -> matrix.newInstance(rowDimension, rowDimension));
         for (int i = 0; i < rowDimension; i++) {
             L.set(i, i, 1);
             for (int j = 0; j < i; j++) {
@@ -85,7 +85,7 @@ public class LUPDecomposer extends AbstractMatrixDecomposer {
     public IMatrix getU() {
         if (U != null) return L;
 
-        IMatrix U = Matrices.zeroes(rowDimension, matrix::newInstance);
+        IMatrix U = Matrices.zeroes(() -> matrix.newInstance(rowDimension, rowDimension));
         for (int i = 0; i < rowDimension; i++) {
             for (int j = i; j < rowDimension; j++) {
                 U.set(i, j, matrix.get(i, j));
@@ -141,7 +141,7 @@ public class LUPDecomposer extends AbstractMatrixDecomposer {
 
         @Override
         public IMatrix invert() {
-            IMatrix identity = Matrices.ones(n, L::newInstance);
+            IMatrix identity = Matrices.identity(() -> L.newInstance(n, n));
 
             IVector[] x = new Vector[n];
 
@@ -149,7 +149,7 @@ public class LUPDecomposer extends AbstractMatrixDecomposer {
                 x[i] = solve(identity.getColumn(i));
             }
 
-            IMatrix result = Matrices.zeroes(n, identity::newInstance);
+            IMatrix result = Matrices.zeroes(() -> identity.newInstance(n, n));
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
                     result.set(i, j, x[j].get(i));

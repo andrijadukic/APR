@@ -3,6 +3,9 @@ package apr.linear.vector;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Vector implementation that serves as a view of a list
+ */
 public class ListViewVector extends AbstractVector {
 
     private final List<Double> view;

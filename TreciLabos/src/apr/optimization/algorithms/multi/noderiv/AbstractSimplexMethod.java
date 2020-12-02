@@ -1,7 +1,6 @@
 package apr.optimization.algorithms.multi.noderiv;
 
-import apr.linear.util.Matrices;
-import apr.linear.util.builders.IVectorBuilder;
+import apr.linear.util.Vectors;
 import apr.linear.vector.IVector;
 import apr.linear.vector.Vector;
 import apr.optimization.algorithms.multi.IMultivariateCostFunction;
@@ -43,7 +42,7 @@ public abstract class AbstractSimplexMethod extends AbstractMultivariateOptimize
 
     protected IVector centroid(IVector[] simplex, int h) {
         int n = simplex.length;
-        IVector centroid = Matrices.zeroes(simplex[0].getDimension(), (IVectorBuilder) Vector::new);
+        IVector centroid = Vectors.zeroes(simplex[0].getDimension());
         for (int i = 0; i < n; i++) {
             if (i == h) continue;
             add(centroid, simplex[i], MUTABLE);
