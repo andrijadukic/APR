@@ -1,7 +1,5 @@
 package apr.linear.vector;
 
-import apr.linear.matrix.IMatrix;
-import apr.linear.matrix.Matrix;
 import apr.linear.util.linalg.LinearAlgebra;
 
 import java.util.Iterator;

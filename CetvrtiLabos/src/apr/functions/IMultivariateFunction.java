@@ -1,8 +1,7 @@
 package apr.functions;
 
+import apr.linear.util.Vectors;
 import apr.linear.vector.IVector;
-import apr.linear.vector.ListViewVector;
-import apr.linear.vector.Vector;
 
 import java.util.List;
 
@@ -27,7 +26,7 @@ public interface IMultivariateFunction {
      * @return real number in double precision
      */
     default double valueAt(double... x) {
-        return valueAt(new Vector(x));
+        return valueAt(Vectors.asVector(x));
     }
 
     /**
@@ -37,7 +36,7 @@ public interface IMultivariateFunction {
      * @return real number in double precision
      */
     default double valueAt(List<Double> x) {
-        return valueAt(new ListViewVector(x));
+        return valueAt(Vectors.asVector(x));
     }
 
     /**

@@ -77,4 +77,25 @@ public class Constraints {
         }
         return true;
     }
+
+    /**
+     * Constructs a multivariate function defined as the sum of all constraints that are not met (g(x) < 0)
+     *
+     * @param inequalityConstraints inequality constraints
+     * @return new multivariate function
+     */
+    public static IMultivariateFunction sum(InequalityConstraint[] inequalityConstraints) {
+        Objects.requireNonNull(inequalityConstraints);
+
+        return x -> {
+            double penalty = 0.;
+            for (InequalityConstraint constraint : inequalityConstraints) {
+                double constraintValue = constraint.getFunction().valueAt(x);
+                if (constraintValue < 0) {
+                    penalty -= constraintValue;
+                }
+            }
+            return penalty;
+        };
+    }
 }

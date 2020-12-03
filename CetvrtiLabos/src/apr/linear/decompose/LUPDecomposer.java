@@ -17,9 +17,11 @@ public class LUPDecomposer extends AbstractMatrixDecomposer {
     private IMatrix U;
     private IVector P;
     private boolean isSwapCountEven = true;
+    private final int dimension;
 
     public LUPDecomposer(IMatrix matrix) {
         super(matrix);
+        dimension = matrix.getRowDimension();
         decompose();
     }
 
@@ -32,9 +34,9 @@ public class LUPDecomposer extends AbstractMatrixDecomposer {
      * Performs LUP decomposition
      */
     private void decompose() {
-        P = new Vector(0, rowDimension);
+        P = new Vector(0, dimension);
 
-        for (int i = 0, n = rowDimension - 1; i < n; i++) {
+        for (int i = 0, n = dimension - 1; i < n; i++) {
             int pivot = i;
             for (int j = i + 1, m = n + 1; j < m; j++) {
                 if (Math.abs(matrix.get(j, i)) > Math.abs(matrix.get(pivot, i))) {
@@ -67,8 +69,8 @@ public class LUPDecomposer extends AbstractMatrixDecomposer {
     public IMatrix getL() {
         if (L != null) return L;
 
-        L = Matrices.zeroes(rowDimension, matrix::newInstance);
-        for (int i = 0; i < rowDimension; i++) {
+        L = Matrices.zeroes(() -> matrix.newInstance(dimension, dimension));
+        for (int i = 0; i < dimension; i++) {
             L.set(i, i, 1);
             for (int j = 0; j < i; j++) {
                 L.set(i, j, matrix.get(i, j));
@@ -85,9 +87,9 @@ public class LUPDecomposer extends AbstractMatrixDecomposer {
     public IMatrix getU() {
         if (U != null) return L;
 
-        IMatrix U = Matrices.zeroes(rowDimension, matrix::newInstance);
-        for (int i = 0; i < rowDimension; i++) {
-            for (int j = i; j < rowDimension; j++) {
+        IMatrix U = Matrices.zeroes(dimension);
+        for (int i = 0; i < dimension; i++) {
+            for (int j = i; j < dimension; j++) {
                 U.set(i, j, matrix.get(i, j));
             }
         }
@@ -106,7 +108,7 @@ public class LUPDecomposer extends AbstractMatrixDecomposer {
     @Override
     public double getDeterminant() {
         double det = (isSwapCountEven ? 1. : -1.);
-        for (int i = 0; i < rowDimension; i++) {
+        for (int i = 0; i < dimension; i++) {
             det *= matrix.get(i, i);
         }
         return det;
@@ -141,7 +143,7 @@ public class LUPDecomposer extends AbstractMatrixDecomposer {
 
         @Override
         public IMatrix invert() {
-            IMatrix identity = Matrices.ones(n, L::newInstance);
+            IMatrix identity = Matrices.identity(n);
 
             IVector[] x = new Vector[n];
 
@@ -149,7 +151,7 @@ public class LUPDecomposer extends AbstractMatrixDecomposer {
                 x[i] = solve(identity.getColumn(i));
             }
 
-            IMatrix result = Matrices.zeroes(n, identity::newInstance);
+            IMatrix result = identity.newInstance(n, n);
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
                     result.set(i, j, x[j].get(i));

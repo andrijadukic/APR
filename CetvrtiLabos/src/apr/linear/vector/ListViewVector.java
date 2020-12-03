@@ -2,18 +2,27 @@ package apr.linear.vector;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
+/**
+ * Vector implementation that serves as a view of a list
+ */
 public class ListViewVector extends AbstractVector {
 
     private final List<Double> view;
 
     public ListViewVector(List<Double> view) {
-        this.view = view;
+        this.view = Objects.requireNonNull(view);
     }
 
     @Override
     public IVector newInstance(int dimension) {
         return new ListViewVector(new ArrayList<>(dimension));
+    }
+
+    @Override
+    public IVector copy() {
+        return new ListViewVector(new ArrayList<>(view));
     }
 
     @Override
@@ -32,8 +41,5 @@ public class ListViewVector extends AbstractVector {
         return this;
     }
 
-    @Override
-    public IVector copy() {
-        return new ListViewVector(new ArrayList<>(view));
-    }
+
 }

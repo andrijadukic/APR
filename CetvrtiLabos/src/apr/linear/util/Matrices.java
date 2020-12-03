@@ -1,19 +1,138 @@
 package apr.linear.util;
 
+import apr.linear.exceptions.NonSquareMatrixException;
 import apr.linear.matrix.IMatrix;
-import apr.linear.util.builders.IMatrixBuilder;
+import apr.linear.matrix.Matrix;
+import apr.linear.util.suppliers.IMatrixSupplier;
 import apr.linear.util.linalg.LinearAlgebra;
 import apr.linear.util.linalg.OperationMutability;
-import apr.linear.vector.IVector;
-import apr.linear.util.builders.IVectorBuilder;
 
-import java.util.Random;
 import java.util.function.DoubleSupplier;
 
 /**
- * Utility class with factory methods for building matrices
+ * Utility class with factory methods for building matrices and checking properties
  */
 public class Matrices {
+
+    /**
+     * Builds a new blank square matrix
+     *
+     * @param dimension dimension of new matrix
+     * @return new blank matrix
+     */
+    public static IMatrix zeroes(int dimension) {
+        return zeroes(dimension, dimension);
+    }
+
+    /**
+     * Builds a new blank matrix
+     *
+     * @param rows    row dimension of new matrix
+     * @param columns column dimension of new matrix
+     * @return new blank matrix
+     */
+    public static IMatrix zeroes(int rows, int columns) {
+        return zeroes(() -> new Matrix(rows, columns));
+    }
+
+    /**
+     * Builds a new blank matrix
+     *
+     * @param supplier supplier object used to dynamically create an instance of an IMatrix
+     * @return new blank matrix
+     */
+    public static IMatrix zeroes(IMatrixSupplier supplier) {
+        return fill(supplier.getAsMatrix(), 0);
+    }
+
+    /**
+     * Builds a new identity matrix
+     *
+     * @param dimension dimension of new matrix
+     * @return new identity matrix
+     */
+    public static IMatrix identity(int dimension) {
+        return diagonal(dimension, 1.);
+    }
+
+    /**
+     * Builds a new identity matrix
+     *
+     * @param supplier matrix supplier
+     * @return new identity matrix
+     */
+    public static IMatrix identity(IMatrixSupplier supplier) {
+        return diagonal(supplier, 1.);
+    }
+
+    /**
+     * Builds a new diagonal matrix
+     *
+     * @param supplier matrix supplier
+     * @param value    value to be put on diagonal
+     * @return new identity matrix
+     */
+    public static IMatrix diagonal(IMatrixSupplier supplier, double value) {
+        IMatrix matrix = zeroes(supplier);
+
+        int rowDimension = matrix.getRowDimension();
+
+        if (!isSquareMatrix(matrix))
+            throw new NonSquareMatrixException(rowDimension, matrix.getColumnDimension());
+
+        for (int i = 0; i < rowDimension; i++) {
+            matrix.set(i, i, value);
+        }
+        return matrix;
+    }
+
+    /**
+     * Builds a new diagonal matrix
+     *
+     * @param dimension dimension of new matrix
+     * @return new identity matrix
+     */
+    public static IMatrix diagonal(int dimension, double value) {
+        IMatrix matrix = zeroes(dimension);
+        for (int i = 0; i < dimension; i++) {
+            matrix.set(i, i, value);
+        }
+        return matrix;
+    }
+
+    /**
+     * Builds a new matrix filled with random values
+     *
+     * @param rows           row dimension of new matrix
+     * @param columns        column dimension of new matrix
+     * @param doubleSupplier supplier object
+     * @return new random matrix
+     */
+    public static IMatrix random(int rows, int columns, DoubleSupplier doubleSupplier) {
+        return LinearAlgebra.apply(zeroes(rows, columns), x -> doubleSupplier.getAsDouble(), OperationMutability.MUTABLE);
+    }
+
+    /**
+     * Builds a new matrix filled with random values
+     *
+     * @param dimension      dimension of new matrix
+     * @param doubleSupplier supplier object
+     * @return new random matrix
+     */
+    public static IMatrix random(int dimension, DoubleSupplier doubleSupplier) {
+        return random(dimension, dimension, doubleSupplier);
+    }
+
+    /**
+     * Builds a new matrix filled with random values
+     *
+     * @param matrixSupplier matrix supplier object used to dynamically create an instance of an IMatrix
+     * @param doubleSupplier double supplier
+     * @return new random matrix
+     */
+    public static IMatrix random(IMatrixSupplier matrixSupplier, DoubleSupplier doubleSupplier) {
+        return LinearAlgebra.apply(matrixSupplier.getAsMatrix(), x -> doubleSupplier.getAsDouble(), OperationMutability.MUTABLE);
+    }
 
     /**
      * Fills matrix with given value
@@ -35,120 +154,6 @@ public class Matrices {
      */
     public static IMatrix fill(IMatrix matrix, DoubleSupplier supplier) {
         return LinearAlgebra.apply(matrix, x -> supplier.getAsDouble(), OperationMutability.MUTABLE);
-    }
-
-    /**
-     * Builds a new blank matrix
-     *
-     * @param rows    row dimension of new matrix
-     * @param columns column dimension of new matrix
-     * @param builder builder object used to dynamically create an instance of an IMatrix
-     * @return new blank matrix
-     */
-    public static IMatrix zeroes(int rows, int columns, IMatrixBuilder builder) {
-        return fill(builder.build(rows, columns), 0);
-    }
-
-    /**
-     * Builds a new blank square matrix
-     *
-     * @param dimension dimension of new matrix
-     * @param builder   builder object used to dynamically create an instance of an IMatrix
-     * @return new blank matrix
-     */
-    public static IMatrix zeroes(int dimension, IMatrixBuilder builder) {
-        return zeroes(dimension, dimension, builder);
-    }
-
-    /**
-     * Builds a new diagonal matrix
-     *
-     * @param dimension dimension of new matrix
-     * @param builder   builder object used to dynamically create an instance of an IMatrix
-     * @return new identity matrix
-     */
-    public static IMatrix diagonal(int dimension, double value, IMatrixBuilder builder) {
-        IMatrix matrix = zeroes(dimension, builder);
-
-        for (int i = 0; i < dimension; i++) {
-            matrix.set(i, i, value);
-        }
-
-        return matrix;
-    }
-
-    /**
-     * Builds a new identity matrix
-     *
-     * @param dimension dimension of new matrix
-     * @param builder   builder object used to dynamically create an instance of an IMatrix
-     * @return new identity matrix
-     */
-    public static IMatrix ones(int dimension, IMatrixBuilder builder) {
-        return diagonal(dimension, 1., builder);
-    }
-
-    /**
-     * Builds a new matrix filled with random values
-     *
-     * @param rows    row dimension of new matrix
-     * @param columns column dimension of new matrix
-     * @param builder builder object used to dynamically create an instance of an IMatrix
-     * @param random  random object used to call nextDouble() method
-     * @return new random matrix
-     */
-    public static IMatrix random(int rows, int columns, IMatrixBuilder builder, Random random) {
-        return LinearAlgebra.apply(builder.build(rows, columns), x -> random.nextDouble(), OperationMutability.MUTABLE);
-    }
-
-    /**
-     * Builds a new matrix filled with random values
-     *
-     * @param dimension dimension of new matrix
-     * @param builder   builder object used to dynamically create an instance of IMatrix
-     * @param random    random object used to call nextDouble() method
-     * @return new random matrix
-     */
-    public static IMatrix random(int dimension, IMatrixBuilder builder, Random random) {
-        return random(dimension, dimension, builder, random);
-    }
-
-    /**
-     * Fills vector with given value
-     *
-     * @param vector vector to be filled
-     * @param value  value
-     * @return filled vector
-     */
-    public static IVector fill(IVector vector, double value) {
-        return LinearAlgebra.apply(vector, x -> value, OperationMutability.MUTABLE);
-    }
-
-    /**
-     * Fills vector using given supplier
-     *
-     * @param vector   vector to be filled
-     * @param supplier supplier
-     * @return filled vector
-     */
-    public static IVector fill(IVector vector, DoubleSupplier supplier) {
-        return LinearAlgebra.apply(vector, x -> supplier.getAsDouble(), OperationMutability.MUTABLE);
-    }
-
-    /**
-     * Builds a new null vector
-     *
-     * @param dimension dimension of null vector
-     * @param builder   builder object used to dynamically create an instance of IVector
-     * @return new null vector
-     */
-    public static IVector zeroes(int dimension, IVectorBuilder builder) {
-        return fill(builder.build(dimension), 0);
-    }
-
-    public static IVector ones(int dimension, IVectorBuilder builder) {
-        return fill(builder.build(dimension), 1);
-
     }
 
     /**

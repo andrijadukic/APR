@@ -3,9 +3,9 @@ package apr.linear.util.linalg;
 import apr.linear.exceptions.DimensionMismatchException;
 import apr.linear.exceptions.SingularMatrixException;
 import apr.linear.matrix.IMatrix;
-import apr.linear.matrix.Matrix;
-import apr.linear.util.functions.IDoubleBinaryFunction;
-import apr.linear.util.functions.IDoubleUnaryFunction;
+import apr.linear.util.Matrices;
+import apr.linear.util.operators.IDoubleBinaryOperator;
+import apr.linear.util.operators.IDoubleUnaryOperator;
 import apr.linear.vector.IVector;
 
 import java.security.InvalidParameterException;
@@ -210,7 +210,7 @@ public class LinearAlgebra {
     public static IMatrix outer(IVector v1, IVector v2) {
         int rowDimension = v1.getDimension();
         int columnDimension = v2.getDimension();
-        IMatrix result = new Matrix(rowDimension, columnDimension);
+        IMatrix result = Matrices.zeroes(rowDimension, columnDimension);
         for (int i = 0; i < rowDimension; i++) {
             double xi = v1.get(i);
             for (int j = 0; j < columnDimension; j++) {
@@ -234,34 +234,34 @@ public class LinearAlgebra {
     }
 
     /**
-     * Applies function to all elements of given matrix
+     * Applies operator to all elements of given matrix
      *
      * @param matrix     matrix
-     * @param function   function to be applied
+     * @param operator   operator to be applied
      * @param mutability if set to MUTABLE then result overwrites first operand
      * @return result matrix
      */
-    public static IMatrix apply(IMatrix matrix, IDoubleUnaryFunction function, OperationMutability mutability) {
+    public static IMatrix apply(IMatrix matrix, IDoubleUnaryOperator operator, OperationMutability mutability) {
         int rowDimension = matrix.getRowDimension();
         int columnDimension = matrix.getColumnDimension();
         IMatrix result = (mutability == OperationMutability.MUTABLE) ? matrix : matrix.newInstance(rowDimension, columnDimension);
         for (int i = 0; i < rowDimension; i++) {
             for (int j = 0; j < columnDimension; j++) {
-                result.set(i, j, function.apply(matrix.get(i, j)));
+                result.set(i, j, operator.apply(matrix.get(i, j)));
             }
         }
         return result;
     }
 
     /**
-     * Applies function to all elements of given matrices
+     * Applies operator to all elements of given matrices
      *
      * @param m1         first matrix
      * @param m2         second matrix
-     * @param function   function to be applied
+     * @param operator   operator to be applied
      * @param mutability if set to MUTABLE then result overwrites first operand
      */
-    public static IMatrix apply(IMatrix m1, IMatrix m2, IDoubleBinaryFunction function, OperationMutability mutability) {
+    public static IMatrix apply(IMatrix m1, IMatrix m2, IDoubleBinaryOperator operator, OperationMutability mutability) {
         checkDimensionsSame(m1, m2);
 
         int rowDimension = m1.getRowDimension();
@@ -269,45 +269,45 @@ public class LinearAlgebra {
         IMatrix result = (mutability == OperationMutability.MUTABLE) ? m1 : m1.newInstance(rowDimension, columnDimension);
         for (int i = 0; i < rowDimension; i++) {
             for (int j = 0; j < columnDimension; j++) {
-                result.set(i, j, function.apply(m1.get(i, j), m2.get(i, j)));
+                result.set(i, j, operator.apply(m1.get(i, j), m2.get(i, j)));
             }
         }
         return result;
     }
 
     /**
-     * Applies function to all elements of given vector
+     * Applies operator to all elements of given vector
      *
      * @param vector     vector
-     * @param function   function to be applied
+     * @param operator   operator to be applied
      * @param mutability if set to MUTABLE then result overwrites first operand
      * @return new vector
      */
-    public static IVector apply(IVector vector, IDoubleUnaryFunction function, OperationMutability mutability) {
+    public static IVector apply(IVector vector, IDoubleUnaryOperator operator, OperationMutability mutability) {
         int n = vector.getDimension();
         IVector result = (mutability == OperationMutability.MUTABLE) ? vector : vector.newInstance(n);
         for (int i = 0; i < n; i++) {
-            result.set(i, function.apply(vector.get(i)));
+            result.set(i, operator.apply(vector.get(i)));
         }
         return result;
     }
 
     /**
-     * Applies function to all elements of given vectors
+     * Applies operator to all elements of given vectors
      *
      * @param v1         first vector
      * @param v2         second vector
-     * @param function   function to be applied
+     * @param operator   operator to be applied
      * @param mutability if set to MUTABLE then result overwrites first operand
      * @return new vector
      */
-    public static IVector apply(IVector v1, IVector v2, IDoubleBinaryFunction function, OperationMutability mutability) {
+    public static IVector apply(IVector v1, IVector v2, IDoubleBinaryOperator operator, OperationMutability mutability) {
         checkDimensionsSame(v1, v2);
 
         int n = v1.getDimension();
         IVector result = (mutability == OperationMutability.MUTABLE) ? v1 : v1.newInstance(n);
         for (int i = 0; i < n; i++) {
-            result.set(i, function.apply(v1.get(i), v2.get(i)));
+            result.set(i, operator.apply(v1.get(i), v2.get(i)));
         }
         return result;
     }

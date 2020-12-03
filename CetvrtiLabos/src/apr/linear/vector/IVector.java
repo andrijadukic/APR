@@ -4,7 +4,7 @@ import apr.linear.matrix.IMatrix;
 import apr.linear.matrix.Matrix;
 import apr.linear.util.ICopyable;
 import apr.linear.util.IMatchable;
-import apr.linear.util.functions.IDoubleUnaryFunction;
+import apr.linear.util.operators.IDoubleUnaryOperator;
 import apr.linear.util.linalg.LinearAlgebra;
 import apr.linear.util.linalg.OperationMutability;
 
@@ -109,6 +109,16 @@ public interface IVector extends Iterable<Double>, ICopyable<IVector>, IMatchabl
     }
 
     /**
+     * Performs vector-scalar multiplication
+     *
+     * @param scalar second operand in matrix-scalar multiplication
+     * @return new vector
+     */
+    default IVector multiply(double scalar) {
+        return LinearAlgebra.multiply(this, scalar, OperationMutability.IMMUTABLE);
+    }
+
+    /**
      * Performs inner vector multiplication
      *
      * @param other second operand in vector-vector multiplication
@@ -129,22 +139,12 @@ public interface IVector extends Iterable<Double>, ICopyable<IVector>, IMatchabl
     }
 
     /**
-     * Performs vector-scalar multiplication
-     *
-     * @param scalar second operand in matrix-scalar multiplication
-     * @return new vector
-     */
-    default IVector multiply(double scalar) {
-        return LinearAlgebra.multiply(this, scalar, OperationMutability.IMMUTABLE);
-    }
-
-    /**
      * Applies function to all elements of vector
      *
      * @param function function to be applied
      * @return new vector
      */
-    default IVector apply(IDoubleUnaryFunction function) {
+    default IVector apply(IDoubleUnaryOperator function) {
         return LinearAlgebra.apply(this, function, OperationMutability.IMMUTABLE);
     }
 
