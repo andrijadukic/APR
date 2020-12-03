@@ -2,7 +2,7 @@ package apr.functions.constraints;
 
 import apr.linear.exceptions.DimensionMismatchException;
 import apr.linear.vector.IVector;
-import apr.optimization.algorithms.util.Interval;
+import apr.util.Interval;
 import apr.functions.IMultivariateFunction;
 
 import java.util.Objects;

@@ -3,6 +3,9 @@ package apr.genetics.chromosomes.population;
 import apr.genetics.chromosomes.Chromosome;
 
 import java.util.*;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ListBasedPopulation implements Population {
 
@@ -20,6 +23,10 @@ public class ListBasedPopulation implements Population {
     public ListBasedPopulation(List<Chromosome> chromosomes) {
         this.chromosomes = chromosomes;
         roChromosomes = Collections.unmodifiableList(chromosomes);
+    }
+
+    public ListBasedPopulation(int populationSize, Supplier<Chromosome> supplier) {
+        this(Stream.generate(supplier).limit(populationSize).collect(Collectors.toList()));
     }
 
     @Override

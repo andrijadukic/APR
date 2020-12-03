@@ -2,7 +2,7 @@ package apr.genetics.operators.crossover;
 
 import apr.genetics.chromosomes.Chromosome;
 import apr.genetics.chromosomes.util.ChromosomePair;
-import apr.genetics.chromosomes.DecimalChromosome;
+import apr.genetics.chromosomes.FloatingPointChromosome;
 import apr.genetics.exceptions.ChromosomeLengthMismatchException;
 import apr.genetics.exceptions.InvalidChromosomeTypeException;
 
@@ -22,11 +22,11 @@ abstract class AbstractArithmeticCrossover implements CrossoverOperator {
 
     @Override
     public ChromosomePair crossover(Chromosome first, Chromosome second) {
-        if (!(first instanceof DecimalChromosome firstParent))
-            throw new InvalidChromosomeTypeException(DecimalChromosome.class, first.getClass());
+        if (!(first instanceof FloatingPointChromosome firstParent))
+            throw new InvalidChromosomeTypeException(FloatingPointChromosome.class, first.getClass());
 
-        if (!(second instanceof DecimalChromosome secondParent))
-            throw new InvalidChromosomeTypeException(DecimalChromosome.class, second.getClass());
+        if (!(second instanceof FloatingPointChromosome secondParent))
+            throw new InvalidChromosomeTypeException(FloatingPointChromosome.class, second.getClass());
 
         int length = firstParent.getLength();
         int lengthOther = secondParent.getLength();
@@ -36,5 +36,5 @@ abstract class AbstractArithmeticCrossover implements CrossoverOperator {
         return mate(firstParent, secondParent);
     }
 
-    protected abstract ChromosomePair mate(DecimalChromosome first, DecimalChromosome second);
+    protected abstract ChromosomePair mate(FloatingPointChromosome first, FloatingPointChromosome second);
 }

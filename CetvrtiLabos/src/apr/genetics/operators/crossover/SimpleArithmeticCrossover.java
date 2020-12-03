@@ -1,6 +1,6 @@
 package apr.genetics.operators.crossover;
 
-import apr.genetics.chromosomes.DecimalChromosome;
+import apr.genetics.chromosomes.FloatingPointChromosome;
 import apr.genetics.chromosomes.util.ChromosomePair;
 
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ public class SimpleArithmeticCrossover extends AbstractArithmeticCrossover {
     }
 
     @Override
-    protected ChromosomePair mate(DecimalChromosome first, DecimalChromosome second) {
+    protected ChromosomePair mate(FloatingPointChromosome first, FloatingPointChromosome second) {
         List<Double> firstParentRepresentation = first.getRepresentation();
         List<Double> secondParentRepresentation = second.getRepresentation();
 
