@@ -1,4 +1,4 @@
-package apr.optimization.algorithms.util;
+package apr.util;
 
 /**
  * Record class for storing pairs of integers
