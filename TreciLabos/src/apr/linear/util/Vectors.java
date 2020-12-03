@@ -1,6 +1,6 @@
 package apr.linear.util;
 
-import apr.linear.util.builders.IVectorSupplier;
+import apr.linear.util.suppliers.IVectorSupplier;
 import apr.linear.util.linalg.LinearAlgebra;
 import apr.linear.util.linalg.OperationMutability;
 import apr.linear.vector.IVector;

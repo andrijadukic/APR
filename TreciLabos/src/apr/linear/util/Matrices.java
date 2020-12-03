@@ -3,7 +3,7 @@ package apr.linear.util;
 import apr.linear.exceptions.NonSquareMatrixException;
 import apr.linear.matrix.IMatrix;
 import apr.linear.matrix.Matrix;
-import apr.linear.util.builders.IMatrixSupplier;
+import apr.linear.util.suppliers.IMatrixSupplier;
 import apr.linear.util.linalg.LinearAlgebra;
 import apr.linear.util.linalg.OperationMutability;
 

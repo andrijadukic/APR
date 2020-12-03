@@ -107,7 +107,7 @@ public class Matrix extends AbstractMatrix {
     }
 
     @Override
-    public IVector[] toColumnVectors() {
+    public IVector[] asColumnVectors() {
         IVector[] columnRealVectors = new IVector[columns];
 
         for (int i = 0; i < columns; i++) {
@@ -118,7 +118,7 @@ public class Matrix extends AbstractMatrix {
     }
 
     @Override
-    public IVector[] toRowVectors() {
+    public IVector[] asRowVectors() {
         IVector[] rowRealVectors = new IVector[rows];
 
         for (int i = 0; i < rows; i++) {

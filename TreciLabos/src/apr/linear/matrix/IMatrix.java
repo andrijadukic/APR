@@ -2,12 +2,10 @@ package apr.linear.matrix;
 
 import apr.linear.util.ICopyable;
 import apr.linear.util.IMatchable;
-import apr.linear.util.functions.IDoubleUnaryFunction;
+import apr.linear.util.operators.IDoubleUnaryOperator;
 import apr.linear.util.linalg.LinearAlgebra;
 import apr.linear.util.linalg.OperationMutability;
 import apr.linear.vector.IVector;
-
-import java.util.function.DoublePredicate;
 
 /**
  * Represents a matrix that holds real numbers (double precision)
@@ -161,7 +159,7 @@ public interface IMatrix extends Iterable<Double>, ICopyable<IMatrix>, IMatchabl
      * @param function function to be applied
      * @return new matrix
      */
-    default IMatrix apply(IDoubleUnaryFunction function) {
+    default IMatrix apply(IDoubleUnaryOperator function) {
         return LinearAlgebra.apply(this, function, OperationMutability.IMMUTABLE);
     }
 
@@ -170,14 +168,14 @@ public interface IMatrix extends Iterable<Double>, ICopyable<IMatrix>, IMatchabl
      *
      * @return column vector array
      */
-    IVector[] toColumnVectors();
+    IVector[] asColumnVectors();
 
     /**
      * Turns this matrix into vector array by rows
      *
      * @return row vector array
      */
-    IVector[] toRowVectors();
+    IVector[] asRowVectors();
 
     /**
      * Gets this matrix in array form

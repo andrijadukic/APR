@@ -1,4 +1,4 @@
-package apr.linear.util.builders;
+package apr.linear.util.suppliers;
 
 import apr.linear.vector.IVector;
 

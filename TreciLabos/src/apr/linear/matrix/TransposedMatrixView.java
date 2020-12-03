@@ -69,13 +69,13 @@ public class TransposedMatrixView extends AbstractMatrix {
     }
 
     @Override
-    public IVector[] toColumnVectors() {
-        return view.toRowVectors();
+    public IVector[] asColumnVectors() {
+        return view.asRowVectors();
     }
 
     @Override
-    public IVector[] toRowVectors() {
-        return view.toColumnVectors();
+    public IVector[] asRowVectors() {
+        return view.asColumnVectors();
     }
 
     @Override

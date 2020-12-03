@@ -11,8 +11,13 @@ import java.util.function.DoublePredicate;
 public abstract class AbstractMatrix implements IMatrix {
 
     @Override
-    public IMatrix transpose() {
-        return new TransposedMatrixView(this);
+    public boolean anyMatch(DoublePredicate predicate) {
+        return LinearAlgebra.anyMatch(this, predicate);
+    }
+
+    @Override
+    public boolean allMatch(DoublePredicate predicate) {
+        return LinearAlgebra.allMatch(this, predicate);
     }
 
     @Override
@@ -21,13 +26,8 @@ public abstract class AbstractMatrix implements IMatrix {
     }
 
     @Override
-    public boolean anyMatch(DoublePredicate predicate) {
-        return LinearAlgebra.anyMatch(this, predicate);
-    }
-
-    @Override
-    public boolean allMatch(DoublePredicate predicate) {
-        return LinearAlgebra.allMatch(this, predicate);
+    public IMatrix transpose() {
+        return new TransposedMatrixView(this);
     }
 
     @Override
