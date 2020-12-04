@@ -14,7 +14,7 @@ public class BinarySinglePointMutation extends AbstractBinaryMutation {
         List<BitSet> mutatedRepresentation = new ArrayList<>(length);
         Random random = ThreadLocalRandom.current();
         for (BitSet original : representation) {
-            BitSet mutated = new BitSet();
+            BitSet mutated = new BitSet(numberOfBits);
             mutated.or(original);
             mutated.set(random.nextInt(numberOfBits), random.nextBoolean());
         }

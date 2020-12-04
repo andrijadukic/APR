@@ -27,8 +27,8 @@ public class BinaryUniformCrossover extends AbstractBinaryCrossover {
             BitSet x1 = firstParentRepresentation.get(dimension);
             BitSet x2 = secondParentRepresentation.get(dimension);
 
-            BitSet ch1 = new BitSet();
-            BitSet ch2 = new BitSet();
+            BitSet ch1 = new BitSet(numberOfBits);
+            BitSet ch2 = new BitSet(numberOfBits);
             for (int i = 0; i < numberOfBits; i++) {
                 if (x1.get(i) == x2.get(i)) {
                     ch1.set(i, x1.get(i));

@@ -20,7 +20,7 @@ public class BinarySimpleMutation extends AbstractBinaryMutation {
         List<BitSet> mutatedRepresentation = new ArrayList<>(length);
         Random random = ThreadLocalRandom.current();
         for (BitSet original : representation) {
-            BitSet mutated = new BitSet();
+            BitSet mutated = new BitSet(numberOfBits);
             for (int i = 0; i < numberOfBits; i++) {
                 if (random.nextDouble() < pm) {
                     mutated.set(i, random.nextBoolean());
