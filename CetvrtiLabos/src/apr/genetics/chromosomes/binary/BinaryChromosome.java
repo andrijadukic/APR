@@ -1,6 +1,6 @@
-package apr.genetics.chromosomes;
+package apr.genetics.chromosomes.binary;
 
-import apr.genetics.chromosomes.util.BinaryToFloatingPointChromosomeDecoder;
+import apr.genetics.chromosomes.AbstractFieldChromosome;
 
 import java.util.BitSet;
 import java.util.List;

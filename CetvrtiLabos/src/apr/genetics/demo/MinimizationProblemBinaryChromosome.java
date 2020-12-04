@@ -2,8 +2,8 @@ package apr.genetics.demo;
 
 import apr.functions.IMultivariateFunction;
 import apr.genetics.chromosomes.FieldChromosome;
-import apr.genetics.chromosomes.BinaryChromosome;
-import apr.genetics.chromosomes.util.BinaryToFloatingPointChromosomeDecoder;
+import apr.genetics.chromosomes.binary.BinaryChromosome;
+import apr.genetics.chromosomes.binary.BinaryToFloatingPointChromosomeDecoder;
 
 import java.util.BitSet;
 import java.util.List;

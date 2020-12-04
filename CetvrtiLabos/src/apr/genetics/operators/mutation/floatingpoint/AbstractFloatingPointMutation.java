@@ -1,7 +1,7 @@
 package apr.genetics.operators.mutation.floatingpoint;
 
 import apr.genetics.chromosomes.Chromosome;
-import apr.genetics.chromosomes.FloatingPointChromosome;
+import apr.genetics.chromosomes.floatingpoint.FloatingPointChromosome;
 import apr.genetics.exceptions.InvalidChromosomeTypeException;
 import apr.genetics.operators.mutation.MutationOperator;
 

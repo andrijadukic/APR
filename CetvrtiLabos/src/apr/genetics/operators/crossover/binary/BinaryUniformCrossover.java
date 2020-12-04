@@ -1,6 +1,6 @@
 package apr.genetics.operators.crossover.binary;
 
-import apr.genetics.chromosomes.BinaryChromosome;
+import apr.genetics.chromosomes.binary.BinaryChromosome;
 import apr.genetics.chromosomes.util.ChromosomePair;
 
 import java.util.ArrayList;

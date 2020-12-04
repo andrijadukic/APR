@@ -1,5 +1,6 @@
-package apr.genetics.chromosomes.util;
+package apr.genetics.chromosomes.binary;
 
+import apr.genetics.chromosomes.util.ChromosomeDecoder;
 import apr.util.Interval;
 
 import java.util.BitSet;

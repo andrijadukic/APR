@@ -1,4 +1,6 @@
-package apr.genetics.chromosomes;
+package apr.genetics.chromosomes.floatingpoint;
+
+import apr.genetics.chromosomes.AbstractFieldChromosome;
 
 import java.util.List;
 

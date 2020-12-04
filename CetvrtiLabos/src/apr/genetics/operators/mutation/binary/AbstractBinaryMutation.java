@@ -1,6 +1,6 @@
 package apr.genetics.operators.mutation.binary;
 
-import apr.genetics.chromosomes.BinaryChromosome;
+import apr.genetics.chromosomes.binary.BinaryChromosome;
 import apr.genetics.chromosomes.Chromosome;
 import apr.genetics.exceptions.InvalidChromosomeTypeException;
 import apr.genetics.operators.mutation.MutationOperator;

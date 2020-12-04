@@ -1,7 +1,7 @@
 package apr.genetics.demo;
 
 import apr.functions.IMultivariateFunction;
-import apr.genetics.chromosomes.FloatingPointChromosome;
+import apr.genetics.chromosomes.floatingpoint.FloatingPointChromosome;
 import apr.genetics.chromosomes.FieldChromosome;
 import apr.util.Interval;
 

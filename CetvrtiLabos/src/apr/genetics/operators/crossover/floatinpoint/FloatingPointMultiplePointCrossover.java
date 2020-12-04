@@ -1,6 +1,6 @@
 package apr.genetics.operators.crossover.floatinpoint;
 
-import apr.genetics.chromosomes.FloatingPointChromosome;
+import apr.genetics.chromosomes.floatingpoint.FloatingPointChromosome;
 import apr.genetics.chromosomes.util.ChromosomePair;
 import apr.genetics.exceptions.InsufficientChromosomeLength;
 
