@@ -1,24 +1,13 @@
-package apr.genetics.operators.crossover;
+package apr.genetics.operators.crossover.floatinpoint;
 
 import apr.genetics.chromosomes.Chromosome;
-import apr.genetics.chromosomes.util.ChromosomePair;
 import apr.genetics.chromosomes.FloatingPointChromosome;
+import apr.genetics.chromosomes.util.ChromosomePair;
 import apr.genetics.exceptions.ChromosomeLengthMismatchException;
 import apr.genetics.exceptions.InvalidChromosomeTypeException;
+import apr.genetics.operators.crossover.CrossoverOperator;
 
-abstract class AbstractArithmeticCrossover implements CrossoverOperator {
-
-    protected double alpha;
-
-    private static final double DEFAULT_ALPHA = 0.5;
-
-    protected AbstractArithmeticCrossover() {
-        this(DEFAULT_ALPHA);
-    }
-
-    protected AbstractArithmeticCrossover(double alpha) {
-        this.alpha = alpha;
-    }
+abstract class AbstractFloatingPointCrossover implements CrossoverOperator {
 
     @Override
     public ChromosomePair crossover(Chromosome first, Chromosome second) {
@@ -36,5 +25,5 @@ abstract class AbstractArithmeticCrossover implements CrossoverOperator {
         return mate(firstParent, secondParent);
     }
 
-    protected abstract ChromosomePair mate(FloatingPointChromosome first, FloatingPointChromosome second);
+    protected abstract ChromosomePair mate(FloatingPointChromosome firstParent, FloatingPointChromosome secondParent);
 }

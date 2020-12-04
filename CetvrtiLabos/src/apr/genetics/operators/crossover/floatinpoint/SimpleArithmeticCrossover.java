@@ -1,4 +1,4 @@
-package apr.genetics.operators.crossover;
+package apr.genetics.operators.crossover.floatinpoint;
 
 import apr.genetics.chromosomes.FloatingPointChromosome;
 import apr.genetics.chromosomes.util.ChromosomePair;
@@ -18,14 +18,14 @@ public class SimpleArithmeticCrossover extends AbstractArithmeticCrossover {
     }
 
     @Override
-    protected ChromosomePair mate(FloatingPointChromosome first, FloatingPointChromosome second) {
-        List<Double> firstParentRepresentation = first.getRepresentation();
-        List<Double> secondParentRepresentation = second.getRepresentation();
+    protected ChromosomePair mate(FloatingPointChromosome firstParent, FloatingPointChromosome secondParent) {
+        List<Double> firstParentRepresentation = firstParent.getRepresentation();
+        List<Double> secondParentRepresentation = secondParent.getRepresentation();
 
         List<Double> firstChildRepresentation = new ArrayList<>(firstParentRepresentation);
         List<Double> secondChildRepresentation = new ArrayList<>(secondParentRepresentation);
 
-        int length = first.getLength();
+        int length = firstParent.getLength();
         Random random = ThreadLocalRandom.current();
         for (int i = random.nextInt(length); i < length; i++) {
             double val = alpha * (firstParentRepresentation.get(i) + secondParentRepresentation.get(i));
@@ -33,7 +33,7 @@ public class SimpleArithmeticCrossover extends AbstractArithmeticCrossover {
             secondChildRepresentation.set(i, val);
         }
 
-        return new ChromosomePair(first.newInstance(firstChildRepresentation), second.newInstance(secondChildRepresentation));
+        return new ChromosomePair(firstParent.newInstance(firstChildRepresentation), secondParent.newInstance(secondChildRepresentation));
     }
 }
 
