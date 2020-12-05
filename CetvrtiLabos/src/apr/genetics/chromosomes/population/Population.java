@@ -41,17 +41,4 @@ public interface Population extends Iterable<Chromosome> {
     static Chromosome[] generate(Supplier<Chromosome> chromosomeSupplier, int n) {
         return Stream.generate(chromosomeSupplier).limit(n).toArray(Chromosome[]::new);
     }
-
-    static int argMin(Chromosome[] chromosomes) {
-        int index = 0;
-        double min = chromosomes[0].getFitness();
-        for (int i = 1, n = chromosomes.length; i < n; i++) {
-            double temp = chromosomes[i].getFitness();
-            if (temp < min) {
-                min = temp;
-                index = i;
-            }
-        }
-        return index;
-    }
 }

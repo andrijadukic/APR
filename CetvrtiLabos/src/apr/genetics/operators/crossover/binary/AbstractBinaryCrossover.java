@@ -8,7 +8,7 @@ import apr.util.Pair;
 
 import java.util.BitSet;
 
-abstract class AbstractBinaryCrossover extends AbstractFieldChromosomeCrossover<BinaryChromosome, BitSet> {
+abstract class AbstractBinaryCrossover extends AbstractFieldChromosomeCrossover<BitSet, BinaryChromosome> {
 
     @Override
     protected Pair<BinaryChromosome, BinaryChromosome> typeCheck(Chromosome first, Chromosome second) {

@@ -3,6 +3,7 @@ package apr.genetics.operators.selection;
 import apr.genetics.chromosomes.Chromosome;
 import apr.genetics.chromosomes.population.Population;
 import apr.genetics.exceptions.InsufficientPopulationSIze;
+import apr.util.MathUtils;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -60,22 +61,9 @@ public class RouletteWheelSelection implements SelectionOperator {
         }
 
         double[] fitness = chromosomes.stream().mapToDouble(Chromosome::getFitness).toArray();
-        cumulativeSum(fitness, -fitness[0]);
-        scale(fitness, fitness[fitness.length - 1]);
+        MathUtils.cumulativeSum(fitness, -fitness[0]);
+        MathUtils.scale(fitness, fitness[fitness.length - 1]);
         return fitness;
-    }
-
-    private static void cumulativeSum(double[] array, double bias) {
-        double sum = 0.;
-        for (int i = 0, n = array.length; i < n; i++) {
-            array[i] = (sum += array[i] + bias);
-        }
-    }
-
-    private static void scale(double[] array, double factor) {
-        for (int i = 0, n = array.length; i < n; i++) {
-            array[i] /= factor;
-        }
     }
 
     private static int find(double[] rouletteWheel, double selection) {

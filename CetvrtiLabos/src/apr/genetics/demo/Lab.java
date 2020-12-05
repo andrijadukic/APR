@@ -22,7 +22,7 @@ public class Lab {
         ga.run(
                 new ListBasedPopulation(
                         () -> new MinimizationProblemFloatingPointChromosome(new Interval(-50, 150), 2, FitnessFunctions.f1().negate()),
-                        30),
+                        100),
                 stoppingCondition);
     }
 }

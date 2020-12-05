@@ -6,7 +6,7 @@ import apr.genetics.exceptions.InvalidChromosomeTypeException;
 import apr.genetics.operators.crossover.AbstractFieldChromosomeCrossover;
 import apr.util.Pair;
 
-abstract class AbstractFloatingPointCrossover extends AbstractFieldChromosomeCrossover<FloatingPointChromosome, Double> {
+abstract class AbstractFloatingPointCrossover extends AbstractFieldChromosomeCrossover<Double, FloatingPointChromosome> {
 
     @Override
     protected Pair<FloatingPointChromosome, FloatingPointChromosome> typeCheck(Chromosome first, Chromosome second) {

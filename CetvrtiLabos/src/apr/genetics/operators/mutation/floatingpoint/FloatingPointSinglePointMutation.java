@@ -2,7 +2,6 @@ package apr.genetics.operators.mutation.floatingpoint;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class FloatingPointSinglePointMutation extends AbstractFloatingPointMutation {

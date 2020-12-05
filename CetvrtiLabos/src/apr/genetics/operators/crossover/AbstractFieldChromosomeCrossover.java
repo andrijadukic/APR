@@ -8,7 +8,7 @@ import apr.util.Pair;
 
 import java.util.List;
 
-public abstract class AbstractFieldChromosomeCrossover<C extends FieldChromosome<T>, T> implements CrossoverOperator {
+public abstract class AbstractFieldChromosomeCrossover<T, C extends FieldChromosome<T>> implements CrossoverOperator {
 
     @Override
     public ChromosomePair crossover(Chromosome first, Chromosome second) {

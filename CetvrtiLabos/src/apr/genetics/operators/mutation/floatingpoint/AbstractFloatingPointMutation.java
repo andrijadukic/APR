@@ -5,7 +5,7 @@ import apr.genetics.chromosomes.floatingpoint.FloatingPointChromosome;
 import apr.genetics.exceptions.InvalidChromosomeTypeException;
 import apr.genetics.operators.mutation.AbstractFieldChromosomeMutation;
 
-abstract class AbstractFloatingPointMutation extends AbstractFieldChromosomeMutation<FloatingPointChromosome, Double> {
+abstract class AbstractFloatingPointMutation extends AbstractFieldChromosomeMutation<Double, FloatingPointChromosome> {
 
     @Override
     protected FloatingPointChromosome typeCheck(Chromosome chromosome) {
