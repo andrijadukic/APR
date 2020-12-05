@@ -2,6 +2,7 @@ package apr.genetics.operators.crossover.binary;
 
 import apr.genetics.chromosomes.binary.BinaryChromosome;
 import apr.genetics.chromosomes.util.ChromosomePair;
+import apr.util.Pair;
 
 import java.util.ArrayList;
 import java.util.BitSet;
@@ -12,18 +13,15 @@ import java.util.concurrent.ThreadLocalRandom;
 public class BinaryUniformCrossover extends AbstractBinaryCrossover {
 
     @Override
-    protected ChromosomePair mate(BinaryChromosome firstParent, BinaryChromosome secondParent) {
-        List<BitSet> firstParentRepresentation = firstParent.getRepresentation();
-        List<BitSet> secondParentRepresentation = secondParent.getRepresentation();
-
-        int length = firstParentRepresentation.size();
-        List<BitSet> firstChildRepresentation = new ArrayList<>(length);
-        List<BitSet> secondChildRepresentation = new ArrayList<>(length);
+    protected Pair<List<BitSet>, List<BitSet>> mate(List<BitSet> first, List<BitSet> second) {
+        int length = first.size();
+        List<BitSet> firstChild = new ArrayList<>(length);
+        List<BitSet> secondChild = new ArrayList<>(length);
 
         Random random = ThreadLocalRandom.current();
-        for (int dimension = 0, n = firstParentRepresentation.size(); dimension < n; dimension++) {
-            BitSet p1 = firstParentRepresentation.get(dimension);
-            BitSet p2 = secondParentRepresentation.get(dimension);
+        for (int dimension = 0; dimension < length; dimension++) {
+            BitSet p1 = first.get(dimension);
+            BitSet p2 = second.get(dimension);
 
             int numberOfBits = Math.min(p1.size(), p2.size());
 
@@ -39,10 +37,10 @@ public class BinaryUniformCrossover extends AbstractBinaryCrossover {
                 }
             }
 
-            firstChildRepresentation.add(ch1);
-            secondChildRepresentation.add(ch2);
+            firstChild.add(ch1);
+            secondChild.add(ch2);
         }
 
-        return new ChromosomePair(firstParent.newInstance(firstChildRepresentation), firstParent.newInstance(secondChildRepresentation));
+        return new Pair<>(firstChild, secondChild);
     }
 }

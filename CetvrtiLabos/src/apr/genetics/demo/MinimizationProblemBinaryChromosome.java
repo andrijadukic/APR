@@ -13,7 +13,7 @@ public class MinimizationProblemBinaryChromosome extends BinaryChromosome {
     private final IMultivariateFunction function;
 
     public MinimizationProblemBinaryChromosome(BinaryDecoder coder, int length, IMultivariateFunction function) {
-        super(coder, length);
+        super(length, coder);
         this.function = function;
     }
 
@@ -24,11 +24,11 @@ public class MinimizationProblemBinaryChromosome extends BinaryChromosome {
 
     @Override
     protected double evaluate() {
-        return function.valueAt(coder.decode(representation));
+        return function.valueAt(decoder.decode(representation));
     }
 
     @Override
     public FieldChromosome<BitSet> newInstance(List<BitSet> representation) {
-        return new MinimizationProblemBinaryChromosome(representation, coder, function);
+        return new MinimizationProblemBinaryChromosome(representation, decoder, function);
     }
 }

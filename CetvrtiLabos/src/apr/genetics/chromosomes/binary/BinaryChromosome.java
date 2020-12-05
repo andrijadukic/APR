@@ -7,18 +7,18 @@ import java.util.List;
 
 public abstract class BinaryChromosome extends AbstractFieldChromosome<BitSet> {
 
-    protected final BinaryDecoder coder;
+    protected final BinaryDecoder decoder;
 
-    public BinaryChromosome(List<BitSet> representation, BinaryDecoder coder) {
+    protected BinaryChromosome(List<BitSet> representation, BinaryDecoder decoder) {
         super(representation);
-        this.coder = coder;
+        this.decoder = decoder;
     }
 
-    public BinaryChromosome(int length, BinaryDecoder coder) {
-        this(coder.instance(length), coder);
+    protected BinaryChromosome(int length, BinaryDecoder decoder) {
+        this(decoder.instance(length), decoder);
     }
 
     public int getTotalBits() {
-        return getLength() * coder.getNumberOfBits();
+        return getLength() * decoder.getNumberOfBits();
     }
 }
