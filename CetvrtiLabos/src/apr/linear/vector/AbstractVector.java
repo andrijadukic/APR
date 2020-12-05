@@ -1,6 +1,6 @@
 package apr.linear.vector;
 
-import apr.linear.util.linalg.LinearAlgebra;
+import apr.linear.linalg.LinearAlgebra;
 
 import java.util.Iterator;
 import java.util.function.DoublePredicate;

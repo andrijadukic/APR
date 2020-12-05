@@ -1,10 +1,10 @@
-package apr.linear.util;
+package apr.linear;
 
 import apr.linear.exceptions.NonSquareMatrixException;
 import apr.linear.matrix.Matrix;
 import apr.linear.matrix.ArrayMatrix;
-import apr.linear.util.linalg.LinearAlgebra;
-import apr.linear.util.linalg.OperationMutability;
+import apr.linear.linalg.LinearAlgebra;
+import apr.linear.linalg.OperationMutability;
 
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;

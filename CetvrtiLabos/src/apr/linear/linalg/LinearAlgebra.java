@@ -1,9 +1,9 @@
-package apr.linear.util.linalg;
+package apr.linear.linalg;
 
 import apr.linear.exceptions.DimensionMismatchException;
 import apr.linear.exceptions.SingularMatrixException;
 import apr.linear.matrix.Matrix;
-import apr.linear.util.Matrices;
+import apr.linear.Matrices;
 
 import java.util.function.DoubleBinaryOperator;
 
@@ -14,7 +14,7 @@ import apr.linear.vector.Vector;
 import java.security.InvalidParameterException;
 import java.util.function.DoublePredicate;
 
-import static apr.linear.util.linalg.LinearAlgebraUtil.*;
+import static apr.linear.linalg.LinearAlgebraUtil.*;
 
 /**
  * Class implementing common linear algebra operations as static methods

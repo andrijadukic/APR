@@ -5,8 +5,8 @@ import apr.util.Matchable;
 
 import java.util.function.DoubleUnaryOperator;
 
-import apr.linear.util.linalg.LinearAlgebra;
-import apr.linear.util.linalg.OperationMutability;
+import apr.linear.linalg.LinearAlgebra;
+import apr.linear.linalg.OperationMutability;
 import apr.linear.vector.Vector;
 
 /**

@@ -40,6 +40,4 @@ public class ListViewVector extends AbstractVector {
         view.set(i, value);
         return this;
     }
-
-
 }

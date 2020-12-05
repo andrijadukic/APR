@@ -1,9 +1,9 @@
-package apr.linear.util.linalg;
+package apr.linear.linalg;
 
 import apr.linear.exceptions.DimensionMismatchException;
 import apr.linear.exceptions.MatrixDimensionMismatchException;
 import apr.linear.matrix.Matrix;
-import apr.linear.util.Matrices;
+import apr.linear.Matrices;
 import apr.linear.vector.Vector;
 
 class LinearAlgebraUtil {

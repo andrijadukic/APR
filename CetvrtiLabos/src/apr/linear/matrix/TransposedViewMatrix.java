@@ -5,17 +5,17 @@ import apr.linear.vector.Vector;
 /**
  * Matrix class that serves as a view of the transposed matrix
  */
-public class TransposedMatrixView extends AbstractMatrix {
+public class TransposedViewMatrix extends AbstractMatrix {
 
     private final Matrix view;
 
-    public TransposedMatrixView(Matrix view) {
+    public TransposedViewMatrix(Matrix view) {
         this.view = view;
     }
 
     @Override
     public Matrix copy() {
-        return new TransposedMatrixView(view.copy());
+        return new TransposedViewMatrix(view.copy());
     }
 
     @Override

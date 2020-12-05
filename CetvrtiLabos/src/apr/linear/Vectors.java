@@ -1,7 +1,7 @@
-package apr.linear.util;
+package apr.linear;
 
-import apr.linear.util.linalg.LinearAlgebra;
-import apr.linear.util.linalg.OperationMutability;
+import apr.linear.linalg.LinearAlgebra;
+import apr.linear.linalg.OperationMutability;
 import apr.linear.vector.Vector;
 import apr.linear.vector.ListViewVector;
 import apr.linear.vector.ArrayVector;

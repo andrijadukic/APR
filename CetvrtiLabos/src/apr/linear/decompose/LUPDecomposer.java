@@ -2,8 +2,8 @@ package apr.linear.decompose;
 
 import apr.linear.exceptions.SingularMatrixException;
 import apr.linear.matrix.Matrix;
-import apr.linear.util.linalg.LinearAlgebra;
-import apr.linear.util.Matrices;
+import apr.linear.linalg.LinearAlgebra;
+import apr.linear.Matrices;
 import apr.linear.vector.Vector;
 import apr.linear.vector.ArrayVector;
 

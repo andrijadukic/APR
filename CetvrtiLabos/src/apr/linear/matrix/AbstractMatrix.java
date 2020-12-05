@@ -1,6 +1,6 @@
 package apr.linear.matrix;
 
-import apr.linear.util.linalg.LinearAlgebra;
+import apr.linear.linalg.LinearAlgebra;
 
 import java.util.Iterator;
 import java.util.function.DoublePredicate;
@@ -27,7 +27,7 @@ public abstract class AbstractMatrix implements Matrix {
 
     @Override
     public Matrix transpose() {
-        return new TransposedMatrixView(this);
+        return new TransposedViewMatrix(this);
     }
 
     @Override
