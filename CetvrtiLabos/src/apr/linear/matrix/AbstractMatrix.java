@@ -1,6 +1,7 @@
 package apr.linear.matrix;
 
 import apr.linear.linalg.LinearAlgebra;
+import apr.linear.vector.Vector;
 
 import java.util.Iterator;
 import java.util.function.DoublePredicate;
@@ -12,17 +13,22 @@ public abstract class AbstractMatrix implements Matrix {
 
     @Override
     public boolean anyMatch(DoublePredicate predicate) {
-        return LinearAlgebra.anyMatch(this, predicate);
+        return LinearAlgebra.anyMatch(elementIterator(), predicate);
     }
 
     @Override
     public boolean allMatch(DoublePredicate predicate) {
-        return LinearAlgebra.allMatch(this, predicate);
+        return LinearAlgebra.allMatch(elementIterator(), predicate);
     }
 
     @Override
-    public Iterator<Double> iterator() {
+    public Iterator<Vector> iterator() {
         return new AbstractMatrixIterator(this);
+    }
+
+    @Override
+    public Iterator<Double> elementIterator() {
+        return new AbstractMatrixElementIterator(this);
     }
 
     @Override
@@ -65,7 +71,30 @@ public abstract class AbstractMatrix implements Matrix {
         return matrix.toString();
     }
 
-    private static class AbstractMatrixIterator implements Iterator<Double> {
+    private static class AbstractMatrixIterator implements Iterator<Vector> {
+
+        private final Matrix matrix;
+        private final int rowDimension;
+
+        private int rowCount;
+
+        public AbstractMatrixIterator(Matrix matrix) {
+            this.matrix = matrix;
+            rowDimension = matrix.getRowDimension();
+        }
+
+        @Override
+        public boolean hasNext() {
+            return rowCount < rowDimension;
+        }
+
+        @Override
+        public Vector next() {
+            return matrix.getRow(rowCount++);
+        }
+    }
+
+    private static class AbstractMatrixElementIterator implements Iterator<Double> {
 
         private final Matrix matrix;
         private final int rowDimension;
@@ -74,7 +103,7 @@ public abstract class AbstractMatrix implements Matrix {
         private int rowCount;
         private int columnCount;
 
-        public AbstractMatrixIterator(Matrix matrix) {
+        public AbstractMatrixElementIterator(Matrix matrix) {
             this.matrix = matrix;
             rowDimension = matrix.getRowDimension();
             columnDimension = matrix.getColumnDimension();

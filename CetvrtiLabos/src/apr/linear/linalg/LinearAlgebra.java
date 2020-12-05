@@ -5,6 +5,7 @@ import apr.linear.exceptions.SingularMatrixException;
 import apr.linear.matrix.Matrix;
 import apr.linear.Matrices;
 
+import java.util.Iterator;
 import java.util.function.DoubleBinaryOperator;
 
 import java.util.function.DoubleUnaryOperator;
@@ -318,13 +319,13 @@ public class LinearAlgebra {
     /**
      * Tests if any element matches predicate
      *
-     * @param iterable  iterable object
+     * @param iterator  iterator object
      * @param predicate predicate to be tested
      * @return true if any element matches, false otherwise
      */
-    public static boolean anyMatch(Iterable<Double> iterable, DoublePredicate predicate) {
-        for (Double element : iterable) {
-            if (predicate.test(element)) return true;
+    public static boolean anyMatch(Iterator<Double> iterator, DoublePredicate predicate) {
+        while (iterator.hasNext()) {
+            if (predicate.test(iterator.next())) return true;
         }
         return false;
     }
@@ -332,12 +333,12 @@ public class LinearAlgebra {
     /**
      * Tests if all elements match predicate
      *
-     * @param iterable  iterable object
+     * @param iterator  iterator object
      * @param predicate predicate to be tested
      * @return true if any element matches, false otherwise
      */
-    public static boolean allMatch(Iterable<Double> iterable, DoublePredicate predicate) {
-        return !anyMatch(iterable, x -> !predicate.test(x));
+    public static boolean allMatch(Iterator<Double> iterator, DoublePredicate predicate) {
+        return !anyMatch(iterator, x -> !predicate.test(x));
     }
 
     /**

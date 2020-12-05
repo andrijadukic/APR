@@ -3,6 +3,7 @@ package apr.linear.matrix;
 import apr.util.Copyable;
 import apr.util.Matchable;
 
+import java.util.Iterator;
 import java.util.function.DoubleUnaryOperator;
 
 import apr.linear.linalg.LinearAlgebra;
@@ -12,7 +13,7 @@ import apr.linear.vector.Vector;
 /**
  * Represents a matrix that holds real numbers (double precision)
  */
-public interface Matrix extends Iterable<Double>, Copyable<Matrix>, Matchable {
+public interface Matrix extends Iterable<Vector>, Matchable, Copyable<Matrix> {
 
     /**
      * Creates a new matrix of this type
@@ -71,6 +72,8 @@ public interface Matrix extends Iterable<Double>, Copyable<Matrix>, Matchable {
      * @return this matrix
      */
     Matrix set(int i, int j, double value);
+
+    Iterator<Double> elementIterator();
 
     /**
      * Swaps rows at index i and j

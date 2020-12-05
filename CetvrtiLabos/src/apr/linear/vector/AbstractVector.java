@@ -12,12 +12,12 @@ public abstract class AbstractVector implements Vector {
 
     @Override
     public boolean anyMatch(DoublePredicate predicate) {
-        return LinearAlgebra.anyMatch(this, predicate);
+        return LinearAlgebra.anyMatch(iterator(), predicate);
     }
 
     @Override
     public boolean allMatch(DoublePredicate predicate) {
-        return LinearAlgebra.allMatch(this, predicate);
+        return LinearAlgebra.allMatch(iterator(), predicate);
     }
 
     @Override

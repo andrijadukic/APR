@@ -23,13 +23,9 @@ public class FloatingPointSimpleMutation extends AbstractFloatingPointMutation {
         Random random = ThreadLocalRandom.current();
         for (int i = 0, n = mutatedRepresentation.size(); i < n; i++) {
             if (random.nextDouble() < pm) {
-                mutatedRepresentation.set(i, mutatedValue(mutatedRepresentation.get(i)));
+                mutatedRepresentation.set(i, lb + random.nextDouble() * (ub - lb));
             }
         }
         return mutatedRepresentation;
-    }
-
-    protected Double mutatedValue(Double original) {
-        return lb + ThreadLocalRandom.current().nextDouble() * (ub - lb);
     }
 }

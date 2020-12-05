@@ -12,12 +12,14 @@ public class RouletteWheelSelection implements SelectionOperator {
 
     private final boolean isSorted;
 
-    public RouletteWheelSelection(boolean isSorted) {
-        this.isSorted = isSorted;
-    }
+    private static final boolean DEFAULT_IS_SORTED = false;
 
     public RouletteWheelSelection() {
-        this(false);
+        this(DEFAULT_IS_SORTED);
+    }
+
+    public RouletteWheelSelection(boolean isSorted) {
+        this.isSorted = isSorted;
     }
 
     @Override
@@ -47,6 +49,7 @@ public class RouletteWheelSelection implements SelectionOperator {
             while (prev == rind) {
                 rind = find(probabilities, random.nextDouble());
             }
+
             selected[i] = chromosomes.get(rind);
             prev = rind;
         }

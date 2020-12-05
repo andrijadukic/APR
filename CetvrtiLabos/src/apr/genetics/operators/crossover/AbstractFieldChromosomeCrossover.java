@@ -3,7 +3,7 @@ package apr.genetics.operators.crossover;
 import apr.genetics.chromosomes.Chromosome;
 import apr.genetics.chromosomes.FieldChromosome;
 import apr.genetics.chromosomes.util.ChromosomePair;
-import apr.linear.exceptions.DimensionMismatchException;
+import apr.genetics.exceptions.ChromosomeLengthMismatchException;
 import apr.util.Pair;
 
 import java.util.List;
@@ -33,7 +33,7 @@ public abstract class AbstractFieldChromosomeCrossover<T, C extends FieldChromos
         int length1 = p1.getLength();
         int length2 = p2.getLength();
 
-        if (length1 != length2) throw new DimensionMismatchException(length2, length1);
+        if (length1 != length2) throw new ChromosomeLengthMismatchException(length2, length1);
     }
 
     protected abstract Pair<List<T>, List<T>> mate(List<T> first, List<T> second);
