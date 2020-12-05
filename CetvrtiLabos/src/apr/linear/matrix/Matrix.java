@@ -2,7 +2,6 @@ package apr.linear.matrix;
 
 import apr.linear.vector.IVector;
 import apr.linear.vector.Vector;
-import apr.linear.util.Matrices;
 
 /**
  * Matrix class which uses a two dimensional array to store elements

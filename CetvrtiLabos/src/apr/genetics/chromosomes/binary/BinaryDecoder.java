@@ -4,9 +4,6 @@ import apr.genetics.chromosomes.util.ChromosomeDecoder;
 import apr.util.Interval;
 
 import java.util.BitSet;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public interface BinaryDecoder extends ChromosomeDecoder<BitSet, Double> {
 
@@ -16,18 +13,22 @@ public interface BinaryDecoder extends ChromosomeDecoder<BitSet, Double> {
 
     double getPrecision();
 
-    BitSet instance();
-
-    default List<BitSet> instance(int n) {
-        return Stream.generate(this::instance).limit(n).collect(Collectors.toUnmodifiableList());
-    }
-
     static double binaryToFloatingPoint(BitSet b) {
         double v = 0.;
         for (int i = 0, n = b.size(); i < n; i++) {
             v += (b.get(i) ? 1 : 0) * (i << 1);
         }
         return v;
+    }
+
+    static BitSet binaryToGray(BitSet b) {
+        int n = b.size();
+        BitSet g = new BitSet(n);
+        g.set(0, b.get(0));
+        for (int i = 1; i < n; i++) {
+            g.set(i, b.get(i - 1) ^ b.get(i));
+        }
+        return g;
     }
 
     static BitSet grayToBinary(BitSet g) {
@@ -42,16 +43,6 @@ public interface BinaryDecoder extends ChromosomeDecoder<BitSet, Double> {
             b.set(i, v);
         }
         return b;
-    }
-
-    static BitSet binaryToGray(BitSet b) {
-        int n = b.size();
-        BitSet g = new BitSet(n);
-        g.set(0, b.get(0));
-        for (int i = 1; i < n; i++) {
-            g.set(i, b.get(i - 1) ^ b.get(i));
-        }
-        return g;
     }
 
     static double calculatePrecision(Interval interval, int numberOfBits) {

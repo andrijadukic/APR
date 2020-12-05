@@ -19,8 +19,8 @@ final class StandardBinaryDecoder implements BinaryDecoder {
 
     StandardBinaryDecoder(Interval interval, double precision) {
         this.interval = interval;
-        this.precision = precision;
         this.numberOfBits = BinaryDecoder.calculateNumberOfBits(interval, precision);
+        this.precision = precision;
     }
 
     @Override
