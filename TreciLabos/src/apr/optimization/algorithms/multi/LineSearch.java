@@ -1,9 +1,9 @@
 package apr.optimization.algorithms.multi;
 
-import apr.linear.vector.IVector;
+import apr.linear.vector.Vector;
 import apr.optimization.algorithms.uni.GoldenSectionSearch;
 import apr.optimization.algorithms.uni.UnivariateOptimizer;
-import apr.functions.IMultivariateFunction;
+import apr.functions.MultivariateFunction;
 
 import java.util.Objects;
 
@@ -17,11 +17,11 @@ import static apr.linear.util.linalg.OperationMutability.MUTABLE;
  */
 public final class LineSearch implements UnivariateOptimizer {
 
-    private final IMultivariateFunction function;
-    private final IVector x;
-    private final IVector direction;
+    private final MultivariateFunction function;
+    private final Vector x;
+    private final Vector direction;
 
-    public LineSearch(IMultivariateFunction function, IVector x, IVector direction) {
+    public LineSearch(MultivariateFunction function, Vector x, Vector direction) {
         this.function = Objects.requireNonNull(function);
         this.x = Objects.requireNonNull(x);
         this.direction = Objects.requireNonNull(direction);

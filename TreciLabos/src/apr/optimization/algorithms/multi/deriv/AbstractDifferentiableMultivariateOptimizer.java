@@ -1,6 +1,6 @@
 package apr.optimization.algorithms.multi.deriv;
 
-import apr.linear.vector.IVector;
+import apr.linear.vector.Vector;
 import apr.optimization.algorithms.multi.LineSearch;
 import apr.optimization.algorithms.multi.noderiv.MultivariateOptimizer;
 import apr.optimization.exceptions.DivergenceLimitReachedException;
@@ -62,8 +62,8 @@ public abstract class AbstractDifferentiableMultivariateOptimizer implements Mul
     }
 
     @Override
-    public IVector search(IVector x0) {
-        IVector x = x0.copy();
+    public Vector search(Vector x0) {
+        Vector x = x0.copy();
 
         int count = 0;
         double best = function.valueAt(x);
@@ -71,7 +71,7 @@ public abstract class AbstractDifferentiableMultivariateOptimizer implements Mul
             if (count > divergenceLimit)
                 throw new DivergenceLimitReachedException(divergenceLimit, "minimum found: [" + x + "]");
 
-            IVector direction = computeDirection(x, function.gradient(x));
+            Vector direction = computeDirection(x, function.gradient(x));
             double norm = norm(direction);
 
             if (norm < epsilon) break;
@@ -96,5 +96,5 @@ public abstract class AbstractDifferentiableMultivariateOptimizer implements Mul
         return x;
     }
 
-    protected abstract IVector computeDirection(IVector x, IVector gradient);
+    protected abstract Vector computeDirection(Vector x, Vector gradient);
 }

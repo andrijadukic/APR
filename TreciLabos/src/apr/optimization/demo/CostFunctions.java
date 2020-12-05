@@ -1,6 +1,8 @@
 package apr.optimization.demo;
 
+import apr.linear.matrix.ArrayMatrix;
 import apr.linear.matrix.Matrix;
+import apr.linear.vector.ArrayVector;
 import apr.linear.vector.Vector;
 import apr.optimization.algorithms.multi.deriv.DifferentiableMultivariateCostFunction;
 
@@ -24,14 +26,14 @@ public class CostFunctions {
                 x -> {
                     double x1 = x.get(0);
                     double x2 = x.get(1);
-                    return new Vector(
+                    return new ArrayVector(
                             -400 * x1 * x2 + 400 * Math.pow(x1, 3) - 2 + 2 * x1,
                             200 * x2 - 200 * Math.pow(x1, 2));
                 },
                 x -> {
                     double x1 = x.get(0);
                     double x2 = x.get(1);
-                    return new Matrix(new double[][]{
+                    return new ArrayMatrix(new double[][]{
                             {-400 * x2 + 1200 * Math.pow(x1, 2) + 2, -400 * x1},
                             {-400 * x1, 200}
                     });
@@ -47,8 +49,8 @@ public class CostFunctions {
     public static DifferentiableMultivariateCostFunction f2() {
         return new DifferentiableMultivariateCostFunction(
                 x -> Math.pow(x.get(0) - 4, 2) + 4 * Math.pow(x.get(1) - 2, 2),
-                x -> new Vector(2 * (x.get(0) - 4), 8 * (x.get(1) - 2)),
-                x -> new Matrix(new double[][]{
+                x -> new ArrayVector(2 * (x.get(0) - 4), 8 * (x.get(1) - 2)),
+                x -> new ArrayMatrix(new double[][]{
                         {2, 0},
                         {0, 8}})
         );
@@ -62,8 +64,8 @@ public class CostFunctions {
     public static DifferentiableMultivariateCostFunction f3() {
         return new DifferentiableMultivariateCostFunction(
                 x -> Math.pow(x.get(0) - 2, 2) + 4 * Math.pow(x.get(1) + 3, 2),
-                x -> new Vector(2 * (x.get(0) - 2), 2 * (x.get(1) + 3)),
-                x -> new Matrix(new double[][]{
+                x -> new ArrayVector(2 * (x.get(0) - 2), 2 * (x.get(1) + 3)),
+                x -> new ArrayMatrix(new double[][]{
                         {2, 0},
                         {0, 2}})
         );
@@ -77,8 +79,8 @@ public class CostFunctions {
     public static DifferentiableMultivariateCostFunction f4() {
         return new DifferentiableMultivariateCostFunction(
                 x -> Math.pow(x.get(0) - 3, 2) + Math.pow(x.get(1), 2),
-                x -> new Vector(2 * (x.get(0) - 3), 2 * x.get(1)),
-                x -> new Matrix(new double[][]{
+                x -> new ArrayVector(2 * (x.get(0) - 3), 2 * x.get(1)),
+                x -> new ArrayMatrix(new double[][]{
                         {2, 0},
                         {0, 2}})
         );

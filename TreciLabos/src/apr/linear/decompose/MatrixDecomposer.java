@@ -1,11 +1,11 @@
 package apr.linear.decompose;
 
-import apr.linear.matrix.IMatrix;
+import apr.linear.matrix.Matrix;
 
 /**
  * Represents an object used for matrix decomposition
  */
-public interface IMatrixDecomposer {
+public interface MatrixDecomposer {
 
     /**
      * Tests whether the given matrix is applicable for this decomposition algorithm
@@ -13,7 +13,7 @@ public interface IMatrixDecomposer {
      * @param matrix matrix to be tested
      * @return true if matrix is applicable, false otherwise
      */
-    boolean isApplicable(IMatrix matrix);
+    boolean isApplicable(Matrix matrix);
 
     /**
      * Gets the determinant of the given matrix
@@ -27,5 +27,5 @@ public interface IMatrixDecomposer {
      *
      * @return solver object
      */
-    ILinearEquationSolver solver();
+    LinearEquationSolver solver();
 }

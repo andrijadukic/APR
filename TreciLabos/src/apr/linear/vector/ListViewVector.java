@@ -16,12 +16,12 @@ public class ListViewVector extends AbstractVector {
     }
 
     @Override
-    public IVector newInstance(int dimension) {
+    public Vector newInstance(int dimension) {
         return new ListViewVector(new ArrayList<>(dimension));
     }
 
     @Override
-    public IVector copy() {
+    public Vector copy() {
         return new ListViewVector(new ArrayList<>(view));
     }
 
@@ -36,7 +36,7 @@ public class ListViewVector extends AbstractVector {
     }
 
     @Override
-    public IVector set(int i, double value) {
+    public Vector set(int i, double value) {
         view.set(i, value);
         return this;
     }

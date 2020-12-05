@@ -1,6 +1,6 @@
 package apr.optimization.algorithms.multi.noderiv;
 
-import apr.linear.vector.IVector;
+import apr.linear.vector.Vector;
 import apr.optimization.algorithms.util.NamedAlgorithm;
 
 /**
@@ -14,5 +14,5 @@ public interface MultivariateOptimizer extends NamedAlgorithm {
      * @param x0 starting point
      * @return argmin
      */
-    IVector search(IVector x0);
+    Vector search(Vector x0);
 }

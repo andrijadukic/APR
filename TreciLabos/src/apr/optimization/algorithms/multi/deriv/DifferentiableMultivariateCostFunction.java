@@ -1,11 +1,11 @@
 package apr.optimization.algorithms.multi.deriv;
 
-import apr.linear.matrix.IMatrix;
-import apr.linear.vector.IVector;
+import apr.functions.MultivariableMatrixFunction;
+import apr.functions.MultivariableVectorFunction;
+import apr.functions.MultivariateFunction;
+import apr.linear.matrix.Matrix;
+import apr.linear.vector.Vector;
 import apr.optimization.algorithms.multi.MultivariateCostFunction;
-import apr.functions.IMultivariableMatrixFunction;
-import apr.functions.IMultivariableVectorFunction;
-import apr.functions.IMultivariateFunction;
 
 import java.util.Objects;
 
@@ -14,13 +14,13 @@ import java.util.Objects;
  */
 public class DifferentiableMultivariateCostFunction extends MultivariateCostFunction {
 
-    protected final IMultivariableVectorFunction gradient;
-    protected final IMultivariableMatrixFunction hessian;
+    protected final MultivariableVectorFunction gradient;
+    protected final MultivariableMatrixFunction hessian;
 
     protected int gradientEvalCounter;
     protected int hessianEvalCounter;
 
-    public DifferentiableMultivariateCostFunction(IMultivariateFunction function, IMultivariableVectorFunction gradient, IMultivariableMatrixFunction hessian) {
+    public DifferentiableMultivariateCostFunction(MultivariateFunction function, MultivariableVectorFunction gradient, MultivariableMatrixFunction hessian) {
         super(function);
         this.gradient = Objects.requireNonNull(gradient);
         this.hessian = Objects.requireNonNull(hessian);
@@ -40,12 +40,12 @@ public class DifferentiableMultivariateCostFunction extends MultivariateCostFunc
         gradientEvalCounter = hessianEvalCounter = 0;
     }
 
-    public IVector gradient(IVector x) {
+    public Vector gradient(Vector x) {
         gradientEvalCounter++;
         return gradient.valueAt(x);
     }
 
-    public IMatrix hessian(IVector x) {
+    public Matrix hessian(Vector x) {
         hessianEvalCounter++;
         return hessian.valueAt(x);
     }

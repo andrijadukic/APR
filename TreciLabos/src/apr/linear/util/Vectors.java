@@ -1,11 +1,11 @@
 package apr.linear.util;
 
-import apr.linear.util.suppliers.IVectorSupplier;
+import apr.linear.util.suppliers.VectorSupplier;
 import apr.linear.util.linalg.LinearAlgebra;
 import apr.linear.util.linalg.OperationMutability;
-import apr.linear.vector.IVector;
-import apr.linear.vector.ListViewVector;
 import apr.linear.vector.Vector;
+import apr.linear.vector.ListViewVector;
+import apr.linear.vector.ArrayVector;
 
 import java.util.List;
 import java.util.Objects;
@@ -22,8 +22,8 @@ public class Vectors {
      * @param dimension dimension of null vector
      * @return new null vector
      */
-    public static IVector zeroes(int dimension) {
-        return zeroes(() -> new Vector(dimension));
+    public static Vector zeroes(int dimension) {
+        return zeroes(() -> new ArrayVector(dimension));
     }
 
     /**
@@ -32,7 +32,7 @@ public class Vectors {
      * @param supplier supplier object used to dynamically create an instance of IVector
      * @return new null vector
      */
-    public static IVector zeroes(IVectorSupplier supplier) {
+    public static Vector zeroes(VectorSupplier supplier) {
         return fill(supplier.getAsVector(), 0);
     }
 
@@ -42,8 +42,8 @@ public class Vectors {
      * @param dimension dimension of null vector
      * @return new vector
      */
-    public static IVector ones(int dimension) {
-        return ones(() -> new Vector(dimension));
+    public static Vector ones(int dimension) {
+        return ones(() -> new ArrayVector(dimension));
     }
 
     /**
@@ -52,7 +52,7 @@ public class Vectors {
      * @param supplier supplier object used to dynamically create an instance of IVector
      * @return new vector
      */
-    public static IVector ones(IVectorSupplier supplier) {
+    public static Vector ones(VectorSupplier supplier) {
         return fill(supplier.getAsVector(), 1);
     }
 
@@ -63,7 +63,7 @@ public class Vectors {
      * @param value  value
      * @return filled vector
      */
-    public static IVector fill(IVector vector, double value) {
+    public static Vector fill(Vector vector, double value) {
         return LinearAlgebra.apply(vector, x -> value, OperationMutability.MUTABLE);
     }
 
@@ -74,7 +74,7 @@ public class Vectors {
      * @param supplier supplier
      * @return filled vector
      */
-    public static IVector fill(IVector vector, DoubleSupplier supplier) {
+    public static Vector fill(Vector vector, DoubleSupplier supplier) {
         return LinearAlgebra.apply(vector, x -> supplier.getAsDouble(), OperationMutability.MUTABLE);
     }
 
@@ -84,8 +84,8 @@ public class Vectors {
      * @param array underlying array
      * @return new vector
      */
-    public static IVector asVector(double... array) {
-        return new Vector(Objects.requireNonNull(array));
+    public static Vector asVector(double... array) {
+        return new ArrayVector(Objects.requireNonNull(array));
     }
 
     /**
@@ -94,7 +94,7 @@ public class Vectors {
      * @param list underlying list
      * @return new vector
      */
-    public static IVector asVector(List<Double> list) {
+    public static Vector asVector(List<Double> list) {
         return new ListViewVector(Objects.requireNonNull(list));
     }
 }

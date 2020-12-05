@@ -2,7 +2,7 @@ package apr.optimization.algorithms.multi.noderiv;
 
 import apr.functions.constraints.Constraints;
 import apr.functions.constraints.InequalityConstraint;
-import apr.linear.vector.IVector;
+import apr.linear.vector.Vector;
 import apr.optimization.algorithms.multi.ConstrainedMultivariateCostFunction;
 import apr.optimization.algorithms.multi.MultivariateCostFunction;
 import apr.optimization.exceptions.DivergenceLimitReachedException;
@@ -55,7 +55,7 @@ public abstract class AbstractConstrainedOptimizer implements MultivariateOptimi
     }
 
     @Override
-    public IVector search(IVector x0) {
+    public Vector search(Vector x0) {
         double initialValue = function.valueAt(x0);
 
         InequalityConstraint[] inequalityConstraints = function.getInequalityConstraints();
@@ -64,7 +64,7 @@ public abstract class AbstractConstrainedOptimizer implements MultivariateOptimi
         }
 
         double t = coefficient;
-        IVector x = x0.copy();
+        Vector x = x0.copy();
         double best = initialValue;
         int count = 0;
         while (true) {
@@ -72,7 +72,7 @@ public abstract class AbstractConstrainedOptimizer implements MultivariateOptimi
                 throw new DivergenceLimitReachedException(divergenceLimit, "minimum found [" + x + "]");
 
             function.setCoefficient(t);
-            IVector snapshot = x.copy();
+            Vector snapshot = x.copy();
             x = argMin(function, x);
 
             double value = function.valueAt(x);
@@ -90,7 +90,7 @@ public abstract class AbstractConstrainedOptimizer implements MultivariateOptimi
         return x;
     }
 
-    protected abstract IVector interiorPoint(IVector x0, InequalityConstraint[] inequalityConstraints);
+    protected abstract Vector interiorPoint(Vector x0, InequalityConstraint[] inequalityConstraints);
 
-    protected abstract IVector argMin(MultivariateCostFunction function, IVector x0);
+    protected abstract Vector argMin(MultivariateCostFunction function, Vector x0);
 }

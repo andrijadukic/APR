@@ -2,9 +2,9 @@ package apr.linear.util.linalg;
 
 import apr.linear.exceptions.DimensionMismatchException;
 import apr.linear.exceptions.MatrixDimensionMismatchException;
-import apr.linear.matrix.IMatrix;
+import apr.linear.matrix.Matrix;
 import apr.linear.util.Matrices;
-import apr.linear.vector.IVector;
+import apr.linear.vector.Vector;
 
 class LinearAlgebraUtil {
 
@@ -14,7 +14,7 @@ class LinearAlgebraUtil {
      * @param m1 first matrix
      * @param m2 second matrix
      */
-    static void checkDimensionsSame(IMatrix m1, IMatrix m2) {
+    static void checkDimensionsSame(Matrix m1, Matrix m2) {
         int r1 = m1.getRowDimension();
         int c1 = m1.getColumnDimension();
         int r2 = m2.getRowDimension();
@@ -29,7 +29,7 @@ class LinearAlgebraUtil {
      * @param v1 first vector
      * @param v2 second vector
      */
-    static void checkDimensionsSame(IVector v1, IVector v2) {
+    static void checkDimensionsSame(Vector v1, Vector v2) {
         int d1 = v1.getDimension();
         int d2 = v2.getDimension();
 
@@ -42,7 +42,7 @@ class LinearAlgebraUtil {
      * @param m1 first matrix
      * @param m2 second matrix
      */
-    static void checkAdditionApplicable(IMatrix m1, IMatrix m2) {
+    static void checkAdditionApplicable(Matrix m1, Matrix m2) {
         checkDimensionsSame(m1, m2);
     }
 
@@ -52,7 +52,7 @@ class LinearAlgebraUtil {
      * @param v1 first vector
      * @param v2 second vector
      */
-    static void checkAdditionApplicable(IVector v1, IVector v2) {
+    static void checkAdditionApplicable(Vector v1, Vector v2) {
         checkDimensionsSame(v1, v2);
     }
 
@@ -62,7 +62,7 @@ class LinearAlgebraUtil {
      * @param m1 first matrix
      * @param m2 second matrix
      */
-    static void checkMultiplicationApplicable(IMatrix m1, IMatrix m2) {
+    static void checkMultiplicationApplicable(Matrix m1, Matrix m2) {
         int columnDimension = m1.getColumnDimension();
         int rowDimension = m2.getRowDimension();
 
@@ -75,7 +75,7 @@ class LinearAlgebraUtil {
      * @param matrix matrix operand
      * @param vector vector operand
      */
-    static void checkMultiplicationApplicable(IMatrix matrix, IVector vector) {
+    static void checkMultiplicationApplicable(Matrix matrix, Vector vector) {
         int columnDimension = matrix.getColumnDimension();
         int vectorDimension = vector.getDimension();
 
@@ -88,7 +88,7 @@ class LinearAlgebraUtil {
      * @param v1 first vector
      * @param v2 second vector
      */
-    static void checkMultiplicationApplicable(IVector v1, IVector v2) {
+    static void checkMultiplicationApplicable(Vector v1, Vector v2) {
         checkDimensionsSame(v1, v2);
     }
 
@@ -100,7 +100,7 @@ class LinearAlgebraUtil {
      * @param vector b vector
      * @return true if forward substitution is applicable, false otherwise
      */
-    static boolean isForwardSubstitutionApplicable(IMatrix matrix, IVector vector) {
+    static boolean isForwardSubstitutionApplicable(Matrix matrix, Vector vector) {
         return vector.getDimension() == matrix.getRowDimension() && Matrices.isLowerTriangleMatrix(matrix);
     }
 
@@ -112,7 +112,7 @@ class LinearAlgebraUtil {
      * @param vector y vector
      * @return true if backward substitution is applicable, false otherwise
      */
-    static boolean isBackwardSubstitutionApplicable(IMatrix matrix, IVector vector) {
+    static boolean isBackwardSubstitutionApplicable(Matrix matrix, Vector vector) {
         return vector.getDimension() == matrix.getRowDimension() && Matrices.isUpperTriangleMatrix(matrix);
     }
 }

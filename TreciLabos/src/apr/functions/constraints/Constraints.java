@@ -1,10 +1,9 @@
 package apr.functions.constraints;
 
 import apr.linear.exceptions.DimensionMismatchException;
-import apr.linear.vector.IVector;
-import apr.optimization.algorithms.multi.MultivariateCostFunction;
-import apr.optimization.algorithms.util.Interval;
-import apr.functions.IMultivariateFunction;
+import apr.linear.vector.Vector;
+import apr.util.Interval;
+import apr.functions.MultivariateFunction;
 
 import java.util.Objects;
 
@@ -30,7 +29,7 @@ public class Constraints {
      * @param function constraint function
      * @return new equality constraint
      */
-    public static EqualityConstraint equality(IMultivariateFunction function) {
+    public static EqualityConstraint equality(MultivariateFunction function) {
         return new EqualityConstraint(Objects.requireNonNull(function));
     }
 
@@ -40,7 +39,7 @@ public class Constraints {
      * @param function constraint function
      * @return new inequality constraint
      */
-    public static InequalityConstraint inequality(IMultivariateFunction function) {
+    public static InequalityConstraint inequality(MultivariateFunction function) {
         return new InequalityConstraint(Objects.requireNonNull(function));
     }
 
@@ -51,8 +50,8 @@ public class Constraints {
      * @param constraints constraints
      * @return true if point fits all constraints, false otherwise
      */
-    public static boolean test(IVector x, IConstraint... constraints) {
-        for (IConstraint constraint : Objects.requireNonNull(constraints)) {
+    public static boolean test(Vector x, Constraint... constraints) {
+        for (Constraint constraint : Objects.requireNonNull(constraints)) {
             if (!constraint.test(x)) return false;
         }
         return true;
@@ -65,7 +64,7 @@ public class Constraints {
      * @param constraints constraints
      * @return true if point fits all constraints, false otherwise
      */
-    public static boolean test(IVector x, ExplicitConstraint... constraints) {
+    public static boolean test(Vector x, ExplicitConstraint... constraints) {
         Objects.requireNonNull(constraints);
 
         int n = x.getDimension();
@@ -85,10 +84,10 @@ public class Constraints {
      * @param inequalityConstraints inequality constraints
      * @return new multivariate function
      */
-    public static IMultivariateFunction sum(InequalityConstraint[] inequalityConstraints) {
+    public static MultivariateFunction sum(InequalityConstraint[] inequalityConstraints) {
         Objects.requireNonNull(inequalityConstraints);
 
-        return new MultivariateCostFunction(x -> {
+        return x -> {
             double penalty = 0.;
             for (InequalityConstraint constraint : inequalityConstraints) {
                 double constraintValue = constraint.getFunction().valueAt(x);
@@ -97,6 +96,6 @@ public class Constraints {
                 }
             }
             return penalty;
-        });
+        };
     }
 }

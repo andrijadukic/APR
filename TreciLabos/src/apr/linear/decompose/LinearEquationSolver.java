@@ -1,12 +1,12 @@
 package apr.linear.decompose;
 
-import apr.linear.matrix.IMatrix;
-import apr.linear.vector.IVector;
+import apr.linear.matrix.Matrix;
+import apr.linear.vector.Vector;
 
 /**
  * Represents an object used for solving linear equations
  */
-public interface ILinearEquationSolver {
+public interface LinearEquationSolver {
 
     /**
      * Solves equation Ax = y
@@ -14,12 +14,12 @@ public interface ILinearEquationSolver {
      * @param b vector on the right side of the equation
      * @return solution vector
      */
-    IVector solve(IVector b);
+    Vector solve(Vector b);
 
     /**
      * Inverts matrix
      *
      * @return inverted matrix
      */
-    IMatrix invert();
+    Matrix invert();
 }

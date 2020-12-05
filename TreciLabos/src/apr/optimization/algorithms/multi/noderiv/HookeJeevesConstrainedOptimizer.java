@@ -2,7 +2,7 @@ package apr.optimization.algorithms.multi.noderiv;
 
 import apr.functions.constraints.Constraints;
 import apr.functions.constraints.InequalityConstraint;
-import apr.linear.vector.IVector;
+import apr.linear.vector.Vector;
 import apr.optimization.algorithms.multi.ConstrainedMultivariateCostFunction;
 import apr.optimization.algorithms.multi.MultivariateCostFunction;
 
@@ -34,12 +34,12 @@ public final class HookeJeevesConstrainedOptimizer extends AbstractConstrainedOp
     }
 
     @Override
-    protected IVector interiorPoint(IVector x0, InequalityConstraint[] inequalityConstraints) {
+    protected Vector interiorPoint(Vector x0, InequalityConstraint[] inequalityConstraints) {
         return new HookeJeeves(new MultivariateCostFunction(Constraints.sum(inequalityConstraints)), epsilon, delta).search(x0);
     }
 
     @Override
-    protected IVector argMin(MultivariateCostFunction function, IVector x0) {
+    protected Vector argMin(MultivariateCostFunction function, Vector x0) {
         return new HookeJeeves(function, epsilon, delta).search(x0);
     }
 

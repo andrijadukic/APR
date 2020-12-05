@@ -1,7 +1,7 @@
 package apr.optimization.algorithms.multi.deriv;
 
 import apr.linear.decompose.LUPDecomposer;
-import apr.linear.vector.IVector;
+import apr.linear.vector.Vector;
 
 import static apr.linear.util.linalg.LinearAlgebra.multiply;
 import static apr.linear.util.linalg.OperationMutability.IMMUTABLE;
@@ -20,7 +20,7 @@ public final class NewtonRaphson extends AbstractDifferentiableMultivariateOptim
     }
 
     @Override
-    protected IVector computeDirection(IVector x, IVector gradient) {
+    protected Vector computeDirection(Vector x, Vector gradient) {
         return new LUPDecomposer(function.hessian(x)).solver().solve(multiply(gradient, -1, IMMUTABLE));
     }
 

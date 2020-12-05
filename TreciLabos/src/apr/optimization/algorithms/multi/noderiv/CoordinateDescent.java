@@ -1,6 +1,6 @@
 package apr.optimization.algorithms.multi.noderiv;
 
-import apr.linear.vector.IVector;
+import apr.linear.vector.Vector;
 import apr.optimization.algorithms.multi.MultivariateCostFunction;
 import apr.optimization.algorithms.uni.GoldenSectionSearch;
 
@@ -18,11 +18,11 @@ public class CoordinateDescent extends AbstractMultivariateOptimizer {
     }
 
     @Override
-    public IVector search(IVector x0) {
-        IVector x = x0.copy();
+    public Vector search(Vector x0) {
+        Vector x = x0.copy();
         int dimension = x0.getDimension();
         while (true) {
-            IVector snapshot = x.copy();
+            Vector snapshot = x.copy();
             for (int i = 0; i < dimension; i++) {
                 final int nthDimension = i;
                 final double xi = x.get(nthDimension);
@@ -33,7 +33,7 @@ public class CoordinateDescent extends AbstractMultivariateOptimizer {
         return x;
     }
 
-    protected boolean testConvergence(IVector previous, IVector current) {
+    protected boolean testConvergence(Vector previous, Vector current) {
         for (int i = 0, n = previous.getDimension(); i < n; i++) {
             if (Math.abs(previous.get(i) - current.get(i)) > epsilon) {
                 return false;

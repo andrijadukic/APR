@@ -1,25 +1,25 @@
 package apr.linear.matrix;
 
-import apr.linear.vector.IVector;
+import apr.linear.vector.Vector;
 
 /**
  * Matrix class that serves as a view of the transposed matrix
  */
 public class TransposedMatrixView extends AbstractMatrix {
 
-    private final IMatrix view;
+    private final Matrix view;
 
-    public TransposedMatrixView(IMatrix view) {
+    public TransposedMatrixView(Matrix view) {
         this.view = view;
     }
 
     @Override
-    public IMatrix copy() {
+    public Matrix copy() {
         return new TransposedMatrixView(view.copy());
     }
 
     @Override
-    public IMatrix newInstance(int rows, int columns) {
+    public Matrix newInstance(int rows, int columns) {
         return view.newInstance(rows, columns);
     }
 
@@ -39,22 +39,22 @@ public class TransposedMatrixView extends AbstractMatrix {
     }
 
     @Override
-    public IVector getRow(int index) {
+    public Vector getRow(int index) {
         return view.getColumn(index);
     }
 
     @Override
-    public IVector getColumn(int index) {
+    public Vector getColumn(int index) {
         return view.getRow(index);
     }
 
     @Override
-    public IMatrix set(int i, int j, double value) {
+    public Matrix set(int i, int j, double value) {
         return view.set(j, i, value);
     }
 
     @Override
-    public IMatrix transpose() {
+    public Matrix transpose() {
         return view;
     }
 
@@ -69,12 +69,12 @@ public class TransposedMatrixView extends AbstractMatrix {
     }
 
     @Override
-    public IVector[] asColumnVectors() {
+    public Vector[] asColumnVectors() {
         return view.asRowVectors();
     }
 
     @Override
-    public IVector[] asRowVectors() {
+    public Vector[] asRowVectors() {
         return view.asColumnVectors();
     }
 

@@ -1,14 +1,15 @@
 package apr.optimization.algorithms.multi.noderiv;
 
-import apr.linear.vector.IVector;
+import apr.linear.vector.ArrayVector;
+import apr.linear.vector.Vector;
 import apr.optimization.algorithms.multi.MultivariateCostFunction;
-import apr.optimization.algorithms.util.Pair;
 import apr.optimization.exceptions.DivergenceLimitReachedException;
 import apr.optimization.exceptions.ExplicitConstraintsNotMetException;
 import apr.optimization.exceptions.ImplicitConstraintsNotMetException;
 import apr.functions.constraints.Constraints;
 import apr.functions.constraints.ExplicitConstraint;
 import apr.functions.constraints.ImplicitConstraint;
+import apr.util.IntPair;
 
 import java.util.Objects;
 import java.util.Random;
@@ -64,20 +65,20 @@ public class BoxMethod extends AbstractSimplexMethod {
     }
 
     @Override
-    protected void validate(IVector x0) {
+    protected void validate(Vector x0) {
         if (!Constraints.test(x0, explicitConstraints)) throw new ExplicitConstraintsNotMetException();
         if (!Constraints.test(x0, implicitConstraints)) throw new ImplicitConstraintsNotMetException();
     }
 
     @Override
-    protected IVector[] initialSimplex(IVector x0) {
+    protected Vector[] initialSimplex(Vector x0) {
         int n = x0.getDimension();
         int size = n * 2;
-        IVector[] simplex = new IVector[size];
+        Vector[] simplex = new ArrayVector[size];
         simplex[0] = x0.copy();
-        IVector centroid = x0.copy();
+        Vector centroid = x0.copy();
         for (int i = 1; i < size; i++) {
-            IVector candidate = adjust(buildCandidate(x0, explicitConstraints), centroid, implicitConstraints);
+            Vector candidate = adjust(buildCandidate(x0, explicitConstraints), centroid, implicitConstraints);
             simplex[i] = candidate;
             centroid = add(multiply(subtract(candidate, centroid, IMMUTABLE), 1. / (i + 1), MUTABLE), centroid, MUTABLE);
         }
@@ -85,10 +86,10 @@ public class BoxMethod extends AbstractSimplexMethod {
         return simplex;
     }
 
-    protected IVector buildCandidate(IVector x0, ExplicitConstraint[] explicitConstraints) {
+    protected Vector buildCandidate(Vector x0, ExplicitConstraint[] explicitConstraints) {
         Random random = ThreadLocalRandom.current();
         int n = x0.getDimension();
-        IVector candidate = x0.newInstance(n);
+        Vector candidate = x0.newInstance(n);
         for (int i = 0; i < n; i++) {
             ExplicitConstraint constraint = explicitConstraints[i];
             double lb = constraint.lowerbound();
@@ -98,7 +99,7 @@ public class BoxMethod extends AbstractSimplexMethod {
         return candidate;
     }
 
-    protected IVector adjust(IVector point, IVector centroid, ImplicitConstraint[] implicitConstraints) {
+    protected Vector adjust(Vector point, Vector centroid, ImplicitConstraint[] implicitConstraints) {
         int count = 0;
         while (!Constraints.test(point, implicitConstraints)) {
             if (count > divergenceLimit) throw new DivergenceLimitReachedException(divergenceLimit);
@@ -108,7 +109,7 @@ public class BoxMethod extends AbstractSimplexMethod {
         return point;
     }
 
-    protected IVector adjust(IVector point, ExplicitConstraint[] explicitConstraints) {
+    protected Vector adjust(Vector point, ExplicitConstraint[] explicitConstraints) {
         for (int i = 0, n = point.getDimension(); i < n; i++) {
             ExplicitConstraint constraint = explicitConstraints[i];
             double lb = constraint.lowerbound();
@@ -122,28 +123,28 @@ public class BoxMethod extends AbstractSimplexMethod {
         return point;
     }
 
-    protected IVector shift(IVector point, IVector centroid) {
+    protected Vector shift(Vector point, Vector centroid) {
         return multiply(add(point, centroid, MUTABLE), 0.5, MUTABLE);
     }
 
     @Override
-    protected IVector optimize(IVector[] X, double[] fX) {
-        IVector min = X[argMin(fX)];
+    protected Vector optimize(Vector[] X, double[] fX) {
+        Vector min = X[argMin(fX)];
         double best = function.valueAt(min);
         int count = 0;
         while (true) {
             if (count > divergenceLimit)
                 throw new DivergenceLimitReachedException(divergenceLimit, "minimum found: [" + min + "]");
 
-            Pair worst = worstTwo(fX);
+            IntPair worst = worstTwo(fX);
             int h = worst.first();
             int h2 = worst.second();
 
-            IVector xc = centroid(X, h);
+            Vector xc = centroid(X, h);
 
             if (testConvergence(fX, function.valueAt(xc))) break;
 
-            IVector xr = reflection(xc, X[h], alpha);
+            Vector xr = reflection(xc, X[h], alpha);
 
             xr = adjust(xr, explicitConstraints);
             xr = adjust(xr, xc, implicitConstraints);
@@ -166,7 +167,7 @@ public class BoxMethod extends AbstractSimplexMethod {
         return min;
     }
 
-    private Pair worstTwo(double[] array) {
+    private IntPair worstTwo(double[] array) {
         int maxIndex = 0;
         int secondMaxIndex = 0;
         double maxValue = array[0];
@@ -181,7 +182,7 @@ public class BoxMethod extends AbstractSimplexMethod {
                 secondMaxIndex = i;
             }
         }
-        return new Pair(maxIndex, secondMaxIndex);
+        return new IntPair(maxIndex, secondMaxIndex);
     }
 
     @Override

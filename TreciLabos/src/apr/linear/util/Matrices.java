@@ -1,9 +1,9 @@
 package apr.linear.util;
 
 import apr.linear.exceptions.NonSquareMatrixException;
-import apr.linear.matrix.IMatrix;
 import apr.linear.matrix.Matrix;
-import apr.linear.util.suppliers.IMatrixSupplier;
+import apr.linear.matrix.ArrayMatrix;
+import apr.linear.util.suppliers.MatrixSupplier;
 import apr.linear.util.linalg.LinearAlgebra;
 import apr.linear.util.linalg.OperationMutability;
 
@@ -20,7 +20,7 @@ public class Matrices {
      * @param dimension dimension of new matrix
      * @return new blank matrix
      */
-    public static IMatrix zeroes(int dimension) {
+    public static Matrix zeroes(int dimension) {
         return zeroes(dimension, dimension);
     }
 
@@ -31,8 +31,8 @@ public class Matrices {
      * @param columns column dimension of new matrix
      * @return new blank matrix
      */
-    public static IMatrix zeroes(int rows, int columns) {
-        return zeroes(() -> new Matrix(rows, columns));
+    public static Matrix zeroes(int rows, int columns) {
+        return zeroes(() -> new ArrayMatrix(rows, columns));
     }
 
     /**
@@ -41,7 +41,7 @@ public class Matrices {
      * @param supplier supplier object used to dynamically create an instance of an IMatrix
      * @return new blank matrix
      */
-    public static IMatrix zeroes(IMatrixSupplier supplier) {
+    public static Matrix zeroes(MatrixSupplier supplier) {
         return fill(supplier.getAsMatrix(), 0);
     }
 
@@ -51,7 +51,7 @@ public class Matrices {
      * @param dimension dimension of new matrix
      * @return new identity matrix
      */
-    public static IMatrix identity(int dimension) {
+    public static Matrix identity(int dimension) {
         return diagonal(dimension, 1.);
     }
 
@@ -61,7 +61,7 @@ public class Matrices {
      * @param supplier matrix supplier
      * @return new identity matrix
      */
-    public static IMatrix identity(IMatrixSupplier supplier) {
+    public static Matrix identity(MatrixSupplier supplier) {
         return diagonal(supplier, 1.);
     }
 
@@ -72,8 +72,8 @@ public class Matrices {
      * @param value    value to be put on diagonal
      * @return new identity matrix
      */
-    public static IMatrix diagonal(IMatrixSupplier supplier, double value) {
-        IMatrix matrix = zeroes(supplier);
+    public static Matrix diagonal(MatrixSupplier supplier, double value) {
+        Matrix matrix = zeroes(supplier);
 
         int rowDimension = matrix.getRowDimension();
 
@@ -92,8 +92,8 @@ public class Matrices {
      * @param dimension dimension of new matrix
      * @return new identity matrix
      */
-    public static IMatrix diagonal(int dimension, double value) {
-        IMatrix matrix = zeroes(dimension);
+    public static Matrix diagonal(int dimension, double value) {
+        Matrix matrix = zeroes(dimension);
         for (int i = 0; i < dimension; i++) {
             matrix.set(i, i, value);
         }
@@ -108,7 +108,7 @@ public class Matrices {
      * @param doubleSupplier supplier object
      * @return new random matrix
      */
-    public static IMatrix random(int rows, int columns, DoubleSupplier doubleSupplier) {
+    public static Matrix random(int rows, int columns, DoubleSupplier doubleSupplier) {
         return LinearAlgebra.apply(zeroes(rows, columns), x -> doubleSupplier.getAsDouble(), OperationMutability.MUTABLE);
     }
 
@@ -119,7 +119,7 @@ public class Matrices {
      * @param doubleSupplier supplier object
      * @return new random matrix
      */
-    public static IMatrix random(int dimension, DoubleSupplier doubleSupplier) {
+    public static Matrix random(int dimension, DoubleSupplier doubleSupplier) {
         return random(dimension, dimension, doubleSupplier);
     }
 
@@ -130,7 +130,7 @@ public class Matrices {
      * @param doubleSupplier double supplier
      * @return new random matrix
      */
-    public static IMatrix random(IMatrixSupplier matrixSupplier, DoubleSupplier doubleSupplier) {
+    public static Matrix random(MatrixSupplier matrixSupplier, DoubleSupplier doubleSupplier) {
         return LinearAlgebra.apply(matrixSupplier.getAsMatrix(), x -> doubleSupplier.getAsDouble(), OperationMutability.MUTABLE);
     }
 
@@ -141,7 +141,7 @@ public class Matrices {
      * @param value  value
      * @return filled matrix
      */
-    public static IMatrix fill(IMatrix matrix, double value) {
+    public static Matrix fill(Matrix matrix, double value) {
         return LinearAlgebra.apply(matrix, x -> value, OperationMutability.MUTABLE);
     }
 
@@ -152,7 +152,7 @@ public class Matrices {
      * @param supplier supplier
      * @return filled matrix
      */
-    public static IMatrix fill(IMatrix matrix, DoubleSupplier supplier) {
+    public static Matrix fill(Matrix matrix, DoubleSupplier supplier) {
         return LinearAlgebra.apply(matrix, x -> supplier.getAsDouble(), OperationMutability.MUTABLE);
     }
 
@@ -162,7 +162,7 @@ public class Matrices {
      * @param matrix matrix to be tested
      * @return true if matrix is square, else otherwise
      */
-    public static boolean isSquareMatrix(IMatrix matrix) {
+    public static boolean isSquareMatrix(Matrix matrix) {
         return matrix.getRowDimension() == matrix.getColumnDimension();
     }
 
@@ -172,7 +172,7 @@ public class Matrices {
      * @param matrix matrix to be tested
      * @return true if matrix is lower triangle matrix, else otherwise
      */
-    public static boolean isLowerTriangleMatrix(IMatrix matrix) {
+    public static boolean isLowerTriangleMatrix(Matrix matrix) {
         if (!isSquareMatrix(matrix)) return false;
 
         for (int i = 0, n = matrix.getRowDimension(); i < n; i++) {
@@ -190,7 +190,7 @@ public class Matrices {
      * @param matrix matrix to be tested
      * @return true if matrix is upper triangle matrix, else otherwise
      */
-    public static boolean isUpperTriangleMatrix(IMatrix matrix) {
+    public static boolean isUpperTriangleMatrix(Matrix matrix) {
         if (!isSquareMatrix(matrix)) return false;
 
         for (int i = 0, n = matrix.getRowDimension(); i < n; i++) {

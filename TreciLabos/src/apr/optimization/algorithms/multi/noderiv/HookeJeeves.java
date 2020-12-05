@@ -1,6 +1,6 @@
 package apr.optimization.algorithms.multi.noderiv;
 
-import apr.linear.vector.IVector;
+import apr.linear.vector.Vector;
 import apr.optimization.algorithms.multi.MultivariateCostFunction;
 
 import static apr.linear.util.linalg.LinearAlgebra.*;
@@ -33,14 +33,14 @@ public final class HookeJeeves extends AbstractMultivariateOptimizer {
     }
 
     @Override
-    public IVector search(IVector x0) {
-        IVector xp = x0;
-        IVector xb = x0;
+    public Vector search(Vector x0) {
+        Vector xp = x0;
+        Vector xb = x0;
 
         double fxb = function.valueAt(xb);
         double dx = delta;
         while (dx >= epsilon) {
-            IVector xn = explore(xp, dx);
+            Vector xn = explore(xp, dx);
             double fxn = function.valueAt(xn);
             if (fxn < fxb) {
                 xp = subtract(multiply(xn, 2, IMMUTABLE), xb, MUTABLE);
@@ -55,8 +55,8 @@ public final class HookeJeeves extends AbstractMultivariateOptimizer {
         return xb;
     }
 
-    private IVector explore(IVector xp, double dx) {
-        IVector x = xp.copy();
+    private Vector explore(Vector xp, double dx) {
+        Vector x = xp.copy();
         double fxInitial = function.valueAt(x);
         for (int i = 0, n = x.getDimension(); i < n; i++) {
             double xi = x.get(i);

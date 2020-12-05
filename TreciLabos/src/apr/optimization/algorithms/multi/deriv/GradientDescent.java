@@ -1,6 +1,6 @@
 package apr.optimization.algorithms.multi.deriv;
 
-import apr.linear.vector.IVector;
+import apr.linear.vector.Vector;
 
 import static apr.linear.util.linalg.LinearAlgebra.*;
 import static apr.linear.util.linalg.OperationMutability.*;
@@ -19,7 +19,7 @@ public final class GradientDescent extends AbstractDifferentiableMultivariateOpt
     }
 
     @Override
-    protected IVector computeDirection(IVector x, IVector gradient) {
+    protected Vector computeDirection(Vector x, Vector gradient) {
         return multiply(gradient, -1., IMMUTABLE);
     }
 

@@ -1,7 +1,7 @@
 package apr.optimization.algorithms.uni;
 
-import apr.optimization.algorithms.util.Interval;
 import apr.functions.UnivariateFunction;
+import apr.util.Interval;
 
 import java.util.Objects;
 

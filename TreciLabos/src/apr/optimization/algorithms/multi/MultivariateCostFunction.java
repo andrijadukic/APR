@@ -1,19 +1,19 @@
 package apr.optimization.algorithms.multi;
 
-import apr.linear.vector.IVector;
-import apr.functions.IMultivariateFunction;
+import apr.linear.vector.Vector;
+import apr.functions.MultivariateFunction;
 
 import java.util.Objects;
 
 /**
  * Implementation of the {@code IMultivariableCostFunction} interface
  */
-public class MultivariateCostFunction implements IMultivariateFunction {
+public class MultivariateCostFunction implements MultivariateFunction {
 
-    protected final IMultivariateFunction function;
+    protected final MultivariateFunction function;
     protected int functionEvalCounter;
 
-    public MultivariateCostFunction(IMultivariateFunction function) {
+    public MultivariateCostFunction(MultivariateFunction function) {
         this.function = Objects.requireNonNull(function);
     }
 
@@ -26,7 +26,7 @@ public class MultivariateCostFunction implements IMultivariateFunction {
     }
 
     @Override
-    public double valueAt(IVector x) {
+    public double valueAt(Vector x) {
         functionEvalCounter++;
         return function.valueAt(x);
     }

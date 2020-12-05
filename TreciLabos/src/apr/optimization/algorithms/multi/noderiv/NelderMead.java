@@ -1,8 +1,9 @@
 package apr.optimization.algorithms.multi.noderiv;
 
-import apr.linear.vector.IVector;
+import apr.linear.vector.ArrayVector;
+import apr.linear.vector.Vector;
 import apr.optimization.algorithms.multi.MultivariateCostFunction;
-import apr.optimization.algorithms.util.Pair;
+import apr.util.IntPair;
 
 /**
  * Implementation of the Nelder-Mead simplex method
@@ -75,13 +76,13 @@ public class NelderMead extends AbstractSimplexMethod {
     }
 
     @Override
-    protected void validate(IVector x0) {
+    protected void validate(Vector x0) {
     }
 
     @Override
-    protected IVector[] initialSimplex(IVector x0) {
+    protected Vector[] initialSimplex(Vector x0) {
         int n = x0.getDimension() + 1;
-        IVector[] simplex = new IVector[n];
+        Vector[] simplex = new ArrayVector[n];
         simplex[0] = x0.copy();
         for (int i = 1; i < n; i++) {
             int nthDimension = i - 1;
@@ -91,21 +92,21 @@ public class NelderMead extends AbstractSimplexMethod {
     }
 
     @Override
-    protected IVector optimize(IVector[] X, double[] fX) {
+    protected Vector optimize(Vector[] X, double[] fX) {
         while (true) {
-            Pair worstAndBest = worstAndBest(fX);
+            IntPair worstAndBest = worstAndBest(fX);
             int h = worstAndBest.first();
             int l = worstAndBest.second();
 
-            IVector xc = centroid(X, h);
+            Vector xc = centroid(X, h);
 
             if (testConvergence(fX, function.valueAt(xc))) break;
 
-            IVector xr = reflection(xc, X[h], alpha);
+            Vector xr = reflection(xc, X[h], alpha);
 
             double fxr = function.valueAt(xr);
             if (fxr < fX[l]) {
-                IVector xe = expansion(xc, xr, gamma);
+                Vector xe = expansion(xc, xr, gamma);
                 double fxe = function.valueAt(xe);
                 if (fxe < fX[l]) {
                     X[h] = xe;
@@ -128,13 +129,13 @@ public class NelderMead extends AbstractSimplexMethod {
                         X[h] = xr;
                         fX[h] = fxr;
                     }
-                    IVector xk = contraction(xc, X[h], beta);
+                    Vector xk = contraction(xc, X[h], beta);
                     double fxk = function.valueAt(xk);
                     if (fxk < fX[h]) {
                         X[h] = xk;
                         fX[h] = fxk;
                     } else {
-                        IVector xl = X[l];
+                        Vector xl = X[l];
                         for (int i = 0, n = X.length; i < n; i++) {
                             if (i == l) continue;
                             X[i] = shrink(X[i], xl, sigma);
@@ -151,7 +152,7 @@ public class NelderMead extends AbstractSimplexMethod {
         return X[argMin(fX)];
     }
 
-    private Pair worstAndBest(double[] array) {
+    private IntPair worstAndBest(double[] array) {
         double maxValue, minValue;
         int maxIndex, minIndex;
 
@@ -167,7 +168,7 @@ public class NelderMead extends AbstractSimplexMethod {
                 minIndex = i;
             }
         }
-        return new Pair(maxIndex, minIndex);
+        return new IntPair(maxIndex, minIndex);
     }
 
     @Override

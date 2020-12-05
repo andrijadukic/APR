@@ -8,7 +8,7 @@ import java.util.function.DoublePredicate;
 /**
  * Abstract Vector class which all IVector implementations should inherit
  */
-public abstract class AbstractVector implements IVector {
+public abstract class AbstractVector implements Vector {
 
     @Override
     public boolean anyMatch(DoublePredicate predicate) {
@@ -27,7 +27,7 @@ public abstract class AbstractVector implements IVector {
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof IVector other)) return false;
+        if (!(obj instanceof Vector other)) return false;
 
         int dimension = getDimension();
 
@@ -55,11 +55,11 @@ public abstract class AbstractVector implements IVector {
 
     private static class AbstractVectorIterator implements Iterator<Double> {
 
-        private final IVector vector;
+        private final Vector vector;
         private final int dimension;
         private int count;
 
-        public AbstractVectorIterator(IVector vector) {
+        public AbstractVectorIterator(Vector vector) {
             this.vector = vector;
             dimension = vector.getDimension();
         }

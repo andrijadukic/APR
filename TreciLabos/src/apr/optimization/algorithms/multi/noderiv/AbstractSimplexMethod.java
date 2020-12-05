@@ -1,7 +1,7 @@
 package apr.optimization.algorithms.multi.noderiv;
 
 import apr.linear.util.Vectors;
-import apr.linear.vector.IVector;
+import apr.linear.vector.Vector;
 import apr.optimization.algorithms.multi.MultivariateCostFunction;
 
 import java.util.Arrays;
@@ -24,24 +24,24 @@ public abstract class AbstractSimplexMethod extends AbstractMultivariateOptimize
     }
 
     @Override
-    public IVector search(IVector x0) {
+    public Vector search(Vector x0) {
         validate(x0);
 
-        final IVector[] X = initialSimplex(x0);
+        final Vector[] X = initialSimplex(x0);
         final double[] fX = Arrays.stream(X).mapToDouble(function::valueAt).toArray();
 
         return optimize(X, fX);
     }
 
-    protected abstract void validate(IVector x0);
+    protected abstract void validate(Vector x0);
 
-    protected abstract IVector[] initialSimplex(IVector x0);
+    protected abstract Vector[] initialSimplex(Vector x0);
 
-    protected abstract IVector optimize(IVector[] X, double[] fX);
+    protected abstract Vector optimize(Vector[] X, double[] fX);
 
-    protected IVector centroid(IVector[] simplex, int h) {
+    protected Vector centroid(Vector[] simplex, int h) {
         int n = simplex.length;
-        IVector centroid = Vectors.zeroes(simplex[0].getDimension());
+        Vector centroid = Vectors.zeroes(simplex[0].getDimension());
         for (int i = 0; i < n; i++) {
             if (i == h) continue;
             add(centroid, simplex[i], MUTABLE);
@@ -49,28 +49,28 @@ public abstract class AbstractSimplexMethod extends AbstractMultivariateOptimize
         return multiply(centroid, 1. / (n - 1), MUTABLE);
     }
 
-    protected IVector reflection(IVector xc, IVector xh, double alpha) {
+    protected Vector reflection(Vector xc, Vector xh, double alpha) {
         return subtract(
                 multiply(xc, 1 + alpha, IMMUTABLE),
                 multiply(xh, alpha, IMMUTABLE),
                 MUTABLE);
     }
 
-    protected IVector expansion(IVector xc, IVector xr, double gamma) {
+    protected Vector expansion(Vector xc, Vector xr, double gamma) {
         return add(
                 multiply(xc, 1 - gamma, IMMUTABLE),
                 multiply(xr, gamma, IMMUTABLE),
                 MUTABLE);
     }
 
-    protected IVector contraction(IVector xc, IVector xh, double beta) {
+    protected Vector contraction(Vector xc, Vector xh, double beta) {
         return add(
                 multiply(xc, 1 - beta, IMMUTABLE),
                 multiply(xh, beta, IMMUTABLE),
                 MUTABLE);
     }
 
-    protected IVector shrink(IVector xi, IVector xl, double sigma) {
+    protected Vector shrink(Vector xi, Vector xl, double sigma) {
         return multiply(
                 add(xi, xl, MUTABLE),
                 sigma,
