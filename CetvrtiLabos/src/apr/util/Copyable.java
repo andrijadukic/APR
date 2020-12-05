@@ -1,11 +1,11 @@
-package apr.linear.util;
+package apr.util;
 
 /**
  * Represents an object which can copy itself
  *
  * @param <T>
  */
-public interface ICopyable<T> {
+public interface Copyable<T> {
 
     /**
      * Creates a deep copy of this object

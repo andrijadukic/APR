@@ -1,13 +1,13 @@
 package apr.functions;
 
-import apr.linear.matrix.IMatrix;
-import apr.linear.vector.IVector;
+import apr.linear.matrix.Matrix;
+import apr.linear.vector.Vector;
 
 /**
  * Represents a multivariate function which takes an n-dimensional vector as argument and returns a KxL dimensional matrix
  */
 @FunctionalInterface
-public interface IMultivariableMatrixFunction {
+public interface MultivariableMatrixFunction {
 
     /**
      * Calculates matrix at given point
@@ -15,5 +15,5 @@ public interface IMultivariableMatrixFunction {
      * @param x point
      * @return matrix
      */
-    IMatrix valueAt(IVector x);
+    Matrix valueAt(Vector x);
 }

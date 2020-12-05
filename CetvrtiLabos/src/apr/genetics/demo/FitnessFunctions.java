@@ -1,6 +1,6 @@
 package apr.genetics.demo;
 
-import apr.functions.IMultivariateFunction;
+import apr.functions.MultivariateFunction;
 
 /**
  * Utility class defining several cost functions through static factory methods
@@ -12,7 +12,7 @@ public class FitnessFunctions {
      *
      * @return function f1
      */
-    public static IMultivariateFunction f1() {
+    public static MultivariateFunction f1() {
         return x -> {
             double x1 = x.get(0);
             double x2 = x.get(1);
@@ -25,7 +25,7 @@ public class FitnessFunctions {
      *
      * @return function f3
      */
-    public static IMultivariateFunction f3() {
+    public static MultivariateFunction f3() {
         return x -> {
             double result = 0.;
             for (int i = 0, n = x.getDimension(); i < n; i++) {
@@ -40,7 +40,7 @@ public class FitnessFunctions {
      *
      * @return function f6
      */
-    public static IMultivariateFunction f6() {
+    public static MultivariateFunction f6() {
         return x -> {
             double sum = 0.;
             for (int i = 0, n = x.getDimension(); i < n; i++) {
@@ -57,7 +57,7 @@ public class FitnessFunctions {
      *
      * @return function f7
      */
-    public static IMultivariateFunction f7() {
+    public static MultivariateFunction f7() {
         return x -> {
             double sum = 0;
             for (double xi : x) {

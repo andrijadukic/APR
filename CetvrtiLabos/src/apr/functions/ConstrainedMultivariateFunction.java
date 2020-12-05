@@ -1,93 +1,38 @@
 package apr.functions;
 
-import apr.linear.vector.IVector;
 import apr.functions.constraints.EqualityConstraint;
 import apr.functions.constraints.InequalityConstraint;
 
-import java.util.Objects;
-
 /**
- * Implementation of the {@code IConstrainedMultivariateFunction} interface
+ * Represents a constrained multivariate function
  */
-public class ConstrainedMultivariateFunction implements IConstrainedMultivariateFunction {
+public interface ConstrainedMultivariateFunction extends MultivariateFunction {
 
-    protected final IMultivariateFunction unconstrainedFunction;
+    /**
+     * Gets coefficient used for scaling constraint penalties
+     *
+     * @return coefficient
+     */
+    double getCoefficient();
 
-    private final EqualityConstraint[] equalityConstraints;
-    private final InequalityConstraint[] inequalityConstraints;
+    /**
+     * Sets coefficient used for scaling constraint penalties
+     *
+     * @param coefficient coefficient
+     */
+    void setCoefficient(double coefficient);
 
-    private double coefficient;
+    /**
+     * Gets inequality constraints on this function
+     *
+     * @return inequality constraints
+     */
+    InequalityConstraint[] getInequalityConstraints();
 
-    private static final double DEFAULT_COEFFICIENT = 1.;
-
-    private static final EqualityConstraint[] EQUALITY_CONSTRAINTS_PLACEHOLDER = new EqualityConstraint[]{};
-    private static final InequalityConstraint[] INEQUALITY_CONSTRAINTS_PLACEHOLDER = new InequalityConstraint[]{};
-
-    public ConstrainedMultivariateFunction(IMultivariateFunction unconstrainedFunction,
-                                           EqualityConstraint[] equalityConstraints, InequalityConstraint[] inequalityConstraints,
-                                           double coefficient) {
-        this.unconstrainedFunction = Objects.requireNonNull(unconstrainedFunction);
-        this.equalityConstraints = Objects.requireNonNull(equalityConstraints);
-        this.inequalityConstraints = Objects.requireNonNull(inequalityConstraints);
-        this.coefficient = coefficient;
-    }
-
-    public ConstrainedMultivariateFunction(IMultivariateFunction unconstrainedFunction,
-                                           EqualityConstraint[] equalityConstraints, InequalityConstraint[] inequalityConstraints) {
-        this(unconstrainedFunction, equalityConstraints, inequalityConstraints, DEFAULT_COEFFICIENT);
-    }
-
-    public ConstrainedMultivariateFunction(IMultivariateFunction unconstrainedFunction, InequalityConstraint... inequalityConstraints) {
-        this(unconstrainedFunction, EQUALITY_CONSTRAINTS_PLACEHOLDER, inequalityConstraints);
-    }
-
-    public ConstrainedMultivariateFunction(IMultivariateFunction unconstrainedFunction, EqualityConstraint... equalityConstraints) {
-        this(unconstrainedFunction, equalityConstraints, INEQUALITY_CONSTRAINTS_PLACEHOLDER);
-    }
-
-    public ConstrainedMultivariateFunction(IMultivariateFunction unconstrainedFunction, InequalityConstraint[] inequalityConstraints, double coefficient) {
-        this(unconstrainedFunction, EQUALITY_CONSTRAINTS_PLACEHOLDER, inequalityConstraints, coefficient);
-    }
-
-    public ConstrainedMultivariateFunction(IMultivariateFunction unconstrainedFunction, EqualityConstraint[] equalityConstraints, double coefficient) {
-        this(unconstrainedFunction, equalityConstraints, INEQUALITY_CONSTRAINTS_PLACEHOLDER, coefficient);
-    }
-
-    @Override
-    public double getCoefficient() {
-        return coefficient;
-    }
-
-    @Override
-    public void setCoefficient(double coefficient) {
-        this.coefficient = coefficient;
-    }
-
-    public EqualityConstraint[] getEqualityConstraints() {
-        return equalityConstraints;
-    }
-
-    public InequalityConstraint[] getInequalityConstraints() {
-        return inequalityConstraints;
-    }
-
-    @Override
-    public double valueAt(IVector x) {
-        double value = unconstrainedFunction.valueAt(x);
-
-        double inequalityCoefficient = 1. / coefficient;
-        for (InequalityConstraint constraint : inequalityConstraints) {
-            double constraintFunctionValue = constraint.getFunction().valueAt(x);
-
-            if (constraintFunctionValue <= 0) return Double.POSITIVE_INFINITY;
-
-            value -= inequalityCoefficient * Math.log(constraintFunctionValue);
-        }
-        for (EqualityConstraint constraint : equalityConstraints) {
-            double constraintFunctionValue = constraint.getFunction().valueAt(x);
-            value += coefficient * constraintFunctionValue * constraintFunctionValue;
-        }
-
-        return value;
-    }
+    /**
+     * Gets equality constraints on this function
+     *
+     * @return equality constraints
+     */
+    EqualityConstraint[] getEqualityConstraints();
 }

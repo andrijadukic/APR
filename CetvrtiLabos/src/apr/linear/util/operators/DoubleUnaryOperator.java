@@ -4,7 +4,7 @@ package apr.linear.util.operators;
  * Represents a unary operator that accepts a real number (double precision) and returns a real number (double precision)
  */
 @FunctionalInterface
-public interface IDoubleUnaryOperator {
+public interface DoubleUnaryOperator {
 
     /**
      * Applies this operator to operand

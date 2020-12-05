@@ -2,19 +2,18 @@ package apr.genetics.chromosomes.population;
 
 import apr.genetics.chromosomes.Chromosome;
 import apr.genetics.exceptions.EmptyPopulationException;
+import apr.util.Copyable;
 
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-public interface Population extends Iterable<Chromosome> {
+public interface Population extends Iterable<Chromosome>, Copyable<Population> {
 
     int size();
 
     Population empty();
-
-    Population copy();
 
     void addChromosome(Chromosome chromosome);
 

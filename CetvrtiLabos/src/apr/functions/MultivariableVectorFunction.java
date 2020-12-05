@@ -1,12 +1,12 @@
 package apr.functions;
 
-import apr.linear.vector.IVector;
+import apr.linear.vector.Vector;
 
 /**
  * Represents a multivariate function which takes an n-dimensional vector as argument and returns an m-dimensional vector
  */
 @FunctionalInterface
-public interface IMultivariableVectorFunction {
+public interface MultivariableVectorFunction {
 
     /**
      * Calculates vector at given point
@@ -14,5 +14,5 @@ public interface IMultivariableVectorFunction {
      * @param x point
      * @return vector
      */
-    IVector valueAt(IVector x);
+    Vector valueAt(Vector x);
 }

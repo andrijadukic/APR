@@ -1,11 +1,11 @@
 package apr.linear.decompose;
 
 import apr.linear.exceptions.SingularMatrixException;
-import apr.linear.matrix.IMatrix;
+import apr.linear.matrix.Matrix;
 import apr.linear.util.linalg.LinearAlgebra;
 import apr.linear.util.Matrices;
-import apr.linear.vector.IVector;
 import apr.linear.vector.Vector;
+import apr.linear.vector.ArrayVector;
 
 
 /**
@@ -13,20 +13,20 @@ import apr.linear.vector.Vector;
  */
 public class LUPDecomposer extends AbstractMatrixDecomposer {
 
-    private IMatrix L;
-    private IMatrix U;
-    private IVector P;
+    private Matrix L;
+    private Matrix U;
+    private Vector P;
     private boolean isSwapCountEven = true;
     private final int dimension;
 
-    public LUPDecomposer(IMatrix matrix) {
+    public LUPDecomposer(Matrix matrix) {
         super(matrix);
         dimension = matrix.getRowDimension();
         decompose();
     }
 
     @Override
-    public boolean isApplicable(IMatrix matrix) {
+    public boolean isApplicable(Matrix matrix) {
         return Matrices.isSquareMatrix(matrix);
     }
 
@@ -34,7 +34,7 @@ public class LUPDecomposer extends AbstractMatrixDecomposer {
      * Performs LUP decomposition
      */
     private void decompose() {
-        P = new Vector(0, dimension);
+        P = new ArrayVector(0, dimension);
 
         for (int i = 0, n = dimension - 1; i < n; i++) {
             int pivot = i;
@@ -66,7 +66,7 @@ public class LUPDecomposer extends AbstractMatrixDecomposer {
      *
      * @return L matrix
      */
-    public IMatrix getL() {
+    public Matrix getL() {
         if (L != null) return L;
 
         L = Matrices.zeroes(() -> matrix.newInstance(dimension, dimension));
@@ -84,10 +84,10 @@ public class LUPDecomposer extends AbstractMatrixDecomposer {
      *
      * @return U matrix
      */
-    public IMatrix getU() {
+    public Matrix getU() {
         if (U != null) return L;
 
-        IMatrix U = Matrices.zeroes(dimension);
+        Matrix U = Matrices.zeroes(dimension);
         for (int i = 0; i < dimension; i++) {
             for (int j = i; j < dimension; j++) {
                 U.set(i, j, matrix.get(i, j));
@@ -101,7 +101,7 @@ public class LUPDecomposer extends AbstractMatrixDecomposer {
      *
      * @return permutation vector
      */
-    public IVector getPivot() {
+    public Vector getPivot() {
         return P;
     }
 
@@ -115,18 +115,18 @@ public class LUPDecomposer extends AbstractMatrixDecomposer {
     }
 
     @Override
-    public ILinearEquationSolver solver() {
+    public LinearEquationSolver solver() {
         return new LUPSolver(this);
     }
 
     /**
      * Private static class implementing the LinearEquationSolver interface by using LUP decomposition
      */
-    private static class LUPSolver implements ILinearEquationSolver {
+    private static class LUPSolver implements LinearEquationSolver {
 
-        private final IMatrix L;
-        private final IMatrix U;
-        private final IVector P;
+        private final Matrix L;
+        private final Matrix U;
+        private final Vector P;
         private final int n;
 
         public LUPSolver(LUPDecomposer decomposer) {
@@ -137,21 +137,21 @@ public class LUPDecomposer extends AbstractMatrixDecomposer {
         }
 
         @Override
-        public IVector solve(IVector b) {
+        public Vector solve(Vector b) {
             return LinearAlgebra.backwardSubstitution(U, LinearAlgebra.forwardSubstitution(L, LinearAlgebra.permute(b, P)));
         }
 
         @Override
-        public IMatrix invert() {
-            IMatrix identity = Matrices.identity(n);
+        public Matrix invert() {
+            Matrix identity = Matrices.identity(n);
 
-            IVector[] x = new Vector[n];
+            Vector[] x = new ArrayVector[n];
 
             for (int i = 0; i < n; i++) {
                 x[i] = solve(identity.getColumn(i));
             }
 
-            IMatrix result = identity.newInstance(n, n);
+            Matrix result = identity.newInstance(n, n);
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
                     result.set(i, j, x[j].get(i));

@@ -1,6 +1,6 @@
 package apr.functions.constraints;
 
-import apr.linear.vector.IVector;
+import apr.linear.vector.Vector;
 
 import java.util.Objects;
 
@@ -8,7 +8,7 @@ import java.util.Objects;
  * Represents a constraint on a function
  */
 @FunctionalInterface
-public interface IConstraint {
+public interface Constraint {
 
     /**
      * Tests if given point fits this constraint
@@ -16,7 +16,7 @@ public interface IConstraint {
      * @param x point
      * @return true if point fits constraint, false otherwise
      */
-    boolean test(IVector x);
+    boolean test(Vector x);
 
     /**
      * Combines two constraints with logical and operator
@@ -24,7 +24,7 @@ public interface IConstraint {
      * @param next constraint to be added to this constraint
      * @return new constraint
      */
-    default IConstraint and(IConstraint next) {
+    default Constraint and(Constraint next) {
         Objects.requireNonNull(next);
         return x -> test(x) && next.test(x);
     }
@@ -35,7 +35,7 @@ public interface IConstraint {
      * @param next constraint to be added to this constraint
      * @return new constraint
      */
-    default IConstraint or(IConstraint next) {
+    default Constraint or(Constraint next) {
         Objects.requireNonNull(next);
         return x -> test(x) || next.test(x);
     }
@@ -45,7 +45,7 @@ public interface IConstraint {
      *
      * @return new constraint
      */
-    default IConstraint not() {
+    default Constraint not() {
         return x -> !test(x);
     }
 }

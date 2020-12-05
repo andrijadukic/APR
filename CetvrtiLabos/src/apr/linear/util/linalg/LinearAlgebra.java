@@ -2,11 +2,11 @@ package apr.linear.util.linalg;
 
 import apr.linear.exceptions.DimensionMismatchException;
 import apr.linear.exceptions.SingularMatrixException;
-import apr.linear.matrix.IMatrix;
+import apr.linear.matrix.Matrix;
 import apr.linear.util.Matrices;
-import apr.linear.util.operators.IDoubleBinaryOperator;
-import apr.linear.util.operators.IDoubleUnaryOperator;
-import apr.linear.vector.IVector;
+import apr.linear.util.operators.DoubleBinaryOperator;
+import apr.linear.util.operators.DoubleUnaryOperator;
+import apr.linear.vector.Vector;
 
 import java.security.InvalidParameterException;
 import java.util.function.DoublePredicate;
@@ -28,7 +28,7 @@ public class LinearAlgebra {
      * @param mutability if set to MUTABLE then result overwrites first operand
      * @return result matrix
      */
-    public static IMatrix add(IMatrix m1, IMatrix m2, OperationMutability mutability) {
+    public static Matrix add(Matrix m1, Matrix m2, OperationMutability mutability) {
         return apply(m1, m2, Double::sum, mutability);
     }
 
@@ -40,7 +40,7 @@ public class LinearAlgebra {
      * @param mutability if set to MUTABLE then result overwrites first operand
      * @return result matrix
      */
-    public static IMatrix add(IMatrix matrix, double value, OperationMutability mutability) {
+    public static Matrix add(Matrix matrix, double value, OperationMutability mutability) {
         if (value == 0) return (mutability == OperationMutability.MUTABLE) ? matrix : matrix.copy();
         return apply(matrix, x -> x + value, mutability);
     }
@@ -53,7 +53,7 @@ public class LinearAlgebra {
      * @param mutability if set to MUTABLE then result overwrites first operand
      * @return result vector
      */
-    public static IVector add(IVector v1, IVector v2, OperationMutability mutability) {
+    public static Vector add(Vector v1, Vector v2, OperationMutability mutability) {
         return apply(v1, v2, Double::sum, mutability);
     }
 
@@ -65,7 +65,7 @@ public class LinearAlgebra {
      * @param mutability if set to MUTABLE then result overwrites first operand
      * @return result vector
      */
-    public static IVector add(IVector vector, double value, OperationMutability mutability) {
+    public static Vector add(Vector vector, double value, OperationMutability mutability) {
         if (value == 0) return (mutability == OperationMutability.MUTABLE) ? vector : vector.copy();
         return apply(vector, x -> x + value, mutability);
     }
@@ -78,7 +78,7 @@ public class LinearAlgebra {
      * @param mutability if set to MUTABLE then result overwrites first operand
      * @return result matrix
      */
-    public static IMatrix subtract(IMatrix m1, IMatrix m2, OperationMutability mutability) {
+    public static Matrix subtract(Matrix m1, Matrix m2, OperationMutability mutability) {
         return apply(m1, m2, (x, y) -> x - y, mutability);
     }
 
@@ -90,7 +90,7 @@ public class LinearAlgebra {
      * @param mutability if set to MUTABLE then result overwrites first operand
      * @return result matrix
      */
-    public static IMatrix subtract(IMatrix matrix, double value, OperationMutability mutability) {
+    public static Matrix subtract(Matrix matrix, double value, OperationMutability mutability) {
         if (value == 0) return (mutability == OperationMutability.MUTABLE) ? matrix : matrix.copy();
         return apply(matrix, x -> x - value, mutability);
     }
@@ -103,7 +103,7 @@ public class LinearAlgebra {
      * @param mutability if set to MUTABLE then result overwrites first operand
      * @return result vector
      */
-    public static IVector subtract(IVector v1, IVector v2, OperationMutability mutability) {
+    public static Vector subtract(Vector v1, Vector v2, OperationMutability mutability) {
         return apply(v1, v2, (x, y) -> x - y, mutability);
     }
 
@@ -115,7 +115,7 @@ public class LinearAlgebra {
      * @param mutability if set to MUTABLE then result overwrites first operand
      * @return result vector
      */
-    public static IVector subtract(IVector vector, double value, OperationMutability mutability) {
+    public static Vector subtract(Vector vector, double value, OperationMutability mutability) {
         if (value == 0) return (mutability == OperationMutability.MUTABLE) ? vector : vector.copy();
         return apply(vector, x -> x - value, mutability);
     }
@@ -127,13 +127,13 @@ public class LinearAlgebra {
      * @param m2 second matrix
      * @return result matrix
      */
-    public static IMatrix multiply(IMatrix m1, IMatrix m2) {
+    public static Matrix multiply(Matrix m1, Matrix m2) {
         checkMultiplicationApplicable(m1, m2);
 
         int r1 = m1.getRowDimension();
         int c1 = m1.getColumnDimension();
         int c2 = m2.getColumnDimension();
-        IMatrix result = m1.newInstance(r1, c2);
+        Matrix result = m1.newInstance(r1, c2);
 
         for (int i = 0; i < r1; i++) {
             for (int j = 0; j < c2; j++) {
@@ -154,11 +154,11 @@ public class LinearAlgebra {
      * @param matrix matrix
      * @return result vector
      */
-    public static IVector multiply(IVector vector, IMatrix matrix) {
+    public static Vector multiply(Vector vector, Matrix matrix) {
         checkMultiplicationApplicable(matrix, vector);
 
         int n = matrix.getColumnDimension();
-        IVector result = vector.newInstance(n);
+        Vector result = vector.newInstance(n);
         for (int i = 0; i < n; i++) {
             double sum = 0.;
             for (int j = 0, m = matrix.getRowDimension(); j < m; j++) {
@@ -177,7 +177,7 @@ public class LinearAlgebra {
      * @param mutability if set to MUTABLE then result overwrites first operand
      * @return result matrix
      */
-    public static IMatrix multiply(IMatrix matrix, double scalar, OperationMutability mutability) {
+    public static Matrix multiply(Matrix matrix, double scalar, OperationMutability mutability) {
         if (scalar == 1) return (mutability == OperationMutability.MUTABLE) ? matrix : matrix.copy();
         return apply(matrix, x -> x * scalar, mutability);
     }
@@ -189,7 +189,7 @@ public class LinearAlgebra {
      * @param v2 second vector
      * @return result scalar value
      */
-    public static double inner(IVector v1, IVector v2) {
+    public static double inner(Vector v1, Vector v2) {
         checkMultiplicationApplicable(v1, v2);
 
         double sum = 0.;
@@ -207,10 +207,10 @@ public class LinearAlgebra {
      * @param v2 second vector
      * @return result matrix
      */
-    public static IMatrix outer(IVector v1, IVector v2) {
+    public static Matrix outer(Vector v1, Vector v2) {
         int rowDimension = v1.getDimension();
         int columnDimension = v2.getDimension();
-        IMatrix result = Matrices.zeroes(rowDimension, columnDimension);
+        Matrix result = Matrices.zeroes(rowDimension, columnDimension);
         for (int i = 0; i < rowDimension; i++) {
             double xi = v1.get(i);
             for (int j = 0; j < columnDimension; j++) {
@@ -228,7 +228,7 @@ public class LinearAlgebra {
      * @param mutability if set to MUTABLE then result overwrites first operand
      * @return result vector
      */
-    public static IVector multiply(IVector vector, double scalar, OperationMutability mutability) {
+    public static Vector multiply(Vector vector, double scalar, OperationMutability mutability) {
         if (scalar == 1) return mutability == OperationMutability.MUTABLE ? vector : vector.copy();
         return apply(vector, x -> x * scalar, mutability);
     }
@@ -241,10 +241,10 @@ public class LinearAlgebra {
      * @param mutability if set to MUTABLE then result overwrites first operand
      * @return result matrix
      */
-    public static IMatrix apply(IMatrix matrix, IDoubleUnaryOperator operator, OperationMutability mutability) {
+    public static Matrix apply(Matrix matrix, DoubleUnaryOperator operator, OperationMutability mutability) {
         int rowDimension = matrix.getRowDimension();
         int columnDimension = matrix.getColumnDimension();
-        IMatrix result = (mutability == OperationMutability.MUTABLE) ? matrix : matrix.newInstance(rowDimension, columnDimension);
+        Matrix result = (mutability == OperationMutability.MUTABLE) ? matrix : matrix.newInstance(rowDimension, columnDimension);
         for (int i = 0; i < rowDimension; i++) {
             for (int j = 0; j < columnDimension; j++) {
                 result.set(i, j, operator.apply(matrix.get(i, j)));
@@ -261,12 +261,12 @@ public class LinearAlgebra {
      * @param operator   operator to be applied
      * @param mutability if set to MUTABLE then result overwrites first operand
      */
-    public static IMatrix apply(IMatrix m1, IMatrix m2, IDoubleBinaryOperator operator, OperationMutability mutability) {
+    public static Matrix apply(Matrix m1, Matrix m2, DoubleBinaryOperator operator, OperationMutability mutability) {
         checkDimensionsSame(m1, m2);
 
         int rowDimension = m1.getRowDimension();
         int columnDimension = m1.getColumnDimension();
-        IMatrix result = (mutability == OperationMutability.MUTABLE) ? m1 : m1.newInstance(rowDimension, columnDimension);
+        Matrix result = (mutability == OperationMutability.MUTABLE) ? m1 : m1.newInstance(rowDimension, columnDimension);
         for (int i = 0; i < rowDimension; i++) {
             for (int j = 0; j < columnDimension; j++) {
                 result.set(i, j, operator.apply(m1.get(i, j), m2.get(i, j)));
@@ -283,9 +283,9 @@ public class LinearAlgebra {
      * @param mutability if set to MUTABLE then result overwrites first operand
      * @return new vector
      */
-    public static IVector apply(IVector vector, IDoubleUnaryOperator operator, OperationMutability mutability) {
+    public static Vector apply(Vector vector, DoubleUnaryOperator operator, OperationMutability mutability) {
         int n = vector.getDimension();
-        IVector result = (mutability == OperationMutability.MUTABLE) ? vector : vector.newInstance(n);
+        Vector result = (mutability == OperationMutability.MUTABLE) ? vector : vector.newInstance(n);
         for (int i = 0; i < n; i++) {
             result.set(i, operator.apply(vector.get(i)));
         }
@@ -301,11 +301,11 @@ public class LinearAlgebra {
      * @param mutability if set to MUTABLE then result overwrites first operand
      * @return new vector
      */
-    public static IVector apply(IVector v1, IVector v2, IDoubleBinaryOperator operator, OperationMutability mutability) {
+    public static Vector apply(Vector v1, Vector v2, DoubleBinaryOperator operator, OperationMutability mutability) {
         checkDimensionsSame(v1, v2);
 
         int n = v1.getDimension();
-        IVector result = (mutability == OperationMutability.MUTABLE) ? v1 : v1.newInstance(n);
+        Vector result = (mutability == OperationMutability.MUTABLE) ? v1 : v1.newInstance(n);
         for (int i = 0; i < n; i++) {
             result.set(i, operator.apply(v1.get(i), v2.get(i)));
         }
@@ -343,7 +343,7 @@ public class LinearAlgebra {
      * @param vector vector
      * @return euclidean norm of a vector
      */
-    public static double norm(IVector vector) {
+    public static double norm(Vector vector) {
         return Math.sqrt(LinearAlgebra.inner(vector, vector));
     }
 
@@ -354,11 +354,11 @@ public class LinearAlgebra {
      * @param vector b vector
      * @return result vector y
      */
-    public static IVector forwardSubstitution(IMatrix matrix, IVector vector) {
+    public static Vector forwardSubstitution(Matrix matrix, Vector vector) {
         if (!isForwardSubstitutionApplicable(matrix, vector))
             throw new InvalidParameterException("Forward substitution is not applicable with these parameters");
 
-        IVector result = vector.copy();
+        Vector result = vector.copy();
         for (int i = 0, n = matrix.getRowDimension() - 1; i < n; i++) {
             for (int j = i + 1, m = n + 1; j < m; j++) {
                 result.set(j, result.get(j) - matrix.get(j, i) * result.get(i));
@@ -374,11 +374,11 @@ public class LinearAlgebra {
      * @param vector y vector
      * @return result vector x
      */
-    public static IVector backwardSubstitution(IMatrix matrix, IVector vector) {
+    public static Vector backwardSubstitution(Matrix matrix, Vector vector) {
         if (!isBackwardSubstitutionApplicable(matrix, vector))
             throw new InvalidParameterException("Backward substitution is not applicable with these parameters");
 
-        IVector result = vector.copy();
+        Vector result = vector.copy();
         for (int i = matrix.getRowDimension() - 1; i >= 0; i--) {
             if (Math.abs(matrix.get(i, i)) < EPSILON) throw new SingularMatrixException();
 
@@ -397,11 +397,11 @@ public class LinearAlgebra {
      * @param permutationVector vector with desired indices order
      * @return permuted matrix
      */
-    public static IMatrix permute(IMatrix matrix, IVector permutationVector) {
+    public static Matrix permute(Matrix matrix, Vector permutationVector) {
         if (matrix.getRowDimension() != permutationVector.getDimension())
             throw new DimensionMismatchException(matrix.getRowDimension(), permutationVector.getDimension());
 
-        IMatrix result = matrix.copy();
+        Matrix result = matrix.copy();
         for (int i = 0, n = permutationVector.getDimension(); i < n; i++) {
             if (permutationVector.get(i) == i) continue;
 
@@ -417,12 +417,12 @@ public class LinearAlgebra {
      * @param permutationVector vector with desired indices order
      * @return permuted vector
      */
-    public static IVector permute(IVector vector, IVector permutationVector) {
+    public static Vector permute(Vector vector, Vector permutationVector) {
         checkDimensionsSame(vector, permutationVector);
 
         int dimension = vector.getDimension();
 
-        IVector result = vector.copy();
+        Vector result = vector.copy();
         for (int i = 0; i < dimension; i++) {
             result.set(i, vector.get((int) permutationVector.get(i)));
         }

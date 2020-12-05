@@ -4,7 +4,7 @@ package apr.linear.util.operators;
  * Represents a binary operator that accepts two real numbers (double precision) and returns a real number (double precision)
  */
 @FunctionalInterface
-public interface IDoubleBinaryOperator {
+public interface DoubleBinaryOperator {
 
     /**
      * Applies this operator to operands

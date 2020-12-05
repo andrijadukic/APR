@@ -8,7 +8,7 @@ import java.util.function.DoublePredicate;
 /**
  * Abstract Matrix class from which all IMatrix implementations should inherit
  */
-public abstract class AbstractMatrix implements IMatrix {
+public abstract class AbstractMatrix implements Matrix {
 
     @Override
     public boolean anyMatch(DoublePredicate predicate) {
@@ -26,13 +26,13 @@ public abstract class AbstractMatrix implements IMatrix {
     }
 
     @Override
-    public IMatrix transpose() {
+    public Matrix transpose() {
         return new TransposedMatrixView(this);
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof IMatrix other)) return false;
+        if (!(obj instanceof Matrix other)) return false;
 
         int rowDimension = getRowDimension();
         int columnDimension = getColumnDimension();
@@ -67,14 +67,14 @@ public abstract class AbstractMatrix implements IMatrix {
 
     private static class AbstractMatrixIterator implements Iterator<Double> {
 
-        private final IMatrix matrix;
+        private final Matrix matrix;
         private final int rowDimension;
         private final int columnDimension;
 
         private int rowCount;
         private int columnCount;
 
-        public AbstractMatrixIterator(IMatrix matrix) {
+        public AbstractMatrixIterator(Matrix matrix) {
             this.matrix = matrix;
             rowDimension = matrix.getRowDimension();
             columnDimension = matrix.getColumnDimension();

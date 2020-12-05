@@ -1,134 +1,186 @@
 package apr.linear.matrix;
 
-import apr.linear.vector.IVector;
+import apr.util.Copyable;
+import apr.linear.util.Matchable;
+import apr.linear.util.operators.DoubleUnaryOperator;
+import apr.linear.util.linalg.LinearAlgebra;
+import apr.linear.util.linalg.OperationMutability;
 import apr.linear.vector.Vector;
 
 /**
- * Matrix class which uses a two dimensional array to store elements
+ * Represents a matrix that holds real numbers (double precision)
  */
-public class Matrix extends AbstractMatrix {
+public interface Matrix extends Iterable<Double>, Copyable<Matrix>, Matchable {
 
-    private final double[][] array;
-    private final int rows;
-    private final int columns;
+    /**
+     * Creates a new matrix of this type
+     *
+     * @param rows    row dimension of new matrix
+     * @param columns column dimension of new matrix
+     * @return new matrix of this type
+     */
+    Matrix newInstance(int rows, int columns);
 
-    public Matrix(int rows, int columns) {
-        array = new double[rows][columns];
-        this.rows = rows;
-        this.columns = columns;
+    /**
+     * Gets row dimension
+     *
+     * @return row dimension
+     */
+    int getRowDimension();
+
+    /**
+     * Gets row dimension
+     *
+     * @return row dimension
+     */
+    int getColumnDimension();
+
+    /**
+     * Gets the element at index [i, j]
+     *
+     * @param i row index
+     * @param j column index
+     * @return element at index [i, j]
+     */
+    double get(int i, int j);
+
+    /**
+     * Gets the row at index
+     *
+     * @param index row index
+     * @return row at index
+     */
+    Vector getRow(int index);
+
+    /**
+     * Gets the column at index
+     *
+     * @param index column index
+     * @return column at index
+     */
+    Vector getColumn(int index);
+
+    /**
+     * Sets the element at index [i, j]
+     *
+     * @param i     row index
+     * @param j     column index
+     * @param value value to store
+     * @return this matrix
+     */
+    Matrix set(int i, int j, double value);
+
+    /**
+     * Swaps rows at index i and j
+     *
+     * @param i first row
+     * @param j second row
+     */
+    void swapRows(int i, int j);
+
+    /**
+     * Swaps columns at index i and j
+     *
+     * @param i first column
+     * @param j second column
+     */
+    void swapColumns(int i, int j);
+
+    /**
+     * Performs matrix addition
+     *
+     * @param other matrix to be added to this matrix
+     * @return new matrix
+     */
+    default Matrix add(Matrix other) {
+        return LinearAlgebra.add(this, other, OperationMutability.IMMUTABLE);
     }
 
-    private Matrix(int rows, int columns, double[][] array) {
-        this.rows = rows;
-        this.columns = columns;
-        this.array = array;
+    /**
+     * Performs scalar addition
+     *
+     * @param value value to be added to this matrix
+     * @return new matrix
+     */
+    default Matrix add(double value) {
+        return LinearAlgebra.add(this, value, OperationMutability.IMMUTABLE);
     }
 
-    public Matrix(double[]... array) {
-        rows = array.length;
-        columns = array[0].length;
-
-        for (int i = 1; i < rows; i++) {
-            if (array[i].length != columns) throw new IllegalArgumentException();
-        }
-
-        this.array = array;
+    /**
+     * Performs matrix subtraction
+     *
+     * @param other matrix to be subtracted from this matrix
+     * @return new matrix
+     */
+    default Matrix subtract(Matrix other) {
+        return LinearAlgebra.subtract(this, other, OperationMutability.IMMUTABLE);
     }
 
-    @Override
-    public Matrix copy() {
-        double[][] copiedArray = new double[rows][columns];
-
-        for (int i = 0; i < rows; i++) {
-            if (columns >= 0) {
-                System.arraycopy(array[i], 0, copiedArray[i], 0, columns);
-            }
-        }
-        return new Matrix(rows, columns, copiedArray);
+    /**
+     * Performs scalar subtraction
+     *
+     * @param value value to be subtracted from this matrix
+     * @return new matrix
+     */
+    default Matrix subtract(double value) {
+        return LinearAlgebra.subtract(this, value, OperationMutability.IMMUTABLE);
     }
 
-    @Override
-    public Matrix newInstance(int rows, int columns) {
-        return new Matrix(rows, columns, new double[rows][columns]);
+    /**
+     * Performs matrix-matrix multiplication
+     *
+     * @param other second operand in matrix multiplication
+     * @return new matrix
+     */
+    default Matrix multiply(Matrix other) {
+        return LinearAlgebra.multiply(this, other);
     }
 
-    @Override
-    public int getRowDimension() {
-        return rows;
+    /**
+     * Performs matrix-scalar multiplication
+     *
+     * @param scalar second operand in matrix-scalar multiplication
+     * @return new matrix
+     */
+    default Matrix multiply(double scalar) {
+        return LinearAlgebra.multiply(this, scalar, OperationMutability.IMMUTABLE);
     }
 
-    @Override
-    public int getColumnDimension() {
-        return columns;
+    /**
+     * Transposes this matrix
+     *
+     * @return transposed matrix
+     */
+    Matrix transpose();
+
+    /**
+     * Applies function to all elements of matrix
+     *
+     * @param function function to be applied
+     * @return new matrix
+     */
+    default Matrix apply(DoubleUnaryOperator function) {
+        return LinearAlgebra.apply(this, function, OperationMutability.IMMUTABLE);
     }
 
-    @Override
-    public double get(int i, int j) {
-        return array[i][j];
-    }
+    /**
+     * Turns this matrix into vector array by columns
+     *
+     * @return column vector array
+     */
+    Vector[] asColumnVectors();
 
-    @Override
-    public IVector getRow(int index) {
-        return new Vector(array[index]);
-    }
+    /**
+     * Turns this matrix into vector array by rows
+     *
+     * @return row vector array
+     */
+    Vector[] asRowVectors();
 
-    @Override
-    public IVector getColumn(int index) {
-        double[] column = new double[rows];
-
-        for (int i = 0; i < rows; i++) {
-            column[i] = array[i][index];
-        }
-
-        return new Vector(column);
-    }
-
-    @Override
-    public Matrix set(int i, int j, double value) {
-        array[i][j] = value;
-        return this;
-    }
-
-    @Override
-    public void swapRows(int i, int j) {
-        double[] tempRow = array[i];
-        array[i] = array[j];
-        array[j] = tempRow;
-    }
-
-    @Override
-    public void swapColumns(int i, int j) {
-        for (int k = 0; k < rows; k++) {
-            double temp = array[k][i];
-            array[k][i] = array[k][j];
-            array[k][j] = temp;
-        }
-    }
-
-    @Override
-    public IVector[] asColumnVectors() {
-        IVector[] columnRealVectors = new IVector[columns];
-
-        for (int i = 0; i < columns; i++) {
-            columnRealVectors[i] = getColumn(i);
-        }
-
-        return columnRealVectors;
-    }
-
-    @Override
-    public IVector[] asRowVectors() {
-        IVector[] rowRealVectors = new IVector[rows];
-
-        for (int i = 0; i < rows; i++) {
-            rowRealVectors[i] = getRow(i);
-        }
-
-        return rowRealVectors;
-    }
-
-    @Override
-    public double[][] toArray() {
-        return array;
-    }
+    /**
+     * Gets this matrix in array form
+     *
+     * @return array representation of this matrix
+     */
+    double[][] toArray();
 }

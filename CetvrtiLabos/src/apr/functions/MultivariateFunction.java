@@ -1,7 +1,7 @@
 package apr.functions;
 
 import apr.linear.util.Vectors;
-import apr.linear.vector.IVector;
+import apr.linear.vector.Vector;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import java.util.List;
  * Represents a multivariable function
  */
 @FunctionalInterface
-public interface IMultivariateFunction {
+public interface MultivariateFunction {
 
     /**
      * Calculates value at given point
@@ -17,7 +17,7 @@ public interface IMultivariateFunction {
      * @param x point
      * @return real number in double precision
      */
-    double valueAt(IVector x);
+    double valueAt(Vector x);
 
     /**
      * Calculates value at given point by wrapping given array into vector and calling the standard method
@@ -44,7 +44,7 @@ public interface IMultivariateFunction {
      *
      * @return new function
      */
-    default IMultivariateFunction negate() {
+    default MultivariateFunction negate() {
         return x -> -valueAt(x);
     }
 }
