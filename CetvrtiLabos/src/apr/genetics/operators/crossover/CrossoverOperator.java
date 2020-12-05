@@ -8,7 +8,7 @@ public interface CrossoverOperator {
 
     ChromosomePair crossover(Chromosome first, Chromosome second);
 
-    default CrossoverOperator andThen(CrossoverOperator next) {
+    default CrossoverOperator then(CrossoverOperator next) {
         return (first, second) -> {
             ChromosomePair pair = crossover(first, second);
             return next.crossover(pair.first(), pair.second());

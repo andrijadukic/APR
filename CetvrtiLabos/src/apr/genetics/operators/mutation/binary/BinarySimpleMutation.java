@@ -15,18 +15,14 @@ public class BinarySimpleMutation extends AbstractBinaryMutation {
     }
 
     @Override
-    protected List<BitSet> mutate(List<BitSet> representation, int numberOfBits) {
-        int length = representation.size();
-        List<BitSet> mutatedRepresentation = new ArrayList<>(length);
+    protected List<BitSet> mutate(List<BitSet> representation) {
+        List<BitSet> mutatedRepresentation = new ArrayList<>(representation.size());
         Random random = ThreadLocalRandom.current();
         for (BitSet original : representation) {
-            BitSet mutated = new BitSet(numberOfBits);
-            for (int i = 0; i < numberOfBits; i++) {
-                if (random.nextDouble() < pm) {
-                    mutated.set(i, random.nextBoolean());
-                } else {
-                    mutated.set(i, original.get(i));
-                }
+            int n = original.size();
+            BitSet mutated = new BitSet(n);
+            for (int i = 0; i < n; i++) {
+                mutated.set(i, (random.nextDouble() < pm) ? random.nextBoolean() : original.get(i));
             }
             mutatedRepresentation.add(mutated);
         }

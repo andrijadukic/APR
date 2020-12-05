@@ -4,36 +4,21 @@ import apr.genetics.chromosomes.AbstractFieldChromosome;
 
 import java.util.BitSet;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public abstract class BinaryChromosome extends AbstractFieldChromosome<BitSet> {
 
-    protected final BinaryToFloatingPointChromosomeDecoder coder;
+    protected final BinaryDecoder coder;
 
-    protected BinaryChromosome(BinaryToFloatingPointChromosomeDecoder coder, int length) {
-        super(buildRepresentation(length, coder.getNumberOfBits()));
-        this.coder = coder;
-    }
-
-    public BinaryChromosome(List<BitSet> representation, BinaryToFloatingPointChromosomeDecoder coder) {
+    public BinaryChromosome(List<BitSet> representation, BinaryDecoder coder) {
         super(representation);
         this.coder = coder;
     }
 
-    public int getNumberOfBits() {
-        return coder.getNumberOfBits();
+    public BinaryChromosome(int length, BinaryDecoder coder) {
+        this(coder.instance(length), coder);
     }
 
-    private static List<BitSet> buildRepresentation(int length, int numberOfBits) {
-        ThreadLocalRandom random = ThreadLocalRandom.current();
-        return Stream.generate(() -> {
-            byte[] array = new byte[numberOfBits];
-            random.nextBytes(array);
-            return BitSet.valueOf(array);
-        })
-                .limit(length)
-                .collect(Collectors.toList());
+    public int getTotalBits() {
+        return getLength() * coder.getNumberOfBits();
     }
 }

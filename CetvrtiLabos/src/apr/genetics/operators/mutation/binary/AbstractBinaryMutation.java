@@ -16,10 +16,10 @@ abstract class AbstractBinaryMutation implements MutationOperator {
             throw new InvalidChromosomeTypeException(BinaryChromosome.class, chromosome.getClass());
 
         List<BitSet> representation = binaryChromosome.getRepresentation();
-        List<BitSet> mutatedRepresentation = mutate(representation, binaryChromosome.getNumberOfBits());
+        List<BitSet> mutatedRepresentation = mutate(representation);
 
         return binaryChromosome.newInstance(mutatedRepresentation);
     }
 
-    protected abstract List<BitSet> mutate(List<BitSet> representation, int numberOfBits);
+    protected abstract List<BitSet> mutate(List<BitSet> representation);
 }

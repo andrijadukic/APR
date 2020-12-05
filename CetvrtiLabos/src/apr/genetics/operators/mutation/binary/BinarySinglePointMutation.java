@@ -9,14 +9,15 @@ import java.util.concurrent.ThreadLocalRandom;
 public class BinarySinglePointMutation extends AbstractBinaryMutation {
 
     @Override
-    protected List<BitSet> mutate(List<BitSet> representation, int numberOfBits) {
+    protected List<BitSet> mutate(List<BitSet> representation) {
         int length = representation.size();
         List<BitSet> mutatedRepresentation = new ArrayList<>(length);
         Random random = ThreadLocalRandom.current();
         for (BitSet original : representation) {
-            BitSet mutated = new BitSet(numberOfBits);
+            int n = original.size();
+            BitSet mutated = new BitSet(n);
             mutated.or(original);
-            mutated.set(random.nextInt(numberOfBits), random.nextBoolean());
+            mutated.set(random.nextInt(n), random.nextBoolean());
         }
         return mutatedRepresentation;
     }

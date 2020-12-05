@@ -25,7 +25,7 @@ public class ListBasedPopulation implements Population {
         roChromosomes = Collections.unmodifiableList(chromosomes);
     }
 
-    public ListBasedPopulation(int populationSize, Supplier<Chromosome> supplier) {
+    public ListBasedPopulation(Supplier<Chromosome> supplier, int populationSize) {
         this(Stream.generate(supplier).limit(populationSize).collect(Collectors.toList()));
     }
 
@@ -72,5 +72,15 @@ public class ListBasedPopulation implements Population {
     @Override
     public Iterator<Chromosome> iterator() {
         return chromosomes.iterator();
+    }
+
+    @Override
+    public Stream<Chromosome> stream() {
+        return chromosomes.stream();
+    }
+
+    @Override
+    public Stream<Chromosome> parallelStream() {
+        return chromosomes.parallelStream();
     }
 }
