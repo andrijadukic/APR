@@ -1,6 +1,5 @@
 package apr.linear.util;
 
-import apr.linear.util.suppliers.VectorSupplier;
 import apr.linear.util.linalg.LinearAlgebra;
 import apr.linear.util.linalg.OperationMutability;
 import apr.linear.vector.Vector;
@@ -10,6 +9,7 @@ import apr.linear.vector.ArrayVector;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.DoubleSupplier;
+import java.util.function.Supplier;
 
 /**
  * Utility class with factory methods for building vectors and checking properties
@@ -32,8 +32,8 @@ public class Vectors {
      * @param supplier supplier object used to dynamically create an instance of IVector
      * @return new null vector
      */
-    public static Vector zeroes(VectorSupplier supplier) {
-        return fill(supplier.getAsVector(), 0);
+    public static Vector zeroes(Supplier<Vector> supplier) {
+        return fill(supplier.get(), 0);
     }
 
     /**
@@ -52,8 +52,8 @@ public class Vectors {
      * @param supplier supplier object used to dynamically create an instance of IVector
      * @return new vector
      */
-    public static Vector ones(VectorSupplier supplier) {
-        return fill(supplier.getAsVector(), 1);
+    public static Vector ones(Supplier<Vector> supplier) {
+        return fill(supplier.get(), 1);
     }
 
     /**

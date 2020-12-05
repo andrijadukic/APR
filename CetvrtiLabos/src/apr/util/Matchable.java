@@ -1,4 +1,4 @@
-package apr.linear.util;
+package apr.util;
 
 import java.util.function.DoublePredicate;
 

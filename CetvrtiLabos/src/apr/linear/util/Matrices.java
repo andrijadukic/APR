@@ -3,11 +3,11 @@ package apr.linear.util;
 import apr.linear.exceptions.NonSquareMatrixException;
 import apr.linear.matrix.Matrix;
 import apr.linear.matrix.ArrayMatrix;
-import apr.linear.util.suppliers.MatrixSupplier;
 import apr.linear.util.linalg.LinearAlgebra;
 import apr.linear.util.linalg.OperationMutability;
 
 import java.util.function.DoubleSupplier;
+import java.util.function.Supplier;
 
 /**
  * Utility class with factory methods for building matrices and checking properties
@@ -41,8 +41,8 @@ public class Matrices {
      * @param supplier supplier object used to dynamically create an instance of an IMatrix
      * @return new blank matrix
      */
-    public static Matrix zeroes(MatrixSupplier supplier) {
-        return fill(supplier.getAsMatrix(), 0);
+    public static Matrix zeroes(Supplier<Matrix> supplier) {
+        return fill(supplier.get(), 0);
     }
 
     /**
@@ -61,7 +61,7 @@ public class Matrices {
      * @param supplier matrix supplier
      * @return new identity matrix
      */
-    public static Matrix identity(MatrixSupplier supplier) {
+    public static Matrix identity(Supplier<Matrix> supplier) {
         return diagonal(supplier, 1.);
     }
 
@@ -72,7 +72,7 @@ public class Matrices {
      * @param value    value to be put on diagonal
      * @return new identity matrix
      */
-    public static Matrix diagonal(MatrixSupplier supplier, double value) {
+    public static Matrix diagonal(Supplier<Matrix> supplier, double value) {
         Matrix matrix = zeroes(supplier);
 
         int rowDimension = matrix.getRowDimension();
@@ -130,8 +130,8 @@ public class Matrices {
      * @param doubleSupplier double supplier
      * @return new random matrix
      */
-    public static Matrix random(MatrixSupplier matrixSupplier, DoubleSupplier doubleSupplier) {
-        return LinearAlgebra.apply(matrixSupplier.getAsMatrix(), x -> doubleSupplier.getAsDouble(), OperationMutability.MUTABLE);
+    public static Matrix random(Supplier<Matrix> matrixSupplier, DoubleSupplier doubleSupplier) {
+        return LinearAlgebra.apply(matrixSupplier.get(), x -> doubleSupplier.getAsDouble(), OperationMutability.MUTABLE);
     }
 
     /**

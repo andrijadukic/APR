@@ -1,8 +1,10 @@
 package apr.linear.matrix;
 
 import apr.util.Copyable;
-import apr.linear.util.Matchable;
-import apr.linear.util.operators.DoubleUnaryOperator;
+import apr.util.Matchable;
+
+import java.util.function.DoubleUnaryOperator;
+
 import apr.linear.util.linalg.LinearAlgebra;
 import apr.linear.util.linalg.OperationMutability;
 import apr.linear.vector.Vector;

@@ -4,8 +4,11 @@ import apr.linear.exceptions.DimensionMismatchException;
 import apr.linear.exceptions.SingularMatrixException;
 import apr.linear.matrix.Matrix;
 import apr.linear.util.Matrices;
-import apr.linear.util.operators.DoubleBinaryOperator;
-import apr.linear.util.operators.DoubleUnaryOperator;
+
+import java.util.function.DoubleBinaryOperator;
+
+import java.util.function.DoubleUnaryOperator;
+
 import apr.linear.vector.Vector;
 
 import java.security.InvalidParameterException;
@@ -247,7 +250,7 @@ public class LinearAlgebra {
         Matrix result = (mutability == OperationMutability.MUTABLE) ? matrix : matrix.newInstance(rowDimension, columnDimension);
         for (int i = 0; i < rowDimension; i++) {
             for (int j = 0; j < columnDimension; j++) {
-                result.set(i, j, operator.apply(matrix.get(i, j)));
+                result.set(i, j, operator.applyAsDouble(matrix.get(i, j)));
             }
         }
         return result;
@@ -269,7 +272,7 @@ public class LinearAlgebra {
         Matrix result = (mutability == OperationMutability.MUTABLE) ? m1 : m1.newInstance(rowDimension, columnDimension);
         for (int i = 0; i < rowDimension; i++) {
             for (int j = 0; j < columnDimension; j++) {
-                result.set(i, j, operator.apply(m1.get(i, j), m2.get(i, j)));
+                result.set(i, j, operator.applyAsDouble(m1.get(i, j), m2.get(i, j)));
             }
         }
         return result;
@@ -287,7 +290,7 @@ public class LinearAlgebra {
         int n = vector.getDimension();
         Vector result = (mutability == OperationMutability.MUTABLE) ? vector : vector.newInstance(n);
         for (int i = 0; i < n; i++) {
-            result.set(i, operator.apply(vector.get(i)));
+            result.set(i, operator.applyAsDouble(vector.get(i)));
         }
         return result;
     }
@@ -307,7 +310,7 @@ public class LinearAlgebra {
         int n = v1.getDimension();
         Vector result = (mutability == OperationMutability.MUTABLE) ? v1 : v1.newInstance(n);
         for (int i = 0; i < n; i++) {
-            result.set(i, operator.apply(v1.get(i), v2.get(i)));
+            result.set(i, operator.applyAsDouble(v1.get(i), v2.get(i)));
         }
         return result;
     }
