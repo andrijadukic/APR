@@ -1,25 +1,25 @@
 package apr.optimization.algorithms.uni;
 
-import apr.functions.IUnivariateFunction;
+import apr.functions.UnivariateFunction;
 
 import java.util.Objects;
 
 /**
  * Abstract helper class for storing common properties of {@code ISingleVariableOptimizationAlgorithm} classes
  */
-abstract class AbstractUnivariateOptimizer implements IUnivariateOptimizer {
+abstract class AbstractUnivariateOptimizer implements UnivariateOptimizer {
 
-    protected final IUnivariateFunction function;
+    protected final UnivariateFunction function;
 
     protected double epsilon = DEFAULT_EPSILON;
 
     protected static double DEFAULT_EPSILON = 1e-6;
 
-    protected AbstractUnivariateOptimizer(IUnivariateFunction function) {
+    protected AbstractUnivariateOptimizer(UnivariateFunction function) {
         this.function = Objects.requireNonNull(function);
     }
 
-    protected AbstractUnivariateOptimizer(IUnivariateFunction function, double epsilon) {
+    protected AbstractUnivariateOptimizer(UnivariateFunction function, double epsilon) {
         this(function);
         this.epsilon = epsilon;
     }

@@ -2,7 +2,7 @@ package apr.optimization.algorithms.multi.deriv;
 
 import apr.linear.vector.IVector;
 import apr.optimization.algorithms.multi.LineSearch;
-import apr.optimization.algorithms.multi.noderiv.IMultivariateOptimizer;
+import apr.optimization.algorithms.multi.noderiv.MultivariateOptimizer;
 import apr.optimization.exceptions.DivergenceLimitReachedException;
 
 import java.util.Objects;
@@ -13,9 +13,9 @@ import static apr.linear.util.linalg.OperationMutability.MUTABLE;
 /**
  * Abstract implementation of an optimizer using derivation methods
  */
-public abstract class AbstractDifferentiableMultivariateOptimizer implements IMultivariateOptimizer {
+public abstract class AbstractDifferentiableMultivariateOptimizer implements MultivariateOptimizer {
 
-    protected final IDifferentiableMultivariateCostFunction function;
+    protected final DifferentiableMultivariateCostFunction function;
 
     protected double epsilon = DEFAULT_EPSILON;
     protected int divergenceLimit = DEFAULT_DIVERGENCE_LIMIT;
@@ -25,11 +25,11 @@ public abstract class AbstractDifferentiableMultivariateOptimizer implements IMu
     private static final int DEFAULT_DIVERGENCE_LIMIT = 100;
     private static final boolean DEFAULT_COMPUTE_OPTIMAL_STEP = true;
 
-    protected AbstractDifferentiableMultivariateOptimizer(IDifferentiableMultivariateCostFunction function) {
+    protected AbstractDifferentiableMultivariateOptimizer(DifferentiableMultivariateCostFunction function) {
         this.function = Objects.requireNonNull(function);
     }
 
-    protected AbstractDifferentiableMultivariateOptimizer(IDifferentiableMultivariateCostFunction function,
+    protected AbstractDifferentiableMultivariateOptimizer(DifferentiableMultivariateCostFunction function,
                                                           double epsilon, int divergenceLimit, boolean computeOptimalStep) {
         this(function);
         this.epsilon = epsilon;

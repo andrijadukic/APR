@@ -1,7 +1,7 @@
 package apr.optimization.algorithms.uni;
 
 import apr.optimization.algorithms.util.Interval;
-import apr.functions.IUnivariateFunction;
+import apr.functions.UnivariateFunction;
 
 import java.util.Objects;
 
@@ -10,7 +10,7 @@ import java.util.Objects;
  */
 public final class UnimodalInterval {
 
-    public static Interval find(IUnivariateFunction function, double h, double x0) {
+    public static Interval find(UnivariateFunction function, double h, double x0) {
         Objects.requireNonNull(function);
 
         double l = x0 - h;

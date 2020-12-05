@@ -11,11 +11,11 @@ import static apr.linear.util.linalg.OperationMutability.IMMUTABLE;
  */
 public final class NewtonRaphson extends AbstractDifferentiableMultivariateOptimizer {
 
-    public NewtonRaphson(IDifferentiableMultivariateCostFunction function) {
+    public NewtonRaphson(DifferentiableMultivariateCostFunction function) {
         super(function);
     }
 
-    public NewtonRaphson(IDifferentiableMultivariateCostFunction function, double epsilon, int maxIter, boolean computeOptimalStep) {
+    public NewtonRaphson(DifferentiableMultivariateCostFunction function, double epsilon, int maxIter, boolean computeOptimalStep) {
         super(function, epsilon, maxIter, computeOptimalStep);
     }
 

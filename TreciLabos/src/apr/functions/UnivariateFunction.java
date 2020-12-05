@@ -4,7 +4,7 @@ package apr.functions;
  * Represents a single variable function
  */
 @FunctionalInterface
-public interface IUnivariateFunction {
+public interface UnivariateFunction {
 
     /**
      * Calculates value at given point
@@ -19,7 +19,7 @@ public interface IUnivariateFunction {
      *
      * @return new function
      */
-    default IUnivariateFunction negate() {
+    default UnivariateFunction negate() {
         return x -> -valueAt(x);
     }
 }

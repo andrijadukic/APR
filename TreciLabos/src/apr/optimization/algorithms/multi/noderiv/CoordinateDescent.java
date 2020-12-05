@@ -1,19 +1,19 @@
 package apr.optimization.algorithms.multi.noderiv;
 
 import apr.linear.vector.IVector;
+import apr.optimization.algorithms.multi.MultivariateCostFunction;
 import apr.optimization.algorithms.uni.GoldenSectionSearch;
-import apr.optimization.algorithms.multi.IMultivariateCostFunction;
 
 /**
  * Implementation of the coordinate descent algorithm
  */
 public class CoordinateDescent extends AbstractMultivariateOptimizer {
 
-    public CoordinateDescent(IMultivariateCostFunction function) {
+    public CoordinateDescent(MultivariateCostFunction function) {
         super(function);
     }
 
-    public CoordinateDescent(IMultivariateCostFunction function, double epsilon) {
+    public CoordinateDescent(MultivariateCostFunction function, double epsilon) {
         super(function, epsilon);
     }
 

@@ -2,8 +2,7 @@ package apr.optimization.algorithms.multi.noderiv;
 
 import apr.linear.util.Vectors;
 import apr.linear.vector.IVector;
-import apr.linear.vector.Vector;
-import apr.optimization.algorithms.multi.IMultivariateCostFunction;
+import apr.optimization.algorithms.multi.MultivariateCostFunction;
 
 import java.util.Arrays;
 
@@ -16,11 +15,11 @@ import static apr.linear.util.linalg.OperationMutability.MUTABLE;
  */
 public abstract class AbstractSimplexMethod extends AbstractMultivariateOptimizer {
 
-    protected AbstractSimplexMethod(IMultivariateCostFunction function) {
+    protected AbstractSimplexMethod(MultivariateCostFunction function) {
         super(function);
     }
 
-    protected AbstractSimplexMethod(IMultivariateCostFunction function, double epsilon) {
+    protected AbstractSimplexMethod(MultivariateCostFunction function, double epsilon) {
         super(function, epsilon);
     }
 

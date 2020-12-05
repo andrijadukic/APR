@@ -8,7 +8,7 @@ import java.util.Objects;
 /**
  * Implementation of the {@code IMultivariableCostFunction} interface
  */
-public class MultivariateCostFunction implements IMultivariateCostFunction {
+public class MultivariateCostFunction implements IMultivariateFunction {
 
     protected final IMultivariateFunction function;
     protected int functionEvalCounter;
@@ -17,12 +17,10 @@ public class MultivariateCostFunction implements IMultivariateCostFunction {
         this.function = Objects.requireNonNull(function);
     }
 
-    @Override
     public int getFunctionEvaluationCount() {
         return functionEvalCounter;
     }
 
-    @Override
     public void reset() {
         functionEvalCounter = 0;
     }

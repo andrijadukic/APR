@@ -1,7 +1,7 @@
 package apr.optimization.algorithms.uni;
 
 import apr.optimization.algorithms.util.Interval;
-import apr.functions.IUnivariateFunction;
+import apr.functions.UnivariateFunction;
 
 /**
  * Implementation of the golden section search algorithm
@@ -14,11 +14,11 @@ public final class GoldenSectionSearch extends AbstractUnivariateOptimizer {
 
     private static final double DEFAULT_H = 1;
 
-    public GoldenSectionSearch(IUnivariateFunction function) {
+    public GoldenSectionSearch(UnivariateFunction function) {
         super(function);
     }
 
-    public GoldenSectionSearch(IUnivariateFunction function, double epsilon, double h) {
+    public GoldenSectionSearch(UnivariateFunction function, double epsilon, double h) {
         super(function, epsilon);
         this.h = h;
     }

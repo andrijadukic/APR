@@ -12,7 +12,7 @@ import java.util.Objects;
 /**
  * Implementation of {@code IDifferentiableMultivariableCostFunction} interface
  */
-public class DifferentiableMultivariateCostFunction extends MultivariateCostFunction implements IDifferentiableMultivariateCostFunction {
+public class DifferentiableMultivariateCostFunction extends MultivariateCostFunction {
 
     protected final IMultivariableVectorFunction gradient;
     protected final IMultivariableMatrixFunction hessian;
@@ -26,12 +26,10 @@ public class DifferentiableMultivariateCostFunction extends MultivariateCostFunc
         this.hessian = Objects.requireNonNull(hessian);
     }
 
-    @Override
     public int getGradientEvaluationCount() {
         return gradientEvalCounter;
     }
 
-    @Override
     public int getHessianEvaluationCount() {
         return hessianEvalCounter;
     }
@@ -42,13 +40,11 @@ public class DifferentiableMultivariateCostFunction extends MultivariateCostFunc
         gradientEvalCounter = hessianEvalCounter = 0;
     }
 
-    @Override
     public IVector gradient(IVector x) {
         gradientEvalCounter++;
         return gradient.valueAt(x);
     }
 
-    @Override
     public IMatrix hessian(IVector x) {
         hessianEvalCounter++;
         return hessian.valueAt(x);

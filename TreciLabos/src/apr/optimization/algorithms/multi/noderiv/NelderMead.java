@@ -1,7 +1,7 @@
 package apr.optimization.algorithms.multi.noderiv;
 
 import apr.linear.vector.IVector;
-import apr.optimization.algorithms.multi.IMultivariateCostFunction;
+import apr.optimization.algorithms.multi.MultivariateCostFunction;
 import apr.optimization.algorithms.util.Pair;
 
 /**
@@ -21,11 +21,11 @@ public class NelderMead extends AbstractSimplexMethod {
     private static final double DEFAULT_SIGMA = 0.5;
     private static final double DEFAULT_STEP = 1.0;
 
-    public NelderMead(IMultivariateCostFunction function) {
+    public NelderMead(MultivariateCostFunction function) {
         super(function);
     }
 
-    public NelderMead(IMultivariateCostFunction function, double epsilon, double alpha, double beta, double gamma, double sigma, double step) {
+    public NelderMead(MultivariateCostFunction function, double epsilon, double alpha, double beta, double gamma, double sigma, double step) {
         super(function, epsilon);
         this.alpha = alpha;
         this.beta = beta;

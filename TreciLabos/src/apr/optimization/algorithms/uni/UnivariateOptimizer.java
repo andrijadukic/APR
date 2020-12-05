@@ -1,11 +1,11 @@
 package apr.optimization.algorithms.uni;
 
-import apr.optimization.algorithms.util.INamedAlgorithm;
+import apr.optimization.algorithms.util.NamedAlgorithm;
 
 /**
  * Represents a single variable function minimization algorithm
  */
-public interface IUnivariateOptimizer extends INamedAlgorithm {
+public interface UnivariateOptimizer extends NamedAlgorithm {
 
     /**
      * Computes the minimum of a function from a starting point

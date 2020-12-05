@@ -3,9 +3,9 @@ package apr.optimization.demo;
 import apr.linear.vector.IVector;
 import apr.linear.vector.Vector;
 import apr.optimization.algorithms.multi.ConstrainedMultivariateCostFunction;
-import apr.optimization.algorithms.multi.IMultivariateCostFunction;
+import apr.optimization.algorithms.multi.MultivariateCostFunction;
+import apr.optimization.algorithms.multi.deriv.DifferentiableMultivariateCostFunction;
 import apr.optimization.algorithms.multi.deriv.GradientDescent;
-import apr.optimization.algorithms.multi.deriv.IDifferentiableMultivariateCostFunction;
 import apr.optimization.algorithms.multi.deriv.NewtonRaphson;
 import apr.optimization.algorithms.multi.noderiv.*;
 import apr.optimization.exceptions.DivergenceLimitReachedException;
@@ -139,7 +139,7 @@ public class Lab {
         test(function, startingPoint, new HookeJeevesConstrainedOptimizer(function));
     }
 
-    private static void test(IDifferentiableMultivariateCostFunction function, IVector startingPoint, IMultivariateOptimizer algorithm) {
+    private static void test(DifferentiableMultivariateCostFunction function, IVector startingPoint, MultivariateOptimizer algorithm) {
         try {
             System.out.println("Algorithm: " + algorithm.getName());
             System.out.println("Min: [" + algorithm.search(startingPoint) + "]");
@@ -153,7 +153,7 @@ public class Lab {
         }
     }
 
-    private static void test(IMultivariateCostFunction function, IVector startingPoint, IMultivariateOptimizer algorithm) {
+    private static void test(MultivariateCostFunction function, IVector startingPoint, MultivariateOptimizer algorithm) {
         try {
             System.out.println("Algorithm: " + algorithm.getName());
             System.out.println("Min: [" + algorithm.search(startingPoint) + "]");

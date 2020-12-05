@@ -4,7 +4,7 @@ import apr.functions.constraints.Constraints;
 import apr.functions.constraints.InequalityConstraint;
 import apr.linear.vector.IVector;
 import apr.optimization.algorithms.multi.ConstrainedMultivariateCostFunction;
-import apr.optimization.algorithms.multi.IMultivariateCostFunction;
+import apr.optimization.algorithms.multi.MultivariateCostFunction;
 import apr.optimization.exceptions.DivergenceLimitReachedException;
 
 import java.util.Objects;
@@ -15,7 +15,7 @@ import static apr.linear.util.linalg.OperationMutability.*;
 /**
  * Abstract implementation of a constrained optimizer
  */
-public abstract class AbstractConstrainedOptimizer implements IMultivariateOptimizer {
+public abstract class AbstractConstrainedOptimizer implements MultivariateOptimizer {
 
     private final ConstrainedMultivariateCostFunction function;
 
@@ -92,5 +92,5 @@ public abstract class AbstractConstrainedOptimizer implements IMultivariateOptim
 
     protected abstract IVector interiorPoint(IVector x0, InequalityConstraint[] inequalityConstraints);
 
-    protected abstract IVector argMin(IMultivariateCostFunction function, IVector x0);
+    protected abstract IVector argMin(MultivariateCostFunction function, IVector x0);
 }

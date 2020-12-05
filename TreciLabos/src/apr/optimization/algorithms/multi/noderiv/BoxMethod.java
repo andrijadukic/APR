@@ -1,6 +1,7 @@
 package apr.optimization.algorithms.multi.noderiv;
 
 import apr.linear.vector.IVector;
+import apr.optimization.algorithms.multi.MultivariateCostFunction;
 import apr.optimization.algorithms.util.Pair;
 import apr.optimization.exceptions.DivergenceLimitReachedException;
 import apr.optimization.exceptions.ExplicitConstraintsNotMetException;
@@ -8,7 +9,6 @@ import apr.optimization.exceptions.ImplicitConstraintsNotMetException;
 import apr.functions.constraints.Constraints;
 import apr.functions.constraints.ExplicitConstraint;
 import apr.functions.constraints.ImplicitConstraint;
-import apr.optimization.algorithms.multi.IMultivariateCostFunction;
 
 import java.util.Objects;
 import java.util.Random;
@@ -31,13 +31,13 @@ public class BoxMethod extends AbstractSimplexMethod {
     private static final double DEFAULT_ALPHA = 1.3;
     private static final int DEFAULT_DIVERGENCE_LIMIT = 200;
 
-    public BoxMethod(IMultivariateCostFunction function, ExplicitConstraint[] explicitConstraints, ImplicitConstraint[] implicitConstraints) {
+    public BoxMethod(MultivariateCostFunction function, ExplicitConstraint[] explicitConstraints, ImplicitConstraint[] implicitConstraints) {
         super(function);
         this.explicitConstraints = Objects.requireNonNull(explicitConstraints);
         this.implicitConstraints = Objects.requireNonNull(implicitConstraints);
     }
 
-    public BoxMethod(IMultivariateCostFunction function,
+    public BoxMethod(MultivariateCostFunction function,
                      ExplicitConstraint[] explicitConstraints, ImplicitConstraint[] implicitConstraints,
                      double epsilon, double alpha, int divergenceLimit) {
         super(function, epsilon);

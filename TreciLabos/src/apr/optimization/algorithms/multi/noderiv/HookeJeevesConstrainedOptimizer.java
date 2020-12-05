@@ -4,7 +4,6 @@ import apr.functions.constraints.Constraints;
 import apr.functions.constraints.InequalityConstraint;
 import apr.linear.vector.IVector;
 import apr.optimization.algorithms.multi.ConstrainedMultivariateCostFunction;
-import apr.optimization.algorithms.multi.IMultivariateCostFunction;
 import apr.optimization.algorithms.multi.MultivariateCostFunction;
 
 /**
@@ -40,7 +39,7 @@ public final class HookeJeevesConstrainedOptimizer extends AbstractConstrainedOp
     }
 
     @Override
-    protected IVector argMin(IMultivariateCostFunction function, IVector x0) {
+    protected IVector argMin(MultivariateCostFunction function, IVector x0) {
         return new HookeJeeves(function, epsilon, delta).search(x0);
     }
 

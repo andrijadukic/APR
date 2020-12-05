@@ -1,7 +1,7 @@
 package apr.optimization.algorithms.multi.noderiv;
 
 import apr.linear.vector.IVector;
-import apr.optimization.algorithms.multi.IMultivariateCostFunction;
+import apr.optimization.algorithms.multi.MultivariateCostFunction;
 
 import static apr.linear.util.linalg.LinearAlgebra.*;
 import static apr.linear.util.linalg.OperationMutability.*;
@@ -15,11 +15,11 @@ public final class HookeJeeves extends AbstractMultivariateOptimizer {
 
     private static final double DEFAULT_DELTA = 0.5;
 
-    public HookeJeeves(IMultivariateCostFunction function) {
+    public HookeJeeves(MultivariateCostFunction function) {
         super(function);
     }
 
-    public HookeJeeves(IMultivariateCostFunction function, double epsilon, double delta) {
+    public HookeJeeves(MultivariateCostFunction function, double epsilon, double delta) {
         super(function, epsilon);
         this.delta = delta;
     }

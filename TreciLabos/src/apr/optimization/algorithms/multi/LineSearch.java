@@ -2,7 +2,7 @@ package apr.optimization.algorithms.multi;
 
 import apr.linear.vector.IVector;
 import apr.optimization.algorithms.uni.GoldenSectionSearch;
-import apr.optimization.algorithms.uni.IUnivariateOptimizer;
+import apr.optimization.algorithms.uni.UnivariateOptimizer;
 import apr.functions.IMultivariateFunction;
 
 import java.util.Objects;
@@ -15,7 +15,7 @@ import static apr.linear.util.linalg.OperationMutability.MUTABLE;
 /**
  * Implementation of the line search algorithm
  */
-public final class LineSearch implements IUnivariateOptimizer {
+public final class LineSearch implements UnivariateOptimizer {
 
     private final IMultivariateFunction function;
     private final IVector x;

@@ -2,10 +2,7 @@ package apr.optimization.demo;
 
 import apr.linear.matrix.Matrix;
 import apr.linear.vector.Vector;
-import apr.optimization.algorithms.multi.IMultivariateCostFunction;
-import apr.optimization.algorithms.multi.MultivariateCostFunction;
 import apr.optimization.algorithms.multi.deriv.DifferentiableMultivariateCostFunction;
-import apr.optimization.algorithms.multi.deriv.IDifferentiableMultivariateCostFunction;
 
 /**
  * Utility class defining several cost functions through static factory methods
@@ -47,7 +44,7 @@ public class CostFunctions {
      *
      * @return cost function f2
      */
-    public static IDifferentiableMultivariateCostFunction f2() {
+    public static DifferentiableMultivariateCostFunction f2() {
         return new DifferentiableMultivariateCostFunction(
                 x -> Math.pow(x.get(0) - 4, 2) + 4 * Math.pow(x.get(1) - 2, 2),
                 x -> new Vector(2 * (x.get(0) - 4), 8 * (x.get(1) - 2)),
@@ -62,7 +59,7 @@ public class CostFunctions {
      *
      * @return cost function f3
      */
-    public static IDifferentiableMultivariateCostFunction f3() {
+    public static DifferentiableMultivariateCostFunction f3() {
         return new DifferentiableMultivariateCostFunction(
                 x -> Math.pow(x.get(0) - 2, 2) + 4 * Math.pow(x.get(1) + 3, 2),
                 x -> new Vector(2 * (x.get(0) - 2), 2 * (x.get(1) + 3)),
@@ -77,7 +74,7 @@ public class CostFunctions {
      *
      * @return cost function f4
      */
-    public static IDifferentiableMultivariateCostFunction f4() {
+    public static DifferentiableMultivariateCostFunction f4() {
         return new DifferentiableMultivariateCostFunction(
                 x -> Math.pow(x.get(0) - 3, 2) + Math.pow(x.get(1), 2),
                 x -> new Vector(2 * (x.get(0) - 3), 2 * x.get(1)),
