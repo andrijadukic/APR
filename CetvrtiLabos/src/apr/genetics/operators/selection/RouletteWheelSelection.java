@@ -22,9 +22,7 @@ public class RouletteWheelSelection implements SelectionOperator {
 
     @Override
     public Chromosome select(Population population) {
-        List<Chromosome> chromosomes = new ArrayList<>(population.getChromosomes());
-        double[] probabilities = probabilities(chromosomes);
-        return chromosomes.get(find(probabilities, ThreadLocalRandom.current().nextDouble()));
+        return select(population, 1)[0];
     }
 
     @Override
