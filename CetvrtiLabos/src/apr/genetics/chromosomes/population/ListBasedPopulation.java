@@ -4,7 +4,6 @@ import apr.genetics.chromosomes.Chromosome;
 
 import java.util.*;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ListBasedPopulation implements Population {
@@ -26,7 +25,7 @@ public class ListBasedPopulation implements Population {
     }
 
     public ListBasedPopulation(Supplier<Chromosome> supplier, int populationSize) {
-        this(Stream.generate(supplier).limit(populationSize).collect(Collectors.toList()));
+        this(Population.generate(supplier, populationSize));
     }
 
     @Override

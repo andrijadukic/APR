@@ -2,7 +2,10 @@ package apr.genetics.chromosomes.binary;
 
 import apr.util.Interval;
 
-public class Decoders {
+public final class Decoders {
+
+    private Decoders() {
+    }
 
     BinaryDecoder binary(double lb, double ub, int numberOfBits) {
         return new StandardBinaryDecoder(new Interval(lb, ub), numberOfBits);

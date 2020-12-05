@@ -2,7 +2,10 @@ package apr.util;
 
 import java.util.Comparator;
 
-public class MathUtils {
+public final class MathUtils {
+
+    private MathUtils() {
+    }
 
     public static <T extends Comparable<T>> int argMin(T[] array) {
         return arg(array, Comparator.naturalOrder());
