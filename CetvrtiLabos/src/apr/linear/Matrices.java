@@ -15,6 +15,27 @@ import java.util.function.Supplier;
 public class Matrices {
 
     /**
+     * Builds a new empty square matrix
+     *
+     * @param dimension dimension of new matrix
+     * @return new empty matrix
+     */
+    public static Matrix empty(int dimension) {
+        return empty(dimension, dimension);
+    }
+
+    /**
+     * Builds a new empty matrix
+     *
+     * @param rows    row dimension of new matrix
+     * @param columns column dimension of new matrix
+     * @return new empty matrix
+     */
+    public static Matrix empty(int rows, int columns) {
+        return new ArrayMatrix(rows, columns);
+    }
+
+    /**
      * Builds a new blank square matrix
      *
      * @param dimension dimension of new matrix
@@ -32,7 +53,7 @@ public class Matrices {
      * @return new blank matrix
      */
     public static Matrix zeroes(int rows, int columns) {
-        return zeroes(() -> new ArrayMatrix(rows, columns));
+        return zeroes(() -> empty(rows, columns));
     }
 
     /**

@@ -3,6 +3,7 @@ package apr.linear.vector;
 import apr.linear.matrix.Matrix;
 import apr.linear.matrix.ArrayMatrix;
 
+import java.util.Objects;
 import java.util.stream.IntStream;
 
 /**
@@ -17,7 +18,7 @@ public class ArrayVector extends AbstractVector {
     }
 
     public ArrayVector(double[] array) {
-        this.array = array;
+        this.array = Objects.requireNonNull(array);
     }
 
     public ArrayVector(int start, int end) {

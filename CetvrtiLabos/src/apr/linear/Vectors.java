@@ -7,7 +7,6 @@ import apr.linear.vector.ListVector;
 import apr.linear.vector.ArrayVector;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
@@ -17,13 +16,34 @@ import java.util.function.Supplier;
 public class Vectors {
 
     /**
+     * Builds a new empty vector
+     *
+     * @param dimension dimension of empty vector
+     * @return new empty vector
+     */
+    public static Vector empty(int dimension) {
+        return new ArrayVector(dimension);
+    }
+
+    /**
+     * Builds a new vector, consisting of elements in given range
+     *
+     * @param start start of range
+     * @param end   end of range, exclusive
+     * @return new range vector
+     */
+    public static Vector range(int start, int end) {
+        return new ArrayVector(start, end);
+    }
+
+    /**
      * Builds a new null vector
      *
      * @param dimension dimension of null vector
      * @return new null vector
      */
     public static Vector zeroes(int dimension) {
-        return zeroes(() -> new ArrayVector(dimension));
+        return zeroes(() -> empty(dimension));
     }
 
     /**
@@ -43,7 +63,7 @@ public class Vectors {
      * @return new vector
      */
     public static Vector ones(int dimension) {
-        return ones(() -> new ArrayVector(dimension));
+        return ones(() -> empty(dimension));
     }
 
     /**
@@ -85,7 +105,7 @@ public class Vectors {
      * @return new vector
      */
     public static Vector asVector(double... array) {
-        return new ArrayVector(Objects.requireNonNull(array));
+        return new ArrayVector(array);
     }
 
     /**
@@ -95,6 +115,6 @@ public class Vectors {
      * @return new vector
      */
     public static Vector asVector(List<Double> list) {
-        return new ListVector(Objects.requireNonNull(list));
+        return new ListVector(list);
     }
 }

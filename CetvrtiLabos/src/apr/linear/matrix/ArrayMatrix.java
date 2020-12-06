@@ -1,7 +1,7 @@
 package apr.linear.matrix;
 
+import apr.linear.Vectors;
 import apr.linear.vector.Vector;
-import apr.linear.vector.ArrayVector;
 
 /**
  * Matrix class which uses a two dimensional array to store elements
@@ -12,14 +12,14 @@ public class ArrayMatrix extends AbstractMatrix {
     private final int rowDimension;
     private final int columnDimension;
 
-    public ArrayMatrix(int rowDimension, int columnDimension) {
-        this(rowDimension, columnDimension, new double[rowDimension][columnDimension]);
-    }
-
     private ArrayMatrix(int rowDimension, int columnDimension, double[][] array) {
         this.rowDimension = rowDimension;
         this.columnDimension = columnDimension;
         this.array = array;
+    }
+
+    public ArrayMatrix(int rowDimension, int columnDimension) {
+        this(rowDimension, columnDimension, new double[rowDimension][columnDimension]);
     }
 
     public ArrayMatrix(double[]... array) {
@@ -70,7 +70,7 @@ public class ArrayMatrix extends AbstractMatrix {
 
     @Override
     public Vector getRow(int index) {
-        return new ArrayVector(array[index]);
+        return Vectors.asVector(array[index]);
     }
 
     @Override
@@ -79,7 +79,7 @@ public class ArrayMatrix extends AbstractMatrix {
         for (int i = 0; i < rowDimension; i++) {
             column[i] = array[i][index];
         }
-        return new ArrayVector(column);
+        return Vectors.asVector(column);
     }
 
     @Override

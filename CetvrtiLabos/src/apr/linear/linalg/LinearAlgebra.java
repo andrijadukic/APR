@@ -214,7 +214,7 @@ public class LinearAlgebra {
     public static Matrix outer(Vector v1, Vector v2) {
         int rowDimension = v1.getDimension();
         int columnDimension = v2.getDimension();
-        Matrix result = Matrices.zeroes(rowDimension, columnDimension);
+        Matrix result = Matrices.empty(rowDimension, columnDimension);
         for (int i = 0; i < rowDimension; i++) {
             double xi = v1.get(i);
             for (int j = 0; j < columnDimension; j++) {
