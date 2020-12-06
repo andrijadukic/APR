@@ -6,7 +6,7 @@ import apr.linear.matrix.Matrix;
 import apr.linear.Matrices;
 import apr.linear.vector.Vector;
 
-class LinearAlgebraUtil {
+final class LinearAlgebraUtil {
 
     /**
      * Checks if dimensions of given matrices are the same

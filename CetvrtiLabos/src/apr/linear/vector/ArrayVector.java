@@ -16,7 +16,7 @@ public class ArrayVector extends AbstractVector {
         this(new double[dimension]);
     }
 
-    public ArrayVector(double... array) {
+    public ArrayVector(double[] array) {
         this.array = array;
     }
 

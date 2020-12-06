@@ -4,7 +4,7 @@ import apr.linear.exceptions.NonSquareMatrixException;
 import apr.linear.matrix.Matrix;
 import apr.linear.matrix.ArrayMatrix;
 import apr.linear.linalg.LinearAlgebra;
-import apr.linear.linalg.OperationMutability;
+import apr.linear.linalg.Mutability;
 
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
@@ -109,7 +109,7 @@ public class Matrices {
      * @return new random matrix
      */
     public static Matrix random(int rows, int columns, DoubleSupplier doubleSupplier) {
-        return LinearAlgebra.apply(zeroes(rows, columns), x -> doubleSupplier.getAsDouble(), OperationMutability.MUTABLE);
+        return LinearAlgebra.apply(zeroes(rows, columns), x -> doubleSupplier.getAsDouble(), Mutability.MUTABLE);
     }
 
     /**
@@ -131,7 +131,7 @@ public class Matrices {
      * @return new random matrix
      */
     public static Matrix random(Supplier<Matrix> matrixSupplier, DoubleSupplier doubleSupplier) {
-        return LinearAlgebra.apply(matrixSupplier.get(), x -> doubleSupplier.getAsDouble(), OperationMutability.MUTABLE);
+        return LinearAlgebra.apply(matrixSupplier.get(), x -> doubleSupplier.getAsDouble(), Mutability.MUTABLE);
     }
 
     /**
@@ -142,7 +142,7 @@ public class Matrices {
      * @return filled matrix
      */
     public static Matrix fill(Matrix matrix, double value) {
-        return LinearAlgebra.apply(matrix, x -> value, OperationMutability.MUTABLE);
+        return LinearAlgebra.apply(matrix, x -> value, Mutability.MUTABLE);
     }
 
     /**
@@ -153,7 +153,7 @@ public class Matrices {
      * @return filled matrix
      */
     public static Matrix fill(Matrix matrix, DoubleSupplier supplier) {
-        return LinearAlgebra.apply(matrix, x -> supplier.getAsDouble(), OperationMutability.MUTABLE);
+        return LinearAlgebra.apply(matrix, x -> supplier.getAsDouble(), Mutability.MUTABLE);
     }
 
     /**

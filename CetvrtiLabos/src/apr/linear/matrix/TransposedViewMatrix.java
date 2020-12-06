@@ -69,13 +69,13 @@ public class TransposedViewMatrix extends AbstractMatrix {
     }
 
     @Override
-    public Vector[] asColumnVectors() {
-        return view.asRowVectors();
+    public Vector[] columns() {
+        return view.rows();
     }
 
     @Override
-    public Vector[] asRowVectors() {
-        return view.asColumnVectors();
+    public Vector[] rows() {
+        return view.columns();
     }
 
     @Override
@@ -83,13 +83,11 @@ public class TransposedViewMatrix extends AbstractMatrix {
         int columnDimension = view.getColumnDimension();
         int rowDimension = view.getRowDimension();
         double[][] array = new double[columnDimension][rowDimension];
-
         for (int i = 0; i < columnDimension; i++) {
             for (int j = 0; j < rowDimension; j++) {
                 array[i][j] = get(i, j);
             }
         }
-
         return array;
     }
 }

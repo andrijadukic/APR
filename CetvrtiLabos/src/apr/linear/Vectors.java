@@ -1,9 +1,9 @@
 package apr.linear;
 
 import apr.linear.linalg.LinearAlgebra;
-import apr.linear.linalg.OperationMutability;
+import apr.linear.linalg.Mutability;
 import apr.linear.vector.Vector;
-import apr.linear.vector.ListViewVector;
+import apr.linear.vector.ListVector;
 import apr.linear.vector.ArrayVector;
 
 import java.util.List;
@@ -64,7 +64,7 @@ public class Vectors {
      * @return filled vector
      */
     public static Vector fill(Vector vector, double value) {
-        return LinearAlgebra.apply(vector, x -> value, OperationMutability.MUTABLE);
+        return LinearAlgebra.apply(vector, x -> value, Mutability.MUTABLE);
     }
 
     /**
@@ -75,7 +75,7 @@ public class Vectors {
      * @return filled vector
      */
     public static Vector fill(Vector vector, DoubleSupplier supplier) {
-        return LinearAlgebra.apply(vector, x -> supplier.getAsDouble(), OperationMutability.MUTABLE);
+        return LinearAlgebra.apply(vector, x -> supplier.getAsDouble(), Mutability.MUTABLE);
     }
 
     /**
@@ -95,6 +95,6 @@ public class Vectors {
      * @return new vector
      */
     public static Vector asVector(List<Double> list) {
-        return new ListViewVector(Objects.requireNonNull(list));
+        return new ListVector(Objects.requireNonNull(list));
     }
 }

@@ -1,6 +1,8 @@
 package apr.linear.vector;
 
 import apr.linear.linalg.LinearAlgebra;
+import apr.linear.matrix.ArrayMatrix;
+import apr.linear.matrix.Matrix;
 
 import java.util.Iterator;
 import java.util.function.DoublePredicate;
@@ -9,6 +11,23 @@ import java.util.function.DoublePredicate;
  * Abstract Vector class which all IVector implementations should inherit
  */
 public abstract class AbstractVector implements Vector {
+
+    @Override
+    public void swap(int i, int j) {
+        var temp = get(i);
+        set(i, get(j));
+        set(j, temp);
+    }
+
+    @Override
+    public Matrix asMatrix() {
+        int dimension = getDimension();
+        Matrix result = new ArrayMatrix(1, dimension);
+        for (int i = 0; i < dimension; i++) {
+            result.set(0, i, get(i));
+        }
+        return result;
+    }
 
     @Override
     public boolean anyMatch(DoublePredicate predicate) {

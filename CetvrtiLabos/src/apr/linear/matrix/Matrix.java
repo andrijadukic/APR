@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.function.DoubleUnaryOperator;
 
 import apr.linear.linalg.LinearAlgebra;
-import apr.linear.linalg.OperationMutability;
+import apr.linear.linalg.Mutability;
 import apr.linear.vector.Vector;
 
 /**
@@ -98,7 +98,7 @@ public interface Matrix extends Iterable<Vector>, Matchable, Copyable<Matrix> {
      * @return new matrix
      */
     default Matrix add(Matrix other) {
-        return LinearAlgebra.add(this, other, OperationMutability.IMMUTABLE);
+        return LinearAlgebra.add(this, other, Mutability.IMMUTABLE);
     }
 
     /**
@@ -108,7 +108,7 @@ public interface Matrix extends Iterable<Vector>, Matchable, Copyable<Matrix> {
      * @return new matrix
      */
     default Matrix add(double value) {
-        return LinearAlgebra.add(this, value, OperationMutability.IMMUTABLE);
+        return LinearAlgebra.add(this, value, Mutability.IMMUTABLE);
     }
 
     /**
@@ -118,7 +118,7 @@ public interface Matrix extends Iterable<Vector>, Matchable, Copyable<Matrix> {
      * @return new matrix
      */
     default Matrix subtract(Matrix other) {
-        return LinearAlgebra.subtract(this, other, OperationMutability.IMMUTABLE);
+        return LinearAlgebra.subtract(this, other, Mutability.IMMUTABLE);
     }
 
     /**
@@ -128,7 +128,7 @@ public interface Matrix extends Iterable<Vector>, Matchable, Copyable<Matrix> {
      * @return new matrix
      */
     default Matrix subtract(double value) {
-        return LinearAlgebra.subtract(this, value, OperationMutability.IMMUTABLE);
+        return LinearAlgebra.subtract(this, value, Mutability.IMMUTABLE);
     }
 
     /**
@@ -148,7 +148,7 @@ public interface Matrix extends Iterable<Vector>, Matchable, Copyable<Matrix> {
      * @return new matrix
      */
     default Matrix multiply(double scalar) {
-        return LinearAlgebra.multiply(this, scalar, OperationMutability.IMMUTABLE);
+        return LinearAlgebra.multiply(this, scalar, Mutability.IMMUTABLE);
     }
 
     /**
@@ -165,7 +165,7 @@ public interface Matrix extends Iterable<Vector>, Matchable, Copyable<Matrix> {
      * @return new matrix
      */
     default Matrix apply(DoubleUnaryOperator function) {
-        return LinearAlgebra.apply(this, function, OperationMutability.IMMUTABLE);
+        return LinearAlgebra.apply(this, function, Mutability.IMMUTABLE);
     }
 
     /**
@@ -173,14 +173,14 @@ public interface Matrix extends Iterable<Vector>, Matchable, Copyable<Matrix> {
      *
      * @return column vector array
      */
-    Vector[] asColumnVectors();
+    Vector[] columns();
 
     /**
      * Turns this matrix into vector array by rows
      *
      * @return row vector array
      */
-    Vector[] asRowVectors();
+    Vector[] rows();
 
     /**
      * Gets this matrix in array form
