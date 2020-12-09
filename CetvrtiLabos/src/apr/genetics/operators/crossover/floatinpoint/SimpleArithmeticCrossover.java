@@ -22,7 +22,13 @@ public class SimpleArithmeticCrossover extends AbstractArithmeticCrossover {
         List<Double> firstChild = new ArrayList<>(length);
         List<Double> secondChild = new ArrayList<>(length);
 
-        for (int i = ThreadLocalRandom.current().nextInt(length); i < length; i++) {
+        int rind = ThreadLocalRandom.current().nextInt(length);
+
+        for (int i = 0; i < rind; i++) {
+            firstChild.add(first.get(i));
+            secondChild.add(second.get(i));
+        }
+        for (int i = rind; i < length; i++) {
             double val = alpha * (first.get(i) + second.get(i));
             firstChild.add(val);
             secondChild.add(val);

@@ -3,6 +3,7 @@ package apr.genetics.chromosomes.binary;
 import apr.util.Interval;
 
 import java.util.BitSet;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 final class StandardBinaryDecoder implements BinaryDecoder {
@@ -40,13 +41,18 @@ final class StandardBinaryDecoder implements BinaryDecoder {
 
     @Override
     public Double decode(BitSet b) {
-        return BinaryDecoder.binaryToFloatingPoint(b);
+        double lb = interval.start();
+        double ub = interval.end();
+        return lb + BinaryDecoder.binaryToFloatingPoint(b) * (ub - lb) / ((1 << numberOfBits) - 1);
     }
 
     @Override
     public BitSet instance() {
-        byte[] array = new byte[numberOfBits];
-        ThreadLocalRandom.current().nextBytes(array);
-        return BitSet.valueOf(array);
+        BitSet instance = new BitSet(numberOfBits);
+        Random random = ThreadLocalRandom.current();
+        for (int i = 0; i < numberOfBits; i++) {
+            instance.set(i, random.nextBoolean());
+        }
+        return instance;
     }
 }
