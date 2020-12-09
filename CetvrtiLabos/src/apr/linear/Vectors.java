@@ -8,7 +8,6 @@ import apr.linear.vector.ArrayVector;
 
 import java.util.List;
 import java.util.function.DoubleSupplier;
-import java.util.function.Supplier;
 
 /**
  * Utility class with factory methods for building vectors and checking properties
@@ -36,25 +35,6 @@ public class Vectors {
         return new ArrayVector(start, end);
     }
 
-    /**
-     * Builds a new null vector
-     *
-     * @param dimension dimension of null vector
-     * @return new null vector
-     */
-    public static Vector zeroes(int dimension) {
-        return zeroes(() -> empty(dimension));
-    }
-
-    /**
-     * Builds a new null vector
-     *
-     * @param supplier supplier object used to dynamically create an instance of IVector
-     * @return new null vector
-     */
-    public static Vector zeroes(Supplier<Vector> supplier) {
-        return fill(supplier.get(), 0);
-    }
 
     /**
      * Builds a new vector and fills it with ones
@@ -63,17 +43,7 @@ public class Vectors {
      * @return new vector
      */
     public static Vector ones(int dimension) {
-        return ones(() -> empty(dimension));
-    }
-
-    /**
-     * Builds a new vector and fills it with ones
-     *
-     * @param supplier supplier object used to dynamically create an instance of IVector
-     * @return new vector
-     */
-    public static Vector ones(Supplier<Vector> supplier) {
-        return fill(supplier.get(), 1);
+        return fill(empty(dimension), 1.);
     }
 
     /**

@@ -70,7 +70,7 @@ public class LUPDecomposer extends AbstractMatrixDecomposer {
     public Matrix getL() {
         if (L != null) return L;
 
-        L = Matrices.zeroes(() -> matrix.newInstance(dimension, dimension));
+        L = Matrices.empty(dimension);
         for (int i = 0; i < dimension; i++) {
             L.set(i, i, 1);
             for (int j = 0; j < i; j++) {
@@ -88,7 +88,7 @@ public class LUPDecomposer extends AbstractMatrixDecomposer {
     public Matrix getU() {
         if (U != null) return U;
 
-        U = Matrices.zeroes(() -> matrix.newInstance(dimension, dimension));
+        U = Matrices.empty(dimension);
         for (int i = 0; i < dimension; i++) {
             for (int j = i; j < dimension; j++) {
                 U.set(i, j, matrix.get(i, j));
