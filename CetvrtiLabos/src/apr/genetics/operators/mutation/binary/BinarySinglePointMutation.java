@@ -17,7 +17,7 @@ public class BinarySinglePointMutation extends AbstractBinaryMutation {
             int n = original.size();
             BitSet mutated = new BitSet(n);
             mutated.or(original);
-            mutated.set(random.nextInt(n), random.nextBoolean());
+            mutated.flip(random.nextInt(n));
         }
         return mutatedRepresentation;
     }

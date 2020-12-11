@@ -43,7 +43,7 @@ final class StandardBinaryDecoder implements BinaryDecoder {
     public Double decode(BitSet b) {
         double lb = interval.start();
         double ub = interval.end();
-        return lb + BinaryDecoder.binaryToFloatingPoint(b) * (ub - lb) / ((1 << numberOfBits) - 1);
+        return lb + BinaryDecoder.binaryToFloatingPoint(b) * (ub - lb) / ((1L << numberOfBits) - 1);
     }
 
     @Override

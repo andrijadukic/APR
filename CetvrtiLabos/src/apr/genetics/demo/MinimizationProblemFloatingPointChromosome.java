@@ -1,6 +1,5 @@
 package apr.genetics.demo;
 
-import apr.functions.MultivariateFunction;
 import apr.genetics.chromosomes.floatingpoint.FloatingPointChromosome;
 import apr.genetics.chromosomes.FieldChromosome;
 import apr.util.Interval;
@@ -13,14 +12,14 @@ import java.util.stream.Stream;
 
 public class MinimizationProblemFloatingPointChromosome extends FloatingPointChromosome {
 
-    private final MultivariateFunction function;
+    private final FitnessFunction function;
 
-    public MinimizationProblemFloatingPointChromosome(List<Double> representation, MultivariateFunction function) {
+    public MinimizationProblemFloatingPointChromosome(List<Double> representation, FitnessFunction function) {
         super(representation);
         this.function = function;
     }
 
-    public MinimizationProblemFloatingPointChromosome(Interval interval, int length, MultivariateFunction function) {
+    public MinimizationProblemFloatingPointChromosome(Interval interval, int length, FitnessFunction function) {
         this(buildRepresentation(interval, length), function);
     }
 

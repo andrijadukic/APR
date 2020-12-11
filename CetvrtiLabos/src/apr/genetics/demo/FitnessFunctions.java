@@ -1,7 +1,5 @@
 package apr.genetics.demo;
 
-import apr.functions.MultivariateFunction;
-
 /**
  * Utility class defining several cost functions through static factory methods
  */
@@ -12,7 +10,7 @@ public class FitnessFunctions {
      *
      * @return function f1
      */
-    public static MultivariateFunction f1() {
+    public static FitnessFunction f1() {
         return x -> {
             double x1 = x.get(0);
             double x2 = x.get(1);
@@ -25,10 +23,10 @@ public class FitnessFunctions {
      *
      * @return function f3
      */
-    public static MultivariateFunction f3() {
+    public static FitnessFunction f3() {
         return x -> {
             double result = 0.;
-            for (int i = 0, n = x.getDimension(); i < n; i++) {
+            for (int i = 0, n = x.size(); i < n; i++) {
                 result += Math.pow(x.get(i) - (i + 1), 2);
             }
             return result;
@@ -40,11 +38,11 @@ public class FitnessFunctions {
      *
      * @return function f6
      */
-    public static MultivariateFunction f6() {
+    public static FitnessFunction f6() {
         return x -> {
             double sum = 0.;
-            for (int i = 0, n = x.getDimension(); i < n; i++) {
-                sum += Math.pow(x.get(i), 2);
+            for (Double xi : x) {
+                sum += Math.pow(xi, 2);
             }
             double numerator = Math.pow(Math.sin(Math.sqrt(sum)), 2) - 0.5;
             double denominator = Math.pow(1 + 0.001 * sum, 2);
@@ -57,7 +55,7 @@ public class FitnessFunctions {
      *
      * @return function f7
      */
-    public static MultivariateFunction f7() {
+    public static FitnessFunction f7() {
         return x -> {
             double sum = 0;
             for (double xi : x) {

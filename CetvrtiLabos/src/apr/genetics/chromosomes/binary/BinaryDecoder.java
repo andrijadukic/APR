@@ -16,7 +16,7 @@ public interface BinaryDecoder extends ChromosomeDecoder<BitSet, Double> {
     static double binaryToFloatingPoint(BitSet b) {
         double v = 0.;
         for (int i = 0, n = b.size(); i < n; i++) {
-            v += b.get(i) ? (1 << i) : 0;
+            v += b.get(i) ? (1L << i) : 0;
         }
         return v;
     }
@@ -48,7 +48,7 @@ public interface BinaryDecoder extends ChromosomeDecoder<BitSet, Double> {
     static double calculatePrecision(Interval interval, int numberOfBits) {
         double lb = interval.start();
         double ub = interval.end();
-        return (ub - lb) / ((1 << numberOfBits) - 1);
+        return (ub - lb) / ((1L << numberOfBits) - 1);
     }
 
     static int calculateNumberOfBits(Interval interval, double precision) {

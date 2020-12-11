@@ -3,12 +3,14 @@ package apr.genetics.chromosomes.binary;
 import apr.genetics.chromosomes.AbstractFieldChromosome;
 
 import java.util.BitSet;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public abstract class BinaryChromosome extends AbstractFieldChromosome<BitSet> {
 
     protected final BinaryDecoder decoder;
+    protected List<Double> decodedRepresentation;
 
     protected BinaryChromosome(List<BitSet> representation, BinaryDecoder decoder) {
         super(representation);
@@ -24,7 +26,10 @@ public abstract class BinaryChromosome extends AbstractFieldChromosome<BitSet> {
     }
 
     public List<Double> getDecodedRepresentation() {
-        return decoder.decode(getRepresentation());
+        if (decodedRepresentation == null) {
+            decodedRepresentation = Collections.unmodifiableList(decoder.decode(getRepresentation()));
+        }
+        return decodedRepresentation;
     }
 
     @Override

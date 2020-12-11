@@ -26,13 +26,8 @@ public class BinaryUniformCrossover extends AbstractBinaryCrossover {
             BitSet ch1 = new BitSet(numberOfBits);
             BitSet ch2 = new BitSet(numberOfBits);
             for (int i = 0; i < numberOfBits; i++) {
-                if (p1.get(i) == p2.get(i)) {
-                    ch1.set(i, p1.get(i));
-                    ch2.set(i, p1.get(i));
-                } else {
-                    ch1.set(i, random.nextBoolean());
-                    ch2.set(i, random.nextBoolean());
-                }
+                ch1.set(i, random.nextDouble() < 0.5 ? p1.get(i) : p2.get(i));
+                ch2.set(i, random.nextDouble() < 0.5 ? p1.get(i) : p2.get(i));
             }
 
             firstChild.add(ch1);
