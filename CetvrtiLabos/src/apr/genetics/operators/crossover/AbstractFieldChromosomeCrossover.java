@@ -11,7 +11,7 @@ import java.util.List;
 public abstract class AbstractFieldChromosomeCrossover<T, C extends FieldChromosome<T>> implements CrossoverOperator {
 
     @Override
-    public ChromosomePair crossover(Chromosome first, Chromosome second) {
+    public final ChromosomePair crossover(Chromosome first, Chromosome second) {
         Pair<C, C> parents = typeCheck(first, second);
 
         C p1 = parents.first();
@@ -22,9 +22,9 @@ public abstract class AbstractFieldChromosomeCrossover<T, C extends FieldChromos
         List<T> rep1 = p1.getRepresentation();
         List<T> rep2 = p2.getRepresentation();
 
-        Pair<List<T>, List<T>> children = mate(rep1, rep2);
+        Pair<List<T>, List<T>> childReps = mate(rep1, rep2);
 
-        return new ChromosomePair(p1.newInstance(children.first()), p2.newInstance(children.second()));
+        return new ChromosomePair(p1.newInstance(childReps.first()), p2.newInstance(childReps.second()));
     }
 
     protected abstract Pair<C, C> typeCheck(Chromosome first, Chromosome second);

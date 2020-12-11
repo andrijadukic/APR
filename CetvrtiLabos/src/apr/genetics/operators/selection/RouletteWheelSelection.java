@@ -3,16 +3,16 @@ package apr.genetics.operators.selection;
 import apr.genetics.chromosomes.Chromosome;
 import apr.genetics.chromosomes.population.Population;
 import apr.genetics.exceptions.InsufficientPopulationSIze;
-import apr.util.MathUtils;
+import apr.util.Sampling;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class RouletteWheelSelection implements SelectionOperator {
 
-    private final boolean isSorted;
-
     private static final boolean DEFAULT_IS_SORTED = false;
+
+    private final boolean isSorted;
 
     public RouletteWheelSelection() {
         this(DEFAULT_IS_SORTED);
@@ -62,8 +62,8 @@ public class RouletteWheelSelection implements SelectionOperator {
         }
 
         double[] fitness = chromosomes.stream().mapToDouble(Chromosome::getFitness).toArray();
-        MathUtils.cumulativeSum(fitness, -fitness[0]);
-        MathUtils.scale(fitness, fitness[fitness.length - 1]);
+        Sampling.cumulativeSum(fitness, -fitness[0]);
+        Sampling.scale(fitness, fitness[fitness.length - 1]);
         return fitness;
     }
 

@@ -6,7 +6,7 @@ import apr.genetics.chromosomes.Chromosome;
 import apr.genetics.chromosomes.population.Population;
 import apr.genetics.operators.crossover.CrossoverOperator;
 import apr.genetics.operators.mutation.MutationOperator;
-import apr.util.MathUtils;
+import apr.util.Sampling;
 
 import java.util.HashSet;
 import java.util.Random;
@@ -63,7 +63,7 @@ public final class EliminationGeneticAlgorithm extends AbstractGeneticAlgorithm 
             selected.add(rind);
         }
 
-        int min = MathUtils.argMin(tournament);
+        int min = Sampling.argMin(tournament);
 
         var temp = tournament[tournamentSize - 1];
         tournament[tournamentSize - 1] = tournament[min];

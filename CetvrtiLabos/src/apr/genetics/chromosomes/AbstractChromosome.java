@@ -2,9 +2,9 @@ package apr.genetics.chromosomes;
 
 public abstract class AbstractChromosome implements Chromosome {
 
-    protected double fitness = DEFAULT_FITNESS;
-
     private static final double DEFAULT_FITNESS = Double.NEGATIVE_INFINITY;
+
+    protected double fitness = DEFAULT_FITNESS;
 
     @Override
     public double getFitness() {

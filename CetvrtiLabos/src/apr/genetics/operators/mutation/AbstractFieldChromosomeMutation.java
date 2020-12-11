@@ -8,7 +8,7 @@ import java.util.List;
 public abstract class AbstractFieldChromosomeMutation<T, C extends FieldChromosome<T>> implements MutationOperator {
 
     @Override
-    public Chromosome mutate(Chromosome chromosome) {
+    public final Chromosome mutate(Chromosome chromosome) {
         C original = typeCheck(chromosome);
 
         List<T> originalRepresentation = original.getRepresentation();
