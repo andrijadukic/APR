@@ -61,7 +61,7 @@ public class FitnessFunctions {
             for (double xi : x) {
                 sum += Math.pow(xi, 2);
             }
-            return Math.pow(sum, 0.25) * 1 + Math.pow(Math.sin(50 * Math.pow(sum, 0.1)), 2);
+            return Math.pow(sum, 0.25) * (1 + Math.pow(Math.sin(50 * (Math.pow(sum, 0.1))), 2));
         };
     }
 }

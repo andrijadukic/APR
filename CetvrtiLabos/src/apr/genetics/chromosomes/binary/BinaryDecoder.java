@@ -57,7 +57,8 @@ public interface BinaryDecoder extends ChromosomeDecoder<BitSet, Double> {
         return Math.toIntExact(
                 Math.round(
                         Math.ceil(
-                                Math.log(Math.floor(1 + (ub - lb) * Math.pow(10, precision))) / Math.log(2))
+                                Math.log(Math.floor(1 + (ub - lb) * Math.pow(10, precision))) / Math.log(2)
+                        )
                 )
         );
     }
