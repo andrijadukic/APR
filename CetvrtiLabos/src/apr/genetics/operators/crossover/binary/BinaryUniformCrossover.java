@@ -1,12 +1,12 @@
 package apr.genetics.operators.crossover.binary;
 
 import apr.util.Pair;
+import apr.util.SourceOfRandomness;
 
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class BinaryUniformCrossover extends AbstractBinaryCrossover {
 
@@ -16,7 +16,7 @@ public class BinaryUniformCrossover extends AbstractBinaryCrossover {
         List<BitSet> firstChild = new ArrayList<>(length);
         List<BitSet> secondChild = new ArrayList<>(length);
 
-        Random random = ThreadLocalRandom.current();
+        Random random = SourceOfRandomness.getSource();
         for (int dimension = 0; dimension < length; dimension++) {
             BitSet p1 = first.get(dimension);
             BitSet p2 = second.get(dimension);

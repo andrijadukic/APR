@@ -6,9 +6,9 @@ import apr.genetics.chromosomes.population.Population;
 import apr.genetics.operators.crossover.CrossoverOperator;
 import apr.genetics.operators.mutation.MutationOperator;
 import apr.genetics.operators.selection.SelectionOperator;
+import apr.util.SourceOfRandomness;
 
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class GenerationalGeneticAlgorithm extends AbstractGeneticAlgorithm {
 
@@ -59,7 +59,7 @@ public class GenerationalGeneticAlgorithm extends AbstractGeneticAlgorithm {
             next.addChromosome(current.getFittest());
         }
 
-        Random random = ThreadLocalRandom.current();
+        Random random = SourceOfRandomness.getSource();
         int remaining = current.size() - next.size();
         while (remaining != 0) {
             Chromosome[] parents = selectionOperator.select(current, 2);

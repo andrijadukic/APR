@@ -94,7 +94,7 @@ final class LinearAlgebraUtil {
 
     /**
      * Tests if forward substitution is applicable with these parameters
-     * (vector b is of the same dimensions as the row count of matrix L and matrix L is lower triangle matrix)
+     * (vector b is of the same dimensions as the row iteration of matrix L and matrix L is lower triangle matrix)
      *
      * @param matrix L matrix
      * @param vector b vector
@@ -106,7 +106,7 @@ final class LinearAlgebraUtil {
 
     /**
      * Tests if backward substitution is applicable with these parameters
-     * (vector y is of the same dimensions as the row count of matrix U and matrix U is upper triangle matrix)
+     * (vector y is of the same dimensions as the row iteration of matrix U and matrix U is upper triangle matrix)
      *
      * @param matrix U matrix
      * @param vector y vector

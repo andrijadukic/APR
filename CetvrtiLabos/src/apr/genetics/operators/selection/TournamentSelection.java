@@ -3,10 +3,10 @@ package apr.genetics.operators.selection;
 import apr.genetics.exceptions.InsufficientPopulationSIze;
 import apr.genetics.chromosomes.Chromosome;
 import apr.genetics.chromosomes.population.Population;
+import apr.util.SourceOfRandomness;
 
 import java.security.InvalidParameterException;
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Stream;
 
 public class TournamentSelection implements SelectionOperator {
@@ -26,7 +26,7 @@ public class TournamentSelection implements SelectionOperator {
 
         if (size == tournamentSize) return population.getFittest();
 
-        Random random = ThreadLocalRandom.current();
+        Random random = SourceOfRandomness.getSource();
         return Stream.generate(() -> population.getChromosome(random.nextInt(size)))
                 .limit(tournamentSize)
                 .max(Chromosome::compareTo)

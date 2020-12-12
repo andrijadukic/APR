@@ -1,21 +1,21 @@
 package apr.genetics.algorithms.conditions;
 
-import apr.genetics.chromosomes.population.Population;
+import apr.genetics.algorithms.util.IntermediateResult;
 
 @FunctionalInterface
 public interface StoppingCondition {
 
-    boolean isMet(Population population);
+    boolean isMet(IntermediateResult intermediateResult);
 
     default StoppingCondition and(StoppingCondition other) {
-        return population -> isMet(population) && other.isMet(population);
+        return intermediateResult -> isMet(intermediateResult) && other.isMet(intermediateResult);
     }
 
     default StoppingCondition or(StoppingCondition other) {
-        return population -> isMet(population) || other.isMet(population);
+        return intermediateResult -> isMet(intermediateResult) || other.isMet(intermediateResult);
     }
 
     default StoppingCondition not() {
-        return population -> !isMet(population);
+        return intermediateResult -> !isMet(intermediateResult);
     }
 }

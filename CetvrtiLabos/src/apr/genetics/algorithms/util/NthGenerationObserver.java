@@ -14,7 +14,7 @@ public class NthGenerationObserver implements GeneticAlgorithmObserver {
 
     @Override
     public void update(IntermediateResult intermediateResult) {
-        int count = intermediateResult.count();
+        int count = intermediateResult.iteration();
         if (count % step == 0 || count == 1) {
             observer.update(intermediateResult);
         }

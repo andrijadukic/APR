@@ -1,10 +1,10 @@
 package apr.genetics.chromosomes.binary;
 
 import apr.util.Interval;
+import apr.util.SourceOfRandomness;
 
 import java.util.BitSet;
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
 final class StandardBinaryDecoder implements BinaryDecoder {
 
@@ -49,7 +49,7 @@ final class StandardBinaryDecoder implements BinaryDecoder {
     @Override
     public BitSet instance() {
         BitSet instance = new BitSet(numberOfBits);
-        Random random = ThreadLocalRandom.current();
+        Random random = SourceOfRandomness.getSource();
         for (int i = 0; i < numberOfBits; i++) {
             instance.set(i, random.nextBoolean());
         }

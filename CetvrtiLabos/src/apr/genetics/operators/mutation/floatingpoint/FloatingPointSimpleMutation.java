@@ -1,9 +1,10 @@
 package apr.genetics.operators.mutation.floatingpoint;
 
+import apr.util.SourceOfRandomness;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class FloatingPointSimpleMutation extends AbstractFloatingPointMutation {
 
@@ -20,9 +21,9 @@ public class FloatingPointSimpleMutation extends AbstractFloatingPointMutation {
     @Override
     protected List<Double> mutate(List<Double> representation) {
         List<Double> mutatedRepresentation = new ArrayList<>(representation);
-        Random random = ThreadLocalRandom.current();
+        Random random = SourceOfRandomness.getSource();
         for (int i = 0, n = mutatedRepresentation.size(); i < n; i++) {
-            if (random.nextDouble() < pm) {
+            if (random.nextDouble() <= pm) {
                 mutatedRepresentation.set(i, lb + random.nextDouble() * (ub - lb));
             }
         }

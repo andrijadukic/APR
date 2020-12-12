@@ -1,11 +1,10 @@
 package apr.genetics.operators.crossover.floatinpoint;
 
 import apr.util.Pair;
+import apr.util.SourceOfRandomness;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class SimpleArithmeticCrossover extends AbstractArithmeticCrossover {
 
@@ -22,7 +21,7 @@ public class SimpleArithmeticCrossover extends AbstractArithmeticCrossover {
         List<Double> firstChild = new ArrayList<>(length);
         List<Double> secondChild = new ArrayList<>(length);
 
-        int rind = ThreadLocalRandom.current().nextInt(length);
+        int rind = SourceOfRandomness.getSource().nextInt(length);
 
         for (int i = 0; i < rind; i++) {
             firstChild.add(first.get(i));

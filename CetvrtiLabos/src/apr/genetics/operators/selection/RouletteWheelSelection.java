@@ -4,9 +4,9 @@ import apr.genetics.chromosomes.Chromosome;
 import apr.genetics.chromosomes.population.Population;
 import apr.genetics.exceptions.InsufficientPopulationSIze;
 import apr.util.Sampling;
+import apr.util.SourceOfRandomness;
 
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class RouletteWheelSelection implements SelectionOperator {
 
@@ -33,7 +33,7 @@ public class RouletteWheelSelection implements SelectionOperator {
 
         if (size < k) throw new InsufficientPopulationSIze(population.size(), k);
 
-        Random random = ThreadLocalRandom.current();
+        Random random = SourceOfRandomness.getSource();
 
         List<Chromosome> chromosomes = new ArrayList<>(population.getChromosomes());
         double[] probabilities = probabilities(chromosomes);

@@ -1,12 +1,12 @@
 package apr.genetics.operators.crossover.floatinpoint;
 
 import apr.util.Pair;
+import apr.util.SourceOfRandomness;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class FloatingPointMultiplePointCrossover extends AbstractFloatingPointCrossover {
 
@@ -24,7 +24,7 @@ public class FloatingPointMultiplePointCrossover extends AbstractFloatingPointCr
         List<Double> secondChild = new ArrayList<>(length);
 
         int lastCrossover = 0;
-        Random random = ThreadLocalRandom.current();
+        Random random = SourceOfRandomness.getSource();
         for (int i = 0; i < crossovers; i++) {
             int crossover = 1 + lastCrossover + random.nextInt(length - lastCrossover - (crossovers - i));
             for (int j = lastCrossover; j < crossover; j++) {

@@ -1,8 +1,9 @@
 package apr.genetics.operators.mutation.floatingpoint;
 
+import apr.util.SourceOfRandomness;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class FloatingPointSinglePointMutation extends AbstractFloatingPointMutation {
 
@@ -17,8 +18,8 @@ public class FloatingPointSinglePointMutation extends AbstractFloatingPointMutat
     @Override
     protected List<Double> mutate(List<Double> representation) {
         List<Double> mutatedRepresentation = new ArrayList<>(representation);
-        int rind = ThreadLocalRandom.current().nextInt(mutatedRepresentation.size());
-        mutatedRepresentation.set(rind, lb + ThreadLocalRandom.current().nextDouble() * (ub - lb));
+        int rind = SourceOfRandomness.getSource().nextInt(mutatedRepresentation.size());
+        mutatedRepresentation.set(rind, lb + SourceOfRandomness.getSource().nextDouble() * (ub - lb));
         return mutatedRepresentation;
     }
 }

@@ -1,10 +1,11 @@
 package apr.genetics.operators.mutation.binary;
 
+import apr.util.SourceOfRandomness;
+
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class BinarySimpleMutation extends AbstractBinaryMutation {
 
@@ -17,7 +18,7 @@ public class BinarySimpleMutation extends AbstractBinaryMutation {
     @Override
     protected List<BitSet> mutate(List<BitSet> representation) {
         List<BitSet> mutatedRepresentation = new ArrayList<>(representation.size());
-        Random random = ThreadLocalRandom.current();
+        Random random = SourceOfRandomness.getSource();
         for (BitSet original : representation) {
             int n = original.size();
             BitSet mutated = new BitSet(n);

@@ -43,17 +43,23 @@ public abstract class AbstractGeneticAlgorithm implements GeneticAlgorithm {
 
         validate(initial);
 
-        int count = 0;
+        int iteration = 0;
         Population current = initial.copy();
-        Chromosome best = current.getFittest();
-        Chromosome candidate;
-        while (!condition.isMet(current)) {
+        Chromosome fittest = current.getFittest();
+        while (true) {
+            IntermediateResult intermediateResult = new IntermediateResult(iteration, fittest, current);
+
+            notifyObservers(intermediateResult);
+
+            if (condition.isMet(intermediateResult)) break;
+
             current = nextGeneration(current);
-            candidate = current.getFittest();
-            if (candidate.compareTo(best) > 0) {
-                best = candidate;
+            Chromosome candidate = current.getFittest();
+            if (candidate.compareTo(fittest) > 0) {
+                fittest = candidate;
             }
-            notifyObservers(new IntermediateResult(++count, best));
+
+            iteration++;
         }
         return current;
     }

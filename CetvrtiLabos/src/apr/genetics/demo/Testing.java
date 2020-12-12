@@ -41,14 +41,14 @@ public class Testing {
         return new ListBasedPopulation(() -> new MinimizationProblemBinaryChromosome(decoder, dimension, fitnessFunction), populationSize);
     }
 
-    public static void test(GeneticAlgorithm geneticAlgorithm, Population population) {
-        var observer = new NthGenerationObserver(new StandardOutputLogger(), 100000);
-        geneticAlgorithm.addObserver(observer);
-
-        var stoppingCondition = StoppingConditions.maxIter(1000000).or(StoppingConditions.precision(0, 1e-5));
+    public static Chromosome test(GeneticAlgorithm geneticAlgorithm, Population population, StoppingCondition stoppingCondition, boolean verbose) {
+        if (verbose) {
+            geneticAlgorithm.addObserver(new NthGenerationObserver(new StandardOutputLogger(), 100000));
+        }
 
         var fittest = geneticAlgorithm.run(population, stoppingCondition).getFittest();
 
         System.out.println("Best found: " + fittest + " | fitness: " + fittest.getFitness());
+        return fittest;
     }
 }

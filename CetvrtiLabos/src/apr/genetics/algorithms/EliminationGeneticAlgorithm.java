@@ -7,11 +7,9 @@ import apr.genetics.chromosomes.population.Population;
 import apr.genetics.operators.crossover.CrossoverOperator;
 import apr.genetics.operators.mutation.MutationOperator;
 import apr.util.Sampling;
+import apr.util.SourceOfRandomness;
 
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.*;
 
 public final class EliminationGeneticAlgorithm extends AbstractGeneticAlgorithm {
 
@@ -48,7 +46,7 @@ public final class EliminationGeneticAlgorithm extends AbstractGeneticAlgorithm 
     public Population nextGeneration(Population current) {
         int size = current.size();
 
-        Random random = ThreadLocalRandom.current();
+        Random random = SourceOfRandomness.getSource();
 
         int[] indices = new int[tournamentSize];
         Chromosome[] tournament = new Chromosome[tournamentSize];
@@ -69,11 +67,11 @@ public final class EliminationGeneticAlgorithm extends AbstractGeneticAlgorithm 
         tournament[tournamentSize - 1] = tournament[min];
         tournament[min] = temp;
 
-        ChromosomePair pair = random.nextDouble() < crossoverRate
+        ChromosomePair pair = random.nextDouble() <= crossoverRate
                 ? crossoverOperator.crossover(tournament[0], tournament[1])
                 : new ChromosomePair(tournament[0], tournament[1]);
 
-        Chromosome child = random.nextDouble() < mutationRate
+        Chromosome child = random.nextDouble() <= mutationRate
                 ? mutationOperator.mutate(pair.first())
                 : pair.first();
 
