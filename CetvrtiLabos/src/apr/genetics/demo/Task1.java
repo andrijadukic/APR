@@ -27,47 +27,53 @@ public class Task1 {
         var binaryGA = new EliminationGeneticAlgorithm(
                 new BinarySinglePointCrossover(), 1.,
                 new BinarySimpleMutation(0.2), 1.,
-                3);
+                3
+        );
 
-        var stoppingCondition = StoppingConditions.maxIter(1000000).or(StoppingConditions.precision(0, 1e-5));
+        var stoppingCondition = StoppingConditions.maxIter(100000).or(StoppingConditions.precision(0, 1e-6));
 
-        System.out.println("Function f1 floating point: ");
+//        System.out.println("Function f1 floating point: ");
+//        test(
+//                floatingPointGA,
+//                floatingPointPopulation(popSize, interval, 2, FitnessFunctions.f1().negate()),
+//                stoppingCondition,
+//                false
+//        );
+        System.out.println("Function f1 binary: ");
         test(
-                floatingPointGA,
-                floatingPointPopulation(popSize, interval, 2, FitnessFunctions.f1().negate()),
+                binaryGA,
+                binaryPopulation(80, interval, 1e-4, 2, FitnessFunctions.f1().negate()),
                 stoppingCondition,
                 false
         );
-////        System.out.println("Function f1 binary: ");
-//        test(binaryGA, binaryPopulation(90, new Interval(lb, ub), 1e-6, 2, FitnessFunctions.f1().negate()));
 //
-        System.out.println("Function f3 floating point: ");
-        test(
-                floatingPointGA,
-                floatingPointPopulation(popSize, interval, 5, FitnessFunctions.f3().negate()),
-                stoppingCondition,
-                false
-        );
+//        System.out.println("Function f3 floating point: ");
+//        test(
+//                floatingPointGA,
+//                floatingPointPopulation(popSize, interval, 5, FitnessFunctions.f3().negate()),
+//                stoppingCondition,
+//                false
+//        );
 //        System.out.println("Function f3 binary: ");
 //        test(binaryGA, binaryPopulation(80, new Interval(lb, ub), 1e-6, 5, FitnessFunctions.f3().negate()));
 
-        System.out.println("Function f6 floating point: ");
-        test(
-                floatingPointGA,
-                floatingPointPopulation(popSize, interval, 6, FitnessFunctions.f6().negate()),
-                stoppingCondition,
-                false
-        );
+//        System.out.println("Function f6 floating point: ");
+//        test(
+//                floatingPointGA,
+//                floatingPointPopulation(popSize, interval, 6, FitnessFunctions.f6().negate()),
+//                stoppingCondition,
+//                false
+//        );
 //        System.out.println("Function f6 binary: ");
 //        test(binaryGA, binaryPopulation(80, new Interval(lb, ub), 1e-6, 2, FitnessFunctions.f6().negate()));
 //
-        System.out.println("Function f7 floating point: ");
-        test(
-                floatingPointGA,
-                floatingPointPopulation(popSize, interval, 6, FitnessFunctions.f7().negate()),
-                stoppingCondition,
-                false
-        );
+//        System.out.println("Function f7 floating point: ");
+//        test(
+//                floatingPointGA,
+//                floatingPointPopulation(popSize, interval, 6, FitnessFunctions.f7().negate()),
+//                stoppingCondition,
+//                false
+//        );
 //        System.out.println("Function f7 binary: ");
 //        test(binaryGA, binaryPopulation(80, new Interval(lb, ub), 1e-6, 2, FitnessFunctions.f7().negate()));
     }

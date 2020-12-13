@@ -38,12 +38,14 @@ public class Task3 {
                     var floatingPointGA = new EliminationGeneticAlgorithm(
                             new SimulatedBinaryCrossover(), 1.,
                             new FloatingPointSimpleMutation(pm, interval.start(), interval.end()), 1.,
-                            3);
+                            3
+                    );
 
                     var binaryGA = new EliminationGeneticAlgorithm(
                             new BinarySinglePointCrossover(), 1.,
                             new BinarySimpleMutation(pm), 1.,
-                            3);
+                            3
+                    );
 
                     fittestFloatingPoint.add(floatingPointGA.run(floatingPointPopulation(popSize, interval, dim, function), stoppingCondition).getFittest());
                     fittestBinary.add(binaryGA.run(binaryPopulation(popSize, interval, precision, dim, function), stoppingCondition).getFittest());

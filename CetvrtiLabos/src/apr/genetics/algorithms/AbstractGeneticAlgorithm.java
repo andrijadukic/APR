@@ -48,12 +48,12 @@ public abstract class AbstractGeneticAlgorithm implements GeneticAlgorithm {
         Chromosome fittest = current.getFittest();
         while (true) {
             IntermediateResult intermediateResult = new IntermediateResult(iteration, fittest, current);
-
             notifyObservers(intermediateResult);
 
             if (condition.isMet(intermediateResult)) break;
 
             current = nextGeneration(current);
+
             Chromosome candidate = current.getFittest();
             if (candidate.compareTo(fittest) > 0) {
                 fittest = candidate;

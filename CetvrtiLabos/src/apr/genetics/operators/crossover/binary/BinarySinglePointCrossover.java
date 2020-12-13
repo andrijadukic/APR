@@ -25,12 +25,12 @@ public class BinarySinglePointCrossover extends AbstractBinaryCrossover {
 
             BitSet ch1 = new BitSet(numberOfBits);
             BitSet ch2 = new BitSet(numberOfBits);
-            int point = random.nextInt(numberOfBits - 1);
-            for (int i = 0; i < point; i++) {
+            int rind = random.nextInt(numberOfBits - 1);
+            for (int i = 0; i < rind; i++) {
                 ch1.set(i, x1.get(i));
                 ch2.set(i, x2.get(i));
             }
-            for (int i = point; i < numberOfBits; i++) {
+            for (int i = rind; i < numberOfBits; i++) {
                 ch1.set(i, x2.get(i));
                 ch2.set(i, x1.get(i));
             }

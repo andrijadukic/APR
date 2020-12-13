@@ -22,8 +22,11 @@ public class BinarySimpleMutation extends AbstractBinaryMutation {
         for (BitSet original : representation) {
             int n = original.size();
             BitSet mutated = new BitSet(n);
+            mutated.or(original);
             for (int i = 0; i < n; i++) {
-                mutated.set(i, (random.nextDouble() < pm) != original.get(i));
+                if (random.nextDouble() < pm) {
+                    mutated.flip(i);
+                }
             }
             mutatedRepresentation.add(mutated);
         }
