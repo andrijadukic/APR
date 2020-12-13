@@ -2,14 +2,11 @@ package apr.genetics.demo;
 
 import apr.genetics.algorithms.EliminationGeneticAlgorithm;
 import apr.genetics.algorithms.conditions.StoppingConditions;
-import apr.genetics.chromosomes.Chromosome;
-import apr.genetics.operators.crossover.floatinpoint.SimpleArithmeticCrossover;
-import apr.genetics.operators.crossover.floatinpoint.SimulatedBinaryCrossover;
+import apr.genetics.operators.crossover.floatinpoint.BLXAlphaCrossover;
 import apr.genetics.operators.mutation.floatingpoint.FloatingPointSimpleMutation;
 import apr.util.Interval;
+import apr.util.Sampling;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import static apr.genetics.demo.Testing.*;
 
@@ -17,44 +14,54 @@ public class Task4 {
 
     public static void main(String[] args) {
         var interval = new Interval(-50, 150);
-        double pm = 0.45;
-        int dim = 6;
-        int popSize = 40;
+        int dimension = 6;
 
         var function = FitnessFunctions.f6().negate();
         var stoppingCondition = StoppingConditions.maxIter(100000);
-        var runs = 10;
+        int runs = 10;
 
         var populationSizes = new int[]{30, 50, 100, 200};
-        for (var populationSize : populationSizes) {
-            System.out.println("Population size: " + populationSize);
-            List<Chromosome> fittestFloatingPoint = new ArrayList<>(runs);
-            for (int i = 0; i < runs; i++) {
-                var floatingPointGA = new EliminationGeneticAlgorithm(
-                        new SimulatedBinaryCrossover(), 1.,
-                        new FloatingPointSimpleMutation(pm, interval.start(), interval.end()), 1.,
-                        3
-                );
+        var populationMedians = new Double[populationSizes.length];
+        for (int i = 0, n = populationSizes.length; i < n; i++) {
+            int popSize = populationSizes[i];
+            System.out.println("Population size: " + populationSizes[i]);
+            var floatingPointGA = new EliminationGeneticAlgorithm(
+                    new BLXAlphaCrossover(0.5, interval), 1.,
+                    new FloatingPointSimpleMutation(0.1, interval.start(), interval.end()), 1.,
+                    3
+            );
 
-                fittestFloatingPoint.add(floatingPointGA.run(floatingPointPopulation(populationSize, interval, dim, function), stoppingCondition).getFittest());
-            }
-            System.out.println("Mean: " + fittestFloatingPoint.stream().mapToDouble(Chromosome::getFitness).average().orElseThrow(IllegalStateException::new));
+            double median = run(floatingPointGA, runs, () -> floatingPointPopulation(popSize, interval, dimension, function), stoppingCondition);
+
+            System.out.println("Median fitness: " + median);
+            System.out.println();
+            populationMedians[i] = median;
         }
+
+        System.out.println();
+        int optimalPopulation = populationSizes[Sampling.argMin(populationMedians)];
+        System.out.println("Optimal population: " + optimalPopulation);
 
         System.out.println();
 
         var mutationProbabilities = new double[]{0.1, 0.3, 0.6, 0.9};
-        for (var mutationProbability : mutationProbabilities) {
-            System.out.println("Mutation probability: " + mutationProbability);
-            List<Chromosome> fittestFloatingPoint = new ArrayList<>(runs);
-            for (int i = 0; i < runs; i++) {
-                var floatingPointGA = new EliminationGeneticAlgorithm(new SimpleArithmeticCrossover(), 1.,
-                        new FloatingPointSimpleMutation(pm, interval.start(), interval.end()), 1.,
-                        3);
+        var mutationMedians = new Double[mutationProbabilities.length];
+        for (int i = 0, n = mutationProbabilities.length; i < n; i++) {
+            System.out.println("Mutation probability: " + mutationProbabilities[i]);
+            var floatingPointGA = new EliminationGeneticAlgorithm(
+                    new BLXAlphaCrossover(0.5, interval), 1.,
+                    new FloatingPointSimpleMutation(mutationProbabilities[i], interval.start(), interval.end()), 1.,
+                    3
+            );
+            double median = run(floatingPointGA, runs, () -> floatingPointPopulation(optimalPopulation, interval, dimension, function), stoppingCondition);
 
-                fittestFloatingPoint.add(floatingPointGA.run(floatingPointPopulation(popSize, interval, dim, function), stoppingCondition).getFittest());
-            }
-            System.out.println("Mean: " + fittestFloatingPoint.stream().mapToDouble(Chromosome::getFitness).average().orElseThrow(IllegalStateException::new));
+            System.out.println("Median fitness: " + median);
+            System.out.println();
+            mutationMedians[i] = median;
         }
+
+        System.out.println();
+        double optimalMutationProbability = mutationProbabilities[Sampling.argMin(mutationMedians)];
+        System.out.println("Optimal mutation probability: " + optimalMutationProbability);
     }
 }

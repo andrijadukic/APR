@@ -3,9 +3,7 @@ package apr.genetics.chromosomes.binary;
 import apr.genetics.chromosomes.util.ChromosomeDecoder;
 import apr.util.Interval;
 
-import java.util.BitSet;
-
-public interface BinaryDecoder extends ChromosomeDecoder<BitSet, Double> {
+public interface BinaryDecoder extends ChromosomeDecoder<byte[], Double> {
 
     Interval getInterval();
 
@@ -13,34 +11,36 @@ public interface BinaryDecoder extends ChromosomeDecoder<BitSet, Double> {
 
     double getPrecision();
 
-    static double binaryToFloatingPoint(BitSet b) {
+    static double binaryToFloatingPoint(byte[] b) {
         double v = 0.;
-        for (int i = 0, n = b.size(); i < n; i++) {
-            v += b.get(i) ? (1L << i) : 0;
+        for (int i = 0, n = b.length; i < n; i++) {
+            if (b[i] == (byte) 1) {
+                v += (1L << i);
+            }
         }
         return v;
     }
 
-    static BitSet binaryToGray(BitSet b) {
-        int n = b.size();
-        BitSet g = new BitSet(n);
-        g.set(0, b.get(0));
+    static byte[] binaryToGray(byte[] b) {
+        int n = b.length;
+        byte[] g = new byte[n];
+        g[0] = b[0];
         for (int i = 1; i < n; i++) {
-            g.set(i, b.get(i - 1) ^ b.get(i));
+            g[i] = (byte) (b[i - 1] ^ b[i]);
         }
         return g;
     }
 
-    static BitSet grayToBinary(BitSet g) {
-        int n = g.size();
-        BitSet b = new BitSet(n);
-        boolean v = g.get(0);
-        b.set(0, v);
+    static byte[] grayToBinary(byte[] g) {
+        int n = g.length;
+        byte[] b = new byte[n];
+        byte v = g[0];
+        b[0] = v;
         for (int i = 1; i < n; i++) {
-            if (g.get(i)) {
-                v = !v;
+            if (g[i] == (byte) 1) {
+                v = (byte) (1 - v);
             }
-            b.set(i, v);
+            b[i] = v;
         }
         return b;
     }

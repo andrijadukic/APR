@@ -2,8 +2,6 @@ package apr.genetics.chromosomes.binary;
 
 import apr.util.Interval;
 
-import java.util.BitSet;
-
 final class GrayDecoder implements BinaryDecoder {
 
     private final BinaryDecoder binaryDecoder;
@@ -28,12 +26,12 @@ final class GrayDecoder implements BinaryDecoder {
     }
 
     @Override
-    public Double decode(BitSet g) {
+    public Double decode(byte[] g) {
         return binaryDecoder.decode(BinaryDecoder.grayToBinary(g));
     }
 
     @Override
-    public BitSet instance() {
+    public byte[] instance() {
         return BinaryDecoder.binaryToGray(binaryDecoder.instance());
     }
 }

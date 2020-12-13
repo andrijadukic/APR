@@ -1,6 +1,6 @@
 package apr.functions;
 
-import apr.linear.util.Vectors;
+import apr.linear.Vectors;
 import apr.linear.vector.Vector;
 
 import java.util.List;

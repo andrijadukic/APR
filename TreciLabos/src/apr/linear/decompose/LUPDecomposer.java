@@ -1,9 +1,10 @@
 package apr.linear.decompose;
 
+import apr.linear.Vectors;
 import apr.linear.exceptions.SingularMatrixException;
 import apr.linear.matrix.Matrix;
-import apr.linear.util.linalg.LinearAlgebra;
-import apr.linear.util.Matrices;
+import apr.linear.linalg.LinearAlgebra;
+import apr.linear.Matrices;
 import apr.linear.vector.Vector;
 import apr.linear.vector.ArrayVector;
 
@@ -34,7 +35,7 @@ public class LUPDecomposer extends AbstractMatrixDecomposer {
      * Performs LUP decomposition
      */
     private void decompose() {
-        P = new ArrayVector(0, dimension);
+        P = Vectors.range(0, dimension);
 
         for (int i = 0, n = dimension - 1; i < n; i++) {
             int pivot = i;
@@ -69,7 +70,7 @@ public class LUPDecomposer extends AbstractMatrixDecomposer {
     public Matrix getL() {
         if (L != null) return L;
 
-        L = Matrices.zeroes(() -> matrix.newInstance(dimension, dimension));
+        L = Matrices.empty(dimension);
         for (int i = 0; i < dimension; i++) {
             L.set(i, i, 1);
             for (int j = 0; j < i; j++) {
@@ -85,9 +86,9 @@ public class LUPDecomposer extends AbstractMatrixDecomposer {
      * @return U matrix
      */
     public Matrix getU() {
-        if (U != null) return L;
+        if (U != null) return U;
 
-        Matrix U = Matrices.zeroes(dimension);
+        U = Matrices.empty(dimension);
         for (int i = 0; i < dimension; i++) {
             for (int j = i; j < dimension; j++) {
                 U.set(i, j, matrix.get(i, j));
@@ -145,8 +146,7 @@ public class LUPDecomposer extends AbstractMatrixDecomposer {
         public Matrix invert() {
             Matrix identity = Matrices.identity(n);
 
-            Vector[] x = new ArrayVector[n];
-
+            Vector[] x = new Vector[n];
             for (int i = 0; i < n; i++) {
                 x[i] = solve(identity.getColumn(i));
             }

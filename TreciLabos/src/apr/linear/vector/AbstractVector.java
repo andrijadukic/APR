@@ -1,6 +1,8 @@
 package apr.linear.vector;
 
-import apr.linear.util.linalg.LinearAlgebra;
+import apr.linear.linalg.LinearAlgebra;
+import apr.linear.matrix.ArrayMatrix;
+import apr.linear.matrix.Matrix;
 
 import java.util.Iterator;
 import java.util.function.DoublePredicate;
@@ -11,13 +13,30 @@ import java.util.function.DoublePredicate;
 public abstract class AbstractVector implements Vector {
 
     @Override
+    public void swap(int i, int j) {
+        var temp = get(i);
+        set(i, get(j));
+        set(j, temp);
+    }
+
+    @Override
+    public Matrix asMatrix() {
+        int dimension = getDimension();
+        Matrix result = new ArrayMatrix(1, dimension);
+        for (int i = 0; i < dimension; i++) {
+            result.set(0, i, get(i));
+        }
+        return result;
+    }
+
+    @Override
     public boolean anyMatch(DoublePredicate predicate) {
-        return LinearAlgebra.anyMatch(this, predicate);
+        return LinearAlgebra.anyMatch(iterator(), predicate);
     }
 
     @Override
     public boolean allMatch(DoublePredicate predicate) {
-        return LinearAlgebra.allMatch(this, predicate);
+        return LinearAlgebra.allMatch(iterator(), predicate);
     }
 
     @Override

@@ -1,12 +1,13 @@
 package apr.linear.vector;
 
 import apr.linear.matrix.Matrix;
-import apr.linear.matrix.ArrayMatrix;
 import apr.util.Copyable;
-import apr.linear.util.Matchable;
-import apr.linear.util.operators.DoubleUnaryOperator;
-import apr.linear.util.linalg.LinearAlgebra;
-import apr.linear.util.linalg.OperationMutability;
+import apr.util.Matchable;
+
+import java.util.function.DoubleUnaryOperator;
+
+import apr.linear.linalg.LinearAlgebra;
+import apr.linear.linalg.Mutability;
 
 
 /**
@@ -52,11 +53,7 @@ public interface Vector extends Iterable<Double>, Copyable<Vector>, Matchable {
      * @param i first index
      * @param j second index
      */
-    default void swap(int i, int j) {
-        var temp = get(i);
-        set(i, get(j));
-        set(j, temp);
-    }
+    void swap(int i, int j);
 
     /**
      * Performs vector addition
@@ -65,7 +62,7 @@ public interface Vector extends Iterable<Double>, Copyable<Vector>, Matchable {
      * @return new vector
      */
     default Vector add(Vector other) {
-        return LinearAlgebra.add(this, other, OperationMutability.IMMUTABLE);
+        return LinearAlgebra.add(this, other, Mutability.IMMUTABLE);
     }
 
     /**
@@ -75,7 +72,7 @@ public interface Vector extends Iterable<Double>, Copyable<Vector>, Matchable {
      * @return new vector
      */
     default Vector add(double value) {
-        return LinearAlgebra.add(this, value, OperationMutability.IMMUTABLE);
+        return LinearAlgebra.add(this, value, Mutability.IMMUTABLE);
     }
 
     /**
@@ -85,7 +82,7 @@ public interface Vector extends Iterable<Double>, Copyable<Vector>, Matchable {
      * @return new vector
      */
     default Vector subtract(Vector other) {
-        return LinearAlgebra.subtract(this, other, OperationMutability.IMMUTABLE);
+        return LinearAlgebra.subtract(this, other, Mutability.IMMUTABLE);
     }
 
     /**
@@ -95,7 +92,7 @@ public interface Vector extends Iterable<Double>, Copyable<Vector>, Matchable {
      * @return new vector
      */
     default Vector subtract(double value) {
-        return LinearAlgebra.subtract(this, value, OperationMutability.IMMUTABLE);
+        return LinearAlgebra.subtract(this, value, Mutability.IMMUTABLE);
     }
 
     /**
@@ -115,7 +112,7 @@ public interface Vector extends Iterable<Double>, Copyable<Vector>, Matchable {
      * @return new vector
      */
     default Vector multiply(double scalar) {
-        return LinearAlgebra.multiply(this, scalar, OperationMutability.IMMUTABLE);
+        return LinearAlgebra.multiply(this, scalar, Mutability.IMMUTABLE);
     }
 
     /**
@@ -145,7 +142,7 @@ public interface Vector extends Iterable<Double>, Copyable<Vector>, Matchable {
      * @return new vector
      */
     default Vector apply(DoubleUnaryOperator function) {
-        return LinearAlgebra.apply(this, function, OperationMutability.IMMUTABLE);
+        return LinearAlgebra.apply(this, function, Mutability.IMMUTABLE);
     }
 
     /**
@@ -153,12 +150,9 @@ public interface Vector extends Iterable<Double>, Copyable<Vector>, Matchable {
      *
      * @return equivalent matrix
      */
-    default Matrix asMatrix() {
-        int dimension = getDimension();
-        Matrix result = new ArrayMatrix(1, dimension);
-        for (int i = 0; i < dimension; i++) {
-            result.set(0, i, get(i));
-        }
-        return result;
+    Matrix asMatrix();
+
+    static Vector of(double... values) {
+        return new ArrayVector(values);
     }
 }

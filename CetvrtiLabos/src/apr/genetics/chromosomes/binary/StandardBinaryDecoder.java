@@ -3,7 +3,6 @@ package apr.genetics.chromosomes.binary;
 import apr.util.Interval;
 import apr.util.SourceOfRandomness;
 
-import java.util.BitSet;
 import java.util.Random;
 
 final class StandardBinaryDecoder implements BinaryDecoder {
@@ -40,18 +39,18 @@ final class StandardBinaryDecoder implements BinaryDecoder {
     }
 
     @Override
-    public Double decode(BitSet b) {
+    public Double decode(byte[] b) {
         double lb = interval.start();
         double ub = interval.end();
         return lb + BinaryDecoder.binaryToFloatingPoint(b) / ((1L << numberOfBits) - 1) * (ub - lb);
     }
 
     @Override
-    public BitSet instance() {
-        BitSet instance = new BitSet(numberOfBits);
+    public byte[] instance() {
+        byte[] instance = new byte[numberOfBits];
         Random random = SourceOfRandomness.getSource();
         for (int i = 0; i < numberOfBits; i++) {
-            instance.set(i, random.nextBoolean());
+            instance[i] = random.nextBoolean() ? (byte) 1 : (byte) 0;
         }
         return instance;
     }

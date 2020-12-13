@@ -6,9 +6,7 @@ import apr.genetics.exceptions.InvalidChromosomeTypeException;
 import apr.genetics.operators.crossover.AbstractFieldChromosomeCrossover;
 import apr.util.Pair;
 
-import java.util.BitSet;
-
-abstract class AbstractBinaryCrossover extends AbstractFieldChromosomeCrossover<BitSet, BinaryChromosome> {
+abstract class AbstractBinaryCrossover extends AbstractFieldChromosomeCrossover<byte[], BinaryChromosome> {
 
     @Override
     protected Pair<BinaryChromosome, BinaryChromosome> typeCheck(Chromosome first, Chromosome second) {

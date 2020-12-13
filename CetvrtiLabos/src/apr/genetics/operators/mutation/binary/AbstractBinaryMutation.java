@@ -7,7 +7,7 @@ import apr.genetics.operators.mutation.AbstractFieldChromosomeMutation;
 
 import java.util.BitSet;
 
-abstract class AbstractBinaryMutation extends AbstractFieldChromosomeMutation<BitSet, BinaryChromosome> {
+abstract class AbstractBinaryMutation extends AbstractFieldChromosomeMutation<byte[], BinaryChromosome> {
 
     @Override
     protected BinaryChromosome typeCheck(Chromosome chromosome) {

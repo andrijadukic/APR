@@ -2,9 +2,9 @@ package apr.util;
 
 import java.util.Comparator;
 
-public final class MathUtils {
+public final class Sampling {
 
-    private MathUtils() {
+    private Sampling() {
     }
 
     public static <T extends Comparable<T>> int argMin(T[] array) {

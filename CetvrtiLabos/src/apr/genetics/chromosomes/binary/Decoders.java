@@ -2,8 +2,6 @@ package apr.genetics.chromosomes.binary;
 
 import apr.util.Interval;
 
-import java.util.BitSet;
-
 public final class Decoders {
 
     private Decoders() {

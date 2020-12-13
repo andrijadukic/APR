@@ -1,7 +1,7 @@
 package apr.linear.matrix;
 
+import apr.linear.Vectors;
 import apr.linear.vector.Vector;
-import apr.linear.vector.ArrayVector;
 
 /**
  * Matrix class which uses a two dimensional array to store elements
@@ -9,78 +9,57 @@ import apr.linear.vector.ArrayVector;
 public class ArrayMatrix extends AbstractMatrix {
 
     private final double[][] array;
-    private final int rows;
-    private final int columns;
+    private final int rowDimension;
+    private final int columnDimension;
 
-    public ArrayMatrix(int rows, int columns) {
-        array = new double[rows][columns];
-        this.rows = rows;
-        this.columns = columns;
-    }
-
-    private ArrayMatrix(int rows, int columns, double[][] array) {
-        this.rows = rows;
-        this.columns = columns;
+    private ArrayMatrix(int rowDimension, int columnDimension, double[][] array) {
+        this.rowDimension = rowDimension;
+        this.columnDimension = columnDimension;
         this.array = array;
     }
 
+    public ArrayMatrix(int rowDimension, int columnDimension) {
+        this(rowDimension, columnDimension, new double[rowDimension][columnDimension]);
+    }
+
     public ArrayMatrix(double[]... array) {
-        rows = array.length;
-        columns = array[0].length;
-
-        for (int i = 1; i < rows; i++) {
-            if (array[i].length != columns) throw new IllegalArgumentException();
+        rowDimension = array.length;
+        columnDimension = array[0].length;
+        for (int i = 1; i < rowDimension; i++) {
+            if (array[i].length != columnDimension) throw new IllegalArgumentException();
         }
-
         this.array = array;
     }
 
     @Override
     public ArrayMatrix copy() {
-        double[][] copiedArray = new double[rows][columns];
-
-        for (int i = 0; i < rows; i++) {
-            if (columns >= 0) {
-                System.arraycopy(array[i], 0, copiedArray[i], 0, columns);
+        double[][] copiedArray = new double[rowDimension][columnDimension];
+        for (int i = 0; i < rowDimension; i++) {
+            if (columnDimension >= 0) {
+                System.arraycopy(array[i], 0, copiedArray[i], 0, columnDimension);
             }
         }
-        return new ArrayMatrix(rows, columns, copiedArray);
+        return new ArrayMatrix(rowDimension, columnDimension, copiedArray);
     }
 
     @Override
     public ArrayMatrix newInstance(int rows, int columns) {
-        return new ArrayMatrix(rows, columns, new double[rows][columns]);
+        return new ArrayMatrix(rows, columns);
     }
 
     @Override
     public int getRowDimension() {
-        return rows;
+        return rowDimension;
     }
 
     @Override
     public int getColumnDimension() {
-        return columns;
+        return columnDimension;
     }
 
     @Override
     public double get(int i, int j) {
         return array[i][j];
-    }
-
-    @Override
-    public Vector getRow(int index) {
-        return new ArrayVector(array[index]);
-    }
-
-    @Override
-    public Vector getColumn(int index) {
-        double[] column = new double[rows];
-
-        for (int i = 0; i < rows; i++) {
-            column[i] = array[i][index];
-        }
-
-        return new ArrayVector(column);
     }
 
     @Override
@@ -90,41 +69,51 @@ public class ArrayMatrix extends AbstractMatrix {
     }
 
     @Override
+    public Vector getRow(int index) {
+        return Vectors.asVector(array[index]);
+    }
+
+    @Override
+    public Vector getColumn(int index) {
+        double[] column = new double[rowDimension];
+        for (int i = 0; i < rowDimension; i++) {
+            column[i] = array[i][index];
+        }
+        return Vectors.asVector(column);
+    }
+
+    @Override
     public void swapRows(int i, int j) {
-        double[] tempRow = array[i];
+        var tempRow = array[i];
         array[i] = array[j];
         array[j] = tempRow;
     }
 
     @Override
     public void swapColumns(int i, int j) {
-        for (int k = 0; k < rows; k++) {
-            double temp = array[k][i];
-            array[k][i] = array[k][j];
-            array[k][j] = temp;
+        for (int row = 0; row < rowDimension; row++) {
+            var temp = array[row][i];
+            array[row][i] = array[row][j];
+            array[row][j] = temp;
         }
     }
 
     @Override
-    public Vector[] asColumnVectors() {
-        Vector[] columnRealVectors = new Vector[columns];
-
-        for (int i = 0; i < columns; i++) {
-            columnRealVectors[i] = getColumn(i);
+    public Vector[] columns() {
+        Vector[] columns = new Vector[columnDimension];
+        for (int i = 0; i < columnDimension; i++) {
+            columns[i] = getColumn(i);
         }
-
-        return columnRealVectors;
+        return columns;
     }
 
     @Override
-    public Vector[] asRowVectors() {
-        Vector[] rowRealVectors = new Vector[rows];
-
-        for (int i = 0; i < rows; i++) {
-            rowRealVectors[i] = getRow(i);
+    public Vector[] rows() {
+        Vector[] rows = new Vector[rowDimension];
+        for (int i = 0; i < rowDimension; i++) {
+            rows[i] = getRow(i);
         }
-
-        return rowRealVectors;
+        return rows;
     }
 
     @Override

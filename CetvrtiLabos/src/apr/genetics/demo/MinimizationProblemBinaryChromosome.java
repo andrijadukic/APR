@@ -4,7 +4,6 @@ import apr.genetics.chromosomes.FieldChromosome;
 import apr.genetics.chromosomes.binary.BinaryChromosome;
 import apr.genetics.chromosomes.binary.BinaryDecoder;
 
-import java.util.BitSet;
 import java.util.List;
 
 public class MinimizationProblemBinaryChromosome extends BinaryChromosome {
@@ -16,7 +15,7 @@ public class MinimizationProblemBinaryChromosome extends BinaryChromosome {
         this.function = function;
     }
 
-    public MinimizationProblemBinaryChromosome(List<BitSet> representation, BinaryDecoder coder, FitnessFunction function) {
+    public MinimizationProblemBinaryChromosome(List<byte[]> representation, BinaryDecoder coder, FitnessFunction function) {
         super(representation, coder);
         this.function = function;
     }
@@ -27,7 +26,7 @@ public class MinimizationProblemBinaryChromosome extends BinaryChromosome {
     }
 
     @Override
-    public FieldChromosome<BitSet> newInstance(List<BitSet> representation) {
+    public FieldChromosome<byte[]> newInstance(List<byte[]> representation) {
         return new MinimizationProblemBinaryChromosome(representation, decoder, function);
     }
 }

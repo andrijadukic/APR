@@ -11,23 +11,23 @@ import java.util.Random;
 public class BinaryUniformCrossover extends AbstractBinaryCrossover {
 
     @Override
-    protected Pair<List<BitSet>, List<BitSet>> mate(List<BitSet> first, List<BitSet> second) {
+    protected Pair<List<byte[]>, List<byte[]>> mate(List<byte[]> first, List<byte[]> second) {
         int length = first.size();
-        List<BitSet> firstChild = new ArrayList<>(length);
-        List<BitSet> secondChild = new ArrayList<>(length);
+        List<byte[]> firstChild = new ArrayList<>(length);
+        List<byte[]> secondChild = new ArrayList<>(length);
 
         Random random = SourceOfRandomness.getSource();
         for (int dimension = 0; dimension < length; dimension++) {
-            BitSet p1 = first.get(dimension);
-            BitSet p2 = second.get(dimension);
+            byte[] p1 = first.get(dimension);
+            byte[] p2 = second.get(dimension);
 
-            int numberOfBits = Math.min(p1.size(), p2.size());
+            int numberOfBits = Math.min(p1.length, p2.length);
 
-            BitSet ch1 = new BitSet(numberOfBits);
-            BitSet ch2 = new BitSet(numberOfBits);
+            byte[] ch1 = new byte[numberOfBits];
+            byte[] ch2 = new byte[numberOfBits];
             for (int i = 0; i < numberOfBits; i++) {
-                ch1.set(i, random.nextDouble() < 0.5 ? p1.get(i) : p2.get(i));
-                ch2.set(i, random.nextDouble() < 0.5 ? p1.get(i) : p2.get(i));
+                ch1[i] = random.nextDouble() <= 0.5 ? p1[i] : p2[i];
+                ch2[i] = random.nextDouble() <= 0.5 ? p1[i] : p2[i];
             }
 
             firstChild.add(ch1);
