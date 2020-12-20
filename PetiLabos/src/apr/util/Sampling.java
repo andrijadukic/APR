@@ -1,6 +1,7 @@
 package apr.util;
 
 import java.util.Comparator;
+import java.util.Iterator;
 
 public final class Sampling {
 
@@ -39,5 +40,27 @@ public final class Sampling {
         for (int i = 0, n = array.length; i < n; i++) {
             array[i] /= factor;
         }
+    }
+
+    public static Iterable<Double> linspace(double from, double to, int length) {
+        return () -> new Iterator<>() {
+
+            private double current = from;
+            private final double interval = (to - from) / (length - 1);
+            private int count;
+
+            @Override
+            public boolean hasNext() {
+                return count < length;
+            }
+
+            @Override
+            public Double next() {
+                double next = current;
+                current += interval;
+                count++;
+                return next;
+            }
+        };
     }
 }
