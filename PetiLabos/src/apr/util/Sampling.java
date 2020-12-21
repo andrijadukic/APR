@@ -42,10 +42,16 @@ public final class Sampling {
         }
     }
 
+
+    private static final int DEFAULT_LINSPACE_LEN = 50;
+
+    public static Iterable<Double> linspace(double from, double to) {
+        return linspace(from, to, DEFAULT_LINSPACE_LEN);
+    }
+
     public static Iterable<Double> linspace(double from, double to, int length) {
         return () -> new Iterator<>() {
 
-            private double current = from;
             private final double interval = (to - from) / (length - 1);
             private int count;
 
@@ -56,10 +62,7 @@ public final class Sampling {
 
             @Override
             public Double next() {
-                double next = current;
-                current += interval;
-                count++;
-                return next;
+                return from + count++ * interval;
             }
         };
     }

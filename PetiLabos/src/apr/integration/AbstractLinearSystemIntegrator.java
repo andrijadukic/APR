@@ -4,46 +4,42 @@ import apr.linear.matrix.Matrix;
 import apr.linear.vector.Vector;
 import apr.util.Sampling;
 
-public abstract class AbstractLinearSystemIntegrator extends BaseLinearSystemIntegrationSubject implements LinearSystemIntegrator {
+public abstract class AbstractLinearSystemIntegrator extends AbstractLinearSystemIntegrationSubject implements LinearSystemIntegrator {
 
-    private double period;
-    private double maximum;
-
-    protected AbstractLinearSystemIntegrator(double period, double maximum) {
-        this.period = period;
-        this.maximum = maximum;
-    }
-
-    public double getPeriod() {
-        return period;
-    }
-
-    public void setPeriod(double period) {
-        this.period = period;
-    }
-
-    public double getMaximum() {
-        return maximum;
-    }
-
-    public void setMaximum(double maximum) {
-        this.maximum = maximum;
-    }
+    private boolean isInitialized;
 
     @Override
-    public Vector[] solve(Vector x0, Matrix A, Matrix B) {
-        int card = Math.toIntExact(Math.round(maximum / period)) + 1;
+    public final void initialize(Matrix A, Vector B, double T) {
+        init(A, B, T);
+        isInitialized = true;
+    }
+
+    protected abstract void init(Matrix A, Vector B, double T);
+
+    @Override
+    public final Vector[] solve(Vector x0, Matrix A, Vector B, double T, double tMax) {
+        initialize(A, B, T);
+
+        int card = Math.toIntExact(Math.round(tMax / T)) + 1;
         Vector[] states = new Vector[card];
 
         int ind = 0;
         Vector prev = x0.copy();
-        for (double t : Sampling.linspace(0, maximum, card)) {
-            notifyObservers(new StateStatistics(ind, prev));
-            states[ind] = doStep(prev, t);
+        for (double t : Sampling.linspace(0., tMax, card)) {
+            notifyObservers(new StateStatistics(ind, t, prev));
+            Vector next = doStep(prev);
+            states[ind] = next;
+            prev = next;
         }
 
         return states;
     }
 
-    protected abstract Vector doStep(Vector prev, double t);
+    @Override
+    public final Vector doStep(Vector xk) {
+        if (!isInitialized) throw new IntegratorNotInitializedException(getClass());
+        return next(xk);
+    }
+
+    protected abstract Vector next(Vector xk);
 }
