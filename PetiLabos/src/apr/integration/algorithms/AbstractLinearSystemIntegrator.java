@@ -6,9 +6,10 @@ import apr.integration.util.LinearSystemIntegrator;
 import apr.integration.util.StateStatistics;
 import apr.linear.matrix.Matrix;
 import apr.linear.vector.Vector;
+import apr.util.Named;
 import apr.util.Sampling;
 
-public abstract class AbstractLinearSystemIntegrator extends AbstractLinearSystemIntegrationSubject implements LinearSystemIntegrator {
+public abstract class AbstractLinearSystemIntegrator extends AbstractLinearSystemIntegrationSubject implements LinearSystemIntegrator, Named {
 
     private boolean isInitialized;
 

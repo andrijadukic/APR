@@ -22,4 +22,9 @@ public final class ReverseEulerMethod extends AbstractLinearSystemIntegrator {
     protected Vector doStep(Vector xk) {
         return xk.multiply(P).add(Q);
     }
+
+    @Override
+    public String getName() {
+        return "Reverse euler method";
+    }
 }

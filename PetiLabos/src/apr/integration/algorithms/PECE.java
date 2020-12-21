@@ -4,12 +4,12 @@ import apr.integration.util.LinearSystemIntegrator;
 import apr.linear.matrix.Matrix;
 import apr.linear.vector.Vector;
 
-public final class PredictorCorrector extends AbstractLinearSystemIntegrator {
+public final class PECE extends AbstractLinearSystemIntegrator {
 
     private final LinearSystemIntegrator predictor;
     private final LinearSystemIntegrator corrector;
 
-    public PredictorCorrector(LinearSystemIntegrator predictor, LinearSystemIntegrator corrector) {
+    public PECE(LinearSystemIntegrator predictor, LinearSystemIntegrator corrector) {
         this.predictor = predictor;
         this.corrector = corrector;
     }
@@ -23,5 +23,10 @@ public final class PredictorCorrector extends AbstractLinearSystemIntegrator {
     @Override
     protected Vector doStep(Vector xk) {
         return corrector.next(predictor.next(xk));
+    }
+
+    @Override
+    public String getName() {
+        return "PECE";
     }
 }

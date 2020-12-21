@@ -14,13 +14,19 @@ public final class Trapezoidal extends AbstractLinearSystemIntegrator {
     protected void init(Matrix A, Vector B, double T) {
         int n = A.getRowDimension();
         Matrix identity = Matrices.identity(n);
-        Matrix inverse = new LUPDecomposer(identity.subtract(A.multiply(T / 2))).solver().invert();
-        R = inverse.multiply(identity.add(A.multiply(T / 2)));
+        Matrix halvedA = A.multiply(T / 2);
+        Matrix inverse = new LUPDecomposer(identity.subtract(halvedA)).solver().invert();
+        R = inverse.multiply(identity.add(halvedA));
         S = B.multiply(inverse.multiply(T));
     }
 
     @Override
     protected Vector doStep(Vector xk) {
         return xk.multiply(R).add(S);
+    }
+
+    @Override
+    public String getName() {
+        return "Trapezoidal";
     }
 }

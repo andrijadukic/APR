@@ -1,6 +1,5 @@
 package apr.integration.demo;
 
-import apr.functions.UnivariateVectorFunction;
 import apr.integration.algorithms.*;
 import apr.integration.util.AbsoluteErrorAccumulator;
 import apr.integration.util.NthIterationObserver;
@@ -18,7 +17,7 @@ public class Lab {
     private static final AbstractLinearSystemIntegrator REVERSE_EULER = new ReverseEulerMethod();
     private static final AbstractLinearSystemIntegrator RUNGE_KUTTA = new RungeKutta();
     private static final AbstractLinearSystemIntegrator TRAPEZOIDAL = new Trapezoidal();
-    private static final AbstractLinearSystemIntegrator PREDICTOR_CORRECTOR = new PredictorCorrector(EULER, TRAPEZOIDAL);
+    private static final AbstractLinearSystemIntegrator PECE = new PECE(EULER, TRAPEZOIDAL);
 
 
     public static void main(String[] args) {
@@ -35,15 +34,18 @@ public class Lab {
         double tMax = 10.;
         double T = 0.1;
 
-        for (var integrator : List.of(EULER, REVERSE_EULER, RUNGE_KUTTA, TRAPEZOIDAL, PREDICTOR_CORRECTOR)) {
+        for (var integrator : List.of(TRAPEZOIDAL)) {
             integrator.addObserver(new NthIterationObserver(new StandardOutputLogger(), 10));
             integrator.addObserver(accumulator);
 
+            System.out.println(integrator.getName());
             integrator.solve(x0, A, B, T, tMax);
 
             System.out.println(accumulator.getAccumulatedError());
 
             accumulator.clear();
+
+            System.out.println();
         }
     }
 }

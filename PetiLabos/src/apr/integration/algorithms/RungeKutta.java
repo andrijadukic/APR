@@ -29,4 +29,9 @@ public final class RungeKutta extends AbstractLinearSystemIntegrator {
     private Vector f(Vector x) {
         return x.multiply(A).add(B);
     }
+
+    @Override
+    public String getName() {
+        return "Runge-Kutta";
+    }
 }
