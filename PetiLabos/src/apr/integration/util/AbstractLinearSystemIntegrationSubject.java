@@ -1,4 +1,4 @@
-package apr.integration;
+package apr.integration.util;
 
 import java.util.ArrayList;
 import java.util.List;

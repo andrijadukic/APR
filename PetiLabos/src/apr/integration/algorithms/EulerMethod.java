@@ -1,4 +1,4 @@
-package apr.integration;
+package apr.integration.algorithms;
 
 import apr.linear.matrix.Matrices;
 import apr.linear.matrix.Matrix;
@@ -18,7 +18,7 @@ public final class EulerMethod extends AbstractLinearSystemIntegrator {
     }
 
     @Override
-    protected Vector next(Vector xk) {
+    protected Vector doStep(Vector xk) {
         return xk.multiply(M).add(N);
     }
 }

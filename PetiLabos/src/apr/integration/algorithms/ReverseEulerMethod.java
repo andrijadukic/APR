@@ -1,4 +1,4 @@
-package apr.integration;
+package apr.integration.algorithms;
 
 import apr.linear.decompose.LUPDecomposer;
 import apr.linear.matrix.Matrices;
@@ -19,7 +19,7 @@ public final class ReverseEulerMethod extends AbstractLinearSystemIntegrator {
     }
 
     @Override
-    protected Vector next(Vector xk) {
+    protected Vector doStep(Vector xk) {
         return xk.multiply(P).add(Q);
     }
 }

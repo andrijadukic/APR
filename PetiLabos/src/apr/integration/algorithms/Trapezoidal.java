@@ -1,4 +1,4 @@
-package apr.integration;
+package apr.integration.algorithms;
 
 import apr.linear.decompose.LUPDecomposer;
 import apr.linear.matrix.Matrices;
@@ -20,7 +20,7 @@ public final class Trapezoidal extends AbstractLinearSystemIntegrator {
     }
 
     @Override
-    protected Vector next(Vector xk) {
+    protected Vector doStep(Vector xk) {
         return xk.multiply(R).add(S);
     }
 }

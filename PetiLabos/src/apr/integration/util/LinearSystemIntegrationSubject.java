@@ -1,4 +1,4 @@
-package apr.integration;
+package apr.integration.util;
 
 public interface LinearSystemIntegrationSubject {
 

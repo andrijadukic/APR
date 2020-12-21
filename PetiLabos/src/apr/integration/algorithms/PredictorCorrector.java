@@ -1,5 +1,6 @@
-package apr.integration;
+package apr.integration.algorithms;
 
+import apr.integration.util.LinearSystemIntegrator;
 import apr.linear.matrix.Matrix;
 import apr.linear.vector.Vector;
 
@@ -20,7 +21,7 @@ public final class PredictorCorrector extends AbstractLinearSystemIntegrator {
     }
 
     @Override
-    protected Vector next(Vector xk) {
-        return corrector.doStep(predictor.doStep(xk));
+    protected Vector doStep(Vector xk) {
+        return corrector.next(predictor.next(xk));
     }
 }

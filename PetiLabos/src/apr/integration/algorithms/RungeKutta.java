@@ -1,4 +1,4 @@
-package apr.integration;
+package apr.integration.algorithms;
 
 import apr.linear.matrix.Matrix;
 import apr.linear.vector.Vector;
@@ -17,7 +17,7 @@ public final class RungeKutta extends AbstractLinearSystemIntegrator {
     }
 
     @Override
-    protected Vector next(Vector xk) {
+    protected Vector doStep(Vector xk) {
         Vector m1 = f(xk);
         Vector m2 = f(xk.add(m1.multiply(T / 2)));
         Vector m3 = f(xk.add(m2.multiply(T / 2)));

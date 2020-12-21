@@ -1,4 +1,4 @@
-package apr.integration;
+package apr.integration.util;
 
 import apr.linear.matrix.Matrix;
 import apr.linear.vector.Vector;
@@ -9,5 +9,5 @@ public interface LinearSystemIntegrator {
 
     Vector[] solve(Vector x0, Matrix A, Vector B, double T, double tMax);
 
-    Vector doStep(Vector xk);
+    Vector next(Vector xk);
 }
