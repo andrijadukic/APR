@@ -19,7 +19,7 @@ public final class EulerMethod extends AbstractLinearSystemIntegrator {
 
     @Override
     protected Vector doStep(Vector xk) {
-        return xk.multiply(M).add(N);
+        return M.multiply(xk).add(N);
     }
 
     @Override

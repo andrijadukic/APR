@@ -70,7 +70,7 @@ final class LinearAlgebraUtil {
     }
 
     /**
-     * Checks if matrix-vector addition of given matrices is applicable
+     * Checks if matrix-vector multiplication is applicable
      *
      * @param matrix matrix operand
      * @param vector vector operand
@@ -83,7 +83,20 @@ final class LinearAlgebraUtil {
     }
 
     /**
-     * Checks if vector-vector addition of given matrices is applicable
+     * Checks if vector-matrix multiplication is applicable
+     *
+     * @param matrix matrix operand
+     * @param vector vector operand
+     */
+    static void checkMultiplicationApplicable(Vector vector, Matrix matrix) {
+        int rowDimension = matrix.getRowDimension();
+        int vectorDimension = vector.getDimension();
+
+        if (rowDimension != vectorDimension) throw new DimensionMismatchException(rowDimension, vectorDimension);
+    }
+
+    /**
+     * Checks if vector-vector multiplication is applicable
      *
      * @param v1 first vector
      * @param v2 second vector

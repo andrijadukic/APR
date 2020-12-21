@@ -21,13 +21,13 @@ public final class RungeKutta extends AbstractLinearSystemIntegrator {
         Vector m1 = f(xk);
         Vector m2 = f(xk.add(m1.multiply(T / 2)));
         Vector m3 = f(xk.add(m2.multiply(T / 2)));
-        Vector m4 = f(xk.add(m3.multiply(T / 2)));
+        Vector m4 = f(xk.add(m3.multiply(T)));
 
-        return xk.add(m1.add(m2.multiply(2)).add(m3.multiply(2).add(m4)));
+        return xk.add(m1.add(m2.multiply(2)).add(m3.multiply(2).add(m4)).multiply(T / 6));
     }
 
-    private Vector f(Vector x) {
-        return x.multiply(A).add(B);
+    private Vector f(Vector xk) {
+        return A.multiply(xk).add(B);
     }
 
     @Override

@@ -34,7 +34,7 @@ public class Lab {
         double tMax = 10.;
         double T = 0.1;
 
-        for (var integrator : List.of(TRAPEZOIDAL)) {
+        for (var integrator : List.of(EULER, REVERSE_EULER, TRAPEZOIDAL, RUNGE_KUTTA)) {
             integrator.addObserver(new NthIterationObserver(new StandardOutputLogger(), 10));
             integrator.addObserver(accumulator);
 

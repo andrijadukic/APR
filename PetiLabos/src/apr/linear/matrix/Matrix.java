@@ -142,6 +142,16 @@ public interface Matrix extends Iterable<Vector>, Matchable, Copyable<Matrix> {
     }
 
     /**
+     * Performs matrix-vector multiplication
+     *
+     * @param vector
+     * @return new vector
+     */
+    default Vector multiply(Vector vector) {
+        return LinearAlgebra.multiply(this, vector);
+    }
+
+    /**
      * Performs matrix-scalar multiplication
      *
      * @param scalar second operand in matrix-scalar multiplication

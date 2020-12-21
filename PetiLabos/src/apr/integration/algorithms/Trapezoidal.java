@@ -17,12 +17,12 @@ public final class Trapezoidal extends AbstractLinearSystemIntegrator {
         Matrix halvedA = A.multiply(T / 2);
         Matrix inverse = new LUPDecomposer(identity.subtract(halvedA)).solver().invert();
         R = inverse.multiply(identity.add(halvedA));
-        S = B.multiply(inverse.multiply(T));
+        S = inverse.multiply(T).multiply(B);
     }
 
     @Override
     protected Vector doStep(Vector xk) {
-        return xk.multiply(R).add(S);
+        return R.multiply(xk).add(S);
     }
 
     @Override

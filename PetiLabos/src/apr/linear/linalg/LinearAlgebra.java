@@ -152,6 +152,28 @@ public class LinearAlgebra {
     }
 
     /**
+     * Performs matrix-vector multiplication
+     *
+     * @param vector vector
+     * @param matrix matrix
+     * @return result vector
+     */
+    public static Vector multiply(Matrix matrix, Vector vector) {
+        checkMultiplicationApplicable(matrix, vector);
+
+        int n = matrix.getRowDimension();
+        Vector result = vector.newInstance(n);
+        for (int i = 0; i < n; i++) {
+            double sum = 0.;
+            for (int j = 0, m = matrix.getColumnDimension(); j < m; j++) {
+                sum += matrix.get(i, j) * vector.get(j);
+            }
+            result.set(i, sum);
+        }
+        return result;
+    }
+
+    /**
      * Performs vector-matrix multiplication
      *
      * @param vector vector
@@ -159,7 +181,7 @@ public class LinearAlgebra {
      * @return result vector
      */
     public static Vector multiply(Vector vector, Matrix matrix) {
-        checkMultiplicationApplicable(matrix, vector);
+        checkMultiplicationApplicable(vector, matrix);
 
         int n = matrix.getColumnDimension();
         Vector result = vector.newInstance(n);

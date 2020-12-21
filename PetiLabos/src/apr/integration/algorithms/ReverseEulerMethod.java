@@ -15,12 +15,12 @@ public final class ReverseEulerMethod extends AbstractLinearSystemIntegrator {
         int n = A.getRowDimension();
         Matrix identity = Matrices.identity(n);
         P = new LUPDecomposer(identity.subtract(A.multiply(T))).solver().invert();
-        Q = B.multiply(P.multiply(T));
+        Q = P.multiply(T).multiply(B);
     }
 
     @Override
     protected Vector doStep(Vector xk) {
-        return xk.multiply(P).add(Q);
+        return P.multiply(xk).add(Q);
     }
 
     @Override
