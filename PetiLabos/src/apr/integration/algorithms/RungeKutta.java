@@ -4,7 +4,7 @@ import apr.functions.UnivariateVectorFunction;
 import apr.linear.matrix.Matrix;
 import apr.linear.vector.Vector;
 
-public final class RungeKutta extends AbstractLinearSystemIntegrator {
+public final class RungeKutta extends AbstractExplicitLinearSystemIntegrator {
 
     private Matrix A;
     private Matrix B;

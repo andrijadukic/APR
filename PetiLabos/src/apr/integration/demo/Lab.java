@@ -4,7 +4,6 @@ import apr.integration.algorithms.*;
 import apr.integration.util.*;
 import apr.linear.matrix.ArrayMatrix;
 import apr.linear.matrix.Matrix;
-import apr.linear.vector.ArrayVector;
 import apr.linear.vector.Vector;
 
 import java.io.IOException;
@@ -17,10 +16,10 @@ import java.util.stream.Collectors;
 
 public class Lab {
 
-    private static final AbstractLinearSystemIntegrator EULER = new EulerMethod();
-    private static final AbstractLinearSystemIntegrator BACKWARD_EULER = new BackwardEuler();
-    private static final AbstractLinearSystemIntegrator RUNGE_KUTTA = new RungeKutta();
-    private static final AbstractLinearSystemIntegrator TRAPEZOIDAL = new Trapezoidal();
+    private static final AbstractExplicitLinearSystemIntegrator EULER = new EulerMethod();
+    private static final AbstractImplicitLinearSystemIntegrator BACKWARD_EULER = new BackwardEuler();
+    private static final AbstractExplicitLinearSystemIntegrator RUNGE_KUTTA = new RungeKutta();
+    private static final AbstractImplicitLinearSystemIntegrator TRAPEZOIDAL = new Trapezoidal();
     private static final AbstractLinearSystemIntegrator PECE = new PECE(EULER, TRAPEZOIDAL, 1);
     private static final AbstractLinearSystemIntegrator PECE2 = new PECE(EULER, BACKWARD_EULER, 2);
 

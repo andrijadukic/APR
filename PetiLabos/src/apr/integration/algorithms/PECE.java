@@ -6,11 +6,11 @@ import apr.linear.vector.Vector;
 
 public final class PECE extends AbstractLinearSystemIntegrator {
 
-    private final LinearSystemIntegrator predictor;
-    private final LinearSystemIntegrator corrector;
+    private final ExplicitLinearSystemIntegrator predictor;
+    private final ImplicitLinearSystemIntegrator corrector;
     private final int n;
 
-    public PECE(LinearSystemIntegrator predictor, LinearSystemIntegrator corrector, int n) {
+    public PECE(ExplicitLinearSystemIntegrator predictor, ImplicitLinearSystemIntegrator corrector, int n) {
         this.predictor = predictor;
         this.corrector = corrector;
         this.n = n;
@@ -24,10 +24,10 @@ public final class PECE extends AbstractLinearSystemIntegrator {
 
     @Override
     protected Vector doStep(Vector xk, UnivariateVectorFunction r, double t) {
-        Vector prediction = predictor.next(xk, r, t);
+        Vector prediction = predictor.predict(xk, r, t);
         int leftover = n;
         while (leftover != 0) {
-            prediction = corrector.next(prediction, r, t);
+            prediction = corrector.correct(xk, prediction, r, t);
             leftover--;
         }
         return prediction;
