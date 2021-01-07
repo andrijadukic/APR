@@ -1,5 +1,6 @@
 package apr.integration.algorithms;
 
+import apr.functions.UnivariateVectorFunction;
 import apr.linear.matrix.Matrix;
 import apr.linear.vector.Vector;
 
@@ -22,11 +23,11 @@ public final class PECE extends AbstractLinearSystemIntegrator {
     }
 
     @Override
-    protected Vector doStep(Vector xk, Vector r) {
-        Vector prediction = predictor.next(xk, r);
+    protected Vector doStep(Vector xk, UnivariateVectorFunction r, double t) {
+        Vector prediction = predictor.next(xk, r, t);
         int leftover = n;
         while (leftover != 0) {
-            prediction = corrector.next(prediction, r);
+            prediction = corrector.next(prediction, r, t);
             leftover--;
         }
         return prediction;

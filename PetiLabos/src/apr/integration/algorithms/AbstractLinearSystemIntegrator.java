@@ -9,6 +9,10 @@ import apr.linear.vector.Vector;
 import apr.util.Named;
 import apr.util.Sampling;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public abstract class AbstractLinearSystemIntegrator extends AbstractLinearSystemIntegrationSubject implements LinearSystemIntegrator, Named {
 
     private boolean isInitialized;
@@ -22,28 +26,27 @@ public abstract class AbstractLinearSystemIntegrator extends AbstractLinearSyste
     protected abstract void init(Matrix A, Matrix B, double T);
 
     @Override
-    public final Vector[] solve(Matrix A, Matrix B, UnivariateVectorFunction r, double T, double max, Vector x0) {
+    public final List<Vector> solve(Matrix A, Matrix B, UnivariateVectorFunction r, double T, double max, Vector x0) {
         initialize(A, B, T);
 
         int n = Math.toIntExact(Math.round(max / T)) + 1;
-        Vector[] states = new Vector[n];
+        List<Vector> states = new ArrayList<>(n);
 
-        int ind = 0;
         Vector prev = x0.copy();
         for (double t : Sampling.linspace(0., max, n)) {
-            notifyObservers(new StateStatistics(ind, t, prev));
-            states[ind++] = prev;
-            prev = doStep(prev, r.valueAt(t));
+            notifyObservers(new StateStatistics(states.size(), t, prev));
+            states.add(prev);
+            prev = doStep(prev, r, t);
         }
 
-        return states;
+        return Collections.unmodifiableList(states);
     }
 
     @Override
-    public final Vector next(Vector xk, Vector r) {
+    public final Vector next(Vector xk, UnivariateVectorFunction r, double t) {
         if (!isInitialized) throw new IntegratorNotInitializedException(getClass());
-        return doStep(xk, r);
+        return doStep(xk, r, t);
     }
 
-    protected abstract Vector doStep(Vector xk, Vector r);
+    protected abstract Vector doStep(Vector xk, UnivariateVectorFunction r, double t);
 }

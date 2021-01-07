@@ -1,5 +1,6 @@
 package apr.integration.algorithms;
 
+import apr.functions.UnivariateVectorFunction;
 import apr.linear.matrix.Matrices;
 import apr.linear.matrix.Matrix;
 import apr.linear.vector.Vector;
@@ -16,8 +17,8 @@ public final class EulerMethod extends AbstractLinearSystemIntegrator {
     }
 
     @Override
-    protected Vector doStep(Vector xk, Vector r) {
-        return M.multiply(xk).add(N.multiply(r));
+    protected Vector doStep(Vector xk, UnivariateVectorFunction r, double t) {
+        return M.multiply(xk).add(N.multiply(r.valueAt(t)));
     }
 
     @Override
