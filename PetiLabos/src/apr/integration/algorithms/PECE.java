@@ -1,6 +1,5 @@
 package apr.integration.algorithms;
 
-import apr.integration.util.LinearSystemIntegrator;
 import apr.linear.matrix.Matrix;
 import apr.linear.vector.Vector;
 
@@ -8,25 +7,33 @@ public final class PECE extends AbstractLinearSystemIntegrator {
 
     private final LinearSystemIntegrator predictor;
     private final LinearSystemIntegrator corrector;
+    private final int n;
 
-    public PECE(LinearSystemIntegrator predictor, LinearSystemIntegrator corrector) {
+    public PECE(LinearSystemIntegrator predictor, LinearSystemIntegrator corrector, int n) {
         this.predictor = predictor;
         this.corrector = corrector;
+        this.n = n;
     }
 
     @Override
-    protected void init(Matrix A, Vector B, double T) {
+    protected void init(Matrix A, Matrix B, double T) {
         predictor.initialize(A, B, T);
         corrector.initialize(A, B, T);
     }
 
     @Override
-    protected Vector doStep(Vector xk) {
-        return corrector.next(predictor.next(xk));
+    protected Vector doStep(Vector xk, Vector r) {
+        Vector prediction = predictor.next(xk, r);
+        int leftover = n;
+        while (leftover != 0) {
+            prediction = corrector.next(prediction, r);
+            leftover--;
+        }
+        return prediction;
     }
 
     @Override
     public String getName() {
-        return "PECE";
+        return "PE(CE)^" + n;
     }
 }

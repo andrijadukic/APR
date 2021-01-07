@@ -116,24 +116,20 @@ public class LUPDecomposer extends AbstractMatrixDecomposer {
 
     @Override
     public LinearEquationSolver solver() {
-        return new LUPSolver(this);
+        return new LUPSolver();
     }
 
     /**
-     * Private static class implementing the LinearEquationSolver interface by using LUP decomposition
+     * Private class implementing the LinearEquationSolver interface by using LUP decomposition
      */
-    private static class LUPSolver implements LinearEquationSolver {
+    private class LUPSolver implements LinearEquationSolver {
 
         private final Matrix L;
         private final Matrix U;
-        private final Vector P;
-        private final int n;
 
-        public LUPSolver(LUPDecomposer decomposer) {
-            L = decomposer.getL();
-            U = decomposer.getU();
-            P = decomposer.getPivot();
-            n = P.getDimension();
+        private LUPSolver() {
+            L = getL();
+            U = getU();
         }
 
         @Override
@@ -143,14 +139,15 @@ public class LUPDecomposer extends AbstractMatrixDecomposer {
 
         @Override
         public Matrix invert() {
-            Matrix identity = Matrices.identity(n);
+            int n = P.getDimension();
 
+            Matrix identity = Matrices.identity(n);
             Vector[] x = new Vector[n];
             for (int i = 0; i < n; i++) {
                 x[i] = solve(identity.getColumn(i));
             }
 
-            Matrix result = identity.newInstance(n, n);
+            Matrix result = Matrices.empty(n, n);
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
                     result.set(i, j, x[j].get(i));

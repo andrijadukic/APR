@@ -7,19 +7,17 @@ import apr.linear.vector.Vector;
 public final class EulerMethod extends AbstractLinearSystemIntegrator {
 
     private Matrix M;
-    private Vector N;
+    private Matrix N;
 
     @Override
-    protected void init(Matrix A, Vector B, double T) {
-        int n = A.getRowDimension();
-        Matrix identity = Matrices.identity(n);
-        M = identity.add(A.multiply(T));
+    protected void init(Matrix A, Matrix B, double T) {
+        M = Matrices.identity(A.getRowDimension()).add(A.multiply(T));
         N = B.multiply(T);
     }
 
     @Override
-    protected Vector doStep(Vector xk) {
-        return M.multiply(xk).add(N);
+    protected Vector doStep(Vector xk, Vector r) {
+        return M.multiply(xk).add(N.multiply(r));
     }
 
     @Override

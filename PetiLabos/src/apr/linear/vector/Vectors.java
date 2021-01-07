@@ -47,6 +47,28 @@ public class Vectors {
     }
 
     /**
+     * Creates and fills vector with given value
+     *
+     * @param n     dimension of new vector
+     * @param value value
+     * @return filled vector
+     */
+    public static Vector fill(int n, double value) {
+        return LinearAlgebra.apply(empty(n), x -> value, Mutability.MUTABLE);
+    }
+
+    /**
+     * Creates and fills vector with given value
+     *
+     * @param n        dimension of new vector
+     * @param supplier supplier of values
+     * @return filled vector
+     */
+    public static Vector fill(int n, DoubleSupplier supplier) {
+        return LinearAlgebra.apply(empty(n), x -> supplier.getAsDouble(), Mutability.MUTABLE);
+    }
+
+    /**
      * Fills vector with given value
      *
      * @param vector vector to be filled

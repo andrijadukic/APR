@@ -1,6 +1,6 @@
 package apr.integration.exceptions;
 
-import apr.integration.util.LinearSystemIntegrator;
+import apr.integration.algorithms.LinearSystemIntegrator;
 
 public class IntegratorNotInitializedException extends RuntimeException {
 

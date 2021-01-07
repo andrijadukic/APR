@@ -1,7 +1,9 @@
 package apr.util;
 
+import java.util.AbstractList;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.List;
 
 public final class Sampling {
 
@@ -45,24 +47,23 @@ public final class Sampling {
 
     private static final int DEFAULT_LINSPACE_LEN = 50;
 
-    public static Iterable<Double> linspace(double from, double to) {
+    public static List<Double> linspace(double from, double to) {
         return linspace(from, to, DEFAULT_LINSPACE_LEN);
     }
 
-    public static Iterable<Double> linspace(double from, double to, int length) {
-        return () -> new Iterator<>() {
+    public static List<Double> linspace(double from, double to, int length) {
+        return new AbstractList<>() {
 
             private final double interval = (to - from) / (length - 1);
-            private int count;
 
             @Override
-            public boolean hasNext() {
-                return count < length;
+            public Double get(int index) {
+                return from + index * interval;
             }
 
             @Override
-            public Double next() {
-                return from + count++ * interval;
+            public int size() {
+                return length;
             }
         };
     }

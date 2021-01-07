@@ -2,12 +2,14 @@ package apr.integration.util;
 
 import apr.functions.UnivariateVectorFunction;
 import apr.linear.vector.Vector;
+import apr.linear.vector.Vectors;
 
 public class AbsoluteErrorAccumulator implements LinearSystemIntegrationObserver {
 
     private final UnivariateVectorFunction function;
 
-    private double accumulatedError;
+    private boolean isStarted;
+    private Vector accumulatedError;
 
     public AbsoluteErrorAccumulator(UnivariateVectorFunction function) {
         this.function = function;
@@ -16,18 +18,25 @@ public class AbsoluteErrorAccumulator implements LinearSystemIntegrationObserver
     @Override
     public void update(StateStatistics statistics) {
         Vector approximation = statistics.x();
-        Vector actual = function.valueAt(statistics.step());
+        Vector actual = function.valueAt(statistics.t());
+
+        if (!isStarted) {
+            accumulatedError = Vectors.empty(approximation.getDimension());
+            isStarted = true;
+        }
 
         for (int i = 0, n = approximation.getDimension(); i < n; i++) {
-            accumulatedError += Math.abs(approximation.get(i) - actual.get(i));
+            accumulatedError.set(i, accumulatedError.get(i) + Math.abs(approximation.get(i) - actual.get(i)));
         }
     }
 
     public void clear() {
-        accumulatedError = 0.;
+        for (int i = 0, n = accumulatedError.getDimension(); i < n; i++) {
+            accumulatedError.set(i, 0.);
+        }
     }
 
-    public double getAccumulatedError() {
+    public Vector getAccumulatedError() {
         return accumulatedError;
     }
 }

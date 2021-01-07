@@ -1,8 +1,8 @@
 package apr.integration.algorithms;
 
+import apr.functions.UnivariateVectorFunction;
 import apr.integration.util.AbstractLinearSystemIntegrationSubject;
 import apr.integration.exceptions.IntegratorNotInitializedException;
-import apr.integration.util.LinearSystemIntegrator;
 import apr.integration.util.StateStatistics;
 import apr.linear.matrix.Matrix;
 import apr.linear.vector.Vector;
@@ -14,36 +14,36 @@ public abstract class AbstractLinearSystemIntegrator extends AbstractLinearSyste
     private boolean isInitialized;
 
     @Override
-    public final void initialize(Matrix A, Vector B, double T) {
+    public final void initialize(Matrix A, Matrix B, double T) {
         init(A, B, T);
         isInitialized = true;
     }
 
-    protected abstract void init(Matrix A, Vector B, double T);
+    protected abstract void init(Matrix A, Matrix B, double T);
 
     @Override
-    public final Vector[] solve(Vector x0, Matrix A, Vector B, double T, double tMax) {
+    public final Vector[] solve(Matrix A, Matrix B, UnivariateVectorFunction r, double T, double max, Vector x0) {
         initialize(A, B, T);
 
-        int sampleSize = Math.toIntExact(Math.round(tMax / T)) + 1;
-        Vector[] states = new Vector[sampleSize];
+        int n = Math.toIntExact(Math.round(max / T)) + 1;
+        Vector[] states = new Vector[n];
 
         int ind = 0;
         Vector prev = x0.copy();
-        for (double t : Sampling.linspace(0., tMax, sampleSize)) {
+        for (double t : Sampling.linspace(0., max, n)) {
             notifyObservers(new StateStatistics(ind, t, prev));
             states[ind++] = prev;
-            prev = doStep(prev);
+            prev = doStep(prev, r.valueAt(t));
         }
 
         return states;
     }
 
     @Override
-    public final Vector next(Vector xk) {
+    public final Vector next(Vector xk, Vector r) {
         if (!isInitialized) throw new IntegratorNotInitializedException(getClass());
-        return doStep(xk);
+        return doStep(xk, r);
     }
 
-    protected abstract Vector doStep(Vector xk);
+    protected abstract Vector doStep(Vector xk, Vector r);
 }
