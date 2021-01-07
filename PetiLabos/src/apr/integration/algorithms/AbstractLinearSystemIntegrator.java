@@ -2,7 +2,6 @@ package apr.integration.algorithms;
 
 import apr.functions.UnivariateVectorFunction;
 import apr.integration.util.AbstractLinearSystemIntegrationSubject;
-import apr.integration.exceptions.IntegratorNotInitializedException;
 import apr.integration.util.StateStatistics;
 import apr.linear.matrix.Matrix;
 import apr.linear.vector.Vector;
@@ -14,16 +13,6 @@ import java.util.Collections;
 import java.util.List;
 
 public abstract class AbstractLinearSystemIntegrator extends AbstractLinearSystemIntegrationSubject implements LinearSystemIntegrator, Named {
-
-    private boolean isInitialized;
-
-    @Override
-    public final void initialize(Matrix A, Matrix B, double T) {
-        init(A, B, T);
-        isInitialized = true;
-    }
-
-    protected abstract void init(Matrix A, Matrix B, double T);
 
     @Override
     public final List<Vector> solve(Matrix A, Matrix B, UnivariateVectorFunction r, double T, double max, Vector x0) {
@@ -42,11 +31,7 @@ public abstract class AbstractLinearSystemIntegrator extends AbstractLinearSyste
         return Collections.unmodifiableList(states);
     }
 
-    @Override
-    public final Vector next(Vector xk, UnivariateVectorFunction r, double t) {
-        if (!isInitialized) throw new IntegratorNotInitializedException(getClass());
-        return doStep(xk, r, t);
-    }
+    protected abstract void initialize(Matrix A, Matrix B, double T);
 
     protected abstract Vector doStep(Vector xk, UnivariateVectorFunction r, double t);
 }

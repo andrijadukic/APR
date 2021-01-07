@@ -6,18 +6,18 @@ import apr.linear.vector.Vector;
 
 public final class PECE extends AbstractLinearSystemIntegrator {
 
-    private final ExplicitLinearSystemIntegrator predictor;
-    private final ImplicitLinearSystemIntegrator corrector;
+    private final AbstractExplicitLinearSystemIntegrator predictor;
+    private final AbstractImplicitLinearSystemIntegrator corrector;
     private final int n;
 
-    public PECE(ExplicitLinearSystemIntegrator predictor, ImplicitLinearSystemIntegrator corrector, int n) {
+    public PECE(AbstractExplicitLinearSystemIntegrator predictor, AbstractImplicitLinearSystemIntegrator corrector, int n) {
         this.predictor = predictor;
         this.corrector = corrector;
         this.n = n;
     }
 
     @Override
-    protected void init(Matrix A, Matrix B, double T) {
+    protected void initialize(Matrix A, Matrix B, double T) {
         predictor.initialize(A, B, T);
         corrector.initialize(A, B, T);
     }
