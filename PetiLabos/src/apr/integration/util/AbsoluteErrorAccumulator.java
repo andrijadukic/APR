@@ -7,9 +7,9 @@ import apr.linear.vector.Vectors;
 public class AbsoluteErrorAccumulator implements LinearSystemIntegrationObserver {
 
     private final UnivariateVectorFunction function;
+    private Vector accumulatedError;
 
     private boolean isStarted;
-    private Vector accumulatedError;
 
     public AbsoluteErrorAccumulator(UnivariateVectorFunction function) {
         this.function = function;

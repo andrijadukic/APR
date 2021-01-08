@@ -30,11 +30,6 @@ public final class EulerMethod extends AbstractExplicitLinearSystemIntegrator {
     }
 
     @Override
-    public Vector predict(Vector xk, UnivariateVectorFunction r, double t) {
-        return doStep(xk, r, t);
-    }
-
-    @Override
     public String getName() {
         return "Euler method";
     }
