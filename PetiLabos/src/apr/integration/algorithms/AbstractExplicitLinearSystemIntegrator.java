@@ -7,6 +7,6 @@ public abstract class AbstractExplicitLinearSystemIntegrator extends AbstractLin
 
     @Override
     public Vector predict(Vector xk, UnivariateVectorFunction r, double t) {
-        return doStep(xk, r, t);
+        return next(xk, r, t);
     }
 }

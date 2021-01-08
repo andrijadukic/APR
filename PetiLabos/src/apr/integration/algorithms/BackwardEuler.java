@@ -33,7 +33,7 @@ public final class BackwardEuler extends AbstractImplicitLinearSystemIntegrator 
     }
 
     @Override
-    protected Vector doStep(Vector xk, UnivariateVectorFunction r, double t) {
+    protected Vector next(Vector xk, UnivariateVectorFunction r, double t) {
         if (!isInitialized) throw new IntegratorNotInitializedException(getClass());
         return P.multiply(xk).add(Q.multiply(r.valueAt(t + T)));
     }

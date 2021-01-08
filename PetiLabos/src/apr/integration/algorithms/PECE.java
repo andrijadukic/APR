@@ -23,7 +23,7 @@ public final class PECE extends AbstractLinearSystemIntegrator {
     }
 
     @Override
-    protected Vector doStep(Vector xk, UnivariateVectorFunction r, double t) {
+    protected Vector next(Vector xk, UnivariateVectorFunction r, double t) {
         Vector prediction = predictor.predict(xk, r, t);
         int leftover = n;
         while (leftover != 0) {

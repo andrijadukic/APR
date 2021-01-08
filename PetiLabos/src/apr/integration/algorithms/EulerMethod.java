@@ -24,7 +24,7 @@ public final class EulerMethod extends AbstractExplicitLinearSystemIntegrator {
     }
 
     @Override
-    protected Vector doStep(Vector xk, UnivariateVectorFunction r, double t) {
+    protected Vector next(Vector xk, UnivariateVectorFunction r, double t) {
         if (!isInitialized) throw new IntegratorNotInitializedException(getClass());
         return M.multiply(xk).add(N.multiply(r.valueAt(t)));
     }

@@ -25,7 +25,7 @@ public abstract class AbstractLinearSystemIntegrator extends AbstractLinearSyste
         for (double t : Sampling.linspace(0., max, n)) {
             notifyObservers(new StateStatistics(states.size(), t, prev));
             states.add(prev);
-            prev = doStep(prev, r, t);
+            prev = next(prev, r, t);
         }
 
         return Collections.unmodifiableList(states);
@@ -33,5 +33,5 @@ public abstract class AbstractLinearSystemIntegrator extends AbstractLinearSyste
 
     protected abstract void initialize(Matrix A, Matrix B, double T);
 
-    protected abstract Vector doStep(Vector xk, UnivariateVectorFunction r, double t);
+    protected abstract Vector next(Vector xk, UnivariateVectorFunction r, double t);
 }

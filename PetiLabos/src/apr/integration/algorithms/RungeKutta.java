@@ -25,7 +25,7 @@ public final class RungeKutta extends AbstractExplicitLinearSystemIntegrator {
     }
 
     @Override
-    protected Vector doStep(Vector xk, UnivariateVectorFunction r, double t) {
+    protected Vector next(Vector xk, UnivariateVectorFunction r, double t) {
         if (!isInitialized) throw new IntegratorNotInitializedException(getClass());
 
         Vector m1 = f(xk, r.valueAt(t));
