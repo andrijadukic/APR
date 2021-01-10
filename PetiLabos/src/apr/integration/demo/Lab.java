@@ -41,7 +41,7 @@ public class Lab {
         System.out.println("Zadatak 1");
         System.out.println();
 
-        var logger = new NthIterationObserver(new StandardOutputLogger(), 10);
+        var logger = new NthIterationObserver(new StandardOutputLogger(), 100);
         var accumulator = new AbsoluteErrorAccumulator(t -> Vector.of(Math.cos(t) + Math.sin(t), Math.cos(t) - Math.sin(t)));
         var collector = new StateCollector();
 
@@ -50,9 +50,9 @@ public class Lab {
         Vector x0 = loadMatrix("data/x0_zad1.txt").columns()[0];
 
         double max = 10.;
-        double T = 0.1;
+        double T = 0.01;
 
-        for (var integrator : List.of(EULER, BACKWARD_EULER, TRAPEZOIDAL, RUNGE_KUTTA, PECE, PECE2)) {
+        for (var integrator : List.of(new EulerMethod(), new BackwardEuler(), new RungeKutta(), new Trapezoidal(), new PECE(new EulerMethod(), new Trapezoidal(), 1), new PECE(new EulerMethod(), new BackwardEuler(), 2))) {
             System.out.println(integrator.getName());
 
             integrator.addObserver(logger);
@@ -67,9 +67,7 @@ public class Lab {
             writeToFile(integrator.getName() + "_zad1.txt", collector.getStatistics());
             collector.clear();
 
-            integrator.removeObserver(logger);
-            integrator.removeObserver(accumulator);
-            integrator.removeObserver(collector);
+            integrator.clearObservers();
 
             System.out.println();
         }
@@ -89,7 +87,7 @@ public class Lab {
         double max = 1.;
         double T = 0.1;
 
-        for (var integrator : List.of(EULER, BACKWARD_EULER, TRAPEZOIDAL, RUNGE_KUTTA, PECE, PECE2)) {
+        for (var integrator : List.of(new EulerMethod(), new BackwardEuler(), new Trapezoidal(), new PECE(new EulerMethod(), new Trapezoidal(), 1), new PECE(new EulerMethod(), new BackwardEuler(), 2))) {
             System.out.println(integrator.getName());
 
             integrator.addObserver(logger);
@@ -100,18 +98,30 @@ public class Lab {
             writeToFile(integrator.getName() + "_zad2.txt", collector.getStatistics());
             collector.clear();
 
-            integrator.removeObserver(logger);
-            integrator.removeObserver(collector);
+            integrator.clearObservers();
 
             System.out.println();
         }
+
+        var rk = new RungeKutta();
+        System.out.println(rk.getName());
+
+        rk.addObserver(logger);
+        rk.addObserver(collector);
+
+        rk.solve(A, B, t -> Vector.of(0., 0.), 0.04, max, x0);
+
+        writeToFile(rk.getName() + "_zad2.txt", collector.getStatistics());
+        collector.clear();
+
+        rk.clearObservers();
     }
 
     private static void zadatak3() throws IOException {
         System.out.println("Zadatak 3");
         System.out.println();
 
-        var logger = new NthIterationObserver(new StandardOutputLogger(), 100);
+        var logger = new StandardOutputLogger();
         var collector = new StateCollector();
 
         Matrix A = loadMatrix("data/A_zad3.txt");
@@ -121,19 +131,18 @@ public class Lab {
         double max = 10.;
         double T = 0.01;
 
-        for (var integrator : List.of(EULER, BACKWARD_EULER, TRAPEZOIDAL, RUNGE_KUTTA, PECE, PECE2)) {
+        for (var integrator : List.of(new EulerMethod(), new BackwardEuler(), new RungeKutta(), new Trapezoidal(), new PECE(new EulerMethod(), new Trapezoidal(), 1), new PECE(new EulerMethod(), new BackwardEuler(), 2))) {
             System.out.println(integrator.getName());
 
-            integrator.addObserver(logger);
-            integrator.addObserver(collector);
+            integrator.addObserver(new NthIterationObserver(logger, 100));
+            integrator.addObserver(new NthIterationObserver(collector, 100));
 
             integrator.solve(A, B, t -> Vector.of(1., 1.), T, max, x0);
 
             writeToFile(integrator.getName() + "_zad3.txt", collector.getStatistics());
             collector.clear();
 
-            integrator.removeObserver(logger);
-            integrator.removeObserver(collector);
+            integrator.clearObservers();
 
             System.out.println();
         }
@@ -143,7 +152,7 @@ public class Lab {
         System.out.println("Zadatak 4");
         System.out.println();
 
-        var logger = new NthIterationObserver(new StandardOutputLogger(), 100);
+        var logger = new StandardOutputLogger();
         var collector = new StateCollector();
 
         Matrix A = loadMatrix("data/A_zad4.txt");
@@ -153,19 +162,18 @@ public class Lab {
         double max = 1.;
         double T = 0.01;
 
-        for (var integrator : List.of(EULER, BACKWARD_EULER, TRAPEZOIDAL, RUNGE_KUTTA, PECE, PECE2)) {
+        for (var integrator : List.of(new EulerMethod(), new BackwardEuler(), new RungeKutta(), new Trapezoidal(), new PECE(new EulerMethod(), new Trapezoidal(), 1), new PECE(new EulerMethod(), new BackwardEuler(), 2))) {
             System.out.println(integrator.getName());
 
-            integrator.addObserver(logger);
-            integrator.addObserver(collector);
+            integrator.addObserver(new NthIterationObserver(logger, 10));
+            integrator.addObserver(new NthIterationObserver(collector, 10));
 
             integrator.solve(A, B, t -> Vector.of(t, t), T, max, x0);
 
             writeToFile(integrator.getName() + "_zad4.txt", collector.getStatistics());
             collector.clear();
 
-            integrator.removeObserver(logger);
-            integrator.removeObserver(collector);
+            integrator.clearObservers();
 
             System.out.println();
         }

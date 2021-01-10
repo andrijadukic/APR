@@ -36,8 +36,8 @@ public final class RungeKutta extends AbstractExplicitLinearSystemIntegrator {
         return xk.add((m1.add(m2.multiply(2)).add(m3.multiply(2)).add(m4)).multiply(T / 6.));
     }
 
-    private Vector f(Vector xk, Vector rt) {
-        return A.multiply(xk).add(B.multiply(rt));
+    private Vector f(Vector x, Vector r) {
+        return A.multiply(x).add(B.multiply(r));
     }
 
     @Override

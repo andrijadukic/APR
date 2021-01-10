@@ -6,5 +6,7 @@ public interface LinearSystemIntegrationSubject {
 
     void removeObserver(LinearSystemIntegrationObserver observer);
 
+    void clearObservers();
+
     void notifyObservers(StateStatistics statistics);
 }

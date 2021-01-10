@@ -22,6 +22,11 @@ public abstract class AbstractLinearSystemIntegrationSubject implements LinearSy
     }
 
     @Override
+    public void clearObservers() {
+        observers.clear();
+    }
+
+    @Override
     public final void notifyObservers(StateStatistics statistics) {
         observers.forEach(observer -> observer.update(statistics));
     }

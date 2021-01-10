@@ -4,6 +4,8 @@ import apr.functions.UnivariateVectorFunction;
 import apr.linear.matrix.Matrix;
 import apr.linear.vector.Vector;
 
+import java.security.InvalidParameterException;
+
 public final class PECE extends AbstractLinearSystemIntegrator {
 
     private final AbstractExplicitLinearSystemIntegrator predictor;
@@ -11,6 +13,8 @@ public final class PECE extends AbstractLinearSystemIntegrator {
     private final int n;
 
     public PECE(AbstractExplicitLinearSystemIntegrator predictor, AbstractImplicitLinearSystemIntegrator corrector, int n) {
+        if (n < 1) throw new InvalidParameterException();
+
         this.predictor = predictor;
         this.corrector = corrector;
         this.n = n;
