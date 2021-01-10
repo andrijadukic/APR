@@ -20,7 +20,7 @@ public class Lab {
     private static final AbstractImplicitLinearSystemIntegrator BACKWARD_EULER = new BackwardEuler();
     private static final AbstractExplicitLinearSystemIntegrator RUNGE_KUTTA = new RungeKutta();
     private static final AbstractImplicitLinearSystemIntegrator TRAPEZOIDAL = new Trapezoidal();
-    private static final AbstractLinearSystemIntegrator PECE = new PECE(EULER, TRAPEZOIDAL, 1);
+    private static final AbstractLinearSystemIntegrator PECE = new PECE(EULER, TRAPEZOIDAL);
     private static final AbstractLinearSystemIntegrator PECE2 = new PECE(EULER, BACKWARD_EULER, 2);
 
 
@@ -52,7 +52,7 @@ public class Lab {
         double max = 10.;
         double T = 0.01;
 
-        for (var integrator : List.of(new EulerMethod(), new BackwardEuler(), new RungeKutta(), new Trapezoidal(), new PECE(new EulerMethod(), new Trapezoidal(), 1), new PECE(new EulerMethod(), new BackwardEuler(), 2))) {
+        for (var integrator : List.of(EULER, BACKWARD_EULER, TRAPEZOIDAL, RUNGE_KUTTA, PECE, PECE2)) {
             System.out.println(integrator.getName());
 
             integrator.addObserver(logger);
@@ -87,7 +87,7 @@ public class Lab {
         double max = 1.;
         double T = 0.1;
 
-        for (var integrator : List.of(new EulerMethod(), new BackwardEuler(), new Trapezoidal(), new PECE(new EulerMethod(), new Trapezoidal(), 1), new PECE(new EulerMethod(), new BackwardEuler(), 2))) {
+        for (var integrator : List.of(EULER, BACKWARD_EULER, TRAPEZOIDAL, PECE, PECE2)) {
             System.out.println(integrator.getName());
 
             integrator.addObserver(logger);
@@ -103,18 +103,17 @@ public class Lab {
             System.out.println();
         }
 
-        var rk = new RungeKutta();
-        System.out.println(rk.getName());
+        System.out.println(RUNGE_KUTTA.getName());
 
-        rk.addObserver(logger);
-        rk.addObserver(collector);
+        RUNGE_KUTTA.addObserver(logger);
+        RUNGE_KUTTA.addObserver(collector);
 
-        rk.solve(A, B, t -> Vector.of(0., 0.), 0.04, max, x0);
+        RUNGE_KUTTA.solve(A, B, t -> Vector.of(0., 0.), 0.04, max, x0);
 
-        writeToFile(rk.getName() + "_zad2.txt", collector.getStatistics());
+        writeToFile(RUNGE_KUTTA.getName() + "_zad2.txt", collector.getStatistics());
         collector.clear();
 
-        rk.clearObservers();
+        RUNGE_KUTTA.clearObservers();
     }
 
     private static void zadatak3() throws IOException {
@@ -131,7 +130,7 @@ public class Lab {
         double max = 10.;
         double T = 0.01;
 
-        for (var integrator : List.of(new EulerMethod(), new BackwardEuler(), new RungeKutta(), new Trapezoidal(), new PECE(new EulerMethod(), new Trapezoidal(), 1), new PECE(new EulerMethod(), new BackwardEuler(), 2))) {
+        for (var integrator : List.of(EULER, BACKWARD_EULER, TRAPEZOIDAL, RUNGE_KUTTA, PECE, PECE2)) {
             System.out.println(integrator.getName());
 
             integrator.addObserver(new NthIterationObserver(logger, 100));
@@ -162,7 +161,7 @@ public class Lab {
         double max = 1.;
         double T = 0.01;
 
-        for (var integrator : List.of(new EulerMethod(), new BackwardEuler(), new RungeKutta(), new Trapezoidal(), new PECE(new EulerMethod(), new Trapezoidal(), 1), new PECE(new EulerMethod(), new BackwardEuler(), 2))) {
+        for (var integrator : List.of(EULER, BACKWARD_EULER, TRAPEZOIDAL, RUNGE_KUTTA, PECE, PECE2)) {
             System.out.println(integrator.getName());
 
             integrator.addObserver(new NthIterationObserver(logger, 10));

@@ -20,8 +20,6 @@ public final class Trapezoidal extends AbstractImplicitLinearSystemIntegrator {
 
     @Override
     protected void initialize(Matrix A, Matrix B, double T) {
-        if (isInitialized) return;
-
         this.A = A;
         this.B = B;
         this.T = T;
@@ -37,7 +35,6 @@ public final class Trapezoidal extends AbstractImplicitLinearSystemIntegrator {
 
     @Override
     protected Vector next(Vector xk, UnivariateVectorFunction r, double t) {
-        if (!isInitialized) throw new IntegratorNotInitializedException(getClass());
         return R.multiply(xk).add(S.multiply(r.valueAt(t).add(r.valueAt(t + T))));
     }
 

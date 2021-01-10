@@ -8,6 +8,8 @@ import java.security.InvalidParameterException;
 
 public final class PECE extends AbstractLinearSystemIntegrator {
 
+    private static final int DEFAULT_CORRECTOR_APPLICATION_COUNT = 1;
+
     private final AbstractExplicitLinearSystemIntegrator predictor;
     private final AbstractImplicitLinearSystemIntegrator corrector;
     private final int n;
@@ -18,6 +20,10 @@ public final class PECE extends AbstractLinearSystemIntegrator {
         this.predictor = predictor;
         this.corrector = corrector;
         this.n = n;
+    }
+
+    public PECE(AbstractExplicitLinearSystemIntegrator predictor, AbstractImplicitLinearSystemIntegrator corrector) {
+        this(predictor, corrector, DEFAULT_CORRECTOR_APPLICATION_COUNT);
     }
 
     @Override
@@ -39,6 +45,6 @@ public final class PECE extends AbstractLinearSystemIntegrator {
 
     @Override
     public String getName() {
-        return "PE(CE)^" + n;
+        return n == 1 ? "PECE" : "PE(CE)^" + n;
     }
 }

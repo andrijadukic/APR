@@ -20,8 +20,6 @@ public final class BackwardEuler extends AbstractImplicitLinearSystemIntegrator 
 
     @Override
     protected void initialize(Matrix A, Matrix B, double T) {
-        if (isInitialized) return;
-
         this.A = A;
         this.B = B;
         this.T = T;
