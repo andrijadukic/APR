@@ -20,8 +20,8 @@ public class Lab {
     private static final AbstractImplicitLinearSystemIntegrator BACKWARD_EULER = new BackwardEuler();
     private static final AbstractExplicitLinearSystemIntegrator RUNGE_KUTTA = new RungeKutta();
     private static final AbstractImplicitLinearSystemIntegrator TRAPEZOIDAL = new Trapezoidal();
-    private static final AbstractLinearSystemIntegrator PECE = new PECE(EULER, TRAPEZOIDAL);
-    private static final AbstractLinearSystemIntegrator PECE2 = new PECE(EULER, BACKWARD_EULER, 2);
+    private static final AbstractLinearSystemIntegrator PECE = new PECE(new EulerMethod(), new Trapezoidal());
+    private static final AbstractLinearSystemIntegrator PECE2 = new PECE(new EulerMethod(), new BackwardEuler(), 2);
 
 
     public static void main(String[] args) throws IOException {
@@ -134,7 +134,7 @@ public class Lab {
             System.out.println(integrator.getName());
 
             integrator.addObserver(new NthIterationObserver(logger, 100));
-            integrator.addObserver(new NthIterationObserver(collector, 100));
+            integrator.addObserver(collector);
 
             integrator.solve(A, B, t -> Vector.of(1., 1.), T, max, x0);
 
@@ -165,7 +165,7 @@ public class Lab {
             System.out.println(integrator.getName());
 
             integrator.addObserver(new NthIterationObserver(logger, 10));
-            integrator.addObserver(new NthIterationObserver(collector, 10));
+            integrator.addObserver(collector);
 
             integrator.solve(A, B, t -> Vector.of(t, t), T, max, x0);
 

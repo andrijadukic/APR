@@ -35,13 +35,14 @@ public final class Trapezoidal extends AbstractImplicitLinearSystemIntegrator {
 
     @Override
     protected Vector next(Vector xk, UnivariateVectorFunction r, double t) {
+        if (!isInitialized) throw new IntegratorNotInitializedException(getClass());
         return R.multiply(xk).add(S.multiply(r.valueAt(t).add(r.valueAt(t + T))));
     }
 
     @Override
     public Vector correct(Vector xk, Vector prediction, UnivariateVectorFunction r, double t) {
         if (!isInitialized) throw new IntegratorNotInitializedException(getClass());
-        return xk.add(A.multiply(xk.add(prediction).add(B.multiply(r.valueAt(t).add(r.valueAt(t + T))))).multiply(T / 2.));
+        return xk.add(A.multiply(xk).add(B.multiply(r.valueAt(t))).add(A.multiply(prediction)).add(B.multiply(r.valueAt(t + T))).multiply(T / 2.));
     }
 
     @Override
