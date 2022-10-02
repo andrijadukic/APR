@@ -7,10 +7,10 @@ import apr.functions.MultivariateFunction;
 
 import java.util.Objects;
 
-import static apr.linear.util.linalg.LinearAlgebra.add;
-import static apr.linear.util.linalg.LinearAlgebra.multiply;
-import static apr.linear.util.linalg.OperationMutability.IMMUTABLE;
-import static apr.linear.util.linalg.OperationMutability.MUTABLE;
+import static apr.linear.linalg.LinearAlgebra.multiply;
+import static apr.linear.linalg.LinearAlgebra.add;
+import static apr.linear.linalg.Mutability.IMMUTABLE;
+import static apr.linear.linalg.Mutability.MUTABLE;
 
 /**
  * Implementation of the line search algorithm

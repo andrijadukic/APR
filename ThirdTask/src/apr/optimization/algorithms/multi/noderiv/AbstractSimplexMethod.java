@@ -1,14 +1,14 @@
 package apr.optimization.algorithms.multi.noderiv;
 
-import apr.linear.util.Vectors;
+import apr.linear.Vectors;
 import apr.linear.vector.Vector;
 import apr.optimization.algorithms.multi.MultivariateCostFunction;
 
 import java.util.Arrays;
 
-import static apr.linear.util.linalg.LinearAlgebra.*;
-import static apr.linear.util.linalg.OperationMutability.IMMUTABLE;
-import static apr.linear.util.linalg.OperationMutability.MUTABLE;
+import static apr.linear.linalg.LinearAlgebra.*;
+import static apr.linear.linalg.Mutability.IMMUTABLE;
+import static apr.linear.linalg.Mutability.MUTABLE;
 
 /**
  * Abstract implementation of a simplex optimization method
@@ -41,7 +41,7 @@ public abstract class AbstractSimplexMethod extends AbstractMultivariateOptimize
 
     protected Vector centroid(Vector[] simplex, int h) {
         int n = simplex.length;
-        Vector centroid = Vectors.zeroes(simplex[0].getDimension());
+        Vector centroid = Vectors.empty(simplex[0].getDimension());
         for (int i = 0; i < n; i++) {
             if (i == h) continue;
             add(centroid, simplex[i], MUTABLE);

@@ -6,7 +6,6 @@ import apr.genetics.chromosomes.Chromosome;
 import apr.genetics.chromosomes.population.Population;
 import apr.genetics.operators.crossover.CrossoverOperator;
 import apr.genetics.operators.mutation.MutationOperator;
-import apr.util.Pair;
 import apr.util.Sampling;
 import apr.util.SourceOfRandomness;
 
@@ -80,36 +79,4 @@ public final class EliminationGeneticAlgorithm extends AbstractGeneticAlgorithm 
 
         return current;
     }
-
-//    @Override
-//    public Population nextGeneration(Population current) {
-//        int size = current.size();
-//
-//        Random random = SourceOfRandomness.getSource();
-//
-//        List<Pair<Chromosome, Integer>> tournament = new ArrayList<>(tournamentSize);
-//        Set<Integer> selected = new HashSet<>(tournamentSize, 1.f);
-//        for (int i = 0; i < tournamentSize; i++) {
-//            int rind = random.nextInt(size);
-//            while (selected.contains(rind)) {
-//                rind = random.nextInt(size);
-//            }
-//            tournament.add(new Pair<>(current.getChromosome(rind), rind));
-//            selected.add(rind);
-//        }
-//
-//        tournament.sort((a, b) -> b.first().compareTo(a.first()));
-//
-//        ChromosomePair pair = random.nextDouble() <= crossoverRate
-//                ? crossoverOperator.crossover(tournament.get(0).first(), tournament.get(1).first())
-//                : new ChromosomePair(tournament.get(0).first(), tournament.get(1).first());
-//
-//        Chromosome child = random.nextDouble() <= mutationRate
-//                ? mutationOperator.mutate(pair.first())
-//                : pair.first();
-//
-//        current.setChromosome(tournament.get(tournamentSize - 1).second(), child);
-//
-//        return current;
-//    }
 }

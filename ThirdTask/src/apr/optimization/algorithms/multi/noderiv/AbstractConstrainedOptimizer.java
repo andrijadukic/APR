@@ -9,8 +9,8 @@ import apr.optimization.exceptions.DivergenceLimitReachedException;
 
 import java.util.Objects;
 
-import static apr.linear.util.linalg.LinearAlgebra.*;
-import static apr.linear.util.linalg.OperationMutability.*;
+import static apr.linear.linalg.LinearAlgebra.*;
+import static apr.linear.linalg.Mutability.*;
 
 /**
  * Abstract implementation of a constrained optimizer

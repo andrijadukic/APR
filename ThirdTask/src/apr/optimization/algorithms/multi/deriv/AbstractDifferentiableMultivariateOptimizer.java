@@ -7,8 +7,8 @@ import apr.optimization.exceptions.DivergenceLimitReachedException;
 
 import java.util.Objects;
 
-import static apr.linear.util.linalg.LinearAlgebra.*;
-import static apr.linear.util.linalg.OperationMutability.MUTABLE;
+import static apr.linear.linalg.LinearAlgebra.*;
+import static apr.linear.linalg.Mutability.MUTABLE;
 
 /**
  * Abstract implementation of an optimizer using derivation methods

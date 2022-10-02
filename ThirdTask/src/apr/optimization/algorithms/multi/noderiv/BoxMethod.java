@@ -15,8 +15,8 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
-import static apr.linear.util.linalg.LinearAlgebra.*;
-import static apr.linear.util.linalg.OperationMutability.*;
+import static apr.linear.linalg.LinearAlgebra.*;
+import static apr.linear.linalg.Mutability.*;
 
 /**
  * Implementation of the box simplex method

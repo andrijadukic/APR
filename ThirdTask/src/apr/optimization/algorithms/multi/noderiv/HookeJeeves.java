@@ -3,8 +3,8 @@ package apr.optimization.algorithms.multi.noderiv;
 import apr.linear.vector.Vector;
 import apr.optimization.algorithms.multi.MultivariateCostFunction;
 
-import static apr.linear.util.linalg.LinearAlgebra.*;
-import static apr.linear.util.linalg.OperationMutability.*;
+import static apr.linear.linalg.LinearAlgebra.*;
+import static apr.linear.linalg.Mutability.*;
 
 /**
  * Implementation of the Hooke-Jeeves algorithm

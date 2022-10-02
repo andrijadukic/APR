@@ -2,8 +2,8 @@ package apr.optimization.algorithms.multi.deriv;
 
 import apr.linear.vector.Vector;
 
-import static apr.linear.util.linalg.LinearAlgebra.*;
-import static apr.linear.util.linalg.OperationMutability.*;
+import static apr.linear.linalg.LinearAlgebra.*;
+import static apr.linear.linalg.Mutability.*;
 
 /**
  * Implementation of the gradient descent algorithm

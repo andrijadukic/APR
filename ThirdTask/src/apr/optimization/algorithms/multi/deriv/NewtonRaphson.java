@@ -3,8 +3,8 @@ package apr.optimization.algorithms.multi.deriv;
 import apr.linear.decompose.LUPDecomposer;
 import apr.linear.vector.Vector;
 
-import static apr.linear.util.linalg.LinearAlgebra.multiply;
-import static apr.linear.util.linalg.OperationMutability.IMMUTABLE;
+import static apr.linear.linalg.LinearAlgebra.multiply;
+import static apr.linear.linalg.Mutability.IMMUTABLE;
 
 /**
  * Implementation of the Newton-Raphson algorithm
@@ -28,5 +28,4 @@ public final class NewtonRaphson extends AbstractDifferentiableMultivariateOptim
     public String getName() {
         return "Newton Raphson";
     }
-
 }
