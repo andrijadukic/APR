@@ -195,7 +195,7 @@ public class Lab {
                 Path.of("data/" + fileName.replace(" ", "_")),
                 states.stream()
                         .map(state -> state.t() + ";" + state.x().toString().replace(" ", ";"))
-                        .collect(Collectors.toUnmodifiableList())
+                        .toList()
         );
     }
 }
